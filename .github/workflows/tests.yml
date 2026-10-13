@@ -1,0 +1,22 @@
+name: CAEL tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+      - run: python chat.py "Tell a story about a mouse finding cheese in a bakery." --ask "Who has the cheese?"
+      - if: matrix.python-version == '3.12'
+        run: python train.py --out models/reproduction
+      - if: matrix.python-version == '3.12'
+        run: python -c "import hashlib,pathlib; assert hashlib.sha256(pathlib.Path('models/reproduction/model.json').read_bytes()).digest() == hashlib.sha256(pathlib.Path('models/cael-story-0.1/model.json').read_bytes()).digest()"
+      - if: matrix.python-version == '3.12'
+        run: python evaluate.py --model models/reproduction/model.json --out results/reproduction

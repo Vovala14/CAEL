@@ -1,0 +1,32 @@
+{
+  "development": {
+    "gain_percentage_points": 14.000000000000002,
+    "paired_bootstrap95_percentage_points": [
+      9.5,
+      19.0
+    ],
+    "wins": 28,
+    "losses": 0,
+    "scope": "synthetic episodes from the same authored schema; not broad generalization uncertainty"
+  },
+  "confirmation": {
+    "gain_percentage_points": 15.5,
+    "paired_bootstrap95_percentage_points": [
+      10.5,
+      20.5
+    ],
+    "wins": 31,
+    "losses": 0,
+    "scope": "synthetic episodes from the same authored schema; not broad generalization uncertainty"
+  },
+  "pooled": {
+    "gain_percentage_points": 14.75,
+    "paired_bootstrap95_percentage_points": [
+      11.5,
+      18.25
+    ],
+    "wins": 59,
+    "losses": 0,
+    "scope": "synthetic episodes from the same authored schema; not broad generalization uncertainty"
+  }
+}

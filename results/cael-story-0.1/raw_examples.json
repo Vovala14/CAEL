@@ -1,0 +1,5124 @@
+[
+  {
+    "prompt": "Tell a short story about a mouse finding cheese in a bakery.",
+    "supported": true,
+    "response": "One day, the mouse was near the bakery. The mouse hoped to find the cheese. The mouse searched the bakery carefully. After looking carefully, the mouse found the cheese. The mouse felt happy and smiled.",
+    "frame": {
+      "a": 3,
+      "b": 4,
+      "i": 8,
+      "p": 5,
+      "s": 0,
+      "intent": "find"
+    },
+    "events": [
+      "INTRO",
+      "WANT",
+      "SEARCH",
+      "FIND",
+      "HAPPY"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        206,
+        0,
+        0,
+        1
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        4,
+        206,
+        4,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the mouse?",
+        "response": "The mouse is in the bakery.",
+        "value": 206,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the cheese?",
+        "response": "The mouse has the cheese.",
+        "value": 4,
+        "event": "ANSWER_OWNER"
+      },
+      {
+        "question": "Who found the cheese?",
+        "response": "The mouse found the cheese.",
+        "value": 4,
+        "event": "ANSWER_FINDER"
+      },
+      {
+        "question": "Who helped the fox?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Write a little tale about a rabbit sharing a carrot with a fox.",
+    "supported": true,
+    "response": "One day, the rabbit was near the park. The rabbit had a carrot. The rabbit met the fox near the park. The rabbit decided to share the carrot and gave it to the fox. The fox thanked the rabbit for being kind. They were glad to have each other.",
+    "frame": {
+      "a": 2,
+      "b": 4,
+      "i": 7,
+      "p": 2,
+      "s": 0,
+      "intent": "share"
+    },
+    "events": [
+      "INTRO",
+      "HAVE",
+      "MEET",
+      "SHARE",
+      "THANK",
+      "TOGETHER"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        5,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the rabbit?",
+        "response": "The rabbit is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the carrot?",
+        "response": "The fox has the carrot.",
+        "value": 5,
+        "event": "ANSWER_OWNER"
+      },
+      {
+        "question": "Who found the carrot?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the fox?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Tell me a story about a dog helping a bird find a lost ball.",
+    "supported": true,
+    "response": "Once upon a time, the dog lived near the park. The dog met the bird near the park. The bird had lost a ball and needed help. The dog looked around the park for the ball. At last, the dog found the ball. The dog gave the ball back to the bird. The bird smiled and thanked the dog.",
+    "frame": {
+      "a": 1,
+      "b": 6,
+      "i": 0,
+      "p": 2,
+      "s": 0,
+      "intent": "help"
+    },
+    "events": [
+      "INTRO",
+      "MEET",
+      "NEED",
+      "SEARCH",
+      "FIND",
+      "RETURN",
+      "THANK"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        203,
+        0,
+        2,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        7,
+        203,
+        2,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the dog?",
+        "response": "The dog is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the ball?",
+        "response": "The bird has the ball.",
+        "value": 7,
+        "event": "ANSWER_OWNER"
+      },
+      {
+        "question": "Who found the ball?",
+        "response": "The dog found the ball.",
+        "value": 2,
+        "event": "ANSWER_FINDER"
+      },
+      {
+        "question": "Who helped the bird?",
+        "response": "The dog helped the bird.",
+        "value": 2,
+        "event": "ANSWER_HELPER"
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Create a story about a girl who loses her hat in a park.",
+    "supported": true,
+    "response": "One day, the girl was near the park. The girl carried a hat. The hat slipped away from the girl. The girl searched the park carefully. After looking carefully, the girl found the hat. After that, the girl kept the hat safe.",
+    "frame": {
+      "a": 8,
+      "b": 9,
+      "i": 1,
+      "p": 2,
+      "s": 0,
+      "intent": "lose"
+    },
+    "events": [
+      "INTRO",
+      "HAVE",
+      "LOSE",
+      "SEARCH",
+      "FIND",
+      "CAREFUL"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        203,
+        0,
+        0,
+        1
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        9,
+        203,
+        9,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the girl?",
+        "response": "The girl is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the hat?",
+        "response": "The girl has the hat.",
+        "value": 9,
+        "event": "ANSWER_OWNER"
+      },
+      {
+        "question": "Who found the hat?",
+        "response": "The girl found the hat.",
+        "value": 9,
+        "event": "ANSWER_FINDER"
+      },
+      {
+        "question": "Who helped the boy?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Tell a story about a boy visiting a school.",
+    "supported": true,
+    "response": "Once upon a time, the boy lived near the school. The boy walked to the school. There was a blanket nearby. The boy met the robot near the school. The two friends spent a happy afternoon together. After the visit, the boy went home.",
+    "frame": {
+      "a": 9,
+      "b": 10,
+      "i": 9,
+      "p": 4,
+      "s": 0,
+      "intent": "visit"
+    },
+    "events": [
+      "INTRO",
+      "GO",
+      "SEE",
+      "MEET",
+      "PLAY",
+      "HOME"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        201,
+        0,
+        0,
+        1
+      ],
+      [
+        11,
+        1,
+        0,
+        205,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the boy?",
+        "response": "The boy is at home.",
+        "value": 201,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the blanket?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who found the blanket?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the robot?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Write a quiet story about a cat resting beside a blanket.",
+    "supported": true,
+    "response": "Once upon a time, the cat lived near the park. The cat felt tired. The cat rested peacefully beside the blanket near the park. The cat was glad that everything had worked out.",
+    "frame": {
+      "a": 0,
+      "b": 1,
+      "i": 9,
+      "p": 2,
+      "s": 0,
+      "intent": "rest"
+    },
+    "events": [
+      "INTRO",
+      "TIRED",
+      "REST",
+      "HAPPY"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        203,
+        0,
+        0,
+        1
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the cat?",
+        "response": "The cat is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the blanket?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who found the blanket?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the dog?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Tell a story about a bird learning to fly.",
+    "supported": true,
+    "response": "One day, the bird was near the park. The bird wanted to learn to fly. It was difficult at first. The bird kept trying patiently. At last, the bird learned to fly. The bird felt happy and smiled.",
+    "frame": {
+      "a": 6,
+      "b": 7,
+      "i": 6,
+      "p": 2,
+      "s": 1,
+      "intent": "learn"
+    },
+    "events": [
+      "INTRO",
+      "TRY",
+      "FAIL",
+      "PRACTICE",
+      "SUCCESS",
+      "HAPPY"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        203,
+        0,
+        0,
+        1
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the bird?",
+        "response": "The bird is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the bread?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who found the bread?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the duck?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Write a story about a robot helping a frightened horse.",
+    "supported": true,
+    "response": "One day, the robot was near the park. Near the park, the robot saw the horse. The horse was scared. The robot stayed beside the horse and spoke gently. Soon, the horse felt calm again. They were glad to have each other.",
+    "frame": {
+      "a": 10,
+      "b": 11,
+      "i": 10,
+      "p": 2,
+      "s": 0,
+      "intent": "comfort"
+    },
+    "events": [
+      "INTRO",
+      "MEET",
+      "AFRAID",
+      "COMFORT",
+      "CALM",
+      "TOGETHER"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        203,
+        0,
+        11,
+        1
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the robot?",
+        "response": "The robot is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the flower?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who found the flower?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the horse?",
+        "response": "The robot helped the horse.",
+        "value": 11,
+        "event": "ANSWER_HELPER"
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Make up a short tale about a bear searching for a letter in a forest.",
+    "supported": true,
+    "response": "One day, the bear was near the forest. The bear wanted to find the letter. The bear searched the forest carefully. After looking carefully, the bear found the letter. The bear felt happy and smiled.",
+    "frame": {
+      "a": 5,
+      "b": 6,
+      "i": 11,
+      "p": 1,
+      "s": 0,
+      "intent": "find"
+    },
+    "events": [
+      "INTRO",
+      "WANT",
+      "SEARCH",
+      "FIND",
+      "HAPPY"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        202,
+        0,
+        0,
+        1
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        6,
+        202,
+        6,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the bear?",
+        "response": "The bear is in the forest.",
+        "value": 202,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the letter?",
+        "response": "The bear has the letter.",
+        "value": 6,
+        "event": "ANSWER_OWNER"
+      },
+      {
+        "question": "Who found the letter?",
+        "response": "The bear found the letter.",
+        "value": 6,
+        "event": "ANSWER_FINDER"
+      },
+      {
+        "question": "Who helped the bird?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Write a story about a duck finding a flower near a pond.",
+    "supported": true,
+    "response": "Once upon a time, the duck lived near the pond. The duck hoped to find the flower. The duck looked around the pond for the flower. After looking carefully, the duck found the flower. The duck was glad that everything had worked out.",
+    "frame": {
+      "a": 7,
+      "b": 8,
+      "i": 10,
+      "p": 6,
+      "s": 2,
+      "intent": "find"
+    },
+    "events": [
+      "INTRO",
+      "WANT",
+      "SEARCH",
+      "FIND",
+      "HAPPY"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        207,
+        0,
+        0,
+        1
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        8,
+        207,
+        8,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the duck?",
+        "response": "The duck is in the pond.",
+        "value": 207,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the flower?",
+        "response": "The duck has the flower.",
+        "value": 8,
+        "event": "ANSWER_OWNER"
+      },
+      {
+        "question": "Who found the flower?",
+        "response": "The duck found the flower.",
+        "value": 8,
+        "event": "ANSWER_FINDER"
+      },
+      {
+        "question": "Who helped the girl?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Tell a tale about a fox giving bread to a rabbit.",
+    "supported": true,
+    "response": "Once upon a time, the fox lived near the park. The fox carried some bread. Near the park, the fox saw the rabbit. The fox decided to share the bread and gave it to the rabbit. The rabbit thanked the fox for being kind. They were glad to have each other.",
+    "frame": {
+      "a": 4,
+      "b": 2,
+      "i": 6,
+      "p": 2,
+      "s": 0,
+      "intent": "share"
+    },
+    "events": [
+      "INTRO",
+      "HAVE",
+      "MEET",
+      "SHARE",
+      "THANK",
+      "TOGETHER"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        3,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the fox?",
+        "response": "The fox is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the bread?",
+        "response": "The rabbit has the bread.",
+        "value": 3,
+        "event": "ANSWER_OWNER"
+      },
+      {
+        "question": "Who found the bread?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the rabbit?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Write a story about a boy helping a girl find a toy.",
+    "supported": true,
+    "response": "Once upon a time, the boy lived near the park. Near the park, the boy saw the girl. The girl could not find the toy. The boy looked around the park for the toy. At last, the boy found the toy. The boy gave the toy back to the girl. The girl thanked the boy for being kind.",
+    "frame": {
+      "a": 9,
+      "b": 8,
+      "i": 2,
+      "p": 2,
+      "s": 0,
+      "intent": "help"
+    },
+    "events": [
+      "INTRO",
+      "MEET",
+      "NEED",
+      "SEARCH",
+      "FIND",
+      "RETURN",
+      "THANK"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        203,
+        0,
+        10,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        9,
+        203,
+        10,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the boy?",
+        "response": "The boy is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the toy?",
+        "response": "The girl has the toy.",
+        "value": 9,
+        "event": "ANSWER_OWNER"
+      },
+      {
+        "question": "Who found the toy?",
+        "response": "The boy found the toy.",
+        "value": 10,
+        "event": "ANSWER_FINDER"
+      },
+      {
+        "question": "Who helped the girl?",
+        "response": "The boy helped the girl.",
+        "value": 10,
+        "event": "ANSWER_HELPER"
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Please tell a story about a girl exploring a garden.",
+    "supported": true,
+    "response": "One day, the girl was near the garden. The girl walked to the garden. The girl saw a lovely cheese there. Near the garden, the girl saw the boy. The two friends spent a happy afternoon together. Then the girl returned home feeling happy.",
+    "frame": {
+      "a": 8,
+      "b": 9,
+      "i": 8,
+      "p": 3,
+      "s": 0,
+      "intent": "visit"
+    },
+    "events": [
+      "INTRO",
+      "GO",
+      "SEE",
+      "MEET",
+      "PLAY",
+      "HOME"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        201,
+        0,
+        0,
+        1
+      ],
+      [
+        10,
+        1,
+        0,
+        204,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the girl?",
+        "response": "The girl is at home.",
+        "value": 201,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the cheese?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who found the cheese?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the boy?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Tell a gentle tale about a horse comforting a scared dog.",
+    "supported": true,
+    "response": "Once upon a time, the horse lived near the park. The horse met the dog near the park. The dog was scared. The horse helped the dog feel safe. Soon, the dog felt calm again. The two friends were happy together.",
+    "frame": {
+      "a": 11,
+      "b": 1,
+      "i": 11,
+      "p": 2,
+      "s": 0,
+      "intent": "comfort"
+    },
+    "events": [
+      "INTRO",
+      "MEET",
+      "AFRAID",
+      "COMFORT",
+      "CALM",
+      "TOGETHER"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        203,
+        0,
+        12,
+        1
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the horse?",
+        "response": "The horse is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the letter?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who found the letter?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the dog?",
+        "response": "The horse helped the dog.",
+        "value": 12,
+        "event": "ANSWER_HELPER"
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Write a story about a mouse losing a book on a farm.",
+    "supported": true,
+    "response": "Once upon a time, the mouse lived near the farm. The mouse carried a book. The mouse lost the book near the farm. The mouse searched the farm carefully. After looking carefully, the mouse found the book. The mouse decided to take better care of the book.",
+    "frame": {
+      "a": 3,
+      "b": 4,
+      "i": 3,
+      "p": 7,
+      "s": 0,
+      "intent": "lose"
+    },
+    "events": [
+      "INTRO",
+      "HAVE",
+      "LOSE",
+      "SEARCH",
+      "FIND",
+      "CAREFUL"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        208,
+        0,
+        0,
+        1
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        4,
+        208,
+        4,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the mouse?",
+        "response": "The mouse is in the farm.",
+        "value": 208,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the book?",
+        "response": "The mouse has the book.",
+        "value": 4,
+        "event": "ANSWER_OWNER"
+      },
+      {
+        "question": "Who found the book?",
+        "response": "The mouse found the book.",
+        "value": 4,
+        "event": "ANSWER_FINDER"
+      },
+      {
+        "question": "Who helped the fox?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Tell a story about a rabbit visiting a bakery.",
+    "supported": true,
+    "response": "Once upon a time, the rabbit lived near the bakery. The rabbit went to the bakery. The rabbit saw a lovely toy there. Near the bakery, the rabbit saw the mouse. The two friends spent a happy afternoon together. After the visit, the rabbit went home.",
+    "frame": {
+      "a": 2,
+      "b": 3,
+      "i": 2,
+      "p": 5,
+      "s": 0,
+      "intent": "visit"
+    },
+    "events": [
+      "INTRO",
+      "GO",
+      "SEE",
+      "MEET",
+      "PLAY",
+      "HOME"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        201,
+        0,
+        0,
+        1
+      ],
+      [
+        4,
+        1,
+        0,
+        206,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the rabbit?",
+        "response": "The rabbit is at home.",
+        "value": 201,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the toy?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who found the toy?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the mouse?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Write a tale about a robot learning to read.",
+    "supported": true,
+    "response": "One day, the robot was near the park. The robot tried to read. It was difficult at first. The robot kept trying patiently. With practice, the robot could read. The robot was glad that everything had worked out.",
+    "frame": {
+      "a": 10,
+      "b": 11,
+      "i": 10,
+      "p": 2,
+      "s": 0,
+      "intent": "learn"
+    },
+    "events": [
+      "INTRO",
+      "TRY",
+      "FAIL",
+      "PRACTICE",
+      "SUCCESS",
+      "HAPPY"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        203,
+        0,
+        0,
+        1
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the robot?",
+        "response": "The robot is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the flower?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who found the flower?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the horse?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Tell a story about a cat sharing cake with a dog.",
+    "supported": true,
+    "response": "Once upon a time, the cat lived near the park. The cat had a cake. Near the park, the cat saw the dog. The cat decided to share the cake and gave it to the dog. The dog smiled and thanked the cat. The two friends were happy together.",
+    "frame": {
+      "a": 0,
+      "b": 1,
+      "i": 5,
+      "p": 2,
+      "s": 0,
+      "intent": "share"
+    },
+    "events": [
+      "INTRO",
+      "HAVE",
+      "MEET",
+      "SHARE",
+      "THANK",
+      "TOGETHER"
+    ],
+    "world": [
+      [
+        1,
+        1,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        1,
+        0,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        9,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        10,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        12,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        101,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        102,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        103,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        104,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        105,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        106,
+        2,
+        2,
+        203,
+        0,
+        0,
+        0
+      ],
+      [
+        107,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        108,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        109,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        110,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        111,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        112,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        113,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        114,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "constrained": true,
+    "questions": [
+      {
+        "question": "Where is the cat?",
+        "response": "The cat is in the park.",
+        "value": 203,
+        "event": "ANSWER_PLACE"
+      },
+      {
+        "question": "Who has the cake?",
+        "response": "The dog has the cake.",
+        "value": 2,
+        "event": "ANSWER_OWNER"
+      },
+      {
+        "question": "Who found the cake?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      },
+      {
+        "question": "Who helped the dog?",
+        "supported": false,
+        "reason": "The story state does not establish that fact."
+      }
+    ],
+    "frame_in_training": false,
+    "full_response_in_training": false
+  },
+  {
+    "prompt": "Write a story about an astronaut repairing a spaceship on Mars.",
+    "supported": false,
+    "reason": "Unsupported request terms: astronaut, repairing, spaceship, mars"
+  },
+  {
+    "prompt": "Explain why ice floats on water.",
+    "supported": false,
+    "reason": "Outside the current simple-story scope."
+  }
+]

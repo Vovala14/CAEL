@@ -1,0 +1,16 @@
+test_explicit_cumulative_state (test_cael.CAELTests.test_explicit_cumulative_state) ... ok
+test_followup_and_fork (test_cael.CAELTests.test_followup_and_fork) ... ok
+test_grammar_translation (test_cael.CAELTests.test_grammar_translation) ... ok
+test_local_synchronous_memory_packet (test_cael.CAELTests.test_local_synchronous_memory_packet) ... ok
+test_mass_noun_format (test_cael.CAELTests.test_mass_noun_format) ... ok
+test_model_identity (test_cael.CAELTests.test_model_identity) ... ok
+test_plan_translation (test_cael.CAELTests.test_plan_translation) ... ok
+test_runtime_has_no_teacher_import (test_cael.CAELTests.test_runtime_has_no_teacher_import) ... ok
+test_seeded_replay (test_cael.CAELTests.test_seeded_replay) ... ok
+test_unsupported_prompts (test_cael.CAELTests.test_unsupported_prompts) ... ok
+test_unsupported_question_semantics (test_cael.CAELTests.test_unsupported_question_semantics) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.019s
+
+OK

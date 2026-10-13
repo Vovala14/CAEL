@@ -1,0 +1,10 @@
+{
+  "canonical_frame_disjoint": true,
+  "counts": {
+    "train": 30000,
+    "development": 2000,
+    "confirmation": 2000
+  },
+  "natural_frames_excluded": 18,
+  "hashes_verified": true
+}

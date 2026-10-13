@@ -1,0 +1,4 @@
+* text=auto eol=lf
+models/** -text
+reference/model.json -text
+*.zip binary

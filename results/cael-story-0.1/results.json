@@ -1,0 +1,203 @@
+{
+  "family": "CAEL",
+  "version": "0.1.0",
+  "variant": "CAEL Story",
+  "model_sha256": "8be954c2de4a09cf36f45b97de387e799a1abbe4757c63415f810c3226cbebc9",
+  "baseline_sha256": "25bf1c55aff6198640799f8f860b031f2b693d7ef67eae3647d1916aa83ce363",
+  "model_bytes": 77300,
+  "training": {
+    "model_sha256": "8be954c2de4a09cf36f45b97de387e799a1abbe4757c63415f810c3226cbebc9",
+    "model_bytes": 77300,
+    "seed": 2026101317,
+    "frames": {
+      "train": 30000,
+      "development": 2000,
+      "confirmation": 2000
+    },
+    "cumulative_training_episodes": 5000,
+    "labelled_training_events": 279314,
+    "learned_update_rules": 180,
+    "grammar_states": 486,
+    "excluded_natural_frames": 18,
+    "seconds": 28.858999999938533,
+    "dataset_sha256": {
+      "confirmation_frames.json": "f5eb2a16c9a62c48f2a2d6cfcf117f70e9b7a848ce2283f84f32f3433e25f09d",
+      "development_frames.json": "cf3c21da4545434351e32a412cc95ce88c93d3e971e3ccf55a0981e9dd169a8d",
+      "training_episode_indices.json": "fa41fea3168b68623eb1d6d245ee6c59f962964ed50403a9fd0d72d54292a397",
+      "train_frames.json": "65fdf1d7db3955cb95da7b5c2d6018c243625c246cfb0f91456b85cf0a33066b",
+      "train_response_hashes.json": "c35455d003dab27d53dfa3ebc59c98252049af219fd7b60c1163926e9240b3d6"
+    },
+    "source_sha256": {
+      "train.py": "684c3ba55630cb6998fa3cacf91ebba0eb98d1383f3de9c489ecbca33da68da1",
+      "curriculum.py": "f50043448cfecc73603c7ef6f57b66b9bcf9f96cfea93c95f2e11fcecd3bd758",
+      "cael.py": "3578b1eed5e01e85bdfa144b6897dd3e8d4c39e9613bd9a9f1d0f0ae5260adc4",
+      "PROTOCOL.md": "40fb0530b64e59472b690082fa927de6b7f24715940fc05f8404cd8d7eaf981d",
+      "natural_frame_holdout.json": "c55ec1b0258416c98d152e38673ce142bd0ba6fa68038af565ff0ab4b92ec116"
+    }
+  },
+  "single_frame": {
+    "development": {
+      "frames": 2000,
+      "exact_plans": 2000,
+      "correct_state_rows": 323752,
+      "correct_fact_queries": 6488,
+      "grammar_terminations": 631
+    },
+    "confirmation": {
+      "frames": 2000,
+      "exact_plans": 2000,
+      "correct_state_rows": 323986,
+      "correct_fact_queries": 6541,
+      "grammar_terminations": 617
+    }
+  },
+  "cumulative": {
+    "development": {
+      "source": {
+        "episodes": 200,
+        "successful_episodes": 172,
+        "missing_rule_episodes": 28,
+        "state_mismatch_episodes": 0,
+        "state_rows_checked": 88114,
+        "first_failures": [
+          {
+            "episode": 5,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 8,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 31,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 51,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 57,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 61,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 84,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 85,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 96,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 104,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          }
+        ]
+      },
+      "candidate": {
+        "episodes": 200,
+        "successful_episodes": 200,
+        "missing_rule_episodes": 0,
+        "state_mismatch_episodes": 0,
+        "state_rows_checked": 95628,
+        "first_failures": []
+      }
+    },
+    "confirmation": {
+      "source": {
+        "episodes": 200,
+        "successful_episodes": 169,
+        "missing_rule_episodes": 31,
+        "state_mismatch_episodes": 0,
+        "state_rows_checked": 90428,
+        "first_failures": [
+          {
+            "episode": 0,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 2,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 5,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 12,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 14,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 18,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 22,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 23,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 33,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          },
+          {
+            "episode": 45,
+            "event": "INTRO",
+            "error": "No learned local entity transition."
+          }
+        ]
+      },
+      "candidate": {
+        "episodes": 200,
+        "successful_episodes": 200,
+        "missing_rule_episodes": 0,
+        "state_mismatch_episodes": 0,
+        "state_rows_checked": 99320,
+        "first_failures": []
+      }
+    }
+  },
+  "natural_prompts": {
+    "total": 20,
+    "supported": 18,
+    "outside_scope": 2
+  },
+  "acceptance_passed": true,
+  "seconds": 9.514999999897555,
+  "scope": "same authored synthetic world; no general-chat/ToM/leaderboard/independent-quality claim",
+  "evaluation_code_sha256": "246f8daaf19b7302aecd0d9158464e785fa984b6c44a9fd2887560d9d5a6c20d"
+}

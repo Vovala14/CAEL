@@ -7,7 +7,7 @@ import zipfile
 
 ROOT=Path(__file__).resolve().parent
 PUBLIC_FILES=['README.md','MODEL_CARD.md','REPORT.md','NOTICE.md','LICENSE',
-    'PROTOCOL.md','requirements.txt','cael.py','chat.py','train.py','evaluate.py',
+    'PROTOCOL.md','requirements.txt','cael.py','chat.py','curriculum.py','train.py','evaluate.py',
     'build_release.py','natural_prompts.json','natural_frame_holdout.json',
     '.gitignore','.gitattributes','results/portability.json']
 PUBLIC_DIRS=['models/cael-story-0.1','reference','results/cael-story-0.1','tests','.github']

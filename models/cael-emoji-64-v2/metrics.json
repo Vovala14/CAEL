@@ -1,0 +1,174 @@
+{
+  "device": "cpu",
+  "background": "white (255,255,255) alpha composite",
+  "sources": "noto,blobmoji",
+  "train": 6491,
+  "heldout": 635,
+  "vocab": 2911,
+  "args": {
+    "device": "cpu",
+    "out": "models\\emo-e3",
+    "data_root": "data/emoji",
+    "sources": "noto,blobmoji",
+    "palette": 48,
+    "coarse": 16,
+    "buckets": 8,
+    "min_count": 2,
+    "hash_bits": "19,20,20,21",
+    "holdout": 0.1,
+    "min_df": 2,
+    "cond_mix": 0.2,
+    "keywords": 1,
+    "per_style": 1,
+    "name_weight": 3,
+    "seed": 1234,
+    "flip": false,
+    "prompts": "happy face|cat|heart|fire|pizza|thumbs up|sad face|star"
+  },
+  "v10": {
+    "prior_alpha": 1.6,
+    "sym_beta": 0.6,
+    "temps": "1,1,0.85,0.6,0.4",
+    "guide": "ratio",
+    "ratio_clamp": 8.0,
+    "seed_mode": "gibbs",
+    "guide_from": 4,
+    "sweeps": "8,6,6,6,8",
+    "vram_cap_gb": 13.5,
+    "pad": "clamp",
+    "prior_smooth": 2.0
+  },
+  "steering": {
+    "n": 128,
+    "own_caption_L1": 14.829,
+    "other_caption_L1": 18.049,
+    "own_wins": 0.727,
+    "own_wins_noto": 0.655,
+    "heldout_unknown_caption": 3
+  },
+  "fallback_prompts": [],
+  "generated": {
+    "n": 192,
+    "pairwise_L1": 46.97,
+    "edge_density": 0.1033,
+    "falloff": [
+      6.7,
+      11.47,
+      19.05,
+      31.19,
+      46.99
+    ],
+    "nn_to_train_min": 0.102,
+    "nn_to_train_median": 0.1889,
+    "dist_to_train_mean_median": 0.2513,
+    "mean_lab": [
+      82.66,
+      7.24,
+      25.07
+    ],
+    "scale_mean_lab": {
+      "4": [
+        80.95,
+        4.77,
+        18.79
+      ],
+      "8": [
+        80.99,
+        5.89,
+        20.28
+      ],
+      "16": [
+        81.66,
+        6.27,
+        22.17
+      ],
+      "32": [
+        82.27,
+        6.62,
+        23.29
+      ],
+      "64": [
+        82.57,
+        6.66,
+        23.58
+      ]
+    },
+    "fallback_rate": {
+      "8g": 0.138,
+      "8r": 0.063,
+      "16g": 0.264,
+      "16r": 0.064,
+      "32g": 0.107,
+      "32r": 0.028,
+      "64g": 0.055,
+      "64r": 0.015
+    }
+  },
+  "heldout_quantized": {
+    "n": 256,
+    "pairwise_L1": 58.96,
+    "edge_density": 0.1181,
+    "falloff": [
+      8.14,
+      14.78,
+      24.34,
+      37.02,
+      51.67
+    ],
+    "nn_to_train_min": 0.0403,
+    "nn_to_train_median": 0.1574,
+    "dist_to_train_mean_median": 0.2556,
+    "mean_lab": [
+      81.37,
+      4.3,
+      7.29
+    ],
+    "scale_mean_lab": {
+      "4": [
+        80.95,
+        4.77,
+        18.79
+      ],
+      "8": [
+        80.99,
+        5.89,
+        20.28
+      ],
+      "16": [
+        81.66,
+        6.27,
+        22.17
+      ],
+      "32": [
+        82.27,
+        6.62,
+        23.29
+      ],
+      "64": [
+        82.57,
+        6.66,
+        23.58
+      ]
+    },
+    "fallback_rate": {
+      "8g": 0.138,
+      "8r": 0.063,
+      "16g": 0.264,
+      "16r": 0.064,
+      "32g": 0.107,
+      "32r": 0.028,
+      "64g": 0.055,
+      "64r": 0.015
+    }
+  },
+  "falloff_rel_error": 0.1733,
+  "checks": {
+    "diversity": true,
+    "edges": true,
+    "falloff": true,
+    "no_copies": true,
+    "steering": true
+  },
+  "pass_": true,
+  "seconds": 49.9
+}

@@ -1,0 +1,60 @@
+{
+  "model": "CAEL image portrait 64 i16 (v10 prior-guided integer CA)",
+  "generated_samples": {
+    "n": 64,
+    "pairwise_L1": 45.05,
+    "edge_density": 0.2333,
+    "falloff": [
+      12.12,
+      16.46,
+      24.33,
+      37.97,
+      55.39
+    ],
+    "nn_to_train_min": 0.1625,
+    "nn_to_train_median": 0.1849,
+    "dist_to_train_mean_median": 0.2184,
+    "mean_lab": [
+      41.23,
+      8.72,
+      8.24
+    ],
+    "scale_mean_lab": {
+      "4": [
+        43.97,
+        8.36,
+        8.73
+      ],
+      "8": [
+        43.56,
+        8.58,
+        8.85
+      ],
+      "16": [
+        42.38,
+        8.8,
+        8.59
+      ],
+      "32": [
+        41.72,
+        8.82,
+        8.39
+      ],
+      "64": [
+        41.23,
+        8.72,
+        8.21
+      ]
+    }
+  },
+  "falloff_rel_error": 0.131,
+  "checks": {
+    "diversity": true,
+    "edges": true,
+    "falloff": true,
+    "no_copies": true,
+    "colour_balance": true
+  },
+  "pass_": true,
+  "pass_rule": "diversity >=0.5x held-out; edges 0.5-2x; falloff err <=0.25; nearest-train min >=0.5x held-out median; mean a*/b* within 4. Metrics cannot detect faces: judge preview_grid.png by eye."
+}

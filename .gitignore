@@ -8,3 +8,7 @@ dist/
 *.err
 models/reproduction*/
 results/reproduction*/
+
+# CAEL 0.2: model weights are GitHub release assets (v0.2), not committed
+*.pt
+cael_assistant/outputs/

@@ -136,3 +136,15 @@ Code and model are available for **personal and non-commercial research use**
 under the preserved [license](LICENSE). This is not an OSI open-source license.
 See [NOTICE.md](NOTICE.md) for provenance and required attribution to
 [MICA Ember / MICA Flame by Vovala14](https://github.com/Vovala14/Mica-Ai).
+
+## CAEL 0.2 (assistant, image and emoji CA models, chat v6.7 code)
+CAEL 0.2 adds, alongside Story 0.1 (unchanged): `cael_assistant/` (chat + image + emoji routes), `cael_image/` (integer CA image code),
+`chat_v6_7/` (v6.7 chat code, small stores, build scripts for big stores: see chat_v6_7/STORES.md). No neural networks.
+Model weights are NOT in git. Download them from the GitHub release **v0.2** (https://github.com/Vovala14/CAEL/releases/tag/v0.2) and place them at:
+| release asset | place at |
+|---|---|
+| model_emoji.pt | models/cael-emoji-64-v2/model_emoji.pt |
+| model_v9.pt | models/cael-image-portrait-64-i16/model_v9.pt |
+| prior_i16.pt | cael_assistant/model_cache/prior_i16.pt |
+Requirements: Python 3.10+, torch, numpy, pillow. Run: `python cael_assistant/chat.py`, then e.g. "make an emoji of fire".
+Emoji model attribution (Noto Emoji, Blobmoji: Apache-2.0; Unicode CLDR data): see NOTICE.md and licenses/.

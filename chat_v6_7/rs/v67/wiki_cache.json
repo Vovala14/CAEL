@@ -1,0 +1,200 @@
+{
+"kubernetes": {
+"title": "Kubernetes",
+"type": "standard",
+"extract": "Kubernetes, also known as K8s, is an open-source container orchestration system for automating software deployment, scaling, and management. Originally designed by Google, the project is now maintained by a worldwide community of contributors, and the trademark is held by the Cloud Native Computing Foundation.",
+"url": "https://en.wikipedia.org/wiki/Kubernetes"
+},
+"black swan": {
+"title": "Black swan",
+"type": "standard",
+"extract": "The black swan is a large waterbird, a species of swan which breeds mainly in the southeast and southwest regions of Australia. Within Australia, the black swan is nomadic, with erratic migration patterns dependent on climatic conditions. It is a large bird with black plumage and a red bill. It is a monogamous breeder, with both partners sharing incubation and cygnet-rearing duties.",
+"url": "https://en.wikipedia.org/wiki/Black_swan"
+},
+"minecraft": {
+"title": "Minecraft",
+"type": "standard",
+"extract": "Minecraft is a sandbox video game developed and published by the Swedish company Mojang Studios. Following its initial public alpha release as an early access title on 17 May 2009, it was formally released on 18 November 2011 for personal computers. The game has since been ported to numerous platforms, including mobile devices and various video game consoles.",
+"url": "https://en.wikipedia.org/wiki/Minecraft"
+},
+"gdpr": {
+"title": "General Data Protection Regulation",
+"type": "standard",
+"extract": "The General Data Protection Regulation, abbreviated GDPR, is a European Union regulation on information privacy in the European Union (EU) and the European Economic Area (EEA). The GDPR is an important component of EU privacy law and human rights law, in particular Article 8(1) of the Charter of Fundamental Rights of the European Union. It also governs the transfer of personal data outside the EU and EEA. The GDPR's goals are to enhance individuals' control and rights over their personal information and to simplify the regulations for international business. It supersedes the Data Protection Directive 95/46/EC and, among other things, simplifies the terminology.",
+"url": "https://en.wikipedia.org/wiki/General_Data_Protection_Regulation"
+},
+"anders celsius": {
+"title": "Anders Celsius",
+"type": "standard",
+"extract": "Anders Celsius was a Swedish astronomer, physicist and mathematician. He was professor of astronomy at Uppsala University from 1730 to 1744, but traveled from 1732 to 1735 visiting notable observatories in Germany, Italy and France. He founded the Uppsala Astronomical Observatory in 1741, and in 1742 proposed the centigrade temperature scale, which was later renamed Celsius in his honour.",
+"url": "https://en.wikipedia.org/wiki/Anders_Celsius"
+},
+"dead internet theory": {
+"title": "Dead Internet theory",
+"type": "standard",
+"extract": "The dead Internet theory is a concept that asserts that the Internet consists primarily of bot activity and automated content manipulated by algorithmic curation. Originally conceived as a conspiracy theory that the phenomenon is a coordinated effort to control the population and reduce genuine human interaction, the concept is also employed colloquially to describe the impacts of generative AI and emphasize only the core observations without speculating on the driving forces.",
+"url": "https://en.wikipedia.org/wiki/Dead_Internet_theory"
+},
+"cloud computing": {
+"title": "Cloud computing",
+"type": "standard",
+"extract": "Cloud computing is defined by the International Organization for Standardization (ISO) as \"a paradigm for enabling network access to a scalable and elastic pool of shareable physical or virtual resources with self-service provisioning and administration on demand\". It is commonly referred to as \"the cloud\".",
+"url": "https://en.wikipedia.org/wiki/Cloud_computing"
+},
+"x-code-select": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"weather like": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"jumping frenchmen of maine": {
+"title": "Jumping Frenchmen of Maine",
+"type": "standard",
+"extract": "The Jumping Frenchmen of Maine were a group of 19th-century lumberjacks who exhibited a rare disorder of unknown origin. The syndrome entails an exaggerated startle reflex which may be described as an uncontrollable \"jump\". Individuals with this condition could exhibit sudden movements in all parts of the body. Jumping Frenchmen syndrome shares some symptoms with other startle disorders.",
+"url": "https://en.wikipedia.org/wiki/Jumping_Frenchmen_of_Maine"
+},
+"tritone": {
+"title": "Tritone",
+"type": "standard",
+"extract": "In music theory, a tritone is a musical interval spanning three whole tones. For instance, the interval from F to the B above it is a tritone as it can be decomposed into the three adjacent whole tones F\u2013G, G\u2013A, and A\u2013B.",
+"url": "https://en.wikipedia.org/wiki/Tritone"
+},
+"some free language-learning apps": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"aws": {
+"title": "Amazon Web Services",
+"type": "standard",
+"extract": "Amazon Web Services, Inc. (AWS) is a subsidiary of Amazon that provides on-demand cloud computing platforms and APIs to individuals, companies, and governments, on a metered, pay-as-you-go basis.",
+"url": "https://en.wikipedia.org/wiki/Amazon_Web_Services"
+},
+"ides of march": {
+"title": "Ides of March",
+"type": "standard",
+"extract": "The Ides of March is the day on the Roman calendar marked as the Idus, roughly the midpoint of a month, of Martius, corresponding to 15 March on the Gregorian calendar. It was marked by several major religious observances. In 44 BC, it became notorious as the date of the assassination of Julius Caesar, which made the Ides of March a turning point in Roman history.",
+"url": "https://en.wikipedia.org/wiki/Ides_of_March"
+},
+"urho3d engine": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"c8dn": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"lemon tree": {
+"title": "Lemon Tree",
+"type": "disambiguation",
+"extract": "Lemon Tree may refer to:Lemon, a tree bearing fruit\nLemon myrtle, an Australian native tree with a distinct lemon smell",
+"url": "https://en.wikipedia.org/wiki/Lemon_Tree"
+},
+"team fortress 2": {
+"title": "Team Fortress 2",
+"type": "standard",
+"extract": "Team Fortress 2 is a 2007 multiplayer first-person shooter game developed and published by Valve Corporation. It is the sequel to the 1996 Team Fortress mod for Quake and the 1999 game Team Fortress Classic. It was released in October 2007 as part of The Orange Box for Windows and the Xbox 360, and was ported to the PlayStation 3 in December 2007. It was released as a standalone game for Windows in April 2008, and updated to support macOS in June 2010 and Linux in February 2013. It was made free-to-play in June 2011, and is distributed online through Valve's digital retailer, Steam.",
+"url": "https://en.wikipedia.org/wiki/Team_Fortress_2"
+},
+"pythagorean theorem": {
+"title": "Pythagorean theorem",
+"type": "standard",
+"extract": "In mathematics, the Pythagorean theorem or Pythagoras's theorem is a fundamental relation in Euclidean geometry between the three sides of a right triangle. It states that the area of the square whose side is the hypotenuse is equal to the sum of the areas of the squares on the other two sides.",
+"url": "https://en.wikipedia.org/wiki/Pythagorean_theorem"
+},
+"god": {
+"title": "God",
+"type": "standard",
+"extract": "A supreme deity, supreme being, supreme god, or simply just God, is a deity within theistic belief systems which is believed to be the ultimate cause of all things in existence. As such, it is seen as the creator, sustainer, and ruler of the universe. God is often thought of as incorporeal and independent of the material creation.",
+"url": "https://en.wikipedia.org/wiki/God"
+},
+"different types of leprosy": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"world war 2 about": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"manufacturer dayan": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"laion.ai": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"francesco lelli": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"dangers of cbdc's": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"current state of ai": {
+"title": "",
+"type": "error",
+"extract": "",
+"url": "",
+"err": "HTTP Error 404: Not Found"
+},
+"turpentine": {
+"title": "Turpentine",
+"type": "standard",
+"extract": "Turpentine is a fluid obtainable by the distillation of resin harvested from living trees, mainly pines. Principally used as a specialized solvent, it is also a source of material for organic syntheses.",
+"url": "https://en.wikipedia.org/wiki/Turpentine"
+},
+"quantum physics": {
+"title": "Quantum mechanics",
+"type": "standard",
+"extract": "Quantum mechanics, also known as quantum physics, is the fundamental physical theory that describes the behavior of matter and of light; the behaviors it models typically occur at and below the scale of atoms, and have often been described as counterintuitive. Its concepts and methods have been applied across many disciplines, including quantum chemistry, quantum biology, quantum field theory, quantum technology, and quantum information science.",
+"url": "https://en.wikipedia.org/wiki/Quantum_mechanics"
+},
+"origin of the universe": {
+"title": "Cosmogony",
+"type": "standard",
+"extract": "Cosmogony, also spelled as cosmogeny, or cosmogenesis, is any model concerning the origin of the cosmos or the universe.",
+"url": "https://en.wikipedia.org/wiki/Cosmogony"
+},
+"virtual machine": {
+"title": "Virtual machine",
+"type": "standard",
+"extract": "In computing, a virtual machine (VM) is the virtualization or emulation of a computer system. Virtual machines are based on computer architectures and provide the functionality of a physical computer. Their implementations may involve specialized hardware, software, or a combination of the two.\nVirtual machines differ and are organized by their function, shown here:System virtual machines provide a substitute for a real machine. They provide the functionality needed to execute entire operating systems. A hypervisor uses native execution to share and manage hardware, allowing for multiple environments that are isolated from one another yet exist on the same physical machine. Modern hypervisors use hardware-assisted virtualization, with virtualization-specific hardware features on the host CPUs providing assistance to hypervisors.\nProcess virtual machines are designed to execute computer programs in a platform-independent environment.",
+"url": "https://en.wikipedia.org/wiki/Virtual_machine"
+}
+}

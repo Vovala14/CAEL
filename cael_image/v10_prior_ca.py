@@ -1,7 +1,7 @@
 """CAEL image v10: v9 generative integer CA guided by a count-learned per-position prior. No NN, no parts, no collage.
 Added on top of v9 (everything else is v9 unchanged: data, face-centred crops, palette, rule tables, back-off, metrics):
   prior[L][y, x, colour]   : integer counts of palette colours at every position of every scale, from the training
-                             crops (aligned when crop boxes are given). Smoothed toward the global
+                             crops (aligned faces when --face-only / face boxes are used). Smoothed toward the global
                              colour histogram so it never pins a pixel to one image.
   sym[L][y, x, coarse(m)]  : integer counts P(colour | coarse colour of the horizontally mirrored cell) per position,
                              a learned left/right pairing statistic (lets an eye on one side favour one on the other).
@@ -29,6 +29,13 @@ A, rest = pre.parse_known_args(); sys.argv = [sys.argv[0]] + rest
 
 DIAG = dict(scale_mean_lab={}, fallback={})
 class GCA10(v9.GCA):
+    def draw(s, p, temp, gen):
+        bias = getattr(s, 'luminance_bias', 0.0)
+        if bias:
+            from cael_image.portrait_sampling import luminance_weights
+            p = p * luminance_weights(s.pal, bias, temp)
+        return super().draw(p, temp, gen)
+
     def rows(s, table, chain):
         name0, k0 = chain[0]; r0 = table[name0][s.slot(table[name0], name0, k0)]
         n = r0.sum(-1) >= s.minc; L = k0.shape[-1]; key = f'{L}{name0[0]}'

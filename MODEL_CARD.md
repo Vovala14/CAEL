@@ -1,59 +1,63 @@
-# CAEL Story 0.1.0
+# CAEL 0.2.1 model bundle
 
-- **Family:** CAEL — Cellular Automaton Event Language.
-- **Owner:** Vovala14.
-- **Architecture:** non-neural hybrid symbolic cellular system with handwritten
-  English parsing/formatting, learned local integer event programs, event plans
-  and a learned template-like regular grammar.
-- **Model:** `models/cael-story-0.1/model.json`, 77,300 bytes.
-- **SHA-256:** `8be954c2de4a09cf36f45b97de387e799a1abbe4757c63415f810c3226cbebc9`.
-- **Runtime:** Python and NumPy on CPU. No external model or training-example
-  bank loaded during inference. Source code and dependency sizes are excluded
-  from the quoted model size.
+One checksum-verified archive with a shared application interface. Components
+keep their own parameters; this is not jointly learned multimodal reasoning.
 
-## Training
+## Components
 
-The entire corpus is generated from an expert-authored synthetic world schema.
-30,000 unique canonical frames and 5,000 sequences of 2–4 training frames teach
-279,314 event instances. Programs are induced by intersecting integer opcode
-choices compatible with labelled field changes. Plan and grammar choices are
-counted. No neural model or gradient training is involved.
+- Chat: legacy CA routing, trained small-talk tables and a previously published
+  small factual store. The current remote worker and web lookup are absent.
+- Helper: authored arithmetic/writing programs and original Story 0.1 event
+  memory. See `STORY_MODEL_CARD.md` for its separate results.
+- Emoji: v7 integer patch CA trained on Noto Emoji and Blobmoji with Unicode
+  captions. Offline silhouette guidance and speckle cleanup are retained.
+- Portrait: v15 joint registered appearance/deformation parameters from 76
+  fitting photos, in populations of 39 and 37. No source photos, individual
+  coefficient vectors, filenames or private alignments ship. Source-photo
+  licensing/provenance was not independently verified in this packaging pass;
+  these owner-supplied research parameters retain existing terms.
+- General pictures: 32 subject-specific registered appearance/deformation
+  models fitted on synthetic SD1.5 outputs. They reuse portrait architecture,
+  not private portrait pixels or a neural decoder.
 
-The parser, ontology, opcode set, reference plans, event phrase examples and
-slot formatting are authored. The model does not discover these concepts from
-unrestricted text. A larger synthetic corpus is not evidence of general English
-learning.
+## Synthetic teacher and training
 
-## Evaluation
+Local Stable Diffusion 1.5 checkpoint SHA-256:
+`6ce0161689b3853acaa03779ec93eafe75a02f4ced659bee03f50797806fa2fa`.
+The user's installed stable-diffusion.cpp renders 384×384 at 12 Euler-a steps,
+CFG 7, then downsamples to 64×64. Four lighting prompts per category with fixed
+batches/seeds form the first 1,024-image dataset. No private photos or external
+image service are used. The teacher is neural; the statistical student is not.
 
-Canonical-frame hashes allocate training/development/confirmation at 90%/5%/5%.
-The selected datasets contain 30,000/2,000/2,000 distinct frames. The 18 supported
-historical natural-request frames are excluded. Cumulative training uses only
-training frames; cumulative evaluation uses only its respective held-out split.
+The student fits one population per subject, rank eight, variation 0.85,
+sharpen 0.3 and warp strength 0.6. Pixel-group splitting protects held-out
+images globally across labels. They never enter fitting or guard references.
+The frozen report records actual final training/held-out counts.
 
-Results: 4,000 exact plan/state trajectories; 13,029 supported factual answers;
-400/400 successful cumulative sequences against 341/400 for the frozen earlier
-symbolic model. The same event streams and teacher semantics are used for both.
-There were no measured candidate state mismatches or missing-rule failures.
+The general-image student is treated as an SD1.5 derivative because it learns
+from teacher outputs. Its use and redistribution must comply with the included
+CreativeML OpenRAIL-M license, paragraph 5 and Attachment A, in addition to the
+existing non-commercial terms for owned modifications. Prominent changes from
+the teacher: diffusion and text encoders are replaced by a categorical 64×64
+statistical sampler trained on synthetic outputs only. Original teacher
+weights are not redistributed.
 
-The old model SHA is
-`25bf1c55aff6198640799f8f860b031f2b693d7ef67eae3647d1916aa83ce363`.
-This is not a comparison against MICA language models. Scores concern structured
-frames under a shared authored schema. The historical 18/20 blinded self-review
-quality score is not a new CAEL score. No independent human quality or general
-language benchmark is claimed. No benchmark/test questions were used for training.
+## Limits and evaluation
 
-## Intended use and limits
+Personal experimentation and non-commercial research only. This is not a
+foundation model, reliable knowledge assistant, identity-preserving editor or
+diffusion-quality image generator. Categories are finite; arbitrary caption
+composition and general colour/style controls are not learned.
 
-Use for research into discrete program induction, local state updates and
-constrained story-world generation. The system does not support general chat,
-arbitrary language understanding, autonomous factual advice or broad reasoning.
-Unsupported requests should be rejected rather than interpreted as successful
-answers. Sessions reset on a new story unless the structured API explicitly
-requests cumulative state.
+The local chat fallback does not provide the latest remote chat quality or
+live web lookup. The public portrait sampler cannot run its original private
+source-photo similarity guard; it checks against synthetic references only.
+That heuristic does not guarantee anonymity or absence of memorization.
 
-## License and provenance
+Generated-only review and synthetic held-out diagnostics are recorded under
+`results/general-0.2.1/`. Nearest-training-mean category classification measures
+teacher-domain separation, not semantic generalization or realism. No
+independent human study or broad image benchmark was performed.
 
-Personal/non-commercial research terms in [LICENSE](LICENSE); provenance and
-required source attribution in [NOTICE.md](NOTICE.md). CAEL is a separate hybrid
-family, not an original native MICA release.
+CAEL/MICA attribution remains in LICENSE and NOTICE.md. Third-party emoji and
+teacher notices are retained under `licenses/` and inside the model archive.

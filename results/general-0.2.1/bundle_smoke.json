@@ -1,0 +1,63 @@
+{
+  "requests": [
+    {
+      "request": "Hello",
+      "route": "chat/local-greet",
+      "generated": 0
+    },
+    {
+      "request": "I am feeling happy today",
+      "route": "chat/local-smalltalk",
+      "generated": 0
+    },
+    {
+      "request": "Calculate (12 + 3) * 4",
+      "route": "helper/arithmetic",
+      "generated": 0
+    },
+    {
+      "request": "Write an email to my manager about taking a day off",
+      "route": "chat/local-write",
+      "generated": 0
+    },
+    {
+      "request": "Make a picture of a car",
+      "route": "image/generated",
+      "generated": 2
+    },
+    {
+      "request": "Make a picture of a bike",
+      "route": "image/generated",
+      "generated": 2
+    },
+    {
+      "request": "Make a picture of a phone",
+      "route": "image/generated",
+      "generated": 2
+    },
+    {
+      "request": "Create a portrait of an adult woman",
+      "route": "image/generated",
+      "generated": 2
+    },
+    {
+      "request": "Make an emoji of fire",
+      "route": "emoji/generated",
+      "generated": 2
+    },
+    {
+      "request": "Make an emoji of kiwi bird",
+      "route": "emoji/generated",
+      "generated": 2
+    },
+    {
+      "request": "Make a picture of a unicorn",
+      "route": "image/unsupported",
+      "generated": 0
+    }
+  ],
+  "deterministic_image_replay": true,
+  "stored_emoji_attribution_written": true,
+  "private_training_photos_accessed": false,
+  "runtime_teacher_used": false
+}

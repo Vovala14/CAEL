@@ -12,3 +12,15 @@ results/reproduction*/
 # CAEL 0.2: model weights are GitHub release assets (v0.2), not committed
 *.pt
 cael_assistant/outputs/
+
+# Unified model archive and generated/extracted data live outside Git.
+*.cael
+*.download
+models/.cael-cache/
+outputs/
+data/general_synthetic/
+chat_worker/
+*.safetensors
+cael_assistant/chat_backend.json
+cael_assistant/ui_token.txt
+cael_assistant/relay_key.txt

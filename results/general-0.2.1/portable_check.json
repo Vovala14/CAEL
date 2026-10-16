@@ -1,0 +1,9 @@
+{
+  "portable_bundle_loaded": true,
+  "ui_home": true,
+  "http_photo_request": true,
+  "http_generated_png": true,
+  "helper": true,
+  "private_training_photos_accessed": false,
+  "teacher_used": false
+}

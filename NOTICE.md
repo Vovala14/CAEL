@@ -13,3 +13,31 @@ Changes: standalone portable training/evaluation, CAEL naming, cumulative event-
 - Captions: Unicode emoji-test.txt short names + Unicode CLDR English annotations (Unicode License).
 - Transparent pixels were composited on white before training.
 
+## CAEL 0.2.1 changes and synthetic-image teacher
+
+0.2.1 adds a shared application, one integrity-checked model bundle, portable
+legacy chat fallback, exact arithmetic, the current v7 emoji engine, sanitized
+v15 aggregate portrait parameters, and a new categorical general-image student.
+The preceding description of expert-authored training and no neural model
+applies to Story 0.1, not the new synthetic-image training pipeline.
+
+The general-image student is trained on outputs generated locally by neural
+Stable Diffusion 1.5 through stable-diffusion.cpp. It is treated as a derivative
+under CreativeML OpenRAIL-M. Original diffusion/text-encoder weights are replaced
+by subject-specific registered 64x64 statistical appearance/deformation modes.
+Use and redistribution must comply with the included teacher license, paragraph
+5 and Attachment A, in addition to the existing non-commercial terms for owned
+modifications. Full teacher license: licenses/LICENSE-stable-diffusion-v1-5.txt.
+Primary sources: https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5
+and https://github.com/CompVis/stable-diffusion/blob/main/LICENSE.
+
+stable-diffusion.cpp is a separate locally installed MIT-licensed teacher tool:
+https://github.com/leejet/stable-diffusion.cpp. Neither its binary nor the neural
+teacher checkpoint is redistributed in this release. Runtime student sampling
+is non-neural, but its neural teacher's contribution is explicit.
+
+v7 emoji data sources remain Noto Emoji and Blobmoji, with the same Apache and
+Unicode attribution above. Public fitting references are included for numerical
+rejection and silhouette statistics. Private portrait photos and alignments,
+endpoint credentials and private chat logs are not included.
+

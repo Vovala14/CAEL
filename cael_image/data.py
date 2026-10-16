@@ -25,7 +25,7 @@ def read_rgb(path, resize_mode='error'):
         return np.array(rgb, dtype=np.uint8)
 
 
-def discover(root, resize_mode='error'):
+def discover(root, resize_mode='error', require_captions=True):
     root = Path(root).resolve()
     if not root.is_dir():
         raise ValueError('Dataset folder does not exist: ' + str(root))
@@ -36,20 +36,22 @@ def discover(root, resize_mode='error'):
         caption_path = path.with_suffix('.txt')
         if not path.resolve().is_relative_to(root) or not caption_path.resolve().is_relative_to(root):
             raise ValueError('Dataset paths must remain inside the source folder.')
-        if not caption_path.is_file():
+        has_caption = caption_path.is_file()
+        if not has_caption and require_captions:
             raise ValueError('Missing matching caption: ' + str(caption_path))
-        if caption_path.stat().st_size > 65536:
+        if has_caption and caption_path.stat().st_size > 65536:
             raise ValueError('Caption exceeds 64 KiB: ' + str(caption_path))
-        caption = caption_path.read_text(encoding='utf-8-sig').strip()
-        if not caption:
+        caption = caption_path.read_text(encoding='utf-8-sig').strip() if has_caption else ''
+        if not caption and require_captions:
             raise ValueError('Empty caption: ' + str(caption_path))
         rgb = read_rgb(path, resize_mode)
         records.append(dict(image=path.relative_to(root).as_posix(), caption=caption,
                             image_file_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
-                            caption_sha256=hashlib.sha256(caption_path.read_bytes()).hexdigest(),
+                            caption_sha256=hashlib.sha256(caption_path.read_bytes()).hexdigest() if has_caption else None,
                             pixel_sha256=hashlib.sha256(rgb.tobytes()).hexdigest()))
     if not records:
-        raise ValueError('No captioned images found. Add 64x64 images and matching .txt captions.')
+        raise ValueError('No captioned images found. Add 64x64 images and matching .txt captions.' if require_captions
+                         else 'No supported images found in the dataset folder.')
     return records
 
 

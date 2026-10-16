@@ -1,0 +1,18 @@
+{
+  "version": "0.2.1",
+  "unit_tests": 21,
+  "synthetic_images": 1024,
+  "fitting_images": 768,
+  "heldout_images": 256,
+  "training_sources_unchanged": true,
+  "heldout_excluded_from_fit_and_guard": true,
+  "private_photos_displayed": false,
+  "private_photos_redistributed": false,
+  "private_alignment_metadata_redistributed": false,
+  "teacher_checkpoint_redistributed": false,
+  "live_chat_worker_available": false,
+  "chat_backend": "Packaged legacy fallback",
+  "bundle_sha256": "76d1b50ed73bab60b7149981784f31b4d0d887ba9faae7dac278046caf2a8d3b",
+  "model_bundle_bytes": 62524676,
+  "limits": "Experimental 64x64 finite-category image model. Public portrait guard uses synthetic references only. Current remote chat worker absent."
+}

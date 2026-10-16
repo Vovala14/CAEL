@@ -11,7 +11,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install -r requirements.txt
+      - run: python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -r requirements-unified.txt
       - run: python -m unittest discover -s tests -v
       - run: python chat.py "Tell a story about a mouse finding cheese in a bakery." --ask "Who has the cheese?"
       - if: matrix.python-version == '3.12'

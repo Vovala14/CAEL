@@ -1,3 +1,8 @@
+# Legacy CAEL 0.2 assistant source
+
+For 0.2.1 use `python -m cael_unified --ui` and the single model bundle. The
+following documents the preserved older interface and its v0.2 asset paths.
+
 # CAEL assistant (v6.7 chat + image and emoji tools)
 Run: `python cael_assistant/chat.py` (REPL) or `from chat import Assistant; Assistant().respond([{'role':'user','content':'make an emoji of fire'}])`.
 - Emoji route: "make an emoji of ...", "make a pizza emoji", "emoji for ..." -> emojigen.py with models/cael-emoji-64-v2 (caption-conditioned integer CA).

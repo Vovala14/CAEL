@@ -1,0 +1,471 @@
+{
+  "protocol": {
+    "training_source": "Local Stable Diffusion 1.5 synthetic images only",
+    "teacher": {
+      "teacher": "Stable Diffusion v1.5, local stable-diffusion.cpp",
+      "teacher_model_sha256": "6ce0161689b3853acaa03779ec93eafe75a02f4ced659bee03f50797806fa2fa",
+      "teacher_license": "CreativeML OpenRAIL-M",
+      "seed": 2101000,
+      "subjects": [
+        "car",
+        "bicycle",
+        "motorcycle",
+        "truck",
+        "airplane",
+        "boat",
+        "phone",
+        "laptop",
+        "camera",
+        "headphones",
+        "watch",
+        "robot",
+        "woman",
+        "man",
+        "dog",
+        "cat",
+        "horse",
+        "bird",
+        "dragon",
+        "flower",
+        "tree",
+        "house",
+        "city",
+        "mountain",
+        "beach",
+        "forest",
+        "pizza",
+        "burger",
+        "cup",
+        "chair",
+        "shoe",
+        "spaceship"
+      ],
+      "per_subject": 32,
+      "batch": 8,
+      "steps": 12,
+      "render_size": 384,
+      "output_size": 64,
+      "cfg": 7.0,
+      "sampler": "Euler a",
+      "source": "Synthetic teacher outputs only",
+      "private_images_read": false,
+      "training_images_displayed": false
+    },
+    "architecture": "Subject-specific registered shape/appearance PCA, based on portrait generator",
+    "seed": 210021,
+    "rank": 8,
+    "training_images": 768,
+    "heldout_images": 256,
+    "subjects": [
+      "car",
+      "bicycle",
+      "motorcycle",
+      "truck",
+      "airplane",
+      "boat",
+      "phone",
+      "laptop",
+      "camera",
+      "headphones",
+      "watch",
+      "robot",
+      "woman",
+      "man",
+      "dog",
+      "cat",
+      "horse",
+      "bird",
+      "dragon",
+      "flower",
+      "tree",
+      "house",
+      "city",
+      "mountain",
+      "beach",
+      "forest",
+      "pizza",
+      "burger",
+      "cup",
+      "chair",
+      "shoe",
+      "spaceship"
+    ],
+    "settings": {
+      "variation": 0.85,
+      "sharpen": 0.3,
+      "warp_strength": 0.6,
+      "guard_threshold": 0.04
+    },
+    "private_photos_read": false,
+    "source_images_displayed": false,
+    "limitations": "Finite categories, not arbitrary compositional prompting; synthetic teacher biases and low-resolution statistical averaging remain"
+  },
+  "heldout_category_nearest_mean": {
+    "correct": 69,
+    "total": 256,
+    "accuracy": 0.2695,
+    "chance": 0.0312,
+    "limitation": "Teacher-domain subject separation by RGB mean, not learned classifier accuracy or image realism"
+  },
+  "heldout_RMS_to_training_mean": {
+    "car": 0.29135,
+    "bicycle": 0.29059,
+    "motorcycle": 0.32408,
+    "truck": 0.31281,
+    "airplane": 0.27654,
+    "boat": 0.30693,
+    "phone": 0.29269,
+    "laptop": 0.35609,
+    "camera": 0.32898,
+    "headphones": 0.32064,
+    "watch": 0.27575,
+    "robot": 0.3256,
+    "woman": 0.28656,
+    "man": 0.33501,
+    "dog": 0.29516,
+    "cat": 0.2991,
+    "horse": 0.30403,
+    "bird": 0.27814,
+    "dragon": 0.30321,
+    "flower": 0.28302,
+    "tree": 0.27841,
+    "house": 0.27093,
+    "city": 0.23691,
+    "mountain": 0.26038,
+    "beach": 0.25801,
+    "forest": 0.19674,
+    "pizza": 0.28733,
+    "burger": 0.31716,
+    "cup": 0.28074,
+    "chair": 0.30725,
+    "shoe": 0.31123,
+    "spaceship": 0.30644
+  },
+  "generated_guard_checks": {
+    "car": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.215047,
+        0.240951,
+        0.238522,
+        0.223793
+      ]
+    },
+    "bicycle": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.245049,
+        0.145333,
+        0.178152,
+        0.234381
+      ]
+    },
+    "motorcycle": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.240918,
+        0.218593,
+        0.269324,
+        0.227372
+      ]
+    },
+    "truck": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.250269,
+        0.247367,
+        0.234266,
+        0.216307
+      ]
+    },
+    "airplane": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.221127,
+        0.180273,
+        0.198373,
+        0.202033
+      ]
+    },
+    "boat": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.216332,
+        0.237525,
+        0.236637,
+        0.18197
+      ]
+    },
+    "phone": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.191181,
+        0.195896,
+        0.196269,
+        0.21813
+      ]
+    },
+    "laptop": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.243619,
+        0.21998,
+        0.236916,
+        0.249274
+      ]
+    },
+    "camera": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.246493,
+        0.213018,
+        0.204947,
+        0.213928
+      ]
+    },
+    "headphones": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.207314,
+        0.250593,
+        0.26362,
+        0.238404
+      ]
+    },
+    "watch": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.202263,
+        0.247165,
+        0.227379,
+        0.215423
+      ]
+    },
+    "robot": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.205016,
+        0.219511,
+        0.213028,
+        0.223817
+      ]
+    },
+    "woman": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.212378,
+        0.244513,
+        0.248742,
+        0.238551
+      ]
+    },
+    "man": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.212022,
+        0.231219,
+        0.263509,
+        0.243809
+      ]
+    },
+    "dog": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.239205,
+        0.235774,
+        0.20992,
+        0.233527
+      ]
+    },
+    "cat": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.210978,
+        0.285261,
+        0.213843,
+        0.219653
+      ]
+    },
+    "horse": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.201422,
+        0.236863,
+        0.204507,
+        0.20253
+      ]
+    },
+    "bird": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.228582,
+        0.188962,
+        0.21485,
+        0.217998
+      ]
+    },
+    "dragon": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.211275,
+        0.213223,
+        0.210631,
+        0.247627
+      ]
+    },
+    "flower": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.25408,
+        0.200879,
+        0.245922,
+        0.200527
+      ]
+    },
+    "tree": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.177499,
+        0.214887,
+        0.201862,
+        0.174184
+      ]
+    },
+    "house": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.204589,
+        0.218415,
+        0.195382,
+        0.195293
+      ]
+    },
+    "city": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.158261,
+        0.151508,
+        0.169072,
+        0.204196
+      ]
+    },
+    "mountain": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.168042,
+        0.175843,
+        0.170042,
+        0.211234
+      ]
+    },
+    "beach": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.202459,
+        0.198731,
+        0.240813,
+        0.192349
+      ]
+    },
+    "forest": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.126287,
+        0.120352,
+        0.173579,
+        0.127887
+      ]
+    },
+    "pizza": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.256503,
+        0.243636,
+        0.239148,
+        0.253428
+      ]
+    },
+    "burger": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.257283,
+        0.205423,
+        0.229422,
+        0.235684
+      ]
+    },
+    "cup": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.195693,
+        0.220376,
+        0.184477,
+        0.222183
+      ]
+    },
+    "chair": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.203718,
+        0.161959,
+        0.219881,
+        0.191233
+      ]
+    },
+    "shoe": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.265951,
+        0.219384,
+        0.229863,
+        0.254591
+      ]
+    },
+    "spaceship": {
+      "replacements": 0,
+      "rounds": 0,
+      "nearest_RMS": [
+        0.218575,
+        0.201882,
+        0.215721,
+        0.225214
+      ]
+    }
+  },
+  "source_files_unchanged": true,
+  "heldout_pixels_excluded_from_fit_and_guard": true,
+  "model_reloaded": true,
+  "model_sha256": "a107413ffe4a891a00a7c935f548e89c77356e15f1526a8af487fd25aa99bb56",
+  "seconds": 2.66
+}

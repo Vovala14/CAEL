@@ -2,3 +2,5 @@
 models/** -text
 reference/model.json -text
 *.zip binary
+*.cael binary
+licenses/*.txt whitespace=-blank-at-eof

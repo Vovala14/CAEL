@@ -1,4 +1,4 @@
-# CAEL 0.2.2
+# CAEL 0.2.3
 
 **One assistant, one model bundle: chat, helpers, emoji, portraits and small
 general pictures.** The release routes between existing CAEL engines and the
@@ -20,9 +20,43 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.2.2.cael` (about 580 MB), verifies every file
+`--download` fetches `models/cael-0.2.3.cael` (about 580 MB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.2.3
+
+Every engine is still non-neural.
+
+- **Reasoning with "or" and contradiction.** Premises become true/false constraints
+  and a small SAT solver checks every case. It covers "Rex is a cat or a dog",
+  "No mammal is a fish", "Birds can fly" and contradictory premises.
+  - PrOntoQA test: **99.34%**, up from 70.3%.
+  - All 20 bAbI story tasks are supported: **99.82%** on the test split, up from 12
+    task types. That includes pronouns, time order, analogy, positions, compass
+    directions and motivations.
+  - See [REASONING_0_4_2.md](REASONING_0_4_2.md).
+- **Reasoning answers in chat.** Answers are full sentences followed by the numbered
+  premises they rest on. Guesses are labelled as guesses, and contradictory premises
+  are reported.
+  - It accepts natural wordings such as "Does it follow that…".
+  - Ordinary messages that only look like puzzles go to normal chat.
+- **Reasoning about pictures.**
+  - Several objects per picture, placed as asked: left/right of, between, on, above,
+    under, in front of, behind.
+  - Sizes follow real life, so an elephant is drawn larger than a cat.
+  - Subjects can be described indirectly: "the animal that says moo" draws a cow, "a
+    poodle" draws a dog, "a yellow fruit" draws a banana. Each choice is explained.
+  - Follow-ups edit the last picture: "make it blue", "add a dog to the left of the
+    sofa", "put them on a beach", "remove the cat".
+  - It says plainly what it cannot draw and when a request breaks common sense.
+  - See [IMAGE_REASONING_0_4_3.md](IMAGE_REASONING_0_4_3.md).
+- **Multiple-choice questions in chat:** the count language model, local evidence
+  retrieval and an exact word-problem solver work together. Local Open SLM Leaderboard
+  tests: five-test mean 49.97%, against 32.69% before. ArithMark-3 scores 69.5%,
+  against 59.6% for SmolLM2-360M. See [LEADERBOARD_0_4_1.md](LEADERBOARD_0_4_1.md).
+  This is not an official leaderboard entry. The optional ARC Corpus index is not
+  bundled.
 
 ## New in 0.2.2
 
@@ -77,7 +111,8 @@ print(result["response"], result.get("paths"))
 | Helper | Exact bounded arithmetic, existing authored writing programs, story/event memory | Handwritten task programs; no general tool execution |
 | Emoji | v7 integer patch CA, silhouette guidance, speckle cleanup | Finite vocabulary; unfamiliar words may be ignored; offline |
 | Portrait | v15 registered shape/appearance statistics | Unconditional adult-woman portraits; averaged faces and artifacts |
-| Picture (0.2.2) | Hybrid: PCA layout + patch synthesis from Stable Diffusion 1.5 training renders | 102 topics, one subject per picture; seams on some topics; edits experimental |
+| Picture (0.2.3) | Hybrid: PCA layout + patch synthesis from Stable Diffusion 1.5 training renders; scene reasoning composes cut-outs | 102 topics; up to 6 objects composed from separate cut-outs, which look rough; seams on some topics |
+| Reasoning | Rule chaining, SAT case analysis, event/position/time tracking | Simple sentence forms ("X is a Y", "Every X…", "X went to the Y") |
 | General picture (0.2.1) | Subject-conditioned statistics based on portrait code | Fallback only; 32 categories; rough images |
 | Explanations | Section selection from the matching Wikipedia article | Quoted text (CC BY-SA); encyclopedic, not recipes |
 | Code | Example-guided search over small Python operations | One-line functions; needs examples |

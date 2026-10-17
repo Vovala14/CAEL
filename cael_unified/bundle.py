@@ -8,8 +8,8 @@ import urllib.request
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = '0.2.2'
-SUPPORTED = {'0.2.1', '0.2.2'}
+VERSION = '0.2.3'
+SUPPORTED = {'0.2.1', '0.2.2', '0.2.3'}
 DEFAULT_BUNDLE = ROOT / 'models' / f'cael-{VERSION}.cael'
 INSTALLED = 'models/'   # bundle members under models/ are installed into the checkout, not the cache
 REQUIRED = {'chat/model_v1.json.gz', 'chat/model_v2.json.gz', 'chat/knowledge.json.gz',
@@ -146,7 +146,8 @@ def install_models(path=None, root=ROOT):
         chosen = {}
         for key, entry in manifest['selections'].items():
             entry = dict(entry)
-            entry['path'] = str(root.joinpath(*safe_member(entry['path']).parts))
+            if 'path' in entry:          # code-only selections (the multiple-choice chooser) carry no file
+                entry['path'] = str(root.joinpath(*safe_member(entry['path']).parts))
             chosen[key] = entry
         selections.parent.mkdir(parents=True, exist_ok=True)
         selections.write_text(json.dumps(chosen, indent=2), encoding='utf-8')

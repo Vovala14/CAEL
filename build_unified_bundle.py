@@ -1,6 +1,6 @@
-"""Build the 0.2.2 model bundle from an explicit, privacy-auditable input allowlist.
+"""Build the 0.2.3 model bundle from an explicit, privacy-auditable input allowlist.
 
-0.2.2 = the published 0.2.1 bundle (chat, emoji, portrait, base image, story 0.1) plus the
+0.2.3 = the published 0.2.1 bundle (chat, emoji, portrait, base image, story 0.1) plus the
 runtime model folders the live assistant now uses, installed under models/ by
 `python -m cael_unified --download`, and the model selections that make a fresh checkout
 behave like the reviewed live configuration.
@@ -29,7 +29,7 @@ MODEL_FILES = {
     'models/cael-code-0.3.8': None,
 }
 # Selected in the live configuration; general_image is dropped because the hybrid model covers all its subjects.
-SELECTIONS = ('story', 'language', 'request_policy', 'news_policy', 'prompt', 'hybrid_image')
+SELECTIONS = ('story', 'language', 'request_policy', 'news_policy', 'prompt', 'hybrid_image', 'choice')
 
 
 def model_files():
@@ -51,6 +51,14 @@ def selections(files):
     out = {}
     for key in SELECTIONS:
         entry = dict(live[key])
+        if 'path' not in entry:
+            # Code-only selection (multiple-choice chooser): its settings are tied to reviewed code by sha256.
+            for name, expected in entry.get('code', {}).items():
+                if digest(ROOT / 'cael_unified' / f'{name}.py') != expected:
+                    raise ValueError(f'Selected {key} code {name}.py changed since it was reviewed')
+            entry.pop('review', None)
+            out[key] = entry
+            continue
         relative = Path(entry['path']).resolve().relative_to(ROOT).as_posix()
         if relative not in files:
             raise ValueError(f'Selected {key} model {relative} is not in the bundle')
@@ -81,7 +89,9 @@ def build(base_bundle, output):
             'hybrid_image': '102-topic hybrid image model 0.3.9: PCA layout + patch synthesis from local SD1.5 renders',
             'story': 'Story 0.3.7-r2 bounded integer planner', 'prompt': 'Prompt writer 0.3.7-r2',
             'policies': 'Request and news routing policies, reasoning and social reasoning counts',
-            'code': 'Code-search operation costs 0.3.8 (from MBPP training syntax trees, CC BY 4.0)'})
+            'code': 'Code-search operation costs 0.3.8 (from MBPP training syntax trees, CC BY 4.0)',
+            'reasoning': 'Rule chaining, case analysis (or / contradiction), story tracking; motivation table counted from bAbI task 20 train (CC BY 3.0)',
+            'choice': 'Multiple-choice chooser settings (language model + local evidence + exact word-problem arithmetic)'})
         manifest = dict(base_manifest, version=VERSION, components=components, selections=chosen,
                         architecture='Shared router and one archive of distinct non-neural engines, not a single jointly trained weight tensor',
                         private_training_photos_included=False, credentials_included=False, private_queries_included=False,

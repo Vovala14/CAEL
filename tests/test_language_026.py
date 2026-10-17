@@ -66,7 +66,7 @@ class SocialTests(unittest.TestCase):
     def test_reasoner_routes_beliefs_offline(self):
         result = Reasoner().respond('Given: '+BASE+' Where will Zora look for the compass?')
         self.assertEqual(result['route'], 'chat/reasoning-belief')
-        self.assertEqual(result['response'], 'cabinet.')
+        self.assertTrue(result['response'].startswith('Zora will look for the compass in the cabinet.'))
         self.assertFalse(result['reasoning']['internet_used'])
 
     def test_continuation_choice_is_option_order_invariant(self):

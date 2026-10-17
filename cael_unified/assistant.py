@@ -62,6 +62,16 @@ def route_request(text, mode='auto'):
     return 'chat'
 
 
+def picture_reply(message):
+    return message.get('role') == 'assistant' and message['content'].startswith('Created ') and ' image' in message['content'][:60]
+
+
+def picture_follow_up(messages):
+    """'make it blue' right after a picture: an edit of that picture, not a chat message."""
+    from cael_image.scene import is_edit
+    return len(messages) >= 3 and picture_reply(messages[-2]) and is_edit(messages[-1]['content'])
+
+
 class Assistant:
     def __init__(self, bundle=None, output_root=None, language_checkpoint=None):
         self.root, self.manifest = open_bundle(bundle)
@@ -110,9 +120,11 @@ class Assistant:
         if not text:
             raise ValueError('Request is empty')
         route = route_request(text, mode)
+        if route == 'chat' and mode == 'auto' and picture_follow_up(messages):
+            route = 'image'
         with self._lock:
             if route == 'image':
-                return self.image_reply(text, n, seed)
+                return self.image_reply(text, n, seed, messages)
             if route == 'emoji':
                 return self.emoji_reply(text, n, seed)
             if route == 'prompt':
@@ -291,6 +303,78 @@ class Assistant:
             return None
         return request if request['subject'] in model.topics else None
 
+    def picture_scene(self, messages, seed):
+        """The scene a request asks for: a new picture, or the conversation's last picture with this edit applied.
+
+        Returns (scene, what changed or None), or None when the request names nothing the hybrid model can draw.
+        Raises SceneError with a reason when the request is understood but cannot be drawn.
+        """
+        from cael_image.scene import edit, is_edit, parse
+        active = self.hybrid()
+        if not active:
+            return None
+        model, _ = active
+        aliases = model.meta['aliases'] or {t: [t.replace('_', ' ')] for t in model.topics}
+        text = messages[-1]['content'].strip()
+        if picture_follow_up(messages) or (is_edit(text) and len(messages) >= 3 and picture_reply(messages[-2])):
+            # Replay the chain of picture requests and edits that led to the last picture.
+            chain = []
+            for i in range(len(messages) - 2, 0, -2):
+                if not (picture_reply(messages[i]) and messages[i - 1]['role'] == 'user'):
+                    break
+                chain.append(messages[i - 1]['content'])
+                if route_request(messages[i - 1]['content']) == 'image' and not is_edit(messages[i - 1]['content']):
+                    break
+            chain.reverse()
+            if chain:
+                try:
+                    scene = parse(chain[0], aliases, model.topics, seed=0)
+                except ValueError:
+                    scene = None
+                if scene is not None:
+                    for step in chain[1:]:
+                        try:
+                            scene = edit(scene, step, aliases, model.topics)[0]
+                        except ValueError:
+                            pass
+                    return edit(scene, text, aliases, model.topics, seed)
+        try:
+            return parse(text, aliases, model.topics, seed), None
+        except ValueError as error:
+            if type(error).__name__ == 'SceneError':
+                raise
+            return None
+
+    def scene_images(self, scene, change, n, seed):
+        import numpy as np
+        import torch
+        from PIL import Image
+        from cael_image.draw import draw
+        from cael_image.scene import plausibility, render, simple, summary
+        model, config = self.hybrid()
+        settings = config.get('settings', {})
+        reasons = [o['why'] for o in scene['objects'] if o['why']]
+        if simple(scene):
+            obj = scene['objects'][0]
+            request = dict(subject=obj['topic'], colour=obj['colour'], count=obj['count'], style=scene['style'],
+                           background=scene['background'], notes=list(scene['notes']))
+            images, info = draw(model, request, n=n, seed=seed, settings=settings, clean_background=False)
+            info['subject'] = summary(scene)
+            if obj['colour'] or obj['count'] > 1 or scene['background'] not in (None, 'plain'):
+                info['notes'].append('Changing colour, number or background is experimental and may look rough.')
+        else:
+            images, info = render(model, scene, n=n, seed=seed, settings=settings)
+            if len(scene['objects']) > 1:
+                info['notes'] = info['notes'] + ['Pictures with several objects are composed from separate cut-outs and may look rough.']
+        info['notes'] = list(dict.fromkeys(reasons + plausibility(scene) + info['notes']))
+        info['change'] = change
+        size = config.get('display_size', 128)
+        shown = np.stack([np.asarray(Image.fromarray(im).resize((size, size), Image.Resampling.LANCZOS)) for im in images])
+        info.update(seed=seed, scene=scene, limitation=(f'{model.size}x{model.size} hybrid image: PCA layout plus patch synthesis from Stable '
+                    'Diffusion 1.5 training renders (CreativeML OpenRAIL-M). No neural network runs here. The request is read into '
+                    'objects, colours, sizes and placements; layouts follow your placements and real-world sizes.'))
+        return torch.from_numpy(shown), info
+
     def hybrid_topic(self, text):
         request = self.hybrid_request(text)
         return request['subject'] if request else None
@@ -314,7 +398,7 @@ class Assistant:
                     'patches from a few training images; see sources for the largest single-source share.'))
         return torch.from_numpy(shown), info
 
-    def image_reply(self, text, n, seed):
+    def image_reply(self, text, n, seed, messages=None):
         import torch
         from PIL import Image
         from cael_image.general_appearance import GeneralAppearance
@@ -366,8 +450,8 @@ class Assistant:
                 info = dict(subject='adult woman portrait', seed=seed, checks=checks,
                             limitation='Unconditional 64x64 portraits of adult women; caption attributes are not learned controls.',
                             guard_limit=self._portrait['guard_limit'])
-            elif self.hybrid_topic(text) is not None:
-                images, info = self.hybrid_images(text, n, seed)
+            elif (picture := self.picture_scene(messages or [dict(role='user', content=text)], seed)) is not None:
+                images, info = self.scene_images(*picture, n, seed)
             else:
                 from cael_image.general_curriculum import curriculum
                 from cael_image.general_appearance import resolve_subject
@@ -395,5 +479,7 @@ class Assistant:
         canvas.save(grid)
         (folder / 'generation.json').write_text(json.dumps(info, indent=2), encoding='utf-8')
         notes = (' ' + ' '.join(info['notes'])) if info.get('notes') else ''
+        if info.get('change'):
+            notes = ' ' + info['change'] + notes
         return dict(route='image/generated', response=f'Created {n} small images of {info["subject"]}.' + notes,
                     paths=paths, grid=str(grid), seed=seed, details=info['limitation'], tool=info)

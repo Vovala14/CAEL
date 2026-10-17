@@ -95,7 +95,9 @@ class CountLanguageTests(unittest.TestCase):
         assistant=Assistant(output_root=self.root/'outputs',language_checkpoint=self.root/'model.json')
         scores=assistant.score_endings('red case',['red','blue'])
         self.assertEqual(scores,self.model.score_endings('red case',['red','blue']))
-        with patch.object(assistant._facts,'respond',side_effect=AssertionError('No web lookup')):
+        # This checks the language-model path itself, independent of whichever chooser is live.
+        with patch.object(assistant._facts,'respond',side_effect=AssertionError('No web lookup')), \
+                patch.object(assistant,'choice_settings',return_value=None):
             result=assistant.respond([dict(role='user',content='Choose a colour for the red case.\nA. red\nB. blue')],mode='chat')
         self.assertEqual(result['route'],'chat/choice-count')
         self.assertEqual(result['choice'],0)

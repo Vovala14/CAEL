@@ -22,9 +22,14 @@ STORY_REQUEST = re.compile(r'(?i)^\s*(?:please\s+)?(?:(?:can|could|would) you\s+
 def choice_problem(text):
     matches=list(re.finditer(r'(?m)^\s*([A-D])[.)]\s+(.+?)\s*$',text))
     if not 2<=len(matches)<=4 or [m[1] for m in matches]!=list('ABCD'[:len(matches)]):
-        return None
+        # The web box is one line: "Which is a mammal? A) shark B) whale C) trout D) tuna".
+        matches=list(re.finditer(r'(?<![\w])([A-D])[.)]\s+(.+?)(?=\s+[A-D][.)]\s+|\s*$)',text))
+        if not 2<=len(matches)<=4 or [m[1] for m in matches]!=list('ABCD'[:len(matches)]):
+            return None
     context=text[:matches[0].start()].strip()
-    if not context or not re.search(r'(?i)\b(?:choose|select|which|question|answer|continuation)\b|\?',context):
+    # Three or more A-D options are a multiple-choice question even in continuation style
+    # ("It ends at A) 3:55 B) 4:05 C) 3:45"); with two, a question cue is still required.
+    if not context or (len(matches)<3 and not re.search(r'(?i)\b(?:choose|select|which|question|answer|continuation)\b|\?',context)):
         return None
     if text[matches[-1].end():].strip():
         return None
@@ -122,10 +127,23 @@ class Assistant:
                 context,endings=choice
                 scores=self.score_endings(context,endings)
                 if scores is not None:
-                    best=max(range(len(scores)),key=lambda i:scores[i]['sum_lnp']/max(1,scores[i]['tokens']))
+                    chooser=self.choice_settings()
+                    if chooser:
+                        # Reviewed whole-system chooser (research/leaderboard_040): language model,
+                        # local evidence retrieval and exact word-problem arithmetic.
+                        from .choice import Evidence, arc_evidence, choose
+                        if getattr(self,'_evidence',None) is None:
+                            self._evidence=Evidence()
+                            self._arc_evidence=arc_evidence() if chooser.get('arc_weight') else None
+                        best,how=choose(context,endings,scores,self._evidence,chooser['weight'],chooser['short_limit'],
+                                        extra=[(self._arc_evidence,chooser.get('arc_weight',0.0))])
+                        detail=('Chosen by the whole-system chooser: count language model plus evidence from the local '
+                                'Wikipedia snapshot and ARC science corpus, or exact arithmetic for word problems ('+how['route']+'). Not a live web lookup.')
+                    else:
+                        best=max(range(len(scores)),key=lambda i:scores[i]['sum_lnp']/max(1,scores[i]['tokens']))
+                        detail='Non-neural conditional count language component. Training attribution is listed under data sources and licences. This is a statistical choice, not a verified factual lookup.'
                     return dict(route='chat/choice-count',response=f'{"ABCD"[best]}. {endings[best]}',sources=[],
-                                details='Non-neural conditional count language component. Training attribution is listed under data sources and licences. This is a statistical choice, not a verified factual lookup.',
-                                choice=best,continuation_scores=scores)
+                                details=detail,choice=best,continuation_scores=scores)
             answer = calculate(text)
             if answer:
                 return answer
@@ -233,6 +251,18 @@ class Assistant:
         return dict(route='emoji/generated', response=response,
                     paths=info['paths'], grid=info['grid'], seed=seed,
                     details=details, sources=info.get('fetched', []), tool=info)
+
+    def choice_settings(self):
+        """The reviewed multiple-choice settings (weight, short_limit) when active_models.json selects them."""
+        overrides = ROOT / 'research' / 'active_models.json'
+        config = json.loads(overrides.read_text(encoding='utf-8')).get('choice') if overrides.is_file() else None
+        if not config:
+            return None
+        from .bundle import digest as file_digest
+        for name, expected in config.get('code', {}).items():
+            if file_digest(ROOT / 'cael_unified' / f'{name}.py') != expected:
+                raise ValueError(f'Reviewed chooser code changed: {name}.py')
+        return config
 
     def hybrid(self):
         """The reviewed hybrid (PCA layout + patch synthesis) model, when active_models.json selects it."""

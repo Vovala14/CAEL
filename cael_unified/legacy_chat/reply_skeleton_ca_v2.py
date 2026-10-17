@@ -110,12 +110,9 @@ class SkeletonV2:
             if v<0 and pol in('p1','p2','z'):pol='n1'
         neg=pol in('n1','n2','fear');pos=pol in('p1','p2')
         parts=[]
-        # --- user question: answer first
-        if st['uq'] and QAUX.search(ll):
-            q=QAUX.search(ll).group(1)
-            ans={'have you':"I haven't, but I'd like to.",'has your':"No, thankfully not.",'you ever':"I haven't, but I'd like to.",'do you':'I do sometimes.','did you':'I did not.',
-                 'are you':'I am not, but I understand.','were you':'I was not.','what about you':'Me too, actually.','how about you':'Me too, actually.'}.get(q,'I think so.')
-            parts.append(ans)
+        # --- user question: a fixed yes/no guess ("I am not, but I understand.") read as
+        # nonsense for most questions, so questions about CAEL are now answered by the
+        # authored smalltalk rules instead and this empathy model only reacts to the share.
         # --- opener (stance gate)
         if neg:op='SYMP' if pol!='fear' else 'FEAR'
         elif pos:op='CONGR' if (st['achieve'] and st['outcome']) else 'PRAISE'

@@ -2,7 +2,7 @@
 import argparse
 import json
 
-from .bundle import download_bundle
+from .bundle import VERSION, download_bundle, install_models
 
 
 def main():
@@ -12,13 +12,15 @@ def main():
     parser.add_argument('--download', action='store_true')
     parser.add_argument('--ui', action='store_true')
     parser.add_argument('--port', type=int, default=8765)
-    parser.add_argument('--mode', choices=['auto', 'chat', 'emoji', 'image'], default='auto')
+    parser.add_argument('--mode', choices=['auto', 'chat', 'emoji', 'image', 'prompt', 'story'], default='auto')
     parser.add_argument('--seed', type=int)
     parser.add_argument('--n', type=int, default=2)
     parser.add_argument('--json', action='store_true')
     args = parser.parse_args()
     if args.download:
-        print(download_bundle(args.bundle))
+        bundle = download_bundle(args.bundle)
+        print(bundle)
+        print(json.dumps(install_models(bundle), indent=2))
         return
     from .assistant import Assistant
     assistant = Assistant(args.bundle)
@@ -40,7 +42,7 @@ def main():
     if args.prompt:
         respond(args.prompt)
     else:
-        print('CAEL 0.2.1: chat, helper, emoji and small pictures. Type quit to exit.')
+        print(f'CAEL {VERSION}: chat, helper, emoji and small pictures. Type quit to exit.')
         while True:
             try:
                 prompt = input('You: ').strip()

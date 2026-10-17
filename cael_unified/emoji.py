@@ -1,5 +1,5 @@
-# Modified for CAEL 0.2.1: frozen bundle inputs, safe loading, offline generation.
-"""CAEL 0.2.1 frozen offline emoji tool: model bundle emoji/model.pt = 2x2-patch integer cellular automaton at 32x32 (emoji_ca_v9.py, no NN).
+# Modified for CAEL 0.2.1: frozen base inputs plus licensed online word learning.
+"""CAEL 0.2.1 emoji tool: model bundle emoji/model.pt = 2x2-patch integer cellular automaton at 32x32 (emoji_ca_v9.py, no NN).
 Class CA (Gibbs sweeps on learned neighbour counts, guided by caption-word counts) -> patch CA (codebook 2x2 palette patches) -> 64x64.
 Out-of-vocabulary words: openly licensed images are fetched (emoji_fetch.py), quantized to the same palette/codebook,
 and their average per-cell class histogram (integer counts) becomes the prior for the same CA sweeps.
@@ -28,9 +28,13 @@ WNMAP = CAEL / 'data' / 'emoji_map' / 'wordnet_map.json'   # WordNet 3.0 (Prince
 STOP = {'a', 'an', 'the', 'of', 'with', 'and', 'in', 'on', 'for', 'to', 'at', 'by', 'emoji', 'emojis', 'icon', 'please', 'me', 'some'}
 def toks(s): return [w for w in re.findall(r'[a-z0-9]+', s.lower()) if w not in STOP]
 class EmojiTool:
-    def __init__(s, model_path, reference_path):
+    def __init__(s, model_path, reference_path, online=True, online_store=None):
         s.m = None; s.model_path = Path(model_path); s.reference_path = Path(reference_path)
         s.learned = {}
+        s.online = online
+        s.online_store = Path(online_store or CAEL / 'data' / 'emoji_online_021')
+        s._online_misses = {}
+        s.last_learn = None
     def ensure(s):
         if s.m is not None: return s.m
         ck = torch.load(s.model_path, map_location='cpu', weights_only=True); a = ck['args']; m = type('M', (), {})()
@@ -55,9 +59,28 @@ class EmojiTool:
         p = torch.nn.functional.pad(x.unsqueeze(1).float(), (1, 1, 1, 1), value=fill).squeeze(1).long()
         return p[:, :-2, 1:-1], p[:, 1:-1, 2:], p[:, 2:, 1:-1], p[:, 1:-1, :-2]
     def fetched_prior(s, word):
+        if len(word) > 80 or not re.fullmatch(r'[a-z0-9 ]+', word):
+            return None, None, []
         entry = s.learned.get(re.sub(r'[^a-z0-9]+', '', word.lower()))
         if entry is None:
-            return None, None, []  # No online fetch in the release runtime.
+            if not s.online or s._online_misses.get(word, 0) > time.time():
+                return None, None, []
+            from cael_assistant import emoji_learn as learning
+            try:
+                reused = learning.learned(word, store=s.online_store)
+                if reused or learning.learn(s.m, word, store=s.online_store, log=lambda *args: None):
+                    prior = learning.load(s.m, word, store=s.online_store)
+                    s.last_learn = ('reused' if reused else 'learned', word)
+                    return prior
+            except (OSError, RuntimeError, ValueError, KeyError, TypeError):
+                pass
+            s._online_misses[word] = time.time() + 300
+            if len(s._online_misses) > 256:
+                s._online_misses.pop(next(iter(s._online_misses)))
+            return None, None, []
+        from .licensing import commercial_image_licence
+        if not all(commercial_image_licence(item.get('licence')) for item in entry['sources']):
+            return None, None, []
         pr = entry['counts'].float() + .05
         pr = pr / pr.sum(1, keepdim=True)
         per = []
@@ -67,6 +90,18 @@ class EmojiTool:
             weights = .75 * c1 + .25 * pr + .02
             per.append(weights / weights.sum(1, keepdim=True))
         return per, entry['pixels'], entry['sources']
+
+    def prepare(s, subject):
+        words = toks(subject)
+        key = re.sub(r'[^a-z0-9]+', '', subject.lower())
+        if key in s.learned:
+            return key
+        known = lambda word: any(f'{style}|{word}' in s.m.vocab for style in s.m.srcs) or word in HAND
+        if s.online and 1 < len(words) <= 8 and not all(known(word) for word in words):
+            # Keep a phrase intact when its online references are learned.
+            if s.fetched_prior(' '.join(words))[0] is not None:
+                return ' '.join(words)
+        return subject
     def _gen(s, wl, seed, boost=0.0, extra=None, sil=None):
         m = s.m; a = m.a; C = m.C; gg = torch.Generator().manual_seed(seed); B = len(wl); rows = []
         for j, ws in enumerate(wl):
@@ -122,8 +157,12 @@ class EmojiTool:
         known = sorted({w for w in words if any(f'{x}|{w}' in m.vocab for x in m.srcs)})
         t0 = time.time(); fetched = []; extra = None; Fimg = None; fetch_word = None
         unknown = [w for w in words if w not in known]
-        if not known and unknown:   # 2) out of vocabulary: emoji-set images of the word (OpenMoji/Twemoji/Emojitwo/Fluent)
-            for w in sorted(unknown, key=len, reverse=True):
+        if len(words) > 1 and unknown:
+            extra, Fimg, fetched = s.fetched_prior(' '.join(words))
+            if extra is not None:
+                fetch_word = ' '.join(words); wl = [[] for _ in wl]
+        if extra is None and not known and unknown:   # 2) out of vocabulary: licensed online emoji references
+            for w in sorted(unknown, key=len, reverse=True)[:3]:
                 extra, Fimg, fetched = s.fetched_prior(w)
                 if extra is not None: fetch_word = w; break
             if extra is None:   # 3) WordNet hypernym -> known word (e.g. skyscraper -> building)
@@ -169,5 +208,5 @@ class EmojiTool:
         grid = outdir / f'{stamp}_{tag}_grid.png'; Image.fromarray(np.concatenate(list(Gc), 1)).resize((256 * n, 256), Image.NEAREST).save(grid)
         return dict(paths=paths, grid=str(grid), words=words, known_words=known, unknown_words=[w for w in words if w not in known],
                     styles=styles, seed=seed, seconds=round(time.time() - t0, 1), fetch_seconds=round(t1 - t0, 1), guard_resampled=resampled, model=MODEL_NAME, mapped=mapped, silhouette=sil_src, n_fetch_imgs=(len(Fimg) if Fimg is not None else 0),
-                    fetch_word=fetch_word, fetched=[dict(source=f['source'], licence=f['licence'], title=f.get('title', ''), url=f['url'], attribution=f.get('attribution', '')) for f in fetched],
+                    fetch_word=fetch_word, fetched=[dict(source=f['source'], licence=f['licence'], licence_url=f.get('licence_url', ''), title=f.get('title', ''), url=f['url'], attribution=f.get('attribution', '')) for f in fetched],
                     min_dist_fetched=(round(float(NN(G, Fimg).min()), 4) if Fimg is not None else None))

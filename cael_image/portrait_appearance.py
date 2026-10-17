@@ -10,7 +10,7 @@ from PIL import Image, ImageOps
 from cael_image.v6_region_ca import lab2rgb
 
 
-def align_similarity(rgb, left, right, target_left, target_right):
+def align_similarity(rgb, left, right, target_left, target_right, output_size=64):
     """Resample RGB so two detected points map to learned reference positions."""
     left, right = torch.tensor(left).float(), torch.tensor(right).float()
     tl, tr = torch.tensor(target_left).float(), torch.tensor(target_right).float()
@@ -22,7 +22,7 @@ def align_similarity(rgb, left, right, target_left, target_right):
     s = (target_d[1] * d[0] - target_d[0] * d[1]) / denom
     matrix = torch.stack([torch.stack([c, -s]), torch.stack([s, c])])
     translation = tl - matrix @ left
-    y, x = torch.meshgrid(torch.arange(64), torch.arange(64), indexing='ij')
+    y, x = torch.meshgrid(torch.arange(output_size), torch.arange(output_size), indexing='ij')
     source = (torch.stack([x, y], -1).float() - translation) @ torch.linalg.inv(matrix).T
     h, w = rgb.shape[:2]
     source[..., 0] = source[..., 0] * 2 / max(w - 1, 1) - 1

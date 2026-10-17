@@ -35,8 +35,56 @@ SUBJECTS = {
 }
 
 
-def prompt_for(subject, group):
-    description = SUBJECTS[subject][0]
+ADDITIONAL_SUBJECTS = {
+    'bus': ('a city bus, side view', ['bus', 'buses']),
+    'train': ('a railway locomotive, side view', ['train', 'locomotive']),
+    'helicopter': ('a helicopter, side view', ['helicopter', 'helicopters']),
+    'tractor': ('a farm tractor, side view', ['tractor', 'tractors']),
+    'tablet': ('a tablet computer, three-quarter front view', ['tablet', 'tablets']),
+    'monitor': ('a desktop computer monitor on its stand, front view', ['monitor', 'computer monitor']),
+    'keyboard': ('a computer keyboard, three-quarter overhead view', ['keyboard', 'computer keyboard']),
+    'computer_mouse': ('a computer mouse, three-quarter overhead view', ['computer mouse', 'pc mouse']),
+    'television': ('a flat screen television on its stand, front view', ['television', 'tv']),
+    'sofa': ('a two-seat sofa, three-quarter front view', ['sofa', 'couch']),
+    'table': ('a wooden dining table, three-quarter front view', ['table', 'dining table']),
+    'bed': ('a bed with pillows and a blanket, three-quarter front view', ['bed', 'beds']),
+    'lamp': ('a table lamp with a fabric shade, front view', ['lamp', 'table lamp']),
+    'bottle': ('a glass water bottle, front view', ['bottle', 'bottles']),
+    'book': ('a closed hardcover book, three-quarter view', ['book', 'books']),
+    'apple': ('a single red apple with a stem, front view', ['apple', 'apples']),
+    'banana': ('a single yellow banana, side view', ['banana', 'bananas']),
+    'cake': ('a small round decorated cake on a plate, front view', ['cake', 'cakes']),
+    'guitar': ('an acoustic guitar, front view', ['guitar', 'guitars']),
+    'elephant': ('a standing elephant, side view', ['elephant', 'elephants']),
+    'lion': ('a standing male lion with a mane, side view', ['lion', 'lions']),
+    'fish': ('a single tropical fish, side view', ['fish', 'tropical fish']),
+    'castle': ('a medieval stone castle, three-quarter exterior view', ['castle', 'castles']),
+    'waterfall': ('a waterfall surrounded by rocks and green trees', ['waterfall', 'waterfalls']),
+}
+
+
+def curriculum(name='base'):
+    if name == 'base':
+        return SUBJECTS
+    if name == 'expanded':
+        return {**SUBJECTS, **ADDITIONAL_SUBJECTS}
+    if name == 'portraits':
+        return {key: SUBJECTS[key] for key in ('woman', 'man')}
+    raise ValueError('Unknown synthetic image curriculum')
+
+
+def prompt_for(subject, group, curriculum_name='base'):
+    if curriculum_name == 'portraits':
+        if subject not in ('woman', 'man'):
+            raise ValueError('Portrait curriculum contains only adult woman/man subjects')
+        age = [25, 35, 45, 55][group % 4]
+        hair = ['dark hair', 'brown hair', 'fair hair', 'grey hair'][(group // 4) % 4]
+        return (f'A sharply focused studio headshot photograph of one fictional adult {subject}, age {age}, {hair}, '
+                'straight-on front view, neutral expression, both eyes open looking directly at the camera, '
+                'natural symmetrical facial proportions, detailed eyes, natural skin texture, '
+                'whole head and clothed shoulders visible, face centered and occupying most of the frame, '
+                'plain light grey background, soft diffuse frontal lighting, no text, no logos')
+    description = curriculum(curriculum_name)[subject][0]
     lighting = ['soft daylight', 'warm studio light', 'cool diffuse light', 'gentle evening light'][group % 4]
-    background = 'a simple uncluttered light background' if subject not in ('city', 'mountain', 'beach', 'forest') else 'a clear balanced composition'
+    background = 'a simple uncluttered light background' if subject not in ('city', 'mountain', 'beach', 'forest', 'waterfall') else 'a clear balanced composition'
     return f'A realistic photograph of {description}, single main subject centered, {background}, {lighting}, complete subject inside frame, sharp detail, no text, no logos'

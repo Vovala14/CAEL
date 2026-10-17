@@ -1,0 +1,471 @@
+{
+  "model_sha256": "d43ac82f858a9a25c262cb2c80c4826d10be67a53aa4e5db24ef104085ad05ce",
+  "subjects": {
+    "car": {
+      "baseline_64_sharpness": 0.049404311925172806,
+      "candidate_64_sharpness": 0.06628815829753876,
+      "confirmation_64_sharpness": 0.06752493232488632,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.236006,
+          0.208879,
+          0.250616,
+          0.248776
+        ]
+      }
+    },
+    "bicycle": {
+      "baseline_64_sharpness": 0.045808009803295135,
+      "candidate_64_sharpness": 0.08014073967933655,
+      "confirmation_64_sharpness": 0.07224783301353455,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.246751,
+          0.222301,
+          0.266973,
+          0.231012
+        ]
+      }
+    },
+    "motorcycle": {
+      "baseline_64_sharpness": 0.05280002951622009,
+      "candidate_64_sharpness": 0.07108431309461594,
+      "confirmation_64_sharpness": 0.07557906955480576,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.285257,
+          0.244452,
+          0.272023,
+          0.207313
+        ]
+      }
+    },
+    "truck": {
+      "baseline_64_sharpness": 0.053257398307323456,
+      "candidate_64_sharpness": 0.05550278723239899,
+      "confirmation_64_sharpness": 0.05388517677783966,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.235525,
+          0.223845,
+          0.248426,
+          0.251093
+        ]
+      }
+    },
+    "airplane": {
+      "baseline_64_sharpness": 0.03706014156341553,
+      "candidate_64_sharpness": 0.05878997594118118,
+      "confirmation_64_sharpness": 0.05102284252643585,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.220192,
+          0.146069,
+          0.250426,
+          0.238822
+        ]
+      }
+    },
+    "boat": {
+      "baseline_64_sharpness": 0.02997421845793724,
+      "candidate_64_sharpness": 0.042715951800346375,
+      "confirmation_64_sharpness": 0.04051689803600311,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.183841,
+          0.175781,
+          0.144614,
+          0.216686
+        ]
+      }
+    },
+    "phone": {
+      "baseline_64_sharpness": 0.02887013927102089,
+      "candidate_64_sharpness": 0.04739696532487869,
+      "confirmation_64_sharpness": 0.030954325571656227,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.198491,
+          0.239736,
+          0.217268,
+          0.215707
+        ]
+      }
+    },
+    "laptop": {
+      "baseline_64_sharpness": 0.04142436385154724,
+      "candidate_64_sharpness": 0.055312320590019226,
+      "confirmation_64_sharpness": 0.03943401947617531,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.238135,
+          0.286766,
+          0.259255,
+          0.230272
+        ]
+      }
+    },
+    "camera": {
+      "baseline_64_sharpness": 0.04535440355539322,
+      "candidate_64_sharpness": 0.0601743683218956,
+      "confirmation_64_sharpness": 0.0523405522108078,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.235827,
+          0.22732,
+          0.235865,
+          0.240231
+        ]
+      }
+    },
+    "headphones": {
+      "baseline_64_sharpness": 0.04665052890777588,
+      "candidate_64_sharpness": 0.058336853981018066,
+      "confirmation_64_sharpness": 0.04220016300678253,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.180422,
+          0.304089,
+          0.261518,
+          0.211275
+        ]
+      }
+    },
+    "watch": {
+      "baseline_64_sharpness": 0.042357709258794785,
+      "candidate_64_sharpness": 0.05122407153248787,
+      "confirmation_64_sharpness": 0.04694680869579315,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.171153,
+          0.251955,
+          0.255776,
+          0.212221
+        ]
+      }
+    },
+    "robot": {
+      "baseline_64_sharpness": 0.03814597427845001,
+      "candidate_64_sharpness": 0.05431251972913742,
+      "confirmation_64_sharpness": 0.04429563134908676,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.323437,
+          0.20786,
+          0.19865,
+          0.286498
+        ]
+      }
+    },
+    "woman": {
+      "baseline_64_sharpness": 0.03481085225939751,
+      "candidate_64_sharpness": 0.05224170535802841,
+      "confirmation_64_sharpness": 0.03770846128463745,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.175121,
+          0.25379,
+          0.247888,
+          0.277014
+        ]
+      }
+    },
+    "man": {
+      "baseline_64_sharpness": 0.03937535732984543,
+      "candidate_64_sharpness": 0.0496133416891098,
+      "confirmation_64_sharpness": 0.041061803698539734,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.234813,
+          0.232783,
+          0.197123,
+          0.261943
+        ]
+      }
+    },
+    "dog": {
+      "baseline_64_sharpness": 0.03980739414691925,
+      "candidate_64_sharpness": 0.049927376210689545,
+      "confirmation_64_sharpness": 0.045872077345848083,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.222574,
+          0.155313,
+          0.234223,
+          0.278272
+        ]
+      }
+    },
+    "cat": {
+      "baseline_64_sharpness": 0.041664473712444305,
+      "candidate_64_sharpness": 0.04994853213429451,
+      "confirmation_64_sharpness": 0.04382401704788208,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.186747,
+          0.202562,
+          0.228346,
+          0.245075
+        ]
+      }
+    },
+    "horse": {
+      "baseline_64_sharpness": 0.03783323988318443,
+      "candidate_64_sharpness": 0.05935777723789215,
+      "confirmation_64_sharpness": 0.05100793391466141,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.336241,
+          0.233701,
+          0.290942,
+          0.267386
+        ]
+      }
+    },
+    "bird": {
+      "baseline_64_sharpness": 0.031818609684705734,
+      "candidate_64_sharpness": 0.05300123617053032,
+      "confirmation_64_sharpness": 0.037683017551898956,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.247728,
+          0.217206,
+          0.224172,
+          0.246756
+        ]
+      }
+    },
+    "dragon": {
+      "baseline_64_sharpness": 0.04503785818815231,
+      "candidate_64_sharpness": 0.04822267219424248,
+      "confirmation_64_sharpness": 0.04694950580596924,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.231023,
+          0.206809,
+          0.205809,
+          0.179062
+        ]
+      }
+    },
+    "flower": {
+      "baseline_64_sharpness": 0.03486304730176926,
+      "candidate_64_sharpness": 0.04077636078000069,
+      "confirmation_64_sharpness": 0.032455310225486755,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.194663,
+          0.209552,
+          0.185092,
+          0.253418
+        ]
+      }
+    },
+    "tree": {
+      "baseline_64_sharpness": 0.029387207701802254,
+      "candidate_64_sharpness": 0.03593389317393303,
+      "confirmation_64_sharpness": 0.04151228815317154,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.142736,
+          0.171533,
+          0.169382,
+          0.199582
+        ]
+      }
+    },
+    "house": {
+      "baseline_64_sharpness": 0.04143076390028,
+      "candidate_64_sharpness": 0.057998351752758026,
+      "confirmation_64_sharpness": 0.043149352073669434,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.252021,
+          0.206994,
+          0.235531,
+          0.21363
+        ]
+      }
+    },
+    "city": {
+      "baseline_64_sharpness": 0.03510076552629471,
+      "candidate_64_sharpness": 0.05015553534030914,
+      "confirmation_64_sharpness": 0.04216579720377922,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.280553,
+          0.205707,
+          0.160854,
+          0.203357
+        ]
+      }
+    },
+    "mountain": {
+      "baseline_64_sharpness": 0.02908780425786972,
+      "candidate_64_sharpness": 0.044800661504268646,
+      "confirmation_64_sharpness": 0.03317753225564957,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.166233,
+          0.186535,
+          0.189155,
+          0.244274
+        ]
+      }
+    },
+    "beach": {
+      "baseline_64_sharpness": 0.03137672320008278,
+      "candidate_64_sharpness": 0.039036765694618225,
+      "confirmation_64_sharpness": 0.02783145383000374,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.229418,
+          0.172992,
+          0.186379,
+          0.245295
+        ]
+      }
+    },
+    "forest": {
+      "baseline_64_sharpness": 0.02921651117503643,
+      "candidate_64_sharpness": 0.03344453126192093,
+      "confirmation_64_sharpness": 0.032921817153692245,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.128164,
+          0.184885,
+          0.128177,
+          0.12973
+        ]
+      }
+    },
+    "pizza": {
+      "baseline_64_sharpness": 0.042461857199668884,
+      "candidate_64_sharpness": 0.0681309700012207,
+      "confirmation_64_sharpness": 0.07191092520952225,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.287837,
+          0.236995,
+          0.236829,
+          0.260741
+        ]
+      }
+    },
+    "burger": {
+      "baseline_64_sharpness": 0.038741737604141235,
+      "candidate_64_sharpness": 0.05659308284521103,
+      "confirmation_64_sharpness": 0.046603865921497345,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.31689,
+          0.231767,
+          0.225997,
+          0.234857
+        ]
+      }
+    },
+    "cup": {
+      "baseline_64_sharpness": 0.03546784818172455,
+      "candidate_64_sharpness": 0.04685003310441971,
+      "confirmation_64_sharpness": 0.027861177921295166,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.267471,
+          0.1903,
+          0.224259,
+          0.223208
+        ]
+      }
+    },
+    "chair": {
+      "baseline_64_sharpness": 0.04385849088430405,
+      "candidate_64_sharpness": 0.06361024081707001,
+      "confirmation_64_sharpness": 0.04803773760795593,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.303692,
+          0.281393,
+          0.229542,
+          0.252123
+        ]
+      }
+    },
+    "shoe": {
+      "baseline_64_sharpness": 0.04634245112538338,
+      "candidate_64_sharpness": 0.04159967601299286,
+      "confirmation_64_sharpness": 0.03880159929394722,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.230495,
+          0.144503,
+          0.179704,
+          0.241138
+        ]
+      }
+    },
+    "spaceship": {
+      "baseline_64_sharpness": 0.03841392695903778,
+      "candidate_64_sharpness": 0.04614505544304848,
+      "confirmation_64_sharpness": 0.032600026577711105,
+      "candidate_guard": {
+        "replacements": 0,
+        "nearest_RMS": [
+          0.27065,
+          0.198615,
+          0.170776,
+          0.218208
+        ]
+      }
+    }
+  },
+  "fixed_generated_samples": 128,
+  "median_sharpness_ratio_at_equal_64px_resolution": 1.338504514291548,
+  "minimum_generated_to_training_RMS": 0.128164,
+  "heldout_RGB_centroid_separation": {
+    "baseline": {
+      "correct": 31,
+      "total": 128
+    },
+    "candidate": {
+      "correct": 27,
+      "total": 128
+    }
+  },
+  "source_files_unchanged": true,
+  "private_images_read": false,
+  "training_images_displayed": false,
+  "seconds": 5.43,
+  "limitations": "Edge sharpness and RGB centroid separation do not measure realism, anatomical correctness, semantic generalization or independent human preference. Generated-only visual review is required."
+}

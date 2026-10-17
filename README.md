@@ -1,4 +1,4 @@
-# CAEL 0.2.1
+# CAEL 0.2.2
 
 **One assistant, one model bundle: chat, helpers, emoji, portraits and small
 general pictures.** The release routes between existing CAEL engines and the
@@ -20,7 +20,35 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-The portable release ZIP includes `models/cael-0.2.1.cael`.
+`--download` fetches `models/cael-0.2.2.cael` (about 580 MB), verifies every file
+and installs its model folders under `models/`. It also records the reviewed model
+selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.2.2
+
+Every engine is still non-neural (no neural networks or transformers at runtime).
+
+- **Pictures:** a new hybrid image model with **102 topics**. A per-topic PCA layout
+  is filled in by patch synthesis from two same-style training renders, at 128×128.
+  It understands colour, style (photo, illustration, side view), count (up to three)
+  and scene in a request. Colour, count and scene edits are experimental. See
+  [IMAGE_HYBRID_0_3_9.md](IMAGE_HYBRID_0_3_9.md).
+- **Teaching answers:** "explain the rules of chess", "how do I make bread" and "how
+  does a jet engine work" are answered from the relevant sections and lists of the
+  matching Wikipedia article, not a one-line definition.
+- **Conversation:** authored small-talk rules (greetings, thanks, feelings, questions
+  about CAEL) and memory of facts said earlier in the same chat window ("where do I
+  live?"). Factual questions it cannot verify get an honest "I cannot answer that"
+  instead of small talk.
+- **Lookup fixes:** misspelled subjects ("megadeath"), founding dates anchored to the
+  right entity, weather for remembered or misspelled places.
+- **Python from examples:** describe a small function and give two or three examples
+  (`double(2) == 4`). CAEL searches over small Python operations for code that fits.
+  See [CODE_SYNTHESIS_0_3_8.md](CODE_SYNTHESIS_0_3_8.md) for the held-out results
+  and limits.
+- **Language, knowledge and creative models** from the 0.3.x research runs, as
+  selected for the live assistant (count language 0.3.2, local knowledge, story and
+  prompt writer 0.3.7-r2).
 
 ```bash
 python -m cael_unified "Calculate (12 + 3) * 4"
@@ -49,7 +77,10 @@ print(result["response"], result.get("paths"))
 | Helper | Exact bounded arithmetic, existing authored writing programs, story/event memory | Handwritten task programs; no general tool execution |
 | Emoji | v7 integer patch CA, silhouette guidance, speckle cleanup | Finite vocabulary; unfamiliar words may be ignored; offline |
 | Portrait | v15 registered shape/appearance statistics | Unconditional adult-woman portraits; averaged faces and artifacts |
-| General picture | Subject-conditioned statistics based on portrait code | 32 categories; rough images; no arbitrary composition or learned colour/style controls |
+| Picture (0.2.2) | Hybrid: PCA layout + patch synthesis from Stable Diffusion 1.5 training renders | 102 topics, one subject per picture; seams on some topics; edits experimental |
+| General picture (0.2.1) | Subject-conditioned statistics based on portrait code | Fallback only; 32 categories; rough images |
+| Explanations | Section selection from the matching Wikipedia article | Quoted text (CC BY-SA); encyclopedic, not recipes |
+| Code | Example-guided search over small Python operations | One-line functions; needs examples |
 
 General subjects: **car, bicycle, motorcycle, truck, airplane, boat, phone,
 laptop, camera, headphones, watch, robot, woman, man, dog, cat, horse, bird,

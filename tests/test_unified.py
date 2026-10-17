@@ -44,10 +44,11 @@ class UnifiedTests(unittest.TestCase):
         from types import SimpleNamespace
         from cael_unified.emoji import EmojiTool
         tool = EmojiTool.__new__(EmojiTool)
+        tool.online, tool._online_misses = False, {}   # this test is about the stored, offline path
         tool.m = SimpleNamespace(C=2)
         references = torch.zeros(1, 64, 64, 3, dtype=torch.uint8)
         tool.learned = {'kiwibird': dict(counts=torch.ones(1024, 2), classmaps=torch.zeros(1, 1024, dtype=torch.long),
-                                        pixels=references, sources=[dict(source='synthetic fixture')])}
+                                        pixels=references, sources=[dict(source='synthetic fixture', licence='MIT')])}
         with patch('urllib.request.urlopen', side_effect=AssertionError('Network forbidden')):
             priors, pixels, sources = tool.fetched_prior('kiwi bird')
             self.assertIsNone(tool.fetched_prior('missing word')[0])

@@ -8,19 +8,50 @@ dist/
 *.err
 models/reproduction*/
 results/reproduction*/
-
-# CAEL 0.2: model weights are GitHub release assets (v0.2), not committed
-*.pt
-cael_assistant/outputs/
-
-# Unified model archive and generated/extracted data live outside Git.
-*.cael
-*.download
-models/.cael-cache/
+models/cael-image*/
+data/image_training/
 outputs/
-data/general_synthetic/
-chat_worker/
-*.safetensors
-cael_assistant/chat_backend.json
 cael_assistant/ui_token.txt
+tools/
+cael_assistant/chat_backend.json
 cael_assistant/relay_key.txt
+
+*.cael
+
+models/.cael-cache/
+models/cael-general-128-*/
+models/cael-knowledge-v1/*.sqlite*
+local_tools/flux3/weights/
+local_tools/flux3/runtime/
+local_tools/flux3/outputs/
+local_tools/flux3/*_status.json
+local_tools/flux3/*_process.json
+local_tools/flux3/install_manifest.json
+local_tools/flux3/config.json
+# Replaced local weights retained during FLUX repair (never source files).
+local_tools/flux3/recovered_files/
+local_tools/cael_training/.venv/
+
+# 0.2.2: weights ship in the release bundle, never in git (only the small published story model is tracked).
+models/*
+!models/cael-story-0.1/
+!models/cael-image-portrait-64-i16/
+# Local experiments, caches and launch state (private queries, tunnel URLs, backups).
+data/
+cael_chat_ca/
+cael_flamew/
+release_0_2/
+local_tools/
+cael_assistant/model_cache/
+cael_assistant/public_url.txt
+cael_assistant/_req.json
+*_backup.py
+train_image*.ps1
+train_image_config.json
+FLUX3.bat
+# Private-photo portrait pipeline notes and scripts (local paths, private training data).
+PORTRAIT_TRAINING.md
+cael_image/portrait_ca_p1.py
+cael_image/portrait_ca_p2.py
+cael_image/face_boxes.py
+cael_image/diag_pink.py

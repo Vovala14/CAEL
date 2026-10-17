@@ -31,16 +31,19 @@ class CAEL:
   if not any(tag=='story' for _,tag,_ in matches):raise Unsupported('Outside the current simple-story scope.')
   # Explicit closed interface grammar: do not silently discard unknown goals.
   # This parser schema is authored, not a learned general English interpreter.
-  controls=set('tell write create make up me please short little quiet gentle about a an the of to who in on at near beside with for her his and once can you could would i like want now something'.split())
+  controls=set('tell write create make up me please short little quiet gentle bedtime about a an the of to who in on at near beside with for her his and once can you could would i like want now something'.split())
   known={t for phrase in self.lex for t in words(phrase)}|controls
   unknown=[t for t in seq if t.isalpha() and t not in known]
   if unknown:raise Unsupported('Unsupported request terms: '+', '.join(dict.fromkeys(unknown)))
   actors=[(pos,int(tag.split(':')[1])) for pos,tag,n in matches if tag.startswith('actor:')];objects=[int(tag.split(':')[1]) for _,tag,n in matches if tag.startswith('object:')];places=[int(tag.split(':')[1]) for _,tag,n in matches if tag.startswith('place:')];skills=[int(tag.split(':')[1]) for _,tag,n in matches if tag.startswith('skill:')]
+  if len(set(actor for _,actor in actors))>2 or len(set(objects))>1 or len(set(places))>1:raise Unsupported('This short-story model supports at most two characters, one object and one requested setting.')
   if not actors:raise Unsupported('No supported character identified; not a general chat model.')
   a=actors[0][1];b=next((actor for _,actor in actors[1:] if actor!=a),(a+1)%len(self.model['actors']));intent_tags=[(pos,tag.split(':')[1],n) for pos,tag,n in matches if tag.startswith('intent:') and pos>actors[0][0]]
   if not intent_tags:raise Unsupported('A supported find/share/help/lose/visit/rest/learn/comfort goal is required.')
   intent=min(intent_tags,key=lambda r:(r[0],-r[2]))[1]
   if intent=='help' and any(tag=='comfort' for _,tag,_ in intent_tags):intent='comfort'
+  compatible={'find':{'find','lose'},'lose':{'lose','find'},'help':{'help','find','lose'},'comfort':{'help','comfort'}}.get(intent,{intent})
+  if any(tag not in compatible for _,tag,_ in intent_tags):raise Unsupported('The requested combination of goals is outside the supported short-story plans.')
   # Defaults are transparent fixed interface values, not inferred knowledge.
   i=objects[0] if objects else (a%len(self.model['objects']));p=places[0] if places else 2;s=skills[0] if skills else 1 if self.model['actors'][a]=='bird' else 2 if self.model['actors'][a]=='duck' else 0
   return dict(a=a,b=b,i=i,p=p,s=s,intent=intent)
@@ -81,16 +84,22 @@ class CAEL:
    symbol,next_state=choose([((int(t),int(nxt)),int(c)) for t,nxt,c in choices],(seed,int(old[8]),state));emitted[j]=symbol
    if self.model['symbols'][symbol]!='<END>' and j+1<len(grid):nxt[j+1]=old;nxt[j+1,1]=next_state;nxt[j+1,8]=old[8]+1
   return nxt,emitted
+ def location_phrase(self,place):
+  return self.model.get('place_phrases',{}).get(place,'at home' if place=='home' else 'at school' if place=='school' else 'in the '+place)
  def render(self,event,frame,seed):
-  grid=np.zeros((128,9),np.int32);grid[0,0]=1;grid[0,1]=self.starts[event];grid[0,2:8]=self.parameters(frame);out=[]
-  item=self.model['objects'][frame['i']];place=self.model['places'][frame['p']];location='at home' if place=='home' else 'at school' if place=='school' else 'in the '+place
+  item=self.model['objects'][frame['i']];place=self.model['places'][frame['p']];location=self.location_phrase(place)
   slots={'<A>':'the '+self.model['actors'][frame['a']],'<B>':'the '+self.model['actors'][frame['b']],'<I>':item,'<J>':('some ' if item in ('bread','cheese') else 'an ' if item[:1] in 'aeiou' else 'a ')+item,'<P>':place,'<L>':location,'<S>':self.model['skills'][frame['s']]}
+  return self.render_slots(event,slots,seed,self.parameters(frame))
+ def render_slots(self,event,slots,seed,parameters=None):
+  """The same integer grammar packet, with caller-supplied text slots."""
+  grid=np.zeros((128,9),np.int32);grid[0,0]=1;grid[0,1]=self.starts[event];out=[]
+  if parameters is not None:grid[0,2:8]=parameters
   for _ in range(128):
    grid,symbols=self.grammar_step(grid,seed)
    for symbol in symbols[symbols>=0]:
     token=self.model['symbols'][int(symbol)]
     if token=='<END>':
-     text=' '.join(out);text=re.sub(r'\s+([,.!?])',r'\1',text);return text[:1].upper()+text[1:]
+     text=' '.join(out);text=re.sub(r'\s+([,.!?:])',r'\1',text);return text[:1].upper()+text[1:]
     out.append(slots.get(token,token))
   raise Unsupported('Bounded grammar did not finish.')
  def story(self,prompt,seed=0):
@@ -103,6 +112,22 @@ class CAEL:
  def ask(self,text):
   if self.last_frame is None:raise Unsupported('No story is loaded in this session.')
   normalized=' '.join(text.casefold().strip().rstrip('?.!').split())
+  # These question forms read the actual event state; no new story is sampled.
+  object_place=re.fullmatch(r'where is (?:the )?('+'|'.join(map(re.escape,self.model['objects']))+r')',normalized)
+  received=re.fullmatch(r'who (?:received|was given) (?:the )?('+'|'.join(map(re.escape,self.model['objects']))+r')',normalized)
+  inventory=re.fullmatch(r'what (?:does|is) (?:the )?('+'|'.join(map(re.escape,self.model['actors']))+r') (?:have|holding|carrying)',normalized)
+  if object_place:
+   item=self.model['objects'].index(object_place[1]);row=self.world[self.world[:,0]==item+101][0];place=int(row[3])-201
+   if not 0<=place<len(self.model['places']):raise Unsupported('The story state does not establish that location.')
+   location=self.model['places'][place];phrase=self.location_phrase(location)
+   return dict(response='The '+object_place[1]+' is '+phrase+'.',value=place+201,event='ANSWER_OBJECT_PLACE')
+  if received:
+   if self.last_frame['intent'] not in ('share','help') or self.model['objects'][self.last_frame['i']]!=received[1]:raise Unsupported('No receipt of that object is established.')
+   actor=self.model['actors'][self.last_frame['b']]
+   return dict(response='The '+actor+' received the '+received[1]+'.',value=self.last_frame['b']+1,event='ANSWER_RECIPIENT')
+  if inventory:
+   actor=self.model['actors'].index(inventory[1]);items=[self.model['objects'][int(row[0])-101] for row in self.world if row[1]==2 and row[2]==actor+1]
+   return dict(response='The '+inventory[1]+(' has '+', '.join('the '+item for item in items)+'.' if items else ' holds no objects in the listed story events.'),value=items,event='ANSWER_INVENTORY')
   allowed={f'where is {article}{a}' for a in self.model['actors'] for article in ('','the ')}
   allowed|={f'who helped {article}{a}' for a in self.model['actors'] for article in ('','the ')}
   allowed|={f'who {verb} {article}{i}' for i in self.model['objects'] for verb in ('has','holds','owns','got','found') for article in ('','the ')}

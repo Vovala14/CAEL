@@ -3,9 +3,47 @@ import ast
 from fractions import Fraction
 import re
 
+UNITS = {
+    'mm': ('length', Fraction(1, 1000)), 'millimeter': ('length', Fraction(1, 1000)),
+    'cm': ('length', Fraction(1, 100)), 'centimeter': ('length', Fraction(1, 100)),
+    'm': ('length', Fraction(1)), 'meter': ('length', Fraction(1)),
+    'km': ('length', Fraction(1000)), 'kilometer': ('length', Fraction(1000)),
+    'inch': ('length', Fraction(127, 5000)), 'inches': ('length', Fraction(127, 5000)),
+    'ft': ('length', Fraction(381, 1250)), 'foot': ('length', Fraction(381, 1250)),
+    'feet': ('length', Fraction(381, 1250)), 'mile': ('length', Fraction(201168, 125)),
+    'mg': ('mass', Fraction(1, 1000000)), 'g': ('mass', Fraction(1, 1000)),
+    'gram': ('mass', Fraction(1, 1000)), 'kg': ('mass', Fraction(1)), 'kilogram': ('mass', Fraction(1)),
+    'second': ('time', Fraction(1)), 'minute': ('time', Fraction(60)),
+    'hour': ('time', Fraction(3600)), 'day': ('time', Fraction(86400)),
+    'ml': ('volume', Fraction(1, 1000)), 'liter': ('volume', Fraction(1)), 'litre': ('volume', Fraction(1)),
+}
+
+
+def unit_key(word):
+    word = word.lower()
+    return word if word in UNITS else word[:-1] if word.endswith('s') and word[:-1] in UNITS else None
+
 
 def calculate(text):
+    normalized = text.strip().lower().rstrip(' ?.')
+    conversion = re.fullmatch(r'(?:convert\s+)?(-?\d+(?:\.\d+)?)\s+([a-z]+)\s+(?:to|in)\s+([a-z]+)', normalized)
+    if conversion and len(normalized) <= 200:
+        amount, source, target = conversion.groups()
+        first, last = unit_key(source), unit_key(target)
+        if first and last and UNITS[first][0] == UNITS[last][0]:
+            result = Fraction(amount) * UNITS[first][1] / UNITS[last][1]
+            answer = str(result.numerator) if result.denominator == 1 else str(result)
+            return dict(route='helper/conversion', response=f'{amount} {source} = {answer} {target}', exact=True)
+        return None
     expression = re.sub(r'(?i)^\s*(?:what is|calculate|compute|work out|solve)\s+', '', text).strip().rstrip(' ?=')
+    percent = re.fullmatch(r'(?i)(-?\d+(?:\.\d+)?)\s*%\s+of\s+(-?\d+(?:\.\d+)?)', expression)
+    change = re.fullmatch(r'(?i)(increase|decrease)\s+(-?\d+(?:\.\d+)?)\s+by\s+(-?\d+(?:\.\d+)?)\s*%', expression)
+    if percent:
+        expression = f'({percent[1]}/100)*({percent[2]})'
+    elif change:
+        expression = f'({change[2]})*(1 {"+" if change[1].lower() == "increase" else "-"} ({change[3]}/100))'
+    for phrase, symbol in [('divided by','/'), ('multiplied by','*'), ('times','*'), ('plus','+'), ('minus','-')]:
+        expression = re.sub(r'(?i)\b' + phrase + r'\b', symbol, expression)
     expression = expression.replace('×', '*').replace('÷', '/').replace('^', '**')
     if not expression or len(expression) > 200 or not re.fullmatch(r'[0-9eE+*/%().\s-]+', expression):
         return None

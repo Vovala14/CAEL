@@ -14,7 +14,7 @@ try:
     from local_tools.flux3 import generate
     from local_tools.flux3 import setup
 except ModuleNotFoundError as error:
-    if error.name and error.name.startswith('local_tools.flux3'):
+    if error.name and (error.name == 'local_tools' or error.name.startswith('local_tools.flux3')):
         raise unittest.SkipTest('Standalone FLUX installation was removed by the owner') from error
     raise
 

@@ -1,0 +1,23 @@
+{
+  "dataset_dir": "",
+  "output_dir": "models/cael-image-female-64-v2",
+  "image_size": 64,
+  "resize_mode": "error",
+  "validation_fraction": 0.1,
+  "seed": 42,
+  "max_vocabulary": 256,
+  "min_token_images": 2,
+  "conditioning_bins": 8,
+  "validation_max_images": 32,
+  "preview_count": 4,
+  "spatial_weight": 2,
+  "text_weight": 2,
+  "neighbor_weight": 1,
+  "steps": 64,
+  "noise": 24,
+  "layout_clusters": 32,
+  "layout_size": 16,
+  "layout_iterations": 12,
+  "layout_min_images": 8,
+  "layout_weight": 8
+}

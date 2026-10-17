@@ -165,7 +165,8 @@ class ImageDataTests(unittest.TestCase):
             records = discover(data)
             fitting, validation = split_records(records, 0.3, 42)
             self.assertFalse({r['pixel_sha256'] for r in fitting} & {r['pixel_sha256'] for r in validation})
-            config = json.loads((ROOT / 'train_image_config.json').read_text())
+            local = ROOT / 'train_image_config.json'   # private (dataset path); the example ships publicly
+            config = json.loads((local if local.exists() else ROOT / 'train_image_config.example.json').read_text())
             config.update(dataset_dir='data', output_dir='output', min_token_images=1)
             config_path = root / 'config.json'
             config_path.write_text(json.dumps(config), encoding='utf-8')

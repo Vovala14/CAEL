@@ -7,7 +7,10 @@ import unittest
 from unittest.mock import patch
 
 from PIL import Image
-from research.general_image_025 import run_pipeline as pipeline
+try:
+    from research.general_image_025 import run_pipeline as pipeline
+except ModuleNotFoundError as error:   # research/ is a private, unpublished folder
+    raise unittest.SkipTest('research/general_image_025 is not present in this checkout') from error
 
 
 class ExpansionPipelineTests(unittest.TestCase):

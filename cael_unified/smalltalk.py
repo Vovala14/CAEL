@@ -84,6 +84,53 @@ def normalize(text):
     return ' '.join(text.split())
 
 
+POSITIVE_WORDS = {'good', 'great', 'happy', 'glad', 'love', 'fine', 'well', 'awesome', 'amazing', 'excited', 'fun', 'nice', 'won',
+                  'best', 'better', 'wonderful', 'fantastic', 'proud', 'enjoy', 'enjoyed', 'like', 'promoted', 'passed', 'birthday'}
+NEGATIVE_WORDS = {'bad', 'sad', 'terrible', 'awful', 'sick', 'ill', 'tired', 'angry', 'upset', 'hate', 'worried', 'stressed', 'lost',
+                  'died', 'broke', 'broken', 'hurt', 'pain', 'failed', 'fired', 'lonely', 'scared', 'afraid', 'worse', 'worst',
+                  'crying', 'cried', 'depressed', 'anxious', 'annoyed', 'frustrated', 'horrible', 'miss', 'missed', 'unhappy'}
+NEGATIONS = {'not', 'no', 'never', 'cannot', 'nothing', 'hardly', 'without'}
+
+
+def polarity(text):
+    """+1 / -1 / 0: the feeling a message expresses, with negation ("not good" is negative)."""
+    words = normalize(text).split()
+    score = 0
+    for i, word in enumerate(words):
+        value = 1 if word in POSITIVE_WORDS else -1 if word in NEGATIVE_WORDS else 0
+        if value and any(w in NEGATIONS for w in words[max(0, i - 3):i]):
+            value = -value
+        score += value
+    return (score > 0) - (score < 0)
+
+
+def reaction(response):
+    """+1 / -1 / 0: the feeling a reply reacts with ("Nice! I'm happy for you" is +1, "Oh no!" is -1)."""
+    r = response.lower()
+    if re.search(r"happy for you|that'?s great|sounds amazing|^nice!|^awesome|congrat|glad to hear|^great!|sounds fun|wonderful", r):
+        return 1
+    if re.search(r"^oh no|sorry to hear|must (?:have been|be) (?:awful|hard|frustrating|tough)|that'?s (?:awful|terrible|too bad)|frustrating", r):
+        return -1
+    return 0
+
+
+def sympathy(previous):
+    """Sympathy that follows up instead of repeating itself when the person says it again."""
+    first = "I'm sorry to hear that. Do you want to talk about what's going on?"
+    if previous and ('sorry' in previous.lower() or 'what is going on' in previous.lower() or "what's going on" in previous.lower()):
+        return ("That sounds hard. Is it more that you feel unwell physically, or that something is weighing on you? "
+                "Either way, I'm listening.")
+    return first
+
+
+def clarify(text, seed=0):
+    rng = random.Random(f'{seed}:{text}')
+    if re.search(r"(?i)\bnot sure\b|\bdon'?t know\b|\bdo not know\b|\bcan'?t decide\b", text):
+        return rng.choice(["That's okay. What are you deciding between? I can help you think it through.",
+                           "No problem. Tell me a bit more and we can figure it out together."])
+    return rng.choice(["I'm not sure I followed. Can you tell me a bit more?", "Tell me more about that. What do you mean?"])
+
+
 LEARN = re.compile(r"(?i)^\s*(?:i\s+(?:really\s+)?(?:want|would like|wanna|need|am trying|'d like|hope)\s+to\s+learn|(?:can you\s+)?(?:teach|help)\s+me(?:\s+to)?\s+(?:learn\s+)?|how\s+(?:can|do)\s+i\s+learn)"
                    r"\s*(?:how\s+to\s+)?(?:(play|speak|cook|make|draw|use|write|do)\s+)?(?:the\s+|a\s+|an\s+)?([a-z][a-z0-9 +#'\-]{1,40}?)\s*[.!?]*$")
 
@@ -188,7 +235,21 @@ def single(messages, seed=0):
         response += " I'm doing well too, thanks." if reciprocal else ''
         return out(response + ' ' + pick(["What's on your mind today?", 'Anything fun planned?', 'What would you like to talk about?']), 'mood')
     if re.fullmatch(NEGATIVE_MOOD + r'(?: today| now)?', mood_text) and (after_question or len(t.split()) <= 6):
-        return out("I'm sorry to hear that. Do you want to talk about what's going on?", 'mood')
+        return out(sympathy(previous), 'mood')
+
+    # Negated feelings: "I don't feel so good", "not feeling great", "I am not happy" -- the opposite of the word.
+    negated = re.fullmatch(r"(?:i )?(?:do not|did not|am not|was not|have not been|have not been feeling|am not feeling|am not doing|do not really|"
+                           r"(?:am |was )?not) (?:really |feeling |feel |been |so |very |too |that |at all |quite )*"
+                           r"([a-z]+)(?: (?:at all|today|right now|now|lately|these days))*", t)
+    if negated and negated[1] in ('good', 'great', 'well', 'ok', 'okay', 'fine', 'alright', 'happy', 'right', 'myself', 'best', 'hot'):
+        if negated[1] == 'well' and 'doing' not in t:
+            return out("Sorry you're not feeling well. Rest up, and see a doctor if it gets worse or doesn't pass. "
+                       "Do you want to tell me what's going on?", 'feeling')
+        if negated[1] == 'happy':
+            return out("I'm sorry you're not feeling happy. Do you want to talk about what's going on?", 'feeling')
+        return out(sympathy(previous), 'feeling')
+    if negated and negated[1] in ('bad', 'sad', 'terrible', 'awful', 'worried', 'stressed', 'sick', 'tired', 'angry', 'upset'):
+        return out(f"Good to hear you're not {negated[1]}! What's on your mind?", 'feeling')
 
     # Feelings: "I feel sad", "I am so tired", "I'm stressed about work".
     feeling = re.fullmatch(r"(?:i (?:am|feel|am feeling|have been|have been feeling|was|got)|feeling) (?:so |very |really |a bit |a little |kind of |pretty |super |quite |extremely |too )?([a-z]+)(?: (?:about|because|with|from|at) (.+?))?(?: today| right now| now| lately| again)?", t)

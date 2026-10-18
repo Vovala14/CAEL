@@ -52,6 +52,41 @@ class HybridImageTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.model.generate('dragon', n=1)
 
+    def test_best_of_and_alignment_are_reproducible(self):
+        for options in (dict(best_of=4), dict(align=True), dict(best_of=3, align=True, min_distance=5.0)):
+            first, _ = self.model.generate('red_box', n=2, seed=9, donors=2, detail=True, **options)
+            again, _ = self.model.generate('red_box', n=2, seed=9, donors=2, detail=True, **options)
+            self.assertEqual(first.shape, (2, 64, 64, 3))
+            self.assertTrue(np.array_equal(first, again), options)
+
+    def test_silhouette_alignment_moves_and_mirrors_onto_the_anchor(self):
+        from cael_image.hybrid import silhouette_transform, warp
+        anchor = np.zeros((64, 64), np.float32)
+        anchor[20:44, 8:24] = 1                       # tall box on the left
+        other = np.zeros((64, 64), np.float32)
+        other[26:38, 46:54] = 1                       # smaller box on the right
+        moved = warp(other[..., None], silhouette_transform(anchor, other), (0.0,))[..., 0]
+        overlap = np.minimum(moved, anchor).sum() / np.maximum(moved, anchor).sum()
+        self.assertGreater(overlap, 0.5)
+
+    def test_packed_model_draws_with_its_detail_images(self):
+        from cael_image.hybrid import pack
+        from PIL import Image
+        big = {t: np.stack([np.asarray(Image.fromarray(im).resize((128, 128), Image.Resampling.LANCZOS)) for im in v])
+               for t, v in self.data.items()}
+        path = Path(self.folder.name) / 'packed.npz'
+        pack(Path(self.folder.name) / 'model.npz', lambda t: big[t], path)
+        packed = HybridModel(path)
+        try:
+            self.assertTrue(packed.has_detail)
+            self.assertEqual(packed.images('red_box').shape, self.data['red_box'].shape)
+            images, _ = packed.generate('red_box', n=2, seed=4, donors=2, detail=True, best_of=3, hires=True)
+            self.assertEqual(images.shape, (2, 64, 64, 3))
+            red = images[..., 0].astype(int) - images[..., 2].astype(int)
+            self.assertGreater(red.max(), 100)
+        finally:
+            packed.data.close()
+
 
 if __name__ == '__main__':
     unittest.main()

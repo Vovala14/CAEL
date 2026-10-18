@@ -17,7 +17,7 @@ from cael_unified.bundle import REQUIRED, ROOT, VERSION, digest
 MODEL_FILES = {
     'models/cael-language-0.3.2-math-python': None,          # whole folder: weights, licences, notices
     'models/cael-knowledge-v1': ['knowledge.sqlite', 'query_policy.json', 'query_report.json', 'ranker.json', 'report.json'],
-    'models/cael-image-hybrid-0.3.9': ['final_102_topics.npz'],
+    'models/cael-image-hybrid-0.4.1': ['final_114_topics_detail.npz'],
     'models/cael-story-0.3.7-r2': None,
     'models/cael-prompts-0.3.7-r2': None,
     'models/cael-request-policy-0.3.6-r1': None,
@@ -86,7 +86,7 @@ def build(base_bundle, output):
         components.update({
             'language': 'Unified count language 0.3.2 (sparse token counts; MIT / CC BY / CC BY-SA sources with notices)',
             'knowledge': 'Local Wikipedia knowledge snapshot (CC BY-SA 4.0) with lookup policy and ranker',
-            'hybrid_image': '102-topic hybrid image model 0.3.9: PCA layout + patch synthesis from local SD1.5 renders',
+            'hybrid_image': '114-topic hybrid image model 0.4.1: PCA layout + best-of-8 patch synthesis with a 256 px detail level, from local SD1.5 renders',
             'story': 'Story 0.3.7-r2 bounded integer planner', 'prompt': 'Prompt writer 0.3.7-r2',
             'policies': 'Request and news routing policies, reasoning and social reasoning counts',
             'code': 'Code-search operation costs 0.3.8 (from MBPP training syntax trees, CC BY 4.0)',

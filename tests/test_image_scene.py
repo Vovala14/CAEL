@@ -10,7 +10,9 @@ from cael_image.hybrid import HybridModel, fit
 from cael_image.scene import SceneError, edit, is_edit, layout, parse, simple, summary
 from cael_unified.assistant import picture_follow_up
 
-TOPICS = [t for t in concepts.FACTS if t not in ('city',)]
+NEW_040 = ('mouse', 'fox', 'wolf', 'deer', 'dolphin', 'desert', 'snow', 'sky', 'ocean', 'park', 'field', 'room')
+TOPICS = [t for t in concepts.FACTS if t not in ('city',) + NEW_040]     # the 0.3.9 subjects
+TOPICS_040 = TOPICS + list(NEW_040)
 ALIASES = {'cat': ['cat', 'cats', 'kitten'], 'dog': ['dog', 'dogs', 'puppy'], 'car': ['car', 'cars'],
            'computer_mouse': ['computer mouse'], 'flower': ['flower', 'flowers']}
 
@@ -56,6 +58,16 @@ class ParseTests(unittest.TestCase):
         s = scene('draw five apples in the desert')
         self.assertEqual(s['objects'][0]['count'], 3)
         self.assertTrue(any('desert' in n for n in s['notes']))
+
+    def test_new_subjects_and_backgrounds_are_used_when_available(self):
+        s = parse('draw a fox in the snow', ALIASES, TOPICS_040)
+        self.assertEqual((s['objects'][0]['topic'], s['background']), ('fox', 'snow'))
+        s = parse('draw a penguin in the desert', ALIASES, TOPICS_040)
+        self.assertEqual(s['background'], 'desert')
+        self.assertEqual(parse('draw a mouse', ALIASES, TOPICS_040)['objects'][0]['topic'], 'mouse')
+        self.assertEqual(parse('draw a dolphin', ALIASES, TOPICS_040)['objects'][0]['why'], None)
+        self.assertEqual(parse('draw a boat on the sea', ALIASES, TOPICS_040)['background'], 'ocean')
+        self.assertEqual(scene('draw a boat on the sea')['background'], 'beach')     # older models: nearest background
 
     def test_excluded_colour_and_simple_path(self):
         self.assertEqual(scene('draw a car that is not red')['objects'][0]['not_colours'], ['red'])

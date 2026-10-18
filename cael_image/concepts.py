@@ -105,7 +105,14 @@ FACTS = {
     'woman': ('person', 1.65, '', ''),
     'zebra': ('animal wild', 2.2, 'black white', 'stripes'),
 }
-SCENES = ('beach', 'city', 'forest', 'mountain', 'waterfall', 'volcano', 'castle')
+FACTS.update({
+    'mouse': ('animal', .08, 'gray brown white', 'fur'),
+    'fox': ('animal wild', .7, 'orange', 'fur'),
+    'wolf': ('animal wild', .8, 'gray', 'fur'),
+    'deer': ('animal wild', 1.5, 'brown', 'fur jumps'),
+    'dolphin': ('animal sea', 2.5, 'gray blue', 'water swims fins jumps'),
+})
+SCENES = ('beach', 'city', 'forest', 'mountain', 'waterfall', 'volcano', 'castle', 'desert', 'snow', 'sky', 'ocean', 'park', 'field', 'room')
 FACTS.update({s: ('place', 50, '', '') for s in SCENES if s not in FACTS})
 
 # Kinds of a thing CAEL can draw: drawn as that thing, and said so.
@@ -136,7 +143,7 @@ KIND_OF = {
 }
 # Things it cannot draw, with the closest thing it can (said so explicitly).
 SIMILAR = {
-    'dolphin': 'whale', 'wolf': 'dog', 'fox': 'dog', 'leopard': 'tiger', 'cheetah': 'tiger', 'panther': 'tiger',
+    'dolphin': 'whale', 'wolf': 'dog', 'fox': 'dog', 'rat': 'mouse', 'reindeer': 'deer', 'elk': 'deer', 'moose': 'deer', 'coyote': 'wolf', 'porpoise': 'dolphin', 'leopard': 'tiger', 'cheetah': 'tiger', 'panther': 'tiger',
     'donkey': 'horse', 'goat': 'sheep', 'deer': 'horse', 'hamster': 'rabbit', 'parrot': 'bird', 'swan': 'duck',
     'goose': 'duck', 'lizard': 'snake', 'crocodile': 'snake', 'alligator': 'snake', 'van': 'truck', 'scooter': 'motorcycle',
     'tulip': 'flower', 'lemon': 'orange', 'pear': 'apple', 'cherry': 'strawberry', 'muffin': 'cake', 'sandwich': 'burger',

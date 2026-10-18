@@ -38,9 +38,16 @@ ANCHORS = [(r'on the left|at the left', 'left'), (r'on the right|at the right', 
 UNKNOWN_PLACES = ('desert', 'snow', 'field', 'meadow', 'park', 'garden', 'room', 'kitchen', 'bedroom', 'river', 'lake', 'moon', 'space',
                   'farm', 'zoo', 'island', 'cave', 'arctic', 'savanna', 'savannah', 'pond', 'playground', 'school', 'office', 'house',
                   'water', 'ocean', 'sea', 'underwater', 'night', 'rain', 'sunset', 'jungle', 'hills', 'street', 'town', 'woods')
-SCENE_WORDS = {'beach': 'beach', 'sea': 'beach', 'ocean': 'beach', 'shore': 'beach', 'seaside': 'beach', 'forest': 'forest',
-               'woods': 'forest', 'jungle': 'forest', 'city': 'city', 'street': 'city', 'town': 'city', 'mountain': 'mountain',
-               'mountains': 'mountain', 'hills': 'mountain', 'waterfall': 'waterfall', 'volcano': 'volcano', 'castle': 'castle'}
+# Background words -> background topics in order of preference (the first one the model can draw is used).
+SCENE_WORDS = {'beach': ('beach',), 'sea': ('ocean', 'beach'), 'ocean': ('ocean', 'beach'), 'water': ('ocean', 'beach'),
+               'underwater': ('ocean',), 'shore': ('beach',), 'seaside': ('beach',), 'forest': ('forest',), 'woods': ('forest',),
+               'jungle': ('forest',), 'city': ('city',), 'street': ('city',), 'town': ('city',), 'mountain': ('mountain',),
+               'mountains': ('mountain',), 'hills': ('mountain', 'field'), 'waterfall': ('waterfall',), 'volcano': ('volcano',),
+               'castle': ('castle',), 'desert': ('desert',), 'dunes': ('desert',), 'snow': ('snow',), 'winter': ('snow',),
+               'park': ('park', 'field'), 'garden': ('park', 'field'), 'field': ('field', 'park'), 'meadow': ('field', 'park'),
+               'grass': ('field', 'park'), 'farm': ('field',), 'room': ('room',), 'living room': ('room',), 'house': ('room',),
+               'sky': ('sky',), 'clouds': ('sky',)}
+DEFAULT_SCENES = ('beach', 'forest', 'city', 'mountain', 'waterfall', 'volcano', 'castle')
 DESCRIPTION = re.compile(
     r'\b(?:(?:a|an|the|some|any)\s+)?(?:\w+\s+){0,2}?(?:animal|creature|pet|fruit|vegetable|food|snack|dessert|treat|vehicle|plant|'
     r'building|instrument|toy|furniture|device|gadget|insect|bug|thing|object)s?\b(?:\s+(?:that|which|who|with|you|from|i|people)\b[^,]*?)?'
@@ -92,7 +99,8 @@ def vocabulary(aliases, topics):
         if topic in topics:
             for form in (word, word + 's'):
                 words.setdefault(form, (topic, 'similar'))
-    words.pop('mouse', None)
+    if 'mouse' not in topics:
+        words.pop('mouse', None)      # "mouse" alone means the animal, not the computer mouse
     return words
 
 
@@ -104,18 +112,34 @@ def clean(text):
     return lower.strip(' .!?')
 
 
-def find_background(lower, notes):
-    """'... on a beach' -> ('beach', text without it); unknown places are reported."""
-    match = re.search(r'\b(?:on|at|in|by|near|with|against)\s+(?:the\s+|a\s+|an\s+)?(' + '|'.join(SCENE_WORDS) + r')(?:\s+background)?\b(?!\s+(?:with|and))', lower)
+def scene_for(word, topics):
+    """The background topic a place word means, or None when none of its choices can be drawn."""
+    available = set(topics) if topics is not None else set(DEFAULT_SCENES)
+    return next((t for t in SCENE_WORDS.get(word, ()) if t in available), None)
+
+
+def find_background(lower, notes, topics=None):
+    """'... on a beach' -> ('beach', text without it); places that cannot be drawn are reported."""
+    words = sorted((w for w in SCENE_WORDS if w != 'sky'), key=len, reverse=True)   # "in the sky" places an object, see ANCHORS
+    match = re.search(r'\b(?:on|at|in|by|near|with|against|under)\s+(?:the\s+|a\s+|an\s+)?(' + '|'.join(words) + r')(?:\s+background)?\b(?!\s+(?:with|and))\s*', lower)
     if match and not re.match(r'\s*(?:of)\b', lower[match.end():]):
-        return SCENE_WORDS[match[1]], lower[:match.start()] + lower[match.end():]
-    match = re.search(r'\b(?:with\s+)?(?:a\s+)?(' + '|'.join(SCENE_WORDS) + r')\s+background\b', lower)
+        topic = scene_for(match[1], topics)
+        if topic:
+            return topic, lower[:match.start()] + ' ' + lower[match.end():]
+        notes.append(f"I can't draw {article(match[1])} background yet, so I used a plain one.")
+        return 'plain', lower[:match.start()] + ' ' + lower[match.end():]
+    match = re.search(r'\b(?:with\s+)?(?:a\s+)?(' + '|'.join(sorted(SCENE_WORDS, key=len, reverse=True)) + r')\s+background\b', lower)
     if match:
-        return SCENE_WORDS[match[1]], lower[:match.start()] + lower[match.end():]
+        topic = scene_for(match[1], topics)
+        if topic:
+            return topic, lower[:match.start()] + lower[match.end():]
+        notes.append(f"I can't draw {article(match[1])} background yet, so I used a plain one.")
+        return 'plain', lower[:match.start()] + lower[match.end():]
     if re.search(r'\b(?:on|against|with)\s+(?:a\s+)?(?:plain|white|blank|simple|empty)\s+background\b', lower):
         return 'plain', re.sub(r'\b(?:on|against|with)\s+(?:a\s+)?(?:plain|white|blank|simple|empty)\s+background\b', '', lower)
-    match = re.search(r'\b(?:in|on|at|under)\s+(?:the\s+|a\s+|an\s+)?(' + '|'.join(UNKNOWN_PLACES) + r')\b\s*$', lower)
-    if match and match[1] not in ('sky',):
+    unknown = [w for w in UNKNOWN_PLACES if w not in SCENE_WORDS]
+    match = re.search(r'\b(?:in|on|at|under)\s+(?:the\s+|a\s+|an\s+)?(' + '|'.join(unknown) + r')\b\s*$', lower)
+    if match:
         notes.append(f"I can't draw {article(match[1])} background yet, so I used a plain one.")
         return 'plain', lower[:match.start()]
     return None, lower
@@ -158,7 +182,7 @@ def mentions(lower, vocab, topics, seed, notes):
                 why = f"I can't draw {article(word.rstrip('s'))} yet, so I drew the closest thing I can: {article(words_of(topic))}."
             found.append(dict(start=match.start(), end=match.end(), topic=topic, asked=word, why=why, described=False))
             taken.append((match.start(), match.end()))
-    if re.search(r'\bmouse\b|\bmice\b', lower) and not any(m['topic'] == 'computer_mouse' for m in found):
+    if 'mouse' not in topics and re.search(r'\bmouse\b|\bmice\b', lower) and not any(m['topic'] == 'computer_mouse' for m in found):
         notes.append("I can't draw a mouse (the animal) yet, so I left it out.")
     return sorted(found, key=lambda m: m['start'])
 
@@ -214,7 +238,7 @@ def parse(text, aliases, topics, seed=0):
             style = value
             lower = re.sub(r',?\s*(?:in\s+(?:a\s+)?)?\b' + re.escape(phrase) + r'\b(?:\s+style)?', ' ', lower)
             break
-    background, lower = find_background(lower, notes)
+    background, lower = find_background(lower, notes, topics)
     vocab = vocabulary(aliases, topics)
     found = mentions(lower, vocab, topics, seed, notes)
     if not found:
@@ -333,7 +357,8 @@ def edit_one(scene, text, aliases, topics, seed=0):
                               if all(x in renumber for x in r if isinstance(x, int))]
         return scene, 'Removed the ' + ' and the '.join(names) + '.'
     adding = re.search(r'\b(?:add|put in|include|with)\s+(.+)$', lower)
-    if adding and not re.search(r'^(?:a|an|the)?\s*(?:' + '|'.join(SCENE_WORDS) + r')\s+background', adding[1]):
+    if adding and not re.search(r'^(?:a|an|the)?\s*(?:' + '|'.join(SCENE_WORDS) + r')\s+background', adding[1]) \
+            and not re.fullmatch(r'(?:a|an|the)?\s*(?:' + '|'.join(SCENE_WORDS) + r')', adding[1].strip()):
         # "add a cow next to the horse": new objects before the relation, an existing one after it.
         rest, relation, existing = adding[1], None, None
         for pattern, name in RELATIONS[:-1] + [(r'next to|beside|alongside|near|close to|by', 'next')]:
@@ -357,7 +382,7 @@ def edit_one(scene, text, aliases, topics, seed=0):
             scene['background'] = addition['background']
         return scene, 'Added ' + ', '.join(article(words_of(o['topic'])) if o['count'] == 1 else f"{o['count']} {words_of(o['topic'])}s"
                                             for o in addition['objects']) + '.'
-    background, rest = find_background(lower, scene['notes'])
+    background, rest = find_background(lower, scene['notes'], topics)
     if background or re.search(r'\bbackground\b', lower):
         scene['background'] = background or 'plain'
         changes.append('background: ' + (scene['background']))
@@ -605,6 +630,8 @@ def render(model, scene, n=2, seed=0, settings=None):
                     image = recolour(image, mask, colour)
                 items.append(crop(image, mask))
             cutouts[index] = items
+        if background is None and any(o['anchor'] == 'sky' for o in scene['objects']) and 'sky' in model.topics:
+            background = 'sky'          # "a bird in the sky": the sky topic is the background
         if background in (None, 'plain') and any(o['anchor'] == 'sky' for o in scene['objects']) and background != 'plain':
             # "in the sky": a plain sky gradient instead of the studio backdrop.
             v = np.linspace(0, 1, size)[:, None, None]
@@ -683,6 +710,9 @@ def plausibility(scene):
     for obj in objects:
         if obj['anchor'] == 'sky' and not concepts.flies(obj['topic']):
             notes.append(f"{article(words_of(obj['topic'])).capitalize()} can't fly, but I put it in the sky as you asked.")
-        if scene['background'] in ('forest', 'city', 'mountain', 'volcano', 'castle') and concepts.aquatic(obj['topic']):
+        if scene['background'] == 'desert' and 'cold' in concepts.features(obj['topic']):
+            notes.append(f"{article(words_of(obj['topic'])).capitalize()} lives in the cold, not in a desert; drawn as asked.")
+        if scene['background'] in ('forest', 'city', 'mountain', 'volcano', 'castle', 'desert', 'snow', 'park', 'field', 'room') \
+                and concepts.aquatic(obj['topic']):
             notes.append(f"{article(words_of(obj['topic'])).capitalize()} lives in water, not in {article(scene['background'])}; drawn as asked.")
     return notes

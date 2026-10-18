@@ -46,6 +46,23 @@ class SmalltalkTests(unittest.TestCase):
     def test_replies_are_reproducible_for_a_seed(self):
         self.assertEqual(say('Hi', seed=4), say('Hi', seed=4))
 
+    def test_negated_feelings_get_sympathy_not_cheer(self):
+        for text in ('I don’t feel so good', "I don't feel good", 'I dont feel good', 'I am not feeling great', 'I am not happy',
+                     'not feeling myself lately', "I'm not doing well"):
+            answer = say(text)
+            self.assertIsNotNone(answer, text)
+            self.assertRegex(answer['response'], r"(?i)sorry", text)
+        self.assertIn('Good to hear', say("I don't feel bad")['response'])
+        self.assertIn('doctor', say('I do not feel well today')['response'])
+
+    def test_feeling_of_a_message(self):
+        from cael_unified.smalltalk import polarity, reaction
+        self.assertEqual(polarity("I don't feel so good"), -1)
+        self.assertEqual(polarity('I passed my exam'), 1)
+        self.assertEqual(polarity('I am not sure what to cook'), 0)
+        self.assertEqual(reaction("Nice! I'm happy for you."), 1)
+        self.assertEqual(reaction('Oh no! What happened?'), -1)
+
     def test_questions_and_tasks_are_left_to_other_routes(self):
         for text in ('What is photosynthesis?', 'When was Metallica formed?', 'What is 2+2?', 'I got a new job!',
                      'Tell a story about a fox finding a key', 'Write a python function to sort a list'):

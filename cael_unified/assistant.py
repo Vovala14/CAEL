@@ -192,6 +192,12 @@ class Assistant:
                 self._chat = V4(load_v2(self.root / 'chat'))
             result = dict(self._chat.respond(messages))
             result['route'] = 'chat/local-' + result.get('route', 'unknown')
+            # The old model often answers with a guessed emotional reaction ("Nice! I'm happy for you").
+            # Keep it only when the message really carries that feeling; otherwise ask, instead of guessing.
+            felt, reacted = smalltalk.polarity(text), smalltalk.reaction(result.get('response', ''))
+            if reacted and felt != reacted:
+                result.update(route='chat/local-clarify', response=smalltalk.clarify(text, seed),
+                              details='The fallback reply guessed a feeling the message does not express, so CAEL asks instead.')
             return result
 
     def story_reply(self,messages,seed,required=False):

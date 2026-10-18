@@ -143,6 +143,24 @@ def pack(model_path, detail_images, output, quality=95):
     np.savez_compressed(output, **arrays)
 
 
+def deform(image, rng, strength):
+    """A smooth random warp of a float image (and a mirror half the time): a new pose with the same parts.
+
+    strength is the largest displacement as a fraction of the width. Low-frequency (4x4 control grid) so
+    shapes bend rather than tear.
+    """
+    from scipy.ndimage import map_coordinates
+    size = image.shape[0]
+    if rng.random() < 0.5:
+        image = image[:, ::-1]
+    grid = rng.standard_normal((2, 4, 4)).astype(np.float32) * strength * size / 2
+    field = np.stack([np.asarray(Image.fromarray(g, mode='F').resize((size, size), Image.Resampling.BICUBIC)) for g in grid])
+    yy, xx = np.mgrid[:size, :size].astype(np.float32)
+    out = np.stack([map_coordinates(image[..., c], [yy + field[0], xx + field[1]], order=1, mode='nearest')
+                    for c in range(image.shape[2])], -1)
+    return np.clip(out, 0, 1)
+
+
 def seam_fuse(soft, sharp, owner, weight):
     """Screened Poisson fusion: the sharp image's gradients inside each source region, the soft image's gradients
     across region borders (where seams would be), and the soft image's colours as a weak anchor.
@@ -257,15 +275,47 @@ class HybridModel:
         key = f'{topic}/styles'
         return self.data[key] if key in self.data.files else np.full(len(self.pyramid(topic)[self.size]), -1, np.int8)
 
-    def donors(self, topic, layout, count, style=None):
-        """Training images whose 16x16 layout is closest to the sampled layout (of the requested style, if any)."""
+    def donors(self, topic, layout, count, style=None, pairing=False, allowed=None):
+        """Training images whose 16x16 layout is closest to the sampled layout (of the requested style, if any).
+
+        allowed limits the styles considered when no style is given (e.g. photos only for a plain request).
+        pairing picks only the first donor by the layout and every further donor by how well it matches that
+        first donor (same silhouette and same arrangement), so two different poses are not stitched together.
+        """
         small = self.small(topic)
         distance = ((small - layout.reshape(1, -1)) ** 2).mean(1)
+        styles = self.styles(topic)
         if style is not None:
-            matching = self.styles(topic) == style
+            matching = styles == style
             if matching.sum() >= max(2, count):
                 distance = np.where(matching, distance, np.inf)
-        return np.argsort(distance)[:count]
+        elif allowed is not None:
+            matching = np.isin(styles, allowed)
+            if matching.sum() >= max(2, count):
+                distance = np.where(matching, distance, np.inf)
+        order = np.argsort(distance)
+        if not pairing or count < 2:
+            return order[:count]
+        anchor = order[0]
+        eligible = np.isfinite(distance)
+        likeness = ((small - small[anchor]) ** 2).mean(1)
+        likeness = likeness / (np.median(likeness[eligible]) + 1e-6)
+        shapes = self.small_masks(topic)
+        if shapes is not None and self.data[f'{topic}/has_mask'][anchor]:
+            overlap = np.minimum(shapes, shapes[anchor]).sum(1) / (np.maximum(shapes, shapes[anchor]).sum(1) + 1e-6)
+            likeness = likeness + 2.0 * (1 - overlap)
+        likeness = np.where(eligible, likeness, np.inf)
+        likeness[anchor] = -np.inf
+        return np.argsort(likeness)[:count]
+
+    def small_masks(self, topic):
+        """16x16 silhouettes of the training images (None for a topic without masks)."""
+        key = ('small_mask', topic)
+        if key not in self._pyramids:
+            pyramid = self.pyramid(topic)
+            self._pyramids[key] = (np.stack([resize_gray(m[..., 0], LAYOUT) for m in pyramid['mask']]).reshape(len(pyramid['mask']), -1)
+                                   if 'mask' in pyramid else None)
+        return self._pyramids[key]
 
     def small(self, topic):
         key = ('small', topic)
@@ -276,7 +326,8 @@ class HybridModel:
 
     def generate(self, topic, n=2, seed=0, iterations=4, guide_weight=0.35, usage_penalty=0.02, donors=None, sharpness=3.0,
                  unsharp=0.0, hard_final=False, detail=False, style=None, return_masks=False, same_style=False, min_distance=0.0,
-                 best_of=1, align=False, hires=None, hires_steps=2, seam_blend=0.0):
+                 best_of=1, align=False, hires=None, hires_steps=2, seam_blend=0.0, pairing=False, default_styles=None,
+                 structure=0.0):
         """donors=None uses every training image of the topic; a small number gives more coherent pictures.
 
         best_of sketches that many candidates up to the second-finest level and finishes only the one whose
@@ -294,13 +345,17 @@ class HybridModel:
         images, reports, masks = [], [], []
         tries = 3 if min_distance else 1
         for _ in range(n):
+            farthest = None
             for attempt in range(tries):
-                current, sources, alpha, chosen, distance = self._one(topic, rng, iterations, guide_weight, usage_penalty, donors,
-                                                                      sharpness, unsharp, hard_final, detail, style,
-                                                                      return_masks, same_style, float(min_distance),
-                                                                      best_of, align, hires, hires_steps, seam_blend)
-                if not min_distance or distance >= min_distance:
+                result = self._one(topic, rng, iterations, guide_weight, usage_penalty, donors, sharpness, unsharp, hard_final,
+                                   detail, style, return_masks, same_style, float(min_distance), best_of, align, hires,
+                                   hires_steps, seam_blend, pairing, default_styles, structure)
+                if farthest is None or result[4] > farthest[4]:
+                    farthest = result
+                if not min_distance or result[4] >= min_distance:
                     break
+            # When no attempt clears the guard, keep the one farthest from any training image, never simply the last.
+            current, sources, alpha, chosen, distance = farthest
             counts = np.bincount(sources, minlength=len(chosen))
             images.append(np.clip(current * 255 + 0.5, 0, 255).astype(np.uint8))
             report = dict(largest_source_share=round(float(counts.max() / counts.sum()), 3),
@@ -316,7 +371,8 @@ class HybridModel:
         return np.stack(images), reports
 
     def _one(self, topic, rng, iterations, guide_weight, usage_penalty, donors, sharpness, unsharp, hard_final, detail,
-             style, return_masks, same_style, measure, best_of=1, align=False, hires=None, hires_steps=2, seam_blend=0.0):
+             style, return_masks, same_style, measure, best_of=1, align=False, hires=None, hires_steps=2, seam_blend=0.0,
+             pairing=False, default_styles=None, structure=0.0):
         """One picture: sample a layout, pick donors, run coarse-to-fine patch synthesis."""
         pyramid = self.pyramid(topic)
         coarse, finest = self.levels[:-1], self.levels[-1]
@@ -336,16 +392,23 @@ class HybridModel:
             if same_style and candidate_style is None and donors:
                 # Mixing a photo with an illustration gives the worst seams: take the style of the
                 # closest donor and draw all donors from that style.
-                nearest = self.donors(topic, layout, 1)[0]
+                nearest = self.donors(topic, layout, 1, allowed=default_styles)[0]
                 if self.styles(topic)[nearest] >= 0:
                     candidate_style = int(self.styles(topic)[nearest])
             if locked_style is None:
                 locked_style = candidate_style
-            chosen = self.donors(topic, layout, donors, candidate_style) if donors else np.arange(len(pyramid[self.size]))
-            stacks = self.aligned(topic, chosen) if align and donors and len(chosen) > 1 else None
+            chosen = self.donors(topic, layout, donors, candidate_style, pairing=pairing) if donors else np.arange(len(pyramid[self.size]))
+            stacks = self.aligned(topic, chosen) if (align or structure) and donors and len(chosen) > 1 else None
             guide = resize(layout, self.size)
+            if structure and donors:
+                # Structure from one real picture: the first donor, bent by a smooth random warp (and sometimes
+                # mirrored) into a new pose. Its outline and proportions guide every synthesis step, so the result
+                # has one coherent shape instead of two half-poses; the texture is rebuilt from both donors.
+                anchor = (stacks[self.size][0] if stacks is not None else pyramid[self.size][chosen[0]])
+                guide = deform(anchor, rng, structure)
             state = dict(chosen=chosen, stacks=stacks, guide=guide, current=resize(guide, self.levels[0]),
-                         usage=np.zeros(len(chosen), np.float32), stats={})
+                         usage=np.zeros(len(chosen), np.float32), stats={}, structure=bool(structure and donors),
+                         structure_floor=0.35)
             for size in (coarse if best_of > 1 else []):
                 self._level(state, topic, size, iterations, guide_weight, usage_penalty, rng, sharpness, False, detail, False)
             if best_of > 1 and measure:
@@ -400,8 +463,14 @@ class HybridModel:
             current = np.clip(current + unsharp * (current - blurred), 0, 1)
         distance = 0.0
         if measure:
-            originals = pyramid[self.size]
-            distance = float(np.sqrt(((originals - current[None]) ** 2).mean((1, 2, 3))).min() * 255)
+            # Compared at 64 px, where a copy of the shape cannot hide behind different fine detail, and
+            # mirrored training images count too: a flipped copy is still a copy.
+            check = min(64, self.size)
+            originals = pyramid[check]
+            small = resize(current, check)
+            plain = np.sqrt(((originals - small[None]) ** 2).mean((1, 2, 3))).min()
+            mirrored = np.sqrt(((originals[:, :, ::-1] - small[None]) ** 2).mean((1, 2, 3))).min()
+            distance = float(min(plain, mirrored) * 255)
         return current, state.get('sources', np.zeros(1, int)), state.get('alpha'), chosen, distance
 
     def _level(self, state, topic, size, iterations, guide_weight, usage_penalty, rng, sharpness, hard_final, detail, with_mask):
@@ -417,6 +486,8 @@ class HybridModel:
         for step in range(iterations):
             # The blurry layout steers early steps only; later steps follow the real patches.
             weight = guide_weight * (1 - step / iterations)
+            if state.get('structure'):
+                weight = max(weight, state['structure_floor'])   # the real structure keeps steering to the end
             final = step == iterations - 1
             # Optionally the very last step copies each pixel from its single nearest-centred
             # patch instead of averaging overlaps: real detail, at the cost of visible seams.

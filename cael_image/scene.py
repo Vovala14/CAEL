@@ -238,6 +238,14 @@ def parse(text, aliases, topics, seed=0):
             style = value
             lower = re.sub(r',?\s*(?:in\s+(?:a\s+)?)?\b' + re.escape(phrase) + r'\b(?:\s+style)?', ' ', lower)
             break
+    # "a portrait of a man", "head and shoulders photo of a woman": the person, in the close portrait style
+    # (style 0 of the people topics is the head-and-shoulders portrait photo).
+    portrait = re.search(r'\b(?:(?:a|an)\s+)?(?:portrait|head and shoulders|headshot)(?:\s+(?:photo|picture|shot))?(?:\s+of)?\b', lower)
+    if portrait and re.search(r'\b(?:man|men|woman|women|lady|gentleman|person|people|boy|girl|male|female)\b', lower[portrait.end():]):
+        lower = (lower[:portrait.start()] + ' ' + lower[portrait.end():]).strip()
+        style = 0 if style is None else style
+    elif portrait:
+        style = 0 if style is None else style
     background, lower = find_background(lower, notes, topics)
     vocab = vocabulary(aliases, topics)
     found = mentions(lower, vocab, topics, seed, notes)
@@ -706,7 +714,7 @@ def plausibility(scene):
         if r[1] == 'on' and len(r) == 3 and concepts.size(a) > concepts.size(objects[r[2]]['topic']) * 3:
             notes.append(f"{article(words_of(a)).capitalize()} is much bigger than {article(words_of(objects[r[2]]['topic']))} in real life; I drew it on top anyway.")
     if len(objects) > 1 and any(o['topic'] in ('man', 'woman') for o in objects):
-        notes.append('I can only draw people as head-and-shoulders portraits, so they will look odd in a scene.')
+        notes.append('People are composed from separate cut-outs here and may look stiff next to other things.')
     for obj in objects:
         if obj['anchor'] == 'sky' and not concepts.flies(obj['topic']):
             notes.append(f"{article(words_of(obj['topic'])).capitalize()} can't fly, but I put it in the sky as you asked.")

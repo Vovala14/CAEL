@@ -425,8 +425,11 @@ class Assistant:
                                                     enabled_subjects=configuration['general_image'].get('enabled_subjects'))
             if self._image is None:
                 self._image = fallback
-        portrait = bool(re.search(r'\bportrait\b|head.and.shoulders', text, re.I)) and not re.search(r'\b(man|men|male|boy)\b', text, re.I)
-        explicit_portrait = bool(re.search(r'\bportrait\b|head.and.shoulders', text, re.I))
+        # The main (hybrid) model draws people better than the older portrait models; they are only a fallback.
+        hybrid_people = bool(self.hybrid()) and {'woman', 'man'} <= set(self.hybrid()[0].topics)
+        portrait = bool(re.search(r'\bportrait\b|head.and.shoulders', text, re.I)) and not re.search(r'\b(man|men|male|boy)\b', text, re.I) \
+            and not hybrid_people
+        explicit_portrait = bool(re.search(r'\bportrait\b|head.and.shoulders', text, re.I)) and not hybrid_people
         portrait_subject = 'man' if re.search(r'\b(man|men|male)\b', text, re.I) else 'woman'
         portrait_override = None
         overrides = ROOT / 'research' / 'active_models.json'

@@ -93,6 +93,15 @@ class Assistant:
         self._facts = FactLookup()
         self._lock = threading.RLock()
 
+    def vynly_reply(self, text, messages):
+        """A Vynly help answer when the message is about vynly.co, else None (cael_unified/vynly.py)."""
+        if getattr(self, '_vynly', None) is None:
+            from .vynly import VynlyHelp
+            self._vynly = VynlyHelp()
+        if not self._vynly.chunks or not self._vynly.about_vynly(text, messages):
+            return None
+        return self._vynly.answer(text, messages)
+
     def score_endings(self, context, endings):
         """The same unified model's native continuation likelihood interface."""
         with self._lock:
@@ -128,6 +137,8 @@ class Assistant:
         route = route_request(text, mode)
         if route == 'chat' and mode == 'auto' and picture_follow_up(messages):
             route = 'image'
+        if route == 'image' and mode == 'auto' and self.vynly_reply(text, messages) is not None:
+            route = 'chat'          # "how do I generate an image on Vynly?" is a help question, not a drawing request
         with self._lock:
             if route == 'image':
                 return self.image_reply(text, n, seed, messages)
@@ -140,6 +151,10 @@ class Assistant:
                 return self._prompt.respond(text,seed,forced=True)
             if route == 'story':
                 return self.story_reply(messages,seed,required=True)
+            # Questions about vynly.co, where CAEL is the helper chatbot (cael_unified/vynly.py).
+            answer = self.vynly_reply(text, messages)
+            if answer is not None:
+                return answer
             choice=choice_problem(text)
             if choice:
                 context,endings=choice

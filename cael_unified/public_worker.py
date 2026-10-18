@@ -249,6 +249,17 @@ class SharedWorker:
         self.image_pool.shutdown(wait=True)
 
 
+def proxy_site():
+    """The site whose server-side proxy calls this worker (requests without a browser Origin), from
+    research/active_models.json {"site_proxy": {"site": "vynly.co"}}; None when not configured."""
+    try:
+        entry = json.loads((ROOT / 'research' / 'active_models.json').read_text(encoding='utf-8')).get('site_proxy') or {}
+    except (OSError, ValueError):
+        return None
+    site = entry.get('site')
+    return site if isinstance(site, str) and re.fullmatch(r'[a-z0-9.-]{3,60}', site) else None
+
+
 def sign_session(key, owner):
     return owner + '.' + hmac.new(key, owner.encode('ascii'), hashlib.sha256).hexdigest()
 
@@ -371,6 +382,12 @@ def handler_for(worker, key, link_file=None):
                 if not 0 < length <= MAX_REQUEST_BYTES:
                     raise ValueError('Invalid request size')
                 request = json.loads(self.rfile.read(length))
+                site = proxy_site()
+                if site and not origin and isinstance(request, dict) and isinstance(request.get('messages'), list) \
+                        and not any(isinstance(m, dict) and m.get('role') == 'system' for m in request['messages']):
+                    # No browser Origin: a server-side proxy (vynly.co's /api/assistant) sent this. Say so, so CAEL
+                    # answers site help questions from that site's knowledge.
+                    request['messages'] = [dict(role='system', content='site: ' + site)] + request['messages']
                 job = worker.submit(owner, request)
                 return self.send(202, dict(id=job.id, state=job.state))
             except Busy:

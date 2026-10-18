@@ -27,6 +27,7 @@ MODEL_FILES = {
     'models/cael-reasoning-v1': None,
     'models/cael-social-v1': None,
     'models/cael-code-0.3.8': None,
+    'models/cael-vynly-v1': None,                            # Vynly helper knowledge (public site + approved docs)
 }
 # Selected in the live configuration; general_image is dropped because the hybrid model covers all its subjects.
 SELECTIONS = ('story', 'language', 'request_policy', 'news_policy', 'prompt', 'hybrid_image', 'choice')

@@ -117,6 +117,12 @@ class EditTests(unittest.TestCase):
         s, _ = edit(s, 'put the cow on the car', ALIASES, TOPICS)
         self.assertEqual(s['relations'], [(0, 'on', 1)])
 
+    def test_a_complete_new_request_is_not_an_edit(self):
+        picture = dict(role='assistant', content='Created 2 small images of a woman.')
+        before = [dict(role='user', content='make a portrait of a woman'), picture]
+        self.assertFalse(picture_follow_up(before + [dict(role='user', content='make a portrait of a man')]))
+        self.assertTrue(picture_follow_up(before + [dict(role='user', content='make it a cartoon')]))
+
     def test_follow_up_detection_needs_a_picture_before(self):
         picture = dict(role='assistant', content='Created 2 small images of a cat.')
         self.assertTrue(picture_follow_up([dict(role='user', content='draw a cat'), picture, dict(role='user', content='make it blue')]))

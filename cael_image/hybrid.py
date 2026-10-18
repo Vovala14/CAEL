@@ -52,25 +52,28 @@ def border_colour(image):
 
 
 def warp(image, transform, fill):
-    """Apply (scale, dx, dy, mirror) about the centre; dx, dy are fractions of the width. Works at any size."""
+    """Apply (scale, dx, dy, mirror) about the centre; dx, dy are fractions of the width. Works at any size.
+
+    Uncovered border pixels repeat the nearest real edge pixel (no flat panels). A one-channel image with a
+    fill of 0 (a mask) is filled with 0 instead, so nothing outside the object counts as object.
+    """
+    from scipy.ndimage import map_coordinates
     scale, dx, dy, mirror = transform
     if scale == 1.0 and dx == 0.0 and dy == 0.0 and not mirror:
         return image
     size = image.shape[0]
-    channels = image.shape[2]
-    out = []
-    for c in range(channels):
-        plane = Image.fromarray(image[..., c].astype(np.float32), mode='F')
-        if mirror:
-            plane = plane.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
-        # Output pixel p comes from input (p - centre - shift) / scale + centre.
-        centre = (size - 1) / 2
-        a = 1 / scale
-        tx, ty = dx * size, dy * size
-        coeffs = (a, 0, centre - a * (centre + tx), 0, a, centre - a * (centre + ty))
-        plane = plane.transform((size, size), Image.Transform.AFFINE, coeffs, resample=Image.Resampling.BILINEAR, fillcolor=fill[c])
-        out.append(np.asarray(plane, np.float32))
-    return np.clip(np.stack(out, -1), 0, 1)
+    if mirror:
+        image = image[:, ::-1]
+    # Output pixel p comes from input (p - centre - shift) / scale + centre.
+    centre = (size - 1) / 2
+    yy, xx = np.mgrid[:size, :size].astype(np.float32)
+    sy = (yy - centre - dy * size) / scale + centre
+    sx = (xx - centre - dx * size) / scale + centre
+    mask_like = image.shape[2] == 1 and tuple(fill) == (0.0,)
+    out = np.stack([map_coordinates(image[..., c].astype(np.float32), [sy, sx], order=1,
+                                    mode='constant' if mask_like else 'nearest', cval=0.0)
+                    for c in range(image.shape[2])], -1)
+    return np.clip(out, 0, 1)
 
 
 def silhouette_transform(anchor, mask):
@@ -161,7 +164,7 @@ def deform(image, rng, strength):
     return np.clip(out, 0, 1)
 
 
-def seam_fuse(soft, sharp, owner, weight):
+def seam_fuse(soft, sharp, owner, weight, across=None):
     """Screened Poisson fusion: the sharp image's gradients inside each source region, the soft image's gradients
     across region borders (where seams would be), and the soft image's colours as a weak anchor.
 
@@ -177,8 +180,9 @@ def seam_fuse(soft, sharp, owner, weight):
     eigen = ky[:, None] + kx[None, :]
     for c in range(soft.shape[2]):
         s, t = soft[..., c], sharp[..., c]
-        gx = np.where(same_x, t[:, 1:] - t[:, :-1], s[:, 1:] - s[:, :-1])
-        gy = np.where(same_y, t[1:] - t[:-1], s[1:] - s[:-1])
+        a = s if across is None else across[..., c]   # gradients used across region borders
+        gx = np.where(same_x, t[:, 1:] - t[:, :-1], a[:, 1:] - a[:, :-1])
+        gy = np.where(same_y, t[1:] - t[:-1], a[1:] - a[:-1])
         div = np.zeros_like(s)
         div[:, :-1] += gx
         div[:, 1:] -= gx
@@ -327,7 +331,7 @@ class HybridModel:
     def generate(self, topic, n=2, seed=0, iterations=4, guide_weight=0.35, usage_penalty=0.02, donors=None, sharpness=3.0,
                  unsharp=0.0, hard_final=False, detail=False, style=None, return_masks=False, same_style=False, min_distance=0.0,
                  best_of=1, align=False, hires=None, hires_steps=2, seam_blend=0.0, pairing=False, default_styles=None,
-                 structure=0.0):
+                 structure=0.0, shape_first=0, faces=False):
         """donors=None uses every training image of the topic; a small number gives more coherent pictures.
 
         best_of sketches that many candidates up to the second-finest level and finishes only the one whose
@@ -344,12 +348,26 @@ class HybridModel:
         rng = np.random.default_rng(seed)
         images, reports, masks = [], [], []
         tries = 3 if min_distance else 1
+        portraits = faces and self.face_people(topic) is not None
         for _ in range(n):
+            # Head-and-shoulders portraits of people: landmark face morphing (asked-for portrait style, or
+            # every other picture of a plain request); everything else: patch synthesis.
+            if portraits and (style == 0 or (style is None and rng.random() < 0.5)):
+                image, report = self.face_morph(topic, rng, max(min_distance, 25.0))
+                images.append(image)
+                reports.append(report)
+                if return_masks:
+                    masks.append(None)
+                continue
+            if portraits and style is None:
+                full_body = dict(style=1)
+            else:
+                full_body = {}
             farthest = None
             for attempt in range(tries):
                 result = self._one(topic, rng, iterations, guide_weight, usage_penalty, donors, sharpness, unsharp, hard_final,
-                                   detail, style, return_masks, same_style, float(min_distance), best_of, align, hires,
-                                   hires_steps, seam_blend, pairing, default_styles, structure)
+                                   detail, full_body.get('style', style), return_masks, same_style, float(min_distance), best_of, align, hires,
+                                   hires_steps, seam_blend, pairing, default_styles, structure, shape_first)
                 if farthest is None or result[4] > farthest[4]:
                     farthest = result
                 if not min_distance or result[4] >= min_distance:
@@ -370,9 +388,60 @@ class HybridModel:
             return np.stack(images), reports, masks
         return np.stack(images), reports
 
+    def face_people(self, topic):
+        """Training indices of portraits with reliable landmarks, or None when the topic has none."""
+        key = ('faces', topic)
+        if key not in self._pyramids:
+            name = f'{topic}/landmarks'
+            if name not in self.data.files:
+                self._pyramids[key] = None
+            else:
+                marks = self.data[name]
+                usable = np.flatnonzero(~np.isnan(marks[:, 0, 0]))
+                self._pyramids[key] = (usable, marks) if len(usable) >= 4 else None
+        return self._pyramids[key]
+
+    def face_morph(self, topic, rng, min_distance, tries=6):
+        """A new head-and-shoulders face: landmark morph of three look-alike people (see cael_image.morph).
+
+        `tries` combinations; among those at least min_distance (64 px RMSE, mirrors included) from every
+        training image, the one with the least ghosting is kept; if none is far enough, the farthest.
+        """
+        from .morph import morph
+        usable, marks = self.face_people(topic)
+        looks = self.small(topic)
+        originals = self.pyramid(topic)[64]
+        best = None
+        for _ in range(tries):
+            base = int(rng.choice(usable))
+            shape = marks[base] - marks[base].mean(0)
+
+            def gap(k):
+                # Same head pose and proportions matter most (normalised landmark shape), then similar lighting.
+                other = marks[k] - marks[k].mean(0)
+                scale = np.sqrt((shape ** 2).sum() / max((other ** 2).sum(), 1e-6))
+                return float(((other * scale - shape) ** 2).mean()) / 25 + float(((looks[k] - looks[base]) ** 2).mean()) * 20
+            near = sorted((int(k) for k in usable if k != base), key=gap)[:3]
+            others = [int(k) for k in rng.choice(near, 2, replace=False)]
+            people = [base] + others
+            images = self.detail_images(topic, people).astype(np.float32) / 255
+            face, _, ghost = morph(list(images), [marks[k] for k in people], np.array([0.4, 0.3, 0.3]), surround=[0.6, 0.4, 0.0])
+            face = resize(face, self.size)
+            small = resize(face, 64)
+            distance = float(min(np.sqrt(((originals - small[None]) ** 2).mean((1, 2, 3))).min(),
+                                 np.sqrt(((originals[:, :, ::-1] - small[None]) ** 2).mean((1, 2, 3))).min()) * 255)
+            # Novel enough first, then least ghosting; if nothing is novel enough, the most novel.
+            key = (distance >= min_distance, -ghost if distance >= min_distance else distance)
+            if best is None or key > best[0]:
+                best = (key, face, distance, people)
+        _, face, distance, people = best
+        report = dict(method='landmark face morph', people=people, largest_source_share=0.4, sources_used=3,
+                      donors=people, nearest_training_rmse=round(distance, 1))
+        return np.clip(face * 255 + 0.5, 0, 255).astype(np.uint8), report
+
     def _one(self, topic, rng, iterations, guide_weight, usage_penalty, donors, sharpness, unsharp, hard_final, detail,
              style, return_masks, same_style, measure, best_of=1, align=False, hires=None, hires_steps=2, seam_blend=0.0,
-             pairing=False, default_styles=None, structure=0.0):
+             pairing=False, default_styles=None, structure=0.0, shape_first=0):
         """One picture: sample a layout, pick donors, run coarse-to-fine patch synthesis."""
         pyramid = self.pyramid(topic)
         coarse, finest = self.levels[:-1], self.levels[-1]
@@ -400,6 +469,14 @@ class HybridModel:
             chosen = self.donors(topic, layout, donors, candidate_style, pairing=pairing) if donors else np.arange(len(pyramid[self.size]))
             stacks = self.aligned(topic, chosen) if (align or structure) and donors and len(chosen) > 1 else None
             guide = resize(layout, self.size)
+            if shape_first and donors:
+                # Shape first: the guide is the aligned average of the closest real pictures (each shifted, scaled
+                # and mirrored onto the first). One coherent outline and arrangement of parts, blurry, and not any
+                # single picture; the patches must follow it to the end, so two poses cannot be stitched together.
+                group = self.donors(topic, layout, max(shape_first, len(chosen)), candidate_style)
+                group = np.concatenate([chosen, [g for g in group if g not in chosen]])[:max(shape_first, len(chosen))]
+                guide = self.aligned_mean(topic, group)
+                stacks = self.aligned(topic, chosen)
             if structure and donors:
                 # Structure from one real picture: the first donor, bent by a smooth random warp (and sometimes
                 # mirrored) into a new pose. Its outline and proportions guide every synthesis step, so the result
@@ -407,7 +484,7 @@ class HybridModel:
                 anchor = (stacks[self.size][0] if stacks is not None else pyramid[self.size][chosen[0]])
                 guide = deform(anchor, rng, structure)
             state = dict(chosen=chosen, stacks=stacks, guide=guide, current=resize(guide, self.levels[0]),
-                         usage=np.zeros(len(chosen), np.float32), stats={}, structure=bool(structure and donors),
+                         usage=np.zeros(len(chosen), np.float32), stats={}, structure=bool((structure or shape_first) and donors),
                          structure_floor=0.35)
             for size in (coarse if best_of > 1 else []):
                 self._level(state, topic, size, iterations, guide_weight, usage_penalty, rng, sharpness, False, detail, False)
@@ -498,6 +575,24 @@ class HybridModel:
             state['current'], state['sources'], state['alpha'] = self.patch_step(
                 query, level_guide, source[size], size, weight, usage_penalty, state['usage'], rng, sharpness, hard, match,
                 alpha_source, stats=state['stats'])
+
+    def aligned_mean(self, topic, group):
+        """Mean of the group's pictures after warping each onto the first (silhouettes for objects, horizon for scenes).
+
+        For objects only the objects are averaged (inside their silhouettes), over the first picture's own
+        background, so the guide never mixes unrelated backgrounds.
+        """
+        group = np.asarray(group)
+        aligned = self.aligned(topic, group)
+        stack = aligned[self.size]
+        has_mask = f'{topic}/has_mask' in self.data.files and bool(self.data[f'{topic}/has_mask'][group].all())
+        if not has_mask:
+            return stack.mean(0)
+        masks = aligned['mask']
+        total = masks.sum(0)
+        objects = (stack * masks).sum(0) / np.maximum(total, 1e-6)
+        coverage = np.clip(total / len(group) * 1.5, 0, 1)        # where most of the group agrees there is object
+        return stack[0] * (1 - coverage) + objects * coverage
 
     def aligned(self, topic, chosen):
         """Donor stacks with every donor warped onto the first one (shift, scale, mirror); all pyramid levels."""

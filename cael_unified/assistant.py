@@ -66,10 +66,16 @@ def picture_reply(message):
     return message.get('role') == 'assistant' and message['content'].startswith('Created ') and ' image' in message['content'][:60]
 
 
+def new_picture_request(text):
+    """'make a portrait of a man' is a new picture even right after one; 'make it blue' or 'draw it again' is not."""
+    return bool(IMAGE.search(text)) and not re.search(r'(?i)\b(?:it|them|that|again|same|instead)\b', text)
+
+
 def picture_follow_up(messages):
     """'make it blue' right after a picture: an edit of that picture, not a chat message."""
     from cael_image.scene import is_edit
-    return len(messages) >= 3 and picture_reply(messages[-2]) and is_edit(messages[-1]['content'])
+    text = messages[-1]['content']
+    return len(messages) >= 3 and picture_reply(messages[-2]) and is_edit(text) and not new_picture_request(text)
 
 
 class Assistant:
@@ -322,7 +328,8 @@ class Assistant:
         model, _ = active
         aliases = model.meta['aliases'] or {t: [t.replace('_', ' ')] for t in model.topics}
         text = messages[-1]['content'].strip()
-        if picture_follow_up(messages) or (is_edit(text) and len(messages) >= 3 and picture_reply(messages[-2])):
+        if picture_follow_up(messages) or (is_edit(text) and not new_picture_request(text) and len(messages) >= 3
+                                           and picture_reply(messages[-2])):
             # Replay the chain of picture requests and edits that led to the last picture.
             chain = []
             for i in range(len(messages) - 2, 0, -2):

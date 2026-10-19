@@ -16,7 +16,7 @@ def is_prompt_request(text):
     return bool(REQUEST.match(text) and not CODE_TOOL.search(text))
 
 
-def parse(text, forced=False):
+def parse(text, forced=False, default_kind='task'):
     match=REQUEST.match(text)
     if not match and not forced:return None
     prefix=text[:match.end()] if match else ''
@@ -32,7 +32,7 @@ def parse(text, forced=False):
     elif re.search(r'(?i)\b(?:image|photo|picture)\s+prompts?\b',prefix):kind='image'
     elif re.match(r'(?i)(?:an?\s+)?(?:story|tale|fable)\b',brief):kind='story'
     elif re.match(r'(?i)(?:an?\s+)?(?:image|photo|picture|portrait|drawing|painting|illustration)\b',brief):kind='image'
-    else:kind='task'
+    else:kind=default_kind
     if len(brief)>8000:raise ValueError('Keep the prompt brief under 8,000 characters.')
     return dict(kind=kind,brief=brief,count=count)
 
@@ -45,13 +45,25 @@ class PromptGenerator:
         if entry and digest(path)!=entry['sha256']:raise ValueError('Active prompt model checksum changed')
         self.model=CAEL(path)
 
-    def respond(self,text,seed=0,forced=False):
-        try:request=parse(text,forced)
+    def respond(self,text,seed=0,forced=False,default_kind='task'):
+        try:request=parse(text,forced,default_kind)
         except ValueError as error:
             return dict(route='chat/prompt-clarify',response=str(error),sources=[])
         if request is None:return None
         if not request['brief']:
             return dict(route='chat/prompt-clarify',response='What should the prompt be for? Give me an image idea, a story idea, or an assistant task.',sources=[])
+        if request['kind']=='image':
+            # A detailed, ready-to-use image prompt built from the idea (cael_unified/image_prompt.py).
+            from .image_prompt import image_prompts
+            try:prompts,notes=image_prompts(request['brief'],request['count'],seed)
+            except ValueError as error:
+                return dict(route='chat/prompt-clarify',response=str(error),sources=[])
+            response=prompts[0] if len(prompts)==1 else '\n\n'.join(f'{i+1}. {value}' for i,value in enumerate(prompts))
+            return dict(route='chat/prompt-image',response='Image prompt:\n'+response,sources=[],prompts=prompts,
+                details=(f'Subject: {notes["subject"]}. Medium: {notes["style"]}. Your scene and written constraints are kept at the start. '
+                         f'Added visual detail: {"; ".join(notes["additions"])}. '
+                         f'Optional avoidance terms (separate from the copyable prompt): {notes["avoid"]}.'),
+                prompt_generation=dict(kind='image',variants=len(prompts),neural_networks=False))
         marker='__CAEL_BRIEF_SLOT__'
         while marker in request['brief']:marker+='X'
         event='PROMPT_'+request['kind'].upper()

@@ -81,6 +81,11 @@ class KnowledgeQuery:
             kind = max(self.model['intents'], key=lambda label: score(self.model['intents'][label], features))
         if kind == 'comparison' and not re.search(r'(?i)\b(?:compare|difference|versus|vs|differ|distinguish\w*)\b', clean):
             kind = 'definition'
+        mechanism = re.fullmatch(r'(?i)how\s+(?:(?:does|do|did)\s+)?(?:an?\s+|the\s+)?(.+?)\s+(?:work|works|operate|operates|function|functions)(?:\s+(?:in simple terms|briefly|please|exactly))*[?.!]*', clean)
+        if mechanism:
+            subject = mechanism[1].strip(' ?.!,')
+            return dict(kind='mechanism', subject=subject[:240], terms=content_words(subject)[:16],
+                        static=static_allowed(clean), original=clean)
         # Accept both question order and common declarative order. Strip the
         # question frame before retrieval so grammar cannot become topic text.
         temporal = re.fullmatch(r'(?i)(?:when|(?:in\s+)?(?:what|which)\s+year)\s+(?:(?:was|were|is|did)\s+)?(?:an?\s+|the\s+)?(.+?)\s+(?:(?:was|were|is)\s+)?(?:first\s+)?(invented|born|developed|founded|discovered|created|formed|established|started|start|begin|began)[?.!]*', clean)

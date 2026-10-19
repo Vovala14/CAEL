@@ -11,6 +11,7 @@ from .request_policy import RequestPolicy
 from .knowledge import KnowledgeStore, edit_distance
 from .knowledge_query import KnowledgeQuery, static_allowed, content_words, canonical_question, EXPLICIT_WEB
 from .knowledge_html import ArticleText
+from .source_quality import intact_text
 from . import explain
 
 WIKI = 'https://en.wikipedia.org/w/api.php?'
@@ -344,6 +345,9 @@ class FactLookup:
         if not page:
             raise LookupUnavailable('The matching page has no readable summary')
         full_extract = re.sub(r'\s+', ' ', page['extract']).strip()
+        if not intact_text(page['extract']) or not intact_text(title):
+            return result('I could not verify a readable answer from the connected source.', 'unreadable', [],
+                          'The source text contained a known text-loss marker. Missing characters were not guessed or cached.')
         extract = shorten(full_extract, words=55, sentences=2)
         url = page.get('fullurl') or 'https://en.wikipedia.org/wiki/' + quote(title.replace(' ', '_'))
         if 'disambiguation' in extract[:300].lower() or 'may refer to:' in extract[:300].lower():
@@ -366,9 +370,11 @@ class FactLookup:
                 except (LookupUnavailable, KeyError, TypeError, ValueError):
                     pass
             try:
-                self.knowledge.remember(record)
-                selected = self.knowledge.lookup(parsed_question)
-                if selected and selected['route'] == 'chat/local-knowledge':
+                stored = self.knowledge.remember(record)
+                selected = self.knowledge.lookup(parsed_question) if stored else None
+                if (selected and selected['route'] == 'chat/local-knowledge'
+                        and selected.get('knowledge', {}).get('title') == record['title']
+                        and any(item['url'] == record['url'] for item in selected.get('sources', []))):
                     selected['route'] = 'chat/web-wikipedia-extractive'
                     selected['knowledge']['internet_used'] = True
                     selected['details'] += ' This request fetched the provider before selecting the excerpt.'
@@ -378,7 +384,7 @@ class FactLookup:
                     return selected
             except (OSError, sqlite3.Error):
                 pass
-        if parsed_question and parsed_question['kind'] in ('cause', 'mechanism', 'comparison', 'time', 'location'):
+        if parsed_question and parsed_question['kind'] in ('cause', 'mechanism', 'comparison', 'time', 'location', 'historical-event'):
             return result(f'I found background on {title}, but could not verify a direct answer to that question from the available passages.', 'answer-not-found',
                           [source('Wikipedia', url, 'CC BY-SA 4.0', CCBYSA, 'Wikipedia contributors')])
         if not static_allowed(text) and re.search(r'(?i)\b(?:latest|current|currently|now|today|version|price|cost|available)\b', text):
@@ -392,6 +398,15 @@ class FactLookup:
         parsed = parsed or self.news_policy.parse(text)
         if parsed is None:
             return None
+        from .news_time import unsupported_period
+        if unsupported_period(text):
+            parsed = dict(parsed, period='unsupported', requested_period=unsupported_period(text))
+        if parsed.get('period') == 'unsupported':
+            scope = parsed.get('requested_period') or 'that date range'
+            return dict(response=f'I cannot verify news for that period ({scope}). '
+                        'Ask for recent news, today or yesterday, or name a historical topic and year.',
+                        route='chat/web-unsupported-news-period', sources=[],
+                        details='The requested period was not replaced with a current-news digest. No news feed was fetched.')
         query = parsed['topic']
         if not query:
             return self.topic_news('', period=parsed.get('period', 'recent')) if parsed.get('period') in ('today', 'yesterday') else self.world_news()
@@ -537,8 +552,33 @@ class FactLookup:
         return None
 
     def respond(self, text, messages=None):
+        from .factual_context import resolve,needs_topic
+        interpreted,context=resolve(text,messages,self.knowledge_query)
+        if context is None and needs_topic(text):
+            return dict(route='chat/factual-clarify',response='Which topic do you mean? Name it so I can check the answer.',sources=[],
+                        details='No unambiguous public subject was found in this conversation; no internet request was made.')
+        parsed=self.knowledge_query.parse(interpreted) if context else None
+        # A resolved "How does it work?" must keep the established local-first
+        # behavior instead of triggering an article fetch solely after expansion.
+        answer=self.knowledge.lookup(parsed) if parsed and parsed['static'] else None
+        if answer is None:answer=self._respond(interpreted,messages)
+        if answer is not None and context:
+            answer=dict(answer,details=answer.get('details','')+'\nFollow-up topic from this chat: '+context['subject']+'. Question interpreted as: '+context['question'])
+        return answer
+
+    def _respond(self, text, messages=None):
         text = canonical_question(text)
         text = re.sub(r'(?i)^(?:can|could|would) you (?:please )?(?=(?:search|look up|check|tell me))', '', text)
+        from .news_time import historical_question, unsupported_period
+        historical = historical_question(text)
+        if historical:
+            local = self.knowledge.lookup(historical)
+            if local:
+                return local
+            try:
+                return self.wikipedia(text, parsed_question=historical)
+            except (LookupUnavailable, KeyError, TypeError, ValueError, IndexError):
+                return result('I could not verify that historical event from the connected sources just now.', 'unavailable', [])
         request = self.request_policy.parse(text)
         # An explicit reference search must not become weather/news solely from
         # an out-of-domain classifier guess. Domain-specific requests still use
@@ -554,6 +594,8 @@ class FactLookup:
         if re.search(r'\b(?:stock|crypto|bitcoin|ethereum|btc|eth)\b.*\b(?:price|worth|value)\b|\b(?:price|value)\b.*\b(?:stock|crypto|bitcoin|ethereum|btc|eth)\b|\b(?:live score|last game|next game|f1 results)\b', text, re.I):
             return result('I do not have a verified free commercial feed for live prices or sports results. I will not substitute an old encyclopedia entry for live data.', 'unsupported', [])
         parsed_news = self.news_policy.parse(text)
+        if parsed_news and parsed_news.get('period') == 'unsupported':
+            return self.news(text, parsed_news)
         if request['intent'] in ('weather', 'faq'):
             parsed_news = None
         elif request['intent'] == 'sports' and not parsed_news:
@@ -561,13 +603,29 @@ class FactLookup:
         followup = re.fullmatch(r'(?i)(?:what|how) about (.+?)[?.!]*', text)
         if followup and messages:
             previous = next((message['content'] for message in reversed(messages[:-1]) if message.get('role') == 'user'), '')
-            if self.news_policy.parse(previous):
-                parsed_news = dict(topic=followup[1].strip(' ?.!,').lower()[:180], limit=3, max_words=75, learned=True)
+            previous_news = self.news_policy.parse(previous)
+            if previous_news:
+                period = 'yesterday' if re.search(r'(?i)\byesterday\b', text) else 'today' if re.search(r'(?i)\btoday\b', text) else previous_news.get('period', 'recent')
+                scope = unsupported_period(text)
+                if scope:
+                    period = 'unsupported'
+                topic = re.sub(r'(?i)\b(?:today|yesterday|recent|latest)\b', '', followup[1]).strip(' ?.!,').lower()[:180]
+                if not topic:
+                    topic = previous_news['topic']
+                    if previous_news.get('period') == 'unsupported' and not topic:
+                        period = 'unsupported'  # Ask for an explicit topic rather than invent a world-news scope.
+                parsed_news = dict(topic=topic, limit=3, max_words=75, learned=True,
+                                   period=period, requested_period=scope or previous_news.get('requested_period'))
         if parsed_news is not None:
             try:
                 return self.news(text, parsed_news)
             except (LookupUnavailable, KeyError, TypeError, ValueError, IndexError):
                 return result('I could not verify the news feed right now. Please try again shortly.', 'unavailable', [])
+        parsed_question = self.knowledge_query.parse(text)
+        if parsed_question and parsed_question['static'] and parsed_question['kind'] == 'mechanism':
+            local = self.knowledge.lookup(parsed_question)
+            if local:
+                return local
         request_to_explain = explain.parse(text)
         if request_to_explain:
             try:

@@ -1,4 +1,4 @@
-"""Shared 0.2.3 worker: anonymous sessions, queued jobs, private image access.
+"""Shared 0.2.4 worker: anonymous sessions, queued jobs, private image access.
 
 There is no visitor-count cap. Bounded work queues protect the PC's resources;
 chat and image work use separate pools so image generation does not block chat.
@@ -31,7 +31,7 @@ async function waitJob(id){const started=Date.now();while(Date.now()-started<900
 form.addEventListener('submit',async event=>{event.preventDefault();const text=input.value.trim();if(!text)return;add(text,true);messages.push({role:'user',content:text});input.value='';setThinking(true);try{const payload={messages:messages,mode:document.querySelector('#mode').value,n:2,client_id:crypto.randomUUID()};const id=await submitJob(payload);const result=await waitJob(id);add(result.response,false,result.images||[],result.details||'');messages.push({role:'assistant',content:result.response})}catch(error){add(error.message);messages.pop()}finally{setThinking(false);input.focus()}});
 '''
 PAGE = LOCAL_PAGE[:LOCAL_PAGE.index("form.addEventListener('submit'")] + PUBLIC_SCRIPT + '</script></html>'
-PAGE = PAGE.replace('Chat, helper, emoji and small pictures in one place', 'Chat, helper, emoji and small pictures · shared 0.2.3 worker')
+PAGE = PAGE.replace('Chat, helper, emoji and small pictures in one place', 'Chat, helper, emoji and small pictures · shared 0.2.4 worker')
 PAGE = PAGE.replace('</header>', '<br><small><a href="/sources" target="_blank" rel="noopener" style="color:inherit">Internet data sources and licences</a></small></header>')
 PAGE = PAGE.replace("add(result.response,false,result.images||[],result.details||'')", "add(result.response,false,result.images||[],result.details||'',result.sources||[])")
 
@@ -40,6 +40,14 @@ def sources_page():
     notices = []
     active=ROOT/'research/active_models.json'
     language=json.loads(active.read_text()).get('language') if active.is_file() else None
+    repair=json.loads(active.read_text()).get('text_repair') if active.is_file() else None
+    if repair:
+        notices.append('<h2>Spelling interpretation</h2><p>Locally authored control-phrase word and bigram counts; no neural model or private conversations. '
+                       'A do-not-rewrite vocabulary is adapted from '
+                       '<a href="https://github.com/hermitdave/FrequencyWords">FrequencyWords, Hermit Dave and contributors, OpenSubtitles 2018</a> '
+                       'under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. '
+                       'Only alphabetic words occurring at least 1,000 times were retained. The derived checkpoint includes attribution and the full licence. '
+                       'These authors do not endorse CAEL. Interpretations appear under About this result; names, code and negation are protected conservatively.</p>')
     if language:
         notices.append('<h2>Unified language training data</h2><p>Non-neural sparse token counts and authored social scenarios. '
                        'No private conversations or Tiny Theory of Mind test answers were used for fitting.</p>'

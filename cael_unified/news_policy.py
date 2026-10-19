@@ -55,10 +55,20 @@ class NewsPolicy:
             raise ValueError('Unsupported news policy')
 
     def parse(self, text):
+        from .news_time import NON_NEWS, news_scope_request, unsupported_period
+        if NON_NEWS.search(text):
+            return None
+        if news_scope_request(text):
+            return dict(topic='', limit=3, max_words=75, learned=False,
+                        period='unsupported', requested_period=unsupported_period(text))
         period = 'yesterday' if re.search(r'\byesterday\b', text, re.I) else 'today' if re.search(r'\btoday\b', text, re.I) else 'recent'
-        clean = re.sub(r'(?i)\b(?:this week|last week|past week|last 24 hours|right now|this morning)\b', '', text)
+        clean = re.sub(r'(?i)\b(?:this week|last week|past week|past (?:7|seven) days|last 24 hours|right now|this morning)\b', '', text)
         words = tokens(clean)
         if not words or not self.model:
+            return None
+        # A positive out-of-domain score is not sufficient evidence that an
+        # ordinary chat request is asking for current events.
+        if not set(words)&(CUES|{'latest','newest','recent','update'}) and not re.search(r"(?i)\bwhat(?:'s| is) (?:new|going on)\b",clean):
             return None
         if score(self.model['intent'], intent_features(words)) <= 0:
             return None

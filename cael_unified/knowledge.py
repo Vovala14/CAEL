@@ -14,6 +14,7 @@ from .bundle import ROOT
 from .knowledge_query import normalize, content_words, words, static_allowed
 from .news_policy import shorten
 from .knowledge_time import temporal_excerpt
+from .source_quality import intact_text
 
 DEFAULT = ROOT / 'models/cael-knowledge-v1/knowledge.sqlite'
 ONLINE = ROOT / 'data/knowledge_online_023.sqlite'
@@ -45,7 +46,7 @@ def phrase_index(path, modified):
 
 
 def readable_excerpt(text):
-    return (text.count('(') == text.count(')') and not re.search(r'(?i)\b(?:a|an|the|of|as|by|with|in|at|from|to|and|or|is|are|was|were)\s+[.,;:]', text)
+    return (intact_text(text) and text.count('(') == text.count(')') and not re.search(r'(?i)\b(?:a|an|the|of|as|by|with|in|at|from|to|and|or|is|are|was|were)\s+[.,;:]', text)
             and not re.search(r'(?i)\b(?:respects|as follows|the following|namely)\s*[:.]?$', text))
 
 
@@ -259,7 +260,13 @@ class KnowledgeStore:
             return dict(response='Which meaning do you mean: ' + '; '.join(found['ambiguous']) + '?',
                         route='chat/local-knowledge-ambiguous', sources=[], details='Multiple local article meanings; no meaning was guessed.')
         connection, document, exact = found
+        if not intact_text(document['title']):
+            return None
         passages = self.document_rows(connection, document['id'])
+        # Never shorten away a lost character and then treat the remainder as
+        # an intact quote. Definitions still require their original first intro.
+        if parsed['kind'] != 'definition':
+            passages = [row for row in passages if intact_text(row['body']) and intact_text(row['heading'])]
         extras = set(parsed['terms']) - set(content_words(document['title']))
         if extras and parsed['kind'] == 'definition':
             # "the rules of chess" is its own article ("Rules of chess"); a paragraph of
@@ -269,17 +276,32 @@ class KnowledgeStore:
             passages = [row for row in passages if extras <= set(content_words(row['body']))]
         if not passages:
             return None
-        if parsed['kind'] == 'time':
-            selected = temporal_excerpt(passages, parsed, document['title'])
-            if selected is None or not readable_excerpt(selected[0]) or len(selected[0].split()) < 8:
+        if parsed['kind'] == 'historical-event':
+            from .news_time import historical_excerpt
+            selected = historical_excerpt(passages, parsed, document['title'])
+            if selected is None or not readable_excerpt(selected[0]):
                 return None
             text, chosen = selected
-            return self.answer(text, document, chosen, exact)
+            answer = self.answer(text, document, chosen, exact)
+            answer['details'] += ' One explicitly dated source event; not a complete history of that year.'
+            return answer
+        if parsed['kind'] == 'time':
+            selected = temporal_excerpt(passages, parsed, document['title'])
+            minimum = 3 if parsed.get('event') in ('founded', 'formed', 'started') else 8
+            if selected is None or not readable_excerpt(selected[0]) or len(selected[0].split()) < minimum:
+                return None
+            text, chosen = selected
+            answer = self.answer(text, document, chosen, exact)
+            if text not in chosen['body'] and text.startswith(document['title'] + ' '):
+                answer['details'] += ' Source subject pronoun expanded to the article title; other wording retained.'
+            return answer
         weights = self.ranker.get('answer_weights', {})
         kind = parsed['kind']
         if kind == 'definition':
             passages = [row for row in passages if row['heading'] == 'Introduction'] or passages[:1]
             passages = passages[:1]  # General definitions must start with the article's overview.
+            if not intact_text(passages[0]['body']) or not intact_text(passages[0]['heading']):
+                return None
         def rank(row):
             features = answer_features(kind, row['heading'], row['body'], int(row['position']), parsed['terms'])
             return sum(weights.get(key, 0.) * value for key, value in features.items()) - .001 * int(row['position'])
@@ -295,7 +317,15 @@ class KnowledgeStore:
         if kind in ('mechanism', 'location'):
             intro = passages[0]
             intro_features = answer_features(kind, intro['heading'], intro['body'], int(intro['position']), parsed['terms'])
-            if intro['heading'] == 'Introduction' and intro_features.get(kind + ':body_' + kind):
+            focused = []
+            if kind == 'mechanism':
+                focused = [row for row in ordered
+                           if re.fullmatch(r'(?i)mechanisms?|process|principles?|operation|working principle|overview|how it works', row['heading'].strip())
+                           and answer_features(kind, row['heading'], row['body'], int(row['position']), parsed['terms']).get('mechanism:body_mechanism')
+                           and readable_excerpt(row['body'])]
+            if focused:
+                ordered = focused + [row for row in ordered if row not in focused]
+            elif intro['heading'] == 'Introduction' and intro_features.get(kind + ':body_' + kind):
                 ordered = [intro] + [row for row in ordered if row != intro]
         chosen = ordered[0]
         if kind == 'mechanism':
@@ -371,6 +401,8 @@ class KnowledgeStore:
         for connection, document, _ in found:
             rows = self.document_rows(connection, document['id'])
             for row in rows:
+                if not intact_text(row['body']) or not intact_text(row['heading']) or not intact_text(document['title']):
+                    continue
                 if not terms <= set(content_words(row['body'])):
                     continue
                 sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', row['body'])
@@ -393,7 +425,9 @@ class KnowledgeStore:
     def remember(self, record):
         """Persist only canonical public provider text, never prompts or conversations."""
         if record.get('licence') != 'CC BY-SA 4.0' or not record.get('revision') or not record['url'].startswith('https://en.wikipedia.org/'):
-            return
+            return False
+        if not intact_text(record.get('title')) or any(not intact_text(section['heading']) or any(not intact_text(body) for body in section['paragraphs']) for section in record['sections']):
+            return False  # Preserve an existing clean public-cache entry.
         self.online_path.parent.mkdir(parents=True, exist_ok=True)
         with closing(sqlite3.connect(self.online_path, timeout=10)) as connection, connection:
             connection.execute('PRAGMA journal_mode=WAL')
@@ -404,3 +438,4 @@ class KnowledgeStore:
                 connection.execute('DELETE FROM passages WHERE docid=?', (docid,))
                 connection.execute('DELETE FROM aliases WHERE docid=?', (docid,))
                 connection.execute('DELETE FROM documents WHERE id=?', (docid,))
+        return True

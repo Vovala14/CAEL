@@ -321,6 +321,8 @@ def single(messages, seed=0):
         return out(f'Great choice! I can help you get started with {topic}. ' + learning_hint(verb, topic), 'learning')
 
     # Questions about CAEL.
+    if t!='help' and re.fullmatch(r'(?:please )?(?:(?:can|could|would|will) you (?:please )?)?help(?: me)?(?: please)?',t):
+        t='help me'
     if re.fullmatch(r'(?:(?:so |and |ok )?what (?:else |other things |more )?(?:can|could) you do(?: for me)?|what do you do|what are you (?:able to do|capable of|good at)|what are your (?:skills|abilities|features)|help|can you help(?: me)?|i need help|help me)(?: else)?(?: please)?', t):
         if t.startswith(('can you help', 'i need help', 'help me')):
             topic = learning_topic(messages[:-1])

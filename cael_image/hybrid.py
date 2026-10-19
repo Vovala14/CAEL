@@ -146,6 +146,65 @@ def pack(model_path, detail_images, output, quality=95):
     np.savez_compressed(output, **arrays)
 
 
+RIGID_KINDS = {'vehicle', 'building', 'furniture', 'device', 'object', 'kitchen', 'tool', 'clothing', 'toy', 'instrument', 'machine'}
+PAINTS = {'vehicle': ['red', 'blue', 'black', 'white', 'green', 'yellow', 'orange', 'navy', 'gray', None],
+          'object': [None, None, 'red', 'blue', 'black', 'white', 'green', 'yellow']}
+
+
+def topic_kinds(topic):
+    from .concepts import FACTS, kinds
+    return kinds(topic) if topic in FACTS else set()
+
+
+def rigid_topic(topic):
+    """Things that keep their shape (vehicles, furniture, devices...), from the drawing knowledge."""
+    k = topic_kinds(topic)
+    return bool(k & RIGID_KINDS) and not k & {'animal', 'person', 'place', 'plant', 'food'}
+
+
+PAINT = {  # hue (None = neutral), saturation, brightness factor
+    'red': (0.0, 0.78, 0.92), 'blue': (0.6, 0.72, 0.9), 'navy': (0.63, 0.65, 0.6), 'green': (0.33, 0.62, 0.8),
+    'yellow': (0.14, 0.8, 1.05), 'orange': (0.07, 0.82, 1.0), 'black': (None, 0.1, 0.35), 'white': (None, 0.04, 1.25),
+    'gray': (None, 0.06, 0.85),
+}
+
+
+def repaint(image, rigid):
+    """A rigid object's new paint colour, on its bodywork only.
+
+    The object is found in the finished picture (compose.object_mask) and kept only where it overlaps the source
+    object's outline, so the background is never painted; no reliable outline -> no paint. Dark parts (tyres,
+    windows, grilles) and bright neutral highlights (chrome, reflections) keep their colour; shading is kept.
+    """
+    if not rigid or not rigid.get('paint'):
+        return image
+    from .compose import hsv_to_rgb, object_mask, rgb_to_hsv
+    size = image.shape[0]
+    found = object_mask(np.clip(image * 255 + 0.5, 0, 255).astype(np.uint8))
+    if found is None:
+        return image
+    outline = rigid['mask'] if rigid['mask'].shape[0] == size else resize_gray(rigid['mask'], size)
+    region = found * (outline > 0.5)
+    hsv = rgb_to_hsv(image)
+    h, s, v = hsv[..., 0], hsv[..., 1], hsv[..., 2]
+    # Only the body's own colour is repainted: pixels near the dominant hue of the coloured part of the object.
+    # Floors, shadows and backdrops are grey and never match; grey or silver bodies keep their colour.
+    coloured = (region > 0.5) & (s > 0.25) & (v > 0.2)
+    if coloured.sum() < 0.15 * max(1.0, float((region > 0.5).sum())) or not 0.03 <= float(region.mean()) <= 0.6:
+        return image
+    angle = np.angle(np.exp(2j * np.pi * h[coloured]).mean()) / (2 * np.pi) % 1
+    near = 1 - np.clip((np.abs((h - angle + 0.5) % 1 - 0.5) - 0.06) / 0.05, 0, 1)
+    body = region * near * np.clip((s - 0.15) / 0.12, 0, 1)
+    keep_dark = np.clip((v - 0.16) / 0.14, 0, 1)                       # tyres, windows, grilles stay as they are
+    keep_chrome = 1 - np.clip((v - 0.86) / 0.08, 0, 1) * np.clip((0.2 - s) / 0.1, 0, 1)
+    weight = np.clip(body * keep_dark * keep_chrome, 0, 1)[..., None]
+    hue, sat, gain = PAINT[rigid['paint']]
+    new_v = np.clip(v * gain if hue is not None or gain <= 1 else 0.55 + v * 0.45, 0, 1)
+    new = np.stack([np.full_like(h, hue if hue is not None else 0.0), np.full_like(s, sat), new_v], -1)
+    painted = hsv_to_rgb(new)
+    return np.clip(image * (1 - weight) + painted * weight, 0, 1)
+
+
 def deform(image, rng, strength):
     """A smooth random warp of a float image (and a mirror half the time): a new pose with the same parts.
 
@@ -446,6 +505,7 @@ class HybridModel:
         pyramid = self.pyramid(topic)
         coarse, finest = self.levels[:-1], self.levels[-1]
         candidates = []
+        rigid = None
         locked_style = style
         for _ in range(max(1, best_of)):
             layout = self.layout(topic, rng)
@@ -482,15 +542,27 @@ class HybridModel:
                 # mirrored) into a new pose. Its outline and proportions guide every synthesis step, so the result
                 # has one coherent shape instead of two half-poses; the texture is rebuilt from both donors.
                 anchor = (stacks[self.size][0] if stacks is not None else pyramid[self.size][chosen[0]])
-                guide = deform(anchor, rng, structure)
+                anchor_mask = (stacks['mask'][0][..., 0] if stacks is not None else
+                               pyramid['mask'][chosen[0]][..., 0] if 'mask' in pyramid else None)
+                masked = f'{topic}/has_mask' in self.data.files and bool(self.data[f'{topic}/has_mask'][chosen[0]])
+                if rigid_topic(topic) and anchor_mask is not None and masked:
+                    # Rigid things (cars, chairs, phones, houses) must not bend: straight lines would go wavy.
+                    # They vary by mirroring, a slight shift and scale, and a new paint colour on the object.
+                    transform = (float(rng.uniform(0.94, 1.04)), float(rng.uniform(-0.03, 0.03)), float(rng.uniform(-0.02, 0.02)),
+                                 bool(rng.random() < 0.5))
+                    guide = warp(anchor, transform, (0.0, 0.0, 0.0))
+                    paint = rng.choice(PAINTS['vehicle' if 'vehicle' in topic_kinds(topic) else 'object'])
+                    rigid = dict(mask=warp(anchor_mask[..., None], transform, (0.0,))[..., 0], paint=paint)
+                else:
+                    guide = deform(anchor, rng, structure)
             state = dict(chosen=chosen, stacks=stacks, guide=guide, current=resize(guide, self.levels[0]),
                          usage=np.zeros(len(chosen), np.float32), stats={}, structure=bool((structure or shape_first) and donors),
-                         structure_floor=0.35)
+                         structure_floor=0.35, rigid=rigid if (structure and donors) else None)
             for size in (coarse if best_of > 1 else []):
                 self._level(state, topic, size, iterations, guide_weight, usage_penalty, rng, sharpness, False, detail, False)
             if best_of > 1 and measure:
                 # Novelty at the sketch stage: distance (0-255 RMSE) to the closest training image at this size.
-                sketch = state['current']
+                sketch = repaint(state['current'], state['rigid'])
                 originals = pyramid[sketch.shape[0]]
                 state['sketch_distance'] = float(np.sqrt(((originals - sketch[None]) ** 2).mean((1, 2, 3))).min() * 255)
             candidates.append(state)
@@ -533,7 +605,7 @@ class HybridModel:
             state['current'] = resize(state['current'], self.size)
             if state.get('alpha') is not None:
                 state['alpha'] = resize_gray(state['alpha'][..., 0], self.size)[..., None]
-        current = state['current']
+        current = repaint(state['current'], state['rigid'])
         if unsharp:   # classic unsharp mask: add back a share of the detail a blur removes
             blurred = np.asarray(Image.fromarray(np.clip(current * 255 + 0.5, 0, 255).astype(np.uint8))
                                  .filter(ImageFilter.GaussianBlur(1.0)), dtype=np.float32) / 255

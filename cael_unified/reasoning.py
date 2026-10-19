@@ -108,6 +108,10 @@ class Reasoner:
         return result
 
     def respond(self,text,messages=None):
+        from .reasoning_chat import respond
+        return respond(self,text,messages)
+
+    def _respond(self,text,messages=None):
         if not self.model:
             return None
         problem=split_problem(text)

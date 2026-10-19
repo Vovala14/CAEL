@@ -1,4 +1,4 @@
-# CAEL 0.2.3
+# CAEL 0.2.4
 
 **One assistant, one model bundle: chat, helpers, emoji, portraits and small
 general pictures.** The release routes between existing CAEL engines and the
@@ -20,9 +20,45 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.2.3.cael` (about 580 MB), verifies every file
+`--download` fetches `models/cael-0.2.4.cael` (about 1.1 GB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.2.4
+
+Every engine is still non-neural at runtime.
+
+- **Pictures, rebuilt (image model 0.4.3).**
+  - **Training data:** 22,110 local Stable Diffusion 1.5 renders across 114 subjects, including 2,400 varied
+    head-and-shoulders portraits.
+  - **One structure per picture:** each picture takes its shape from one real render, bent into a new pose,
+    with the texture rebuilt from two sources. The old two-source mixing produced two-headed or broken
+    subjects; this doesn't.
+  - **Rigid things:** cars, chairs, phones and houses are never bent. They're mirrored, shifted, scaled and
+    repainted on the bodywork only, with tyres, glass and chrome kept.
+  - **Other improvements:** best of 8 sketches, a 256-pixel detail pass, seam blending, and photo style unless
+    you ask for an illustration.
+  - **Copy check:** every picture must stay at least 15 RMSE away from any single training render, measured at
+    64 px and including mirror images. This is a deliberate trade of novelty for coherent shapes; previously
+    the floor was 25.
+  - See [IMAGE_HYBRID_0_4_3.md](IMAGE_HYBRID_0_4_3.md).
+- **Faces.**
+  - Portrait requests use the main model.
+  - Faces are landmark morphs of three similar-looking people, using 68 facial landmarks found offline with
+    OpenCV LBF. OpenCV isn't needed at runtime.
+  - The result is varied, coherent faces with no smeared or doubled features.
+- **Picture requests understand more:** new subjects and backgrounds (mouse, fox, wolf, deer, dolphin, desert,
+  snow, sky, ocean, park, field, room), and "make a portrait of a man" right after another picture starts a
+  new picture.
+- **Prompt helper:** "make image of a dog" becomes a detailed, ready-to-use image prompt. CAEL keeps your words
+  and adds subject detail, setting, light, framing and finish suited to the subject; things to avoid are
+  listed separately.
+- **Vynly helper:** CAEL answers questions about vynly.co (posting, provenance, Sparks, Trails, agents, account,
+  privacy, rules), each with a link to the page. Its knowledge comes from the public site and owner-approved
+  documents. A server-side site proxy can mark its requests with the `site_proxy` setting.
+- **Chat and helper:** negated feelings ("I don't feel so good") get sympathy instead of cheer. The fallback no
+  longer guesses emotions. Spelling repair, quantities, rates, groups, source-quality and factual-boundary work
+  is included (see [CHAT_HELPER_0_4_6.md](CHAT_HELPER_0_4_6.md)).
 
 ## New in 0.2.3
 
@@ -111,7 +147,7 @@ print(result["response"], result.get("paths"))
 | Helper | Exact bounded arithmetic, existing authored writing programs, story/event memory | Handwritten task programs; no general tool execution |
 | Emoji | v7 integer patch CA, silhouette guidance, speckle cleanup | Finite vocabulary; unfamiliar words may be ignored; offline |
 | Portrait | v15 registered shape/appearance statistics | Unconditional adult-woman portraits; averaged faces and artifacts |
-| Picture (0.2.3) | Hybrid: PCA layout + patch synthesis from Stable Diffusion 1.5 training renders; scene reasoning composes cut-outs | 102 topics; up to 6 objects composed from separate cut-outs, which look rough; seams on some topics |
+| Picture (0.2.4) | Hybrid 0.4.3: one real structure per picture, texture rebuilt from two SD1.5 training renders; landmark face morphing; scene reasoning composes cut-outs | 114 topics; pictures can stay recognisably close to one training render (copy floor 15); multi-object scenes look rough; most cars are grey/silver (training data) |
 | Reasoning | Rule chaining, SAT case analysis, event/position/time tracking | Simple sentence forms ("X is a Y", "Every X…", "X went to the Y") |
 | General picture (0.2.1) | Subject-conditioned statistics based on portrait code | Fallback only; 32 categories; rough images |
 | Explanations | Section selection from the matching Wikipedia article | Quoted text (CC BY-SA); encyclopedic, not recipes |

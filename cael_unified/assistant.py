@@ -120,6 +120,23 @@ class Assistant:
             return self._language.score_endings(context,endings)
 
     def respond(self, messages, n=2, seed=None, mode='auto'):
+        from .text_repair import repair_messages
+        changes=[]
+        if (mode in ('auto','chat','prompt','story') and isinstance(messages,list) and messages
+                and all(isinstance(m,dict) and m.get('role') in ('user','assistant','system')
+                        and isinstance(m.get('content'),str) for m in messages)
+                and messages[-1]['role']=='user' and len(messages)<=MAX_MESSAGES
+                and sum(len(m['content']) for m in messages)<=MAX_CHARACTERS):
+            raw_route=route_request(messages[-1]['content'],mode)
+            if raw_route not in ('image','emoji') and not choice_problem(messages[-1]['content']) and not picture_follow_up(messages):
+                messages,changes=repair_messages(messages)
+        answer=self._respond(messages,n=n,seed=seed,mode=mode)
+        if changes:
+            note='Spelling interpretation: '+'; '.join(repr(c['original'])+' → '+repr(c['replacement']) for c in changes)+'.'
+            answer=dict(answer,input_corrections=changes,details=answer.get('details','')+'\n'+note)
+        return answer
+
+    def _respond(self, messages, n=2, seed=None, mode='auto'):
         if not isinstance(messages, list) or not messages or not all(isinstance(m, dict) and m.get('role') in ('user', 'assistant', 'system') and isinstance(m.get('content'), str) for m in messages):
             raise ValueError('Invalid message format')
         if messages[-1]['role'] != 'user':
@@ -148,7 +165,7 @@ class Assistant:
                 if self._prompt is None:
                     from .promptgen import PromptGenerator
                     self._prompt = PromptGenerator()
-                return self._prompt.respond(text,seed,forced=True)
+                return self._prompt.respond(text,seed,forced=True,default_kind='image' if mode=='prompt' else 'task')
             if route == 'story':
                 return self.story_reply(messages,seed,required=True)
             # Questions about vynly.co, where CAEL is the helper chatbot (cael_unified/vynly.py).
@@ -177,7 +194,8 @@ class Assistant:
                         detail='Non-neural conditional count language component. Training attribution is listed under data sources and licences. This is a statistical choice, not a verified factual lookup.'
                     return dict(route='chat/choice-count',response=f'{"ABCD"[best]}. {endings[best]}',sources=[],
                                 details=detail,choice=best,continuation_scores=scores)
-            answer = calculate(text)
+            from .helper_chat import reply as helper_reply
+            answer = helper_reply(text,messages)
             if answer:
                 return answer
             from .codegen import chat as codegen

@@ -130,6 +130,10 @@ class Inventory:
         found=re.fullmatch(r'how (?:many|much)\s+('+U+r')\s+(?:does|do)\s+('+A+r'(?:\s+and\s+'+A+r')?)\s+(?:have|own)',question,re.I)
         have_left=re.fullmatch(r'how (?:many|much)\s+('+U+r')\s+(?:does|do)\s+('+A+r')\s+have\s+left',question,re.I)
         found=found or have_left
+        # "How many do I have?" names no item: fine when the facts track exactly one kind of item.
+        bare=None if found else re.fullmatch(r'how (?:many|much)\s+(?:does|do)\s+('+A+r'(?:\s+and\s+'+A+r')?)\s+(?:have|own)(?:\s+left)?',question,re.I)
+        if bare and len(self.units)==1:
+            found=(None,next(iter(self.units.values())),bare[1])
         if not found:raise Unclear('Ask “How many [items] does [name] have?” and specify the person and item type.')
         actor_text=found[2]
         if actor_text.lower()=='they':actors=list(self.names)

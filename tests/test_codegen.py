@@ -73,8 +73,8 @@ class ChatTests(unittest.TestCase):
         self.assertEqual(examples('Count: c("ab") == 2, c("") == 0, c("x") -> 1'), ('c', [(('ab',), 2), (('',), 0), (('x',), 1)]))
         self.assertEqual(examples('pair(1) == (1,), pair(2) == (2,)')[1], [((1,), (1,)), ((2,), (2,))])
 
-    def test_requests_without_examples_ask_for_them(self):
-        answer = reply('Write a python function to sort a list')
+    def test_unknown_requests_without_examples_ask_for_them(self):
+        answer = reply('Write a python function that parses my log format')
         self.assertEqual(answer['route'], 'chat/code-needs-examples')
         self.assertIn('==', answer['response'])
         self.assertIsNone(reply('How are you?'))

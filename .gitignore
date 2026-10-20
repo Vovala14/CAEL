@@ -55,3 +55,6 @@ cael_image/portrait_ca_p1.py
 cael_image/portrait_ca_p2.py
 cael_image/face_boxes.py
 cael_image/diag_pink.py
+
+# Long-term memory of learned rules and engine stats (cael_unified/ltm.py)
+state/

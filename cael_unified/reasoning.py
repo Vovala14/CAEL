@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import re
 from .bundle import ROOT
+from . import reasoning_compose as compose
 from .reasoning_logic import LogicCA, Unparsed, sentences
 from .reasoning_world import WorldCA
 from .reasoning_relations import relations
@@ -39,7 +40,8 @@ def split_problem(text):
 def phrase(question,answer):
     """Answer in a full sentence when the question has a familiar shape."""
     q=question.strip(' ?.')
-    forms=[(r'(?i)where is (?:the )?(.+)',lambda m:f'{m[1]} is in the {answer}.'),
+    forms=[(r'(?i)who (?:is|was) (?:in|at) (?:the )?(.+)',lambda m:f'{answer} {"are" if " and " in answer else "is"} in the {m[1]}.'),
+           (r'(?i)where is (?:the )?(.+)',lambda m:f'{m[1]} is in the {answer}.'),
            (r'(?i)where (?:will|would|does) (\w+) (?:look|search) for the (\w+)',lambda m:f'{m[1]} will look for the {m[2]} in the {answer}.'),
            (r'(?i)where was (\w+) before the (\w+)',lambda m:f'{m[1]} was in the {answer} before the {m[2]}.'),
            (r'(?i)where will (\w+) go',lambda m:f'{m[1]} will most likely go to the {answer}.'),
@@ -114,6 +116,24 @@ class Reasoner:
     def _respond(self,text,messages=None):
         if not self.model:
             return None
+        # Several questions about the same facts: answer each one (reasoning_compose.py).
+        several=compose.questions(text)
+        if several:
+            context,asked=several
+            answers=[self._respond(context+' '+q) for q in asked]
+            if all(answers) and any(a['route']!='chat/reasoning-unsupported' for a in answers):
+                body='\n\n'.join(f'**{q}** {a["response"].split(chr(10)+chr(10)+"Based on:")[0]}' for q,a in zip(asked,answers))
+                return dict(route='chat/reasoning-several',response=body,sources=[],details='Each question was answered separately against the same premises.\n'
+                            +'\n'.join(a['details'] for a in answers[:1]),reasoning=[a.get('reasoning') for a in answers])
+        # "... If John goes to the garden, where is John?": reason on a copy of the facts plus the supposition.
+        supposed=compose.hypothetical(text)
+        if supposed:
+            context,premise,question=supposed
+            answer=self._respond(context+'. '+premise+'. '+question)
+            if answer and answer['route']!='chat/reasoning-unsupported':
+                answer=dict(answer,response='Supposing '+premise+': '+answer['response'],
+                            details='Hypothetical: the supposition was added to a copy of the premises only. '+answer['details'])
+                return answer
         problem=split_problem(text)
         if problem is None and messages and re.match(r'(?i)^(?:is|does|where|who|what|how|which|why)\b',text):
             previous=next((m['content'] for m in reversed(messages[:-1]) if m.get('role')=='user'), '')
@@ -131,7 +151,9 @@ class Reasoner:
         if not scenario:
             return None
         try:
-            result=self.solve(context,question)
+            context=compose.normalise(context)
+            result=compose.solve(self.solve,context,question)
+            result.setdefault('family','state')
         except Unparsed as error:
             if not explicit:
                 return None          # looked like a puzzle but is not one we can read: let normal chat answer
@@ -155,7 +177,8 @@ class Reasoner:
             response='No carried objects are specified after the listed events.'
         else:
             display=re.search(r'(?i)\b'+re.escape(answer)+r'\b',context)
-            response=phrase(question,display[0] if display else answer)
+            asked=result.get('asked',question)   # the question after sub-answers were filled in
+            response=phrase(asked,display[0] if display else answer)
         premises=sentences(context)
         support=[f'{index}. {premises[index-1]}.' for index in sorted(set(result.get('support',[]))) if 1<=index<=len(premises)]
         # Show the reasoning, not only the verdict.
@@ -166,8 +189,12 @@ class Reasoner:
                 response+=' This is what people in that state typically do, not something the premises state outright.'
             elif result.get('inferred'):
                 response+=' This is a best guess by analogy, not something the premises state outright.'
+            if result.get('chain'):
+                response+='\n\nWorked out in steps:\n'+compose.chain_text(result['chain'])
             if support:
                 response+='\n\nBased on:\n'+'\n'.join(support[:6])
+        elif result.get('chain'):
+            response+='\n\nWhat I checked:\n'+compose.chain_text(result['chain'])
         result['internet_used']=False
         details='Reasoned only from your stated premises; no internet request. '
         if result['family']=='state':

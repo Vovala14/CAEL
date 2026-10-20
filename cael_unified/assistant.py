@@ -131,6 +131,10 @@ class Assistant:
             if raw_route not in ('image','emoji') and not choice_problem(messages[-1]['content']) and not picture_follow_up(messages):
                 messages,changes=repair_messages(messages)
         answer=self._respond(messages,n=n,seed=seed,mode=mode)
+        # Independent check of the answer; corrects or flags errors and counts outcomes per engine (verify.py, ltm.py).
+        if isinstance(answer,dict) and isinstance(messages,list) and messages and isinstance(messages[-1].get('content'),str):
+            from .verify import apply
+            answer=apply(messages[-1]['content'],answer)
         if changes:
             note='Spelling interpretation: '+'; '.join(repr(c['original'])+' → '+repr(c['replacement']) for c in changes)+'.'
             answer=dict(answer,input_corrections=changes,details=answer.get('details','')+'\n'+note)
@@ -151,6 +155,18 @@ class Assistant:
         text = messages[-1]['content'].strip()
         if not text:
             raise ValueError('Request is empty')
+        # A multi-part request ("..., then ...") becomes a plan whose steps share results (orchestrator.py).
+        if mode in ('auto', 'chat') and not getattr(self, '_planning', False):
+            from . import orchestrator
+            steps = orchestrator.plan(text)
+            if steps:
+                self._planning = True
+                try:
+                    board = orchestrator.run(steps, lambda step, history: self._respond(
+                        history + [dict(role='user', content=step)], n=1, seed=seed, mode=mode), messages)
+                finally:
+                    self._planning = False
+                return orchestrator.report(board)
         route = route_request(text, mode)
         if route == 'chat' and mode == 'auto' and picture_follow_up(messages):
             route = 'image'
@@ -194,13 +210,23 @@ class Assistant:
                         detail='Non-neural conditional count language component. Training attribution is listed under data sources and licences. This is a statistical choice, not a verified factual lookup.'
                     return dict(route='chat/choice-count',response=f'{"ABCD"[best]}. {endings[best]}',sources=[],
                                 details=detail,choice=best,continuation_scores=scores)
-            from .helper_chat import reply as helper_reply
-            answer = helper_reply(text,messages)
-            if answer:
+            # Learned rules: sequences, reusing a rule by name, the rule list, and feedback on a rule (rules.py).
+            from . import rules
+            answer = rules.reply(text, messages)
+            if answer is not None:
                 return answer
+            # Python questions first: the helper would otherwise send "what does this code do?" to a web lookup.
             from .codegen import chat as codegen
             answer = codegen.reply(text, seed)
             if answer is not None:
+                return answer
+            from . import everyday
+            answer = everyday.reply(text, seed)
+            if answer is not None:
+                return answer
+            from .helper_chat import reply as helper_reply
+            answer = helper_reply(text,messages)
+            if answer:
                 return answer
             answer = smalltalk.reply(messages, seed)
             if answer is not None:

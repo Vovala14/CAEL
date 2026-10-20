@@ -551,7 +551,9 @@ class HybridModel:
                     transform = (float(rng.uniform(0.94, 1.04)), float(rng.uniform(-0.03, 0.03)), float(rng.uniform(-0.02, 0.02)),
                                  bool(rng.random() < 0.5))
                     guide = warp(anchor, transform, (0.0, 0.0, 0.0))
-                    paint = rng.choice(PAINTS['vehicle' if 'vehicle' in topic_kinds(topic) else 'object'])
+                    # Buildings sit in whole scenes (sky, landscape): their outline is not separable, so no paint.
+                    paint = None if 'building' in topic_kinds(topic) else \
+                        rng.choice(PAINTS['vehicle' if 'vehicle' in topic_kinds(topic) else 'object'])
                     rigid = dict(mask=warp(anchor_mask[..., None], transform, (0.0,))[..., 0], paint=paint)
                 else:
                     guide = deform(anchor, rng, structure)

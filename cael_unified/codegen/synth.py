@@ -186,6 +186,9 @@ OPS = [
     ('items', 'items', ({'dict'},), lambda d: list(d.items()), 'list({0}.items())', 3),
     ('keys', 'keys', ({'dict'},), lambda d: list(d), 'list({0})', 3),
     ('values', 'values', ({'dict'},), lambda d: list(d.values()), 'list({0}.values())', 3),
+    ('unique', 'set', ({'list', 'tuple', 'str'},), lambda x: list(dict.fromkeys(x)), 'list(dict.fromkeys({0}))', 3),
+    ('dict', 'dict', ({'list'},), dict, 'dict({0})', 3),
+    ('concat', 'sum', ({'list'},), lambda x: sum(x, []), 'sum({0}, [])', 3),
     ('join_empty', 'join', ({'list', 'tuple'},), lambda x: _join('', x), "''.join({0})", 2),
     ('join_space', 'join', ({'list', 'tuple'},), lambda x: _join(' ', x), "' '.join({0})", 3),
 
@@ -224,6 +227,7 @@ OPS = [
     ('lcm', 'lcm', (NUM, NUM), _no_bool(math.lcm), 'math.lcm({0}, {1})', 3),
     ('range', 'range', (NUM, NUM), _no_bool(_range), 'list(range({0}, {1}))', 3),
     ('zip', 'zip', ({'list', 'tuple', 'str'}, {'list', 'tuple', 'str'}), lambda a, b: list(zip(a, b)), 'list(zip({0}, {1}))', 3),
+    ('merge', 'dict', ({'dict'}, {'dict'}), lambda a, b: {**a, **b}, '{{**{0}, **{1}}}', 3),
     ('pair', 'tuple', (ANY, ANY), lambda a, b: (a, b), '({0}, {1})', 3),
     ('int_base', 'int', ({'str'}, NUM), _no_bool(_int_base), 'int({0}, {1})', 3),
 
@@ -431,7 +435,8 @@ def param_names(inputs):
 def matches(values, outputs):
     """Equal on every example; a yes/no answer must be a bool and vice versa (0 == False in Python)."""
     try:
-        return all(isinstance(v, bool) == isinstance(o, bool) and v == o for v, o in zip(values, outputs))
+        return all(isinstance(v, bool) == isinstance(o, bool) and v == o and (not isinstance(o, dict) or list(v) == list(o))
+                   for v, o in zip(values, outputs))
     except Exception:
         return False
 

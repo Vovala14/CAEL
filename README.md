@@ -1,4 +1,4 @@
-# CAEL 0.2.4
+# CAEL 0.2.5
 
 **One assistant, one model bundle: chat, helpers, emoji, portraits and small
 general pictures.** The release routes between existing CAEL engines and the
@@ -20,9 +20,55 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.2.4.cael` (about 1.1 GB), verifies every file
+`--download` fetches `models/cael-0.2.5.cael` (about 1.1 GB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.2.5
+
+Engines that work together, check each other and learn. Every engine is still non-neural at runtime. The
+model bundle has the same models as 0.2.4; everything new is code.
+
+- **Engines work together** ([orchestrator.py](cael_unified/orchestrator.py)). A request with several parts
+  ("What is 12 × 7? Then multiply it by 3") is split into steps. Each step goes to the right engine, and
+  results pass between steps through a shared board: "it", "that" and "the result" mean the earlier answer,
+  and "run it on 15" calls a function an earlier step wrote.
+- **Multi-step reasoning** ([reasoning_compose.py](cael_unified/reasoning_compose.py)):
+  - Questions inside questions: "Where is the person who has the football?" first asks who has it.
+  - "Who is in the kitchen?" checks where each person is.
+  - Hypotheticals: "If John goes to the garden, where is John?" uses a copy of the facts.
+  - Several questions about the same facts are each answered.
+  - "X, then Y" in a story is read as two events.
+  - bAbI accuracy is unchanged at 99.9%.
+- **Self-learning rules** ([rules.py](cael_unified/rules.py)):
+  - A function learned from three or more examples is searched for again with each example hidden in turn,
+    and it must predict the hidden one. Only rules that pass are kept, and they can be reused later
+    ("run area on 6, 7").
+  - "That's wrong" lowers a rule's confidence until it's forgotten.
+  - Number sequences ("what comes next: 2, 6, 12, 20, 30?") are solved the same way: the rule must predict
+    the last given number first.
+- **Independent checks** ([verify.py](cael_unified/verify.py)). Each check works the answer out another way:
+  arithmetic is recalculated, equation solutions are put back into the equation, code is run on your
+  examples, and logic proofs are checked again with case analysis. A wrong answer is corrected or flagged.
+  Looked-up facts are marked unchecked.
+- **Long-term memory** ([ltm.py](cael_unified/ltm.py), `state/ltm.json`). Learned rules, confidence and
+  per-engine check counts persist across conversations. Text people type is never stored; rule examples are
+  kept only if they are plain numbers.
+- **Python coding:**
+  - Plain descriptions ("write a function that removes duplicates") get working code. The code is found by
+    search and tested on held-out cases.
+  - A small loop search covers Fibonacci, primes and similar.
+  - "Fix this code" repairs common syntax errors, and "what does this code do?" explains code.
+  - Python concepts are explained, and standard-library recipes cover file and web tasks.
+- **Everyday chat:**
+  - The time and date.
+  - Day planning.
+  - Meal, book and film ideas.
+  - Short poems.
+  - Well-known distances and figures.
+  - "I have 3 apples and buy 5 more, how many do I have?".
+- **Translation:** about 20 common phrases in 59 languages, plus "what does arigato mean?" and "say cheers in
+  all languages". It's a hand-written phrase table, not a translator.
 
 ## New in 0.2.4
 

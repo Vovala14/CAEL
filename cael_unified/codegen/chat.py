@@ -3,6 +3,7 @@ import ast
 from pathlib import Path
 import re
 
+from . import explain, specs
 from .synth import render, synthesize
 from .train import costs, load
 
@@ -88,16 +89,59 @@ def examples_by_line(text):
     return name, [ex for ex, n in zip(found, names) if n == name]
 
 
+HOW_TO = re.compile(r'(?i)\b(?:how (?:do|can|would|should) (?:i|you|we)|how to)\b.*\b(?:python|function|code|list|string|dict(?:ionary)?|number)\b|\bin python\b')
+
+
 def is_request(text):
-    return bool(REQUEST.search(text)) or len(examples(text)[1]) >= 2
+    return bool(REQUEST.search(text)) or len(examples(text)[1]) >= 2 or bool(HOW_TO.search(text) and specs.find(text))
+
+
+def show(value):
+    return repr(value)
+
+
+def from_description(text, out):
+    """A request with no examples: if it names an everyday task, search against that task's own test cases."""
+    task = specs.find(text)
+    if task is None:
+        return None
+    code, checked = specs.solve(task, synthesize, lambda d: costs(model(), d))
+    if code is None:
+        return out(f'This looks like `{task["name"]}`, but my program search could not find a function that passes '
+                   'its test cases. It needs several steps or nested conditions, which I cannot build yet. If you give '
+                   'me examples of a simpler version, I can try that.', 'not-found')
+    shown = task['cases'][:3]
+    tests = '\n'.join(f'assert {task["name"]}({", ".join(map(show, args))}) == {show(expected)}' for args, expected in shown)
+    note = (f'I wrote this by searching over small Python operations until one passed all {checked} of my test cases for '
+            f'this task, including held-out ones the search never saw. Some of them:\n\n```python\n{tests}\n```\n'
+            'Please test it on your own inputs too.')
+    return out(f'```python\n{code}```\n{note}', 'from-description')
+
+
+EXPLAIN_DETAILS = ('Read from the Python syntax tree (ast) and, for short pure expressions, evaluated with a small set of '
+                   'safe built-ins. Concept notes and recipes are short hand-written references.')
 
 
 def reply(text, seed=0):
+    out = lambda response, route, details=DETAILS: dict(response=response, route='chat/code-' + route, sources=[], details=details)
+    if len(examples(text)[1]) < 2:
+        answer = explain.reply(text, lambda response, route: out(response, route, EXPLAIN_DETAILS))
+        if answer is not None:
+            return answer
     if not is_request(text):
         return None
     name, cases = examples(text)
-    out = lambda response, route, details=DETAILS: dict(response=response, route='chat/code-' + route, sources=[], details=details)
     if len(cases) < 2:
+        answer = from_description(text, out)
+        if answer is not None:
+            return answer
+        from .. import ltm, rules
+        rule = ltm.memory().find_rule(text)
+        if rule is not None:
+            ltm.memory().used(rule['name'])
+            return out(f'```python\n{rule["code"]}```\nThis is a {rules.LEARNED_MARK.format(rule["name"])} from an earlier '
+                       f'conversation. It passed {rule["checks"]} checks when I learned it (confidence {ltm.confidence(rule):.0%}).',
+                       'learned-rule')
         return out(HELP, 'needs-examples', 'CAEL writes code by searching for a program that fits examples; it does not guess code from a description alone.')
     if len({len(c[0]) for c in cases}) != 1:
         return out('Your examples call the function with different numbers of arguments. Please use the same arguments in every example.', 'needs-examples')
@@ -115,4 +159,17 @@ def reply(text, seed=0):
             'Python operations, so please test it on other inputs too.')
     if not stats.get('uses_all_parameters', True):
         note += ' Note: it does not use every argument, so it may only fit your examples by coincidence. More examples would help.'
+    # Hypothesis testing (rules.py): re-derive the function with one example hidden and check it predicts that example.
+    if len(cases) >= 3:
+        from .. import rules
+        learned = rules.learn(name, cases, description, lambda d: costs(model(), d))
+        if learned and learned['validated']:
+            code = learned['code']
+            note = (f'It returns the expected result for all {len(cases)} of your examples. I also re-derived it '
+                    f'{learned["tried"]} times with one example hidden, and each time it predicted the hidden one correctly.')
+            if learned['stored']:
+                note += f' I have saved it as a {rules.LEARNED_MARK.format(name)}, so you can ask me to `run {name} on ...` later.'
+        elif learned:
+            note += (f' When I hid one of your examples and searched again, the result did not predict the hidden example '
+                     f'({learned["held_out"]} of {learned["tried"]}), so I will not save it as a rule. More examples would help.')
     return out(f'```python\n{code}```\n{note}', 'synthesized')

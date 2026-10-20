@@ -4,6 +4,8 @@ Authored knowledge, no learning. Used to reason about picture requests: "the ani
 says moo" -> cow, "a poodle" -> dog (a poodle is a dog), "a yellow fruit" -> banana, and
 to draw an elephant larger than a cat.
 """
+import json
+from pathlib import Path
 import re
 
 # topic: (kinds, typical size in metres, typical colours, abilities/features)
@@ -141,6 +143,18 @@ KIND_OF = {
     'cake': 'cupcake',
     'monkey': 'chimp chimpanzee gorilla',
 }
+
+def register(topic, kinds, size, colours, features):
+    """Add drawing knowledge for a subject the nightly run taught the picture model (topic_catalogue.py)."""
+    FACTS.setdefault(topic, (kinds, size, colours, features))
+
+
+# Subjects added by the nightly run (research/image_nightly/nightly.py) after they passed its checks.
+_LEARNED = Path(__file__).with_name('learned_topics.json')
+if _LEARNED.exists():
+    for _row in json.loads(_LEARNED.read_text(encoding='utf-8')):
+        register(*_row[:5])
+
 # Things it cannot draw, with the closest thing it can (said so explicitly).
 SIMILAR = {
     'dolphin': 'whale', 'wolf': 'dog', 'fox': 'dog', 'rat': 'mouse', 'reindeer': 'deer', 'elk': 'deer', 'moose': 'deer', 'coyote': 'wolf', 'porpoise': 'dolphin', 'leopard': 'tiger', 'cheetah': 'tiger', 'panther': 'tiger',

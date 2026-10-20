@@ -145,7 +145,7 @@ class Reasoner:
         context,question,explicit=problem
         # Recognize premise scenarios, not arbitrary multi-sentence conversation.
         scenario=explicit or re.search(r'(?i)\b(?:all|every|each|everything that|moved to|went to|journeyed to|travelled to|picked up|gave the|bigger than|fits inside|'
-                                       r'is north of|is south of|is east of|is west of|entered the|left the|told .+? that|to the left of|to the right of|is above|is below|'
+                                       r'is north of|is south of|is east of|is west of|entered the|left the|told .+? that|to the left of|to the right of|is left of|is right of|leftmost|rightmost|is above|is below|'
                                        r'this morning|this afternoon|this evening|yesterday|is hungry|is thirsty|is tired|is bored|is an? \w+\. \w+ is \w+|'
                                        r'\w+ or an? \w+|are not|is not an?)\b',context)
         if not scenario:

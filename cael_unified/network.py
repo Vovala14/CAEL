@@ -13,7 +13,7 @@ import urllib.request
 from urllib.parse import urlparse, parse_qs
 import zlib
 
-UA = 'CAEL/0.2.5 (https://github.com/Vovala14/CAEL)'
+UA = 'CAEL/0.2.6 (https://github.com/Vovala14/CAEL)'
 HOSTS = frozenset({'en.wikipedia.org', 'www.wikidata.org', 'commons.wikimedia.org',
                   'upload.wikimedia.org', 'thumb.wikimedia.org', 'api.met.no', 'api.gdeltproject.org',
                   'raw.githubusercontent.com', 'api.github.com'})

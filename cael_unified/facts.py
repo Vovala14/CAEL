@@ -192,6 +192,13 @@ class FactLookup:
             (r'(?:how many people live in|what is the population of|population of) (.+)', 'P1082', 'population'),
             (r'when was (.+?) born', 'P569', 'birth'),
             (r'where is (.+)', 'P17', 'country'),
+            (r'who (?:wrote|authored|is the author of|was the author of) (?:the (?:book|novel|play|poem) )?(.+)', 'P50', 'wrote'),
+            (r'who painted (.+)', 'P170', 'painted'),
+            (r'who (?:directed|was the director of|is the director of) (?:the (?:film|movie) )?(.+)', 'P57', 'directed'),
+            (r'who (?:composed|wrote the music (?:for|of)) (.+)', 'P86', 'composed'),
+            (r'who (?:invented|discovered) (?:the )?(.+)', 'P61', 'invented'),
+            (r'who (?:founded|started|created the company) (.+)', 'P112', 'founded'),
+            (r'who (?:designed|was the architect of|built) (?:the )?(.+)', 'P84', 'designed'),
         ]
         for pattern, prop, kind in patterns:
             match = re.fullmatch(pattern + r'[?.!]*', text.strip(), re.I)
@@ -200,11 +207,36 @@ class FactLookup:
                 break
         else:
             return None
-        hits = self.entity_search(name, limit=1)
+        creator = kind in ('wrote', 'painted', 'directed', 'composed', 'invented', 'founded', 'designed')
+        hits = self.entity_search(name, limit=5 if creator else 1)
         if not hits:
             return None
         qid = hits[0]['id']
         entity = self.entities([qid]).get(qid, {})
+        if creator:
+            # "Hamlet" is also a village and a film: also search "Hamlet play/book" and take the first match that has
+            # an author/creator at all.
+            # Wikidata full-text search, limited to items that have the property asked about ("The Tragedy of Hamlet").
+            data = self.net.json(WD + urlencode(dict(action='query', list='search', format='json', srlimit=5,
+                                                     srsearch=f'{name} haswbstatement:{prop}')), ttl=86400)
+            seen = {h['id'] for h in hits}
+            for row in data.get('query', {}).get('search', []):
+                if row.get('title', '').startswith('Q') and row['title'] not in seen:
+                    seen.add(row['title'])
+                    hits.append(dict(id=row['title']))
+            found = self.entities([h['id'] for h in hits][:50], props='claims|labels|descriptions|sitelinks')
+            wanted = re.sub(r'(?i)^the\s+', '', name).lower()
+
+            def fits(identifier):
+                item = found.get(identifier, {})
+                labels = [item.get('labels', {}).get('en', {}).get('value', '')]
+                return bool(item.get('claims', {}).get(prop)) and any(wanted in re.sub(r'(?i)^the\s+', '', l).lower() for l in labels)
+
+            # Among the matches that have an author/creator, the best known one (most Wikipedia language editions).
+            candidates = [h['id'] for h in hits if fits(h['id'])] or [h['id'] for h in hits if found.get(h['id'], {}).get('claims', {}).get(prop)]
+            if candidates:
+                qid = max(candidates, key=lambda i: len(found.get(i, {}).get('sitelinks', {})))
+            entity = found.get(qid, entity)
         claims = [c for c in entity.get('claims', {}).get(prop, []) if c.get('rank') != 'deprecated'
                   and not c.get('qualifiers', {}).get('P582')]
         preferred = [c for c in claims if c.get('rank') == 'preferred']
@@ -238,7 +270,14 @@ class FactLookup:
             names = [labels.get(identifier, {}).get('labels', {}).get('en', {}).get('value') for identifier in ids]
             if not all(names):
                 return None
-            output = f"The capital of {label} is {', '.join(names)}." if kind == 'capital' else f"{label} is in {', '.join(names)}."
+            verbs = dict(wrote='was written by', painted='was painted by', directed='was directed by', composed='was composed by',
+                         invented='was invented by', founded='was founded by', designed='was designed by')
+            if kind == 'capital':
+                output = f"The capital of {label} is {', '.join(names)}."
+            elif kind in verbs:
+                output = f"{label} {verbs[kind]} {' and '.join(names)}."
+            else:
+                output = f"{label} is in {', '.join(names)}."
         return result(output, 'wikidata-faq', [source('Wikidata', 'https://www.wikidata.org/wiki/' + qid,
                       'CC0 1.0', CC0, 'Wikidata contributors')], 'Structured source facts can lag changes; check the linked statement references.')
 
@@ -562,6 +601,15 @@ class FactLookup:
         # behavior instead of triggering an article fetch solely after expansion.
         answer=self.knowledge.lookup(parsed) if parsed and parsed['static'] else None
         if answer is None:answer=self._respond(interpreted,messages)
+        # "When was X born?" answered by a local passage with no year in it (e.g. about X's parents): the date was
+        # asked for, so check the structured birth date instead. Local answers that do contain one stay first.
+        if (answer is not None and answer.get('route') == 'chat/local-knowledge' and re.match(r'(?i)^\s*when was .+ born\b', interpreted)
+                and not re.search(r'(?i)\b(?:born|baptised|baptized)\b[^.]{0,60}\b(?:1\d{3}|20\d\d)\b', answer.get('response', ''))):
+            try:
+                exact = self.structured_faq(interpreted)
+            except (LookupUnavailable, KeyError, TypeError, ValueError, IndexError):
+                exact = None
+            answer = exact or answer
         if answer is not None and context:
             answer=dict(answer,details=answer.get('details','')+'\nFollow-up topic from this chat: '+context['subject']+'. Question interpreted as: '+context['question'])
         return answer
@@ -650,7 +698,12 @@ class FactLookup:
         # Founding/invention date questions are encyclopedic, even when the
         # learned request classifier guesses weather from "when ... formed".
         conceptual = conceptual or bool(parsed_question and parsed_question.get('event'))
-        if not conceptual and (request['intent'] == 'weather' or re.search(r'\b(?:weather|forecast|temperature)\b', text, re.I)):
+        # The learned classifier alone over-fires on "if", "when", "cold"... ("If it rains, the ground gets wet. Is the
+        # ground wet?"); trust it only for a short single question that mentions the weather itself.
+        guessed = (request['intent'] == 'weather' and len(text.split()) <= 12 and not re.search(r'[.!?]\s+\S', text.strip())
+                   and re.search(r'(?i)\b(?:rain(?:ing|y)?|snow(?:ing|y)?|sunny|cloudy|windy|storm(?:y)?|umbrella|degrees|hot outside|cold outside|warm outside)\b', text)
+                   and not re.search(r'(?i)^\s*(?:if|why|can|does|do|is the following)\b', text))
+        if not conceptual and (guessed or re.search(r'\b(?:weather|forecast|temperature)\b', text, re.I)):
             method = self.weather
         elif re.search(r'\b(?:news|headlines)\b', text, re.I):
             return None  # Creative/code/definition requests containing "news" are not current-news lookups.

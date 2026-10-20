@@ -121,6 +121,13 @@ def differences(numbers, depth=4):
 
 def next_term(numbers):
     """(next value, rule code, explanation) or None. The rule must predict the last given term from the others."""
+    # Hypothesis 0: a constant factor, read from all but the last number and checked on the last ("2, 4, 8, 16").
+    if len(numbers) >= 4 and all(numbers[:-1]):
+        ratios = {numbers[i + 1] / numbers[i] for i in range(len(numbers) - 2)}
+        if len(ratios) == 1:
+            ratio = ratios.pop()
+            if numbers[-2] * ratio == numbers[-1] and float(ratio).is_integer():
+                return int(numbers[-1] * ratio), f'{", ".join(map(str, numbers))}\n# each number is {int(ratio)} times the one before\n'
     # Hypothesis 1: a polynomial pattern, found by finite differences on all but the last number.
     shown = differences(numbers[:-1])
     if shown and shown[0] == numbers[-1]:
@@ -159,7 +166,7 @@ def sequence_reply(text):
                              'last number and checking that the rule predicts it, and none passed.')
     value, code = found
     shown = (f'The rule I found (term number n, starting at 0):\n\n```python\n{code}```' if code.startswith('def ') else
-             f'How I found it (differences between neighbouring numbers):\n\n```\n{code}```')
+             f'How I found it:\n\n```\n{code}```')
     return dict(route='chat/rules-sequence', sources=[], details=DETAILS,
                 response=f'The next number is **{value}**.\n\n{shown}\n'
                          f'I found it from the first {len(numbers) - 1} numbers only, and it correctly predicted the last one '

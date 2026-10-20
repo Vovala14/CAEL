@@ -85,7 +85,7 @@ def solve(solver, context, question, depth=0):
         q = q[:held.start()] + name + q[held.end():]
 
     # "who is in the kitchen" / "the person in the kitchen": ask where everyone is.
-    room = re.fullmatch(r'(?i)\s*who (?:is|was) (?:in|at) (?:the )?([a-z ]+?)\s*\??\s*', q)
+    room = re.fullmatch(r'(?i)\s*who (?:is|was) (?:in|at) (?!(?:the )?(?:middle|centre|center|front|back|end|start|left|right)\b)(?:the )?([a-z ]+?)\s*\??\s*', q)
     inside = re.search(r'(?i)\b(?:the ' + ROLE + r'|whoever) (?:who (?:is|was) )?(?:in|at) (?:the )?([a-z]+)\b', q)
     if room or inside:
         place = (room or inside)[1].strip().lower()

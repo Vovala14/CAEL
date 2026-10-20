@@ -1,6 +1,6 @@
-"""Build the 0.2.5 model bundle from an explicit, privacy-auditable input allowlist.
+"""Build the 0.2.6 model bundle from an explicit, privacy-auditable input allowlist.
 
-0.2.5 = the published 0.2.1 bundle (chat, emoji, portrait, base image, story 0.1) plus the
+0.2.6 = the published 0.2.1 bundle (chat, emoji, portrait, base image, story 0.1) plus the
 runtime model folders the live assistant now uses, installed under models/ by
 `python -m cael_unified --download`, and the model selections that make a fresh checkout
 behave like the reviewed live configuration.
@@ -28,7 +28,10 @@ MODEL_FILES = {
     'models/cael-social-v1': None,
     'models/cael-code-0.3.8': None,
     'models/cael-vynly-v1': None,
-    'models/cael-text-repair-0.4.4-r1': None,                # spelling repair (counted; CC BY-SA word guard, licence included)                            # Vynly helper knowledge (public site + approved docs)
+    'models/cael-text-repair-0.4.4-r1': None,
+    'models/cael-dictionary-wn30': None,                     # WordNet 3.0 definitions and synonyms (licence included)
+    'models/cael-chat-corpus-v1': None,                      # OASST (Apache 2.0) and Dolly (CC BY-SA 3.0) conversation corpus
+    'models/cael-thinking-v2': ['knowledge.sqlite', 'meaning.npz', 'guides.sqlite', 'SOURCES.md'],   # advice knowledge, CC BY-SA 4.0                # spelling repair (counted; CC BY-SA word guard, licence included)                            # Vynly helper knowledge (public site + approved docs)
 }
 # Selected in the live configuration; general_image is dropped because the hybrid model covers all its subjects.
 SELECTIONS = ('story', 'language', 'request_policy', 'news_policy', 'prompt', 'hybrid_image', 'choice', 'text_repair')

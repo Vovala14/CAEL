@@ -79,6 +79,9 @@ def ordering(context, question):
     if question in ('what is the order','give the order','what is the complete order'):
         return dict(answer=', '.join(solutions[0]) if len(solutions)==1 else 'unknown',support=list(range(1,len(sentences(context))+1)),depth=len(names))
     question = re.sub(r'^(?:which|who|what)(?: one| item| object)? (?:is |finished )?', '', question)
+    if re.fullmatch(r'(?:in )?(?:the )?(?:middle|centre|center)(?: one)?', question) and len(names) % 2:
+        possible = {order[len(names) // 2] for order in solutions}
+        return dict(answer=next(iter(possible)) if len(possible) == 1 else 'unknown', support=list(range(1, len(sentences(context)) + 1)), depth=len(names))
     query = condition(names[0] + ' is ' + question,names)
     if query[0] != 'at':
         raise Unparsed('Ask for an ordinal position')

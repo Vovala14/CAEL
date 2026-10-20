@@ -181,6 +181,17 @@ class Assistant:
         text = messages[-1]['content'].strip()
         if not text:
             raise ValueError('Request is empty')
+        # A follow-up ("and what about Germany?", "when was he born?") is answered as the full question it stands for.
+        if mode in ('auto', 'chat') and not getattr(self, '_rewriting', False):
+            from . import chat_extra
+            full = chat_extra.rewrite(messages)
+            if full and full.strip().lower() != text.lower():
+                self._rewriting = True
+                try:
+                    answer = self._respond(messages[:-1] + [dict(messages[-1], content=full)], n=n, seed=seed, mode=mode)
+                finally:
+                    self._rewriting = False
+                return dict(answer, understood_as=full, details=answer.get('details', '') + f'\nUnderstood as: "{full}".')
         # A multi-part request ("..., then ...") becomes a plan whose steps share results (orchestrator.py).
         if mode in ('auto', 'chat') and not getattr(self, '_planning', False):
             from . import orchestrator
@@ -249,8 +260,23 @@ class Assistant:
             answer = codegen.reply(text, seed)
             if answer is not None:
                 return answer
+            # Word questions (meanings, synonyms, forms, spelling) from the offline dictionary, before any web lookup.
+            from . import dictionary, grammar
+            answer = grammar.reply(text) or dictionary.reply(text)
+            if answer is not None:
+                return answer
             from . import everyday
             answer = everyday.reply(text, seed)
+            if answer is not None:
+                return answer
+            # Conditionals, comparisons, all/no/some, word problems, time, analogies, common sense (reasoning_extra.py).
+            from . import reasoning_extra
+            answer = reasoning_extra.reply(text)
+            if answer is not None:
+                return answer
+            # Everyday statements, tips, opinions, fun facts (chat_extra.py).
+            from . import chat_extra
+            answer = chat_extra.reply(text, messages, seed)
             if answer is not None:
                 return answer
             from .helper_chat import reply as helper_reply
@@ -270,6 +296,16 @@ class Assistant:
                 result=self.story_reply(messages,seed)
                 if result is not None:
                     return result
+            # Advice and how-to: CAEL's own answer, worked out from what many sources agree on (thinking.py).
+            from . import thinking
+            answer = thinking.reply(text, messages, seed)
+            if answer is not None:
+                return answer
+            # Otherwise a human-written reply to a closely matching request, labelled as such (chat_corpus.py).
+            from . import chat_corpus
+            answer = chat_corpus.reply(text, messages)
+            if answer is not None:
+                return answer
             answer = self._facts.respond(text, messages=messages)
             if answer is not None:
                 return answer
@@ -292,6 +328,13 @@ class Assistant:
             if reacted and felt != reacted:
                 result.update(route='chat/local-clarify', response=smalltalk.clarify(text, seed),
                               details='The fallback reply guessed a feeling the message does not express, so CAEL asks instead.')
+            # Dead ends ("I don't have reliable knowledge...", "Tell me more about that") get a real reply instead: a looser
+            # corpus match, or a conversational reaction with a follow-up question (chat_extra.converse).
+            if result['route'] in ('chat/local-clarify', 'chat/local-other', 'chat/local-define', 'chat/local-howto', 'chat/local-opinion',
+                                   'chat/local-recommend', 'chat/local-write', 'chat/local-smalltalk', 'chat/local-unknown'):
+                better = chat_corpus.reply(text, messages, open_ended_only=False) or chat_extra.converse(text, messages, seed)
+                if better is not None:
+                    return better
             return result
 
     def story_reply(self,messages,seed,required=False):

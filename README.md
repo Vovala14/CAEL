@@ -1,4 +1,4 @@
-# CAEL 0.2.5
+# CAEL 0.2.6
 
 **One assistant, one model bundle: chat, helpers, emoji, portraits and small
 general pictures.** The release routes between existing CAEL engines and the
@@ -20,9 +20,34 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.2.5.cael` (about 1.1 GB), verifies every file
+`--download` fetches `models/cael-0.2.6.cael` (about 1.3 GB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.2.6
+
+CAEL talks more, knows more and works out its own answers. Every engine is still non-neural at runtime: rules,
+counts, WordNet, LSA and full-text search.
+
+- **Own advice answers** ([thinking.py](cael_unified/thinking.py)). For "how do I…" questions CAEL finds related
+  discussions by meaning, pulls out the advice and reasons, groups advice that says the same thing, counts how
+  many separate answers agree, and writes the answer in its own order and words. It does not copy a reply. When
+  the answers do not agree enough, it says it is not sure.
+- **Everyday knowledge** ([life_advice.py](cael_unified/life_advice.py), [life_knowledge.py](cael_unified/life_knowledge.py)):
+  hand-written advice for 181 everyday topics. Discussions that agree move points up.
+- **Recipes and trips.** Recipes compare the Wikibooks Cookbook versions of a dish; trip plans start from the
+  Wikivoyage guide. Answers link the discussions, recipe or guide that backed them.
+- **Chattier conversation** ([chat_extra.py](cael_unified/chat_extra.py), [chat_corpus.py](cael_unified/chat_corpus.py)):
+  follow-up questions, reactions to news, small talk that asks back.
+- **Dictionary and grammar** ([dictionary.py](cael_unified/dictionary.py), [grammar.py](cael_unified/grammar.py)):
+  WordNet 3.0 definitions and synonyms; sentence corrections that name the rule.
+- **More reasoning** ([reasoning_extra.py](cael_unified/reasoning_extra.py)) and Wikidata answers to "who
+  wrote / painted / invented…".
+- **Results:** 102 / 102 on the labelled chat, vocabulary, grammar and reasoning evaluation; on 50 fresh held-out
+  advice questions, 43 answered in CAEL's own words, 3 got a labelled similar answer, 4 not sure, 0 wrong.
+- **Licence of the new knowledge:** `models/cael-thinking-v2` contains material derived from Stack Exchange,
+  Dolly, Wikibooks and Wikivoyage, so it is shared under **CC BY-SA 4.0**. Sources are listed in each model
+  folder's `SOURCES.md`.
 
 ## New in 0.2.5
 

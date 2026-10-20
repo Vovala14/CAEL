@@ -107,6 +107,14 @@ RECIPE_NOTE = ('This is a standard-library recipe from my reference notes, not a
                'file and network code cannot be checked against examples.')
 
 
+CODE_SIGNS = re.compile(r'\b(?:def|return|print|import|class|lambda|elif|while|True|False|None|range|len)\b|\bfor \w+ in\b|[=(){}\[\]:]|```|`')
+
+
+def looks_like_code(source, text):
+    """'she dont like apples' is a sentence to correct, not Python: only code-looking text, or an explicit ask."""
+    return bool(CODE_SIGNS.search(source) or re.search(r'(?i)\b(?:code|python|function|snippet|script|program)\b', text))
+
+
 def code_in(text):
     """The Python part of a message: a fenced block, text after a colon, or the lines that parse."""
     fenced = re.search(r'```(?:python|py)?\s*\n?(.*?)```', text, re.S)
@@ -348,7 +356,7 @@ def reply(text, out):
     pythonish = re.search(r'(?i)\bpython\b|```|\bdef \w+\(|\bcode\b|\bscript\b|\bfunction\b', text)
     if FIX_ASK.search(text):
         source = code_in(text)
-        if source:
+        if source and looks_like_code(source, text):
             try:
                 ast.parse(source)
                 return out('That code parses fine, so it has no syntax error. Here is what it does:\n\n' + explain(source)
@@ -361,7 +369,7 @@ def reply(text, out):
                 return out(fix_reply(source, fixed, notes), 'fixed')
     if CODE_ASK.search(text):
         source = code_in(text)
-        if source:
+        if source and looks_like_code(source, text):
             return out(explain(source), 'explained')
     name = concept(text)
     if name and (pythonish or name in ('list comprehension', 'lambda', 'decorator', 'generator', 'f-string', 'args kwargs', 'slicing')):

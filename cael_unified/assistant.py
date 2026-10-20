@@ -93,6 +93,32 @@ class Assistant:
         self._facts = FactLookup()
         self._lock = threading.RLock()
 
+    def picture_in_chat(self, text, messages, seed):
+        """Chat mode cannot draw, so hand over a ready image prompt and say where to use it."""
+        from .vynly import VynlyHelp
+        with self._lock:
+            if self._prompt is None:
+                from .promptgen import PromptGenerator
+                self._prompt = PromptGenerator()
+            made = self._prompt.respond(text, seed, forced=True, default_kind='image')
+        prompt = (made or {}).get('response', '').split('\n', 1)[-1].strip() if made and made.get('route') == 'chat/prompt-image' else ''
+        if VynlyHelp.flagged(messages):
+            # The vynly.co widget shows plain text, so no Markdown here.
+            where = ('I can\'t draw pictures in this chat, but you can make one on Vynly with Generate (vynly.co/generate). '
+                     'Here is a prompt to paste there:')
+            after = 'Want it in a different style or setting? Tell me, or use the Prompt helper tab.'
+            if prompt:
+                return dict(route='chat/picture-in-chat', response=f'{where}\n\n{prompt}\n\n{after}', sources=[],
+                            details='Chat mode has no picture engine, so CAEL\'s prompt helper wrote an image prompt instead (rule-based, non-neural).')
+        else:
+            where = 'Picture drawing is off in chat mode. Switch to Auto or Picture mode and ask again, or use this prompt in any image tool:'
+            after = 'Want a different style or setting? Tell me and I will rewrite the prompt.'
+        if not prompt:
+            return dict(route='chat/picture-in-chat', response=where.rsplit('.', 1)[0] + '. Tell me what the picture should show and I will write a prompt for it.',
+                        sources=[], details='Chat mode has no picture engine; no image was made.')
+        return dict(route='chat/picture-in-chat', response=f'{where}\n\n> {prompt}\n\n{after}', sources=[],
+                    details='Chat mode has no picture engine, so CAEL\'s prompt helper wrote an image prompt instead (rule-based, non-neural).')
+
     def vynly_reply(self, text, messages):
         """A Vynly help answer when the message is about vynly.co, else None (cael_unified/vynly.py)."""
         if getattr(self, '_vynly', None) is None:
@@ -172,6 +198,9 @@ class Assistant:
             route = 'image'
         if route == 'image' and mode == 'auto' and self.vynly_reply(text, messages) is not None:
             route = 'chat'          # "how do I generate an image on Vynly?" is a help question, not a drawing request
+        # A picture request in chat-only mode (the vynly.co widget has no drawing): write the prompt instead.
+        if route == 'chat' and mode == 'chat' and route_request(text, 'auto') == 'image' and self.vynly_reply(text, messages) is None:
+            return self.picture_in_chat(text, messages, seed)
         with self._lock:
             if route == 'image':
                 return self.image_reply(text, n, seed, messages)

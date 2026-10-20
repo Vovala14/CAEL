@@ -230,8 +230,47 @@ def figure(text):
     return None
 
 
+def greeting(text):
+    """'היי', 'hola', 'merci': answer a greeting or thanks in the person's language, then say what CAEL can do."""
+    found = phrases.meaning(text.strip())
+    kinds = {english for _, english in found}
+    if not found or not kinds & {'hello', 'goodbye', 'thank you', 'how are you', 'good morning', 'good night'}:
+        return None
+    lang = found[0][0]
+    table = phrases.TABLE[lang]
+    if 'thank you' in kinds:
+        reply_text = "You're welcome!"
+    elif 'goodbye' in kinds:
+        reply_text = f'{table.get("goodbye", "Goodbye")}! Goodbye, come back any time.'
+    elif 'how are you' in kinds:
+        reply_text = "I'm doing well, thanks for asking!"
+    else:
+        reply_text = f'{table.get(key_for(kinds), table.get("hello"))}! Hi!'
+    reply_text = reply_text[0].upper() + reply_text[1:]
+    return out(f'{reply_text} I understand English best, but I know a few words of {lang.title()}. '
+               'What would you like to talk about?', 'greeting', TRANSLATE_DETAILS)
+
+
+def key_for(kinds):
+    return next(k for k in ('good morning', 'good night', 'hello') if k in kinds)
+
+
+FOREIGN = re.compile(r'[^\W\d_a-zA-Z]', re.UNICODE)
+
+
+def foreign(text):
+    """A message mostly in a script CAEL cannot read: say so instead of guessing an answer."""
+    letters = [c for c in text if c.isalpha()]
+    if len(letters) < 2 or sum(1 for c in letters if c.isascii()) / len(letters) > 0.3:
+        return None
+    if re.search(r'(?i)\b(?:what|how|translate|mean|say)\b', text):
+        return None
+    return out('Sorry, I only understand English well. I know greetings and a few common words in 59 languages, '
+               'so try asking me in English, or ask "what does … mean?".', 'foreign', TRANSLATE_DETAILS)
+
+
 def reply(text, seed=0):
-    for handler in (clock, translate, figure, plan, poem):
+    for handler in (greeting, foreign, clock, translate, figure, plan, poem):
         answer = handler(text)
         if answer is not None:
             return answer

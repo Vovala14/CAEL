@@ -51,5 +51,43 @@ class EverydayTests(unittest.TestCase):
         self.assertEqual(helper_quantities.reply('I have 3 apples and buy 5 more, how many do I have?')['response'], 'You have 8 apples.')
 
 
+class WidgetTests(unittest.TestCase):
+    """The vynly.co widget only uses chat and prompt modes."""
+
+    @classmethod
+    def setUpClass(cls):
+        from cael_unified.assistant import Assistant
+        cls.assistant = Assistant()
+        cls.site = [dict(role='system', content='site: vynly.co')]
+
+    def ask(self, text, site=True):
+        return self.assistant.respond((self.site if site else []) + [dict(role='user', content=text)], n=1, seed=1, mode='chat')
+
+    def test_picture_request_in_chat_gets_a_prompt(self):
+        answer = self.ask('create an image of a dog')
+        self.assertEqual(answer['route'], 'chat/picture-in-chat')
+        self.assertIn('vynly.co/generate', answer['response'])
+        self.assertIn('\n\na dog', answer['response'])
+        self.assertNotIn('**', answer['response'])
+        self.assertIn('Switch to Auto or Picture mode', self.ask('create an image of a dog', site=False)['response'])
+        self.assertEqual(self.ask('how do I generate an image on vynly?')['route'], 'chat/vynly-faq')
+
+    def test_greetings_in_other_languages(self):
+        self.assertTrue(self.ask('היי')['response'].startswith('שלום (shalom)!'))
+        self.assertTrue(self.ask('hola')['response'].startswith('Hola!'))
+        self.assertEqual(self.ask('Как дела у тебя сегодня?')['route'], 'chat/everyday-foreign')
+        self.assertEqual(self.ask('hi')['route'], 'chat/smalltalk-greeting')
+
+
+class MemoryWriteTests(unittest.TestCase):
+    def test_a_locked_file_never_breaks_a_reply(self):
+        from unittest import mock
+        from cael_unified import ltm
+        memory = ltm.memory()
+        with mock.patch('os.replace', side_effect=PermissionError('locked')):
+            self.assertFalse(memory.save())
+            memory.record('helper/arithmetic', 'answered')     # must not raise
+
+
 if __name__ == '__main__':
     unittest.main()

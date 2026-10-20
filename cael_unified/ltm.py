@@ -56,10 +56,27 @@ class Memory:
                 pass
 
     def save(self):
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        temp = self.path.with_suffix('.tmp')
-        temp.write_text(json.dumps(self.data, indent=1, sort_keys=True), encoding='utf-8')
-        os.replace(temp, self.path)
+        """Write atomically. Another process may hold the file for a moment (Windows refuses the rename then);
+        retry briefly, and if it still fails keep the data in memory: a reply must never fail over a counter."""
+        try:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            temp = self.path.with_name(f'{self.path.stem}.{os.getpid()}.{threading.get_ident()}.tmp')
+            temp.write_text(json.dumps(self.data, indent=1, sort_keys=True), encoding='utf-8')
+        except OSError:
+            return False
+        for attempt in range(5):
+            try:
+                os.replace(temp, self.path)
+                return True
+            except PermissionError:
+                time.sleep(0.02 * (attempt + 1))
+            except OSError:
+                break
+        try:
+            temp.unlink()
+        except OSError:
+            pass
+        return False
 
     # Engines ------------------------------------------------------------------------------------
     def record(self, route, event, reason=None):

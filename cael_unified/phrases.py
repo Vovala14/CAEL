@@ -292,6 +292,14 @@ def plain(text):
     return ''.join(c for c in unicodedata.normalize('NFKD', text) if not unicodedata.combining(c))
 
 
+# Everyday greetings people type, recognised as "hello" but not offered as translations.
+GREETINGS = {'hebrew': ['היי', 'הי', 'אהלן', 'שלום לך'], 'arabic': ['أهلا', 'اهلا', 'السلام عليكم', 'سلام', 'ahlan', 'salam'],
+             'russian': ['здравствуйте', 'прив', 'здорово', 'zdravstvuyte'], 'ukrainian': ['вітаю', 'добрий день'],
+             'spanish': ['buenas', 'qué tal', 'que tal'], 'french': ['salut', 'coucou'], 'german': ['servus', 'moin', 'guten tag', 'grüß gott'],
+             'italian': ['salve'], 'portuguese': ['oi', 'e aí'], 'japanese': ['やあ', 'もしもし'], 'chinese': ['嗨', '您好', 'ni hao'],
+             'korean': ['안녕', 'annyeong'], 'turkish': ['selam'], 'persian': ['درود'], 'greek': ['γεια', 'yassou'], 'hindi': ['नमस्कार'],
+             'polish': ['siema', 'dzień dobry'], 'dutch': ['hoi', 'dag'], 'swedish': ['tjena', 'hallå'], 'indonesian': ['hai']}
+
 REVERSE = {}
 for _lang, _table in TABLE.items():
     if _lang == 'english':
@@ -299,6 +307,11 @@ for _lang, _table in TABLE.items():
     for _phrase, _value in _table.items():
         for _form in forms(_value):
             REVERSE.setdefault(_form, []).append((_lang, _phrase))
+
+
+for _lang, _forms in GREETINGS.items():
+    for _form in _forms:
+        REVERSE.setdefault(_form.lower(), []).append((_lang, 'hello'))
 
 
 def meaning(word):

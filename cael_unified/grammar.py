@@ -70,6 +70,8 @@ ASK_FIX = re.compile(r'(?i)^\s*(?:please\s+)?(?:can you\s+)?(?:correct|fix|check
 ASK_CHECK = re.compile(r'(?i)^\s*(?:is|was)\s+(?:this|the following)\s+(?:sentence\s+)?(?:grammatically\s+)?(?:correct|right|ok|okay|good english)\s*[:?\-]?\s*(.+)$'
                        r'|^\s*is\s+["“](.+?)["”]\s+(?:grammatically\s+)?(?:correct|right|ok)\s*\??\s*$')
 ASK_PAST = re.compile(r'(?i)\b(?:make|put|change|turn|rewrite|write)\s+(?:this|the|it|the sentence|this sentence)?\s*(?:sentence\s+)?(?:in|into|to)?\s*(?:the\s+)?past(?: tense)?\s*[:\-]?\s*(.+)$')
+# The sentence first: 'put "she walks home" in the past tense'.
+ASK_PAST_BEFORE = re.compile(r'(?i)\b(?:make|put|change|turn|rewrite|write)\s+["“](.+?)["”]\s+(?:in|into|to)\s+(?:the\s+)?past(?: tense)?\s*[.?!]?\s*$')
 ASK_PASSIVE = re.compile(r'(?i)\b(?:put|make|change|turn|rewrite|write)\s+(?:this|it|the sentence)?\s*(?:in|into|to)?\s*(?:the\s+)?passive(?: voice)?\s*[:\-]?\s*(.+)$')
 ASK_ROLE = re.compile(r'(?i)^\s*what(?:\'s| is| are)\s+(?:the|a)?\s*(subject|verbs?|object|nouns?|adjectives?|adverbs?)\s+(?:in|of)\s+(.+?)\s*\??\s*$')
 ASK_PUNCT = re.compile(r'(?i)\b(?:add|fix|correct|insert)\s+(?:the\s+)?punctuation(?:\s+(?:to|in))?\s*[:\-]?\s*(.+)$')
@@ -293,6 +295,19 @@ def correct(sentence):
             if is_verb(w) and main_pos(w) in ('verb', None):
                 break
         compound = False
+    # A past time ("yesterday", "last week", "two days ago") needs the past tense: "she go ... yesterday" -> "she went".
+    when = re.search(r'(?i)\b(?:yesterday|last (?:night|week|month|year|summer|winter|monday|tuesday|wednesday|thursday|friday|'
+                     r'saturday|sunday)|\w+ (?:days?|weeks?|months?|years?) ago|in (?:1[5-9]|20)\d\d)\b', ' '.join(words))
+    if when and not re.search(r'(?i)\b(?:will|going to|tomorrow|next)\b', ' '.join(words)):
+        for i, w in enumerate(words):
+            lower = w.lower()
+            if i and words[i - 1].lower() in SUBJECT_ONE | SUBJECT_MANY and re.fullmatch(r'[a-z]+', lower) and lower not in MODALS \
+                    and is_verb(lower) and main_pos(lower) != 'adjective':
+                stem = base_verb(lower)
+                if lower in (stem, third_person(stem)) and past(stem) != lower:
+                    words[i] = past(stem)
+                    note(f'"{when[0]}" is in the past, so "{w}" becomes the past tense "{words[i]}"')
+                break
     # Subject-verb agreement on the first verb after a pronoun.
     for i, w in enumerate(words):
         lower = w.lower()
@@ -491,6 +506,8 @@ def role_reply(role, sentence):
 
 
 def past_reply(sentence):
+    # "They're going" -> "They are going", so the verb "are" can change ("I'm" -> "I am").
+    sentence = re.sub(r"(?i)\b(you|we|they)['’]re\b", r'\1 are', re.sub(r"(?i)\bI['’]m\b", 'I am', sentence))
     words = tokens(unquote(sentence))
     subject, verbs, _ = subject_and_verbs(sentence)
     if not verbs:
@@ -557,7 +574,7 @@ def reply(text):
     """A grammar answer, or None."""
     if not dic.db() or len(text) > 600 or '```' in text:
         return None
-    for pattern, handler in ((ASK_PUNCT, punctuation_reply), (ASK_PASSIVE, passive_reply), (ASK_PAST, past_reply)):
+    for pattern, handler in ((ASK_PUNCT, punctuation_reply), (ASK_PASSIVE, passive_reply), (ASK_PAST_BEFORE, past_reply), (ASK_PAST, past_reply)):
         match = pattern.search(text)
         if match and match[1].strip():
             return handler(match[1])

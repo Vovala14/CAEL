@@ -217,7 +217,8 @@ def category_word(text):
 
 def categorical(text):
     body = re.sub(r'(?i)^\s*(?:if|suppose|given that)\s+', '', text.strip())
-    parts = [p.strip() for p in re.split(r'(?<=[.!?])\s+|,\s*(?:and\s+)?(?=(?:all|no|some|every)\b)|\s+and\s+(?=(?:all|no|some|every)\b)', body) if p.strip()]
+    parts = [p.strip() for p in re.split(r'(?<=[.!?])\s+|,\s*(?:and\s+)?(?=(?:all|no|some|every)\b)|\s+and\s+(?=(?:all|no|some|every)\b)'
+                                         r'|\s+and\s+(?=(?:[A-Z][a-z]+|the \w+|an? \w+)\s+is\b)', body) if p.strip()]
     question = parts[-1] if parts[-1].endswith('?') else None
     if not question:
         tail = re.search(r'(?i),\s*((?:is|are|can)\b.+\?)$', body)
@@ -338,6 +339,18 @@ def word_problem(text):
         if given and 'how many' in lower:
             value = number(given[1]) + number(m[2])
             return out(f'{m[1].capitalize()} has **{show(value)}**.', 'word-problem', [f'{show(number(given[1]))} + {show(number(m[2]))} = {show(value)}.'])
+    # "How many eggs do I need for 3 batches if one batch uses 2 eggs?" / "Each box holds 6 eggs. How many eggs are in 4 boxes?"
+    m = (re.search(r'\b(?:one|each|a|every|1)\s+(\w+?)s?\s+(?:uses|needs|takes|has|holds|contains|costs|is)\s+\$?(\d+(?:\.\d+)?|\w+)\s+(\w+)', lower))
+    n = re.search(r'\bhow (?:many|much)\s+(\w+)?.*?\b(?:for|in|with|of)\s+(\d+(?:\.\d+)?|\w+)\s+(\w+?)s?\b', lower)
+    def single(word):
+        return re.sub(r'(?:(?<=[sxz])es|(?<=ch)es|(?<=sh)es|s)$', '', word)
+    if m and n and number(m[2]) is not None and number(n[2]) is not None and single(n[3] + 's') == single(m[1] + 's'):
+        per, count = number(m[2]), number(n[2])
+        value = per * count
+        things = n[1] or m[3]
+        return out(f'You need **{show(value)}** {things}.' if re.search(r'\bneed\b', lower) else f'That is **{show(value)}** {things}.', 'word-problem',
+                   [f'One {m[1]}: {show(per)} {m[3]}.',
+                    f'{show(count)} {m[1]}{"es" if re.search(r"(?:[sxz]|ch|sh)$", m[1]) else "s"}: {show(count)} × {show(per)} = {show(value)}.'])
     # "There are 5 birds on a tree. 2 fly away. How many are left?"
     m = re.search(r'\bthere (?:are|were)\s+(\d+|\w+)\s+(\w+)', lower)
     if m and number(m[1]) is not None and re.search(r'how many', lower):
@@ -555,10 +568,71 @@ def sequence_short(text):
     return None
 
 
+# ---------------------------------------------------------------- number properties and word tools
+
+def number_facts(text):
+    """'Is 14 a prime number?', 'is 7 odd?', 'what are the factors of 12?', 'is 91 divisible by 7?'."""
+    lower = text.lower().strip(' ?.!')
+    m = re.fullmatch(r'(?:is|are)\s+(-?\d+)\s+(?:an?\s+)?(prime|even|odd|a square|a perfect square)(?: number)?', lower)
+    if m:
+        k, kind = int(m[1]), m[2]
+        if abs(k) > 10 ** 12:
+            return None
+        if kind == 'prime':
+            divisor = next((d for d in range(2, int(abs(k) ** 0.5) + 1) if k % d == 0), None) if k > 1 else None
+            if k < 2:
+                return out(f'No, **{k}** is not prime: primes are whole numbers greater than 1.', 'numbers')
+            if divisor:
+                return out(f'No, **{k}** is not prime: {k} = {divisor} × {k // divisor}.', 'numbers')
+            return out(f'Yes, **{k}** is prime: no whole number from 2 to {int(k ** 0.5)} divides it.', 'numbers')
+        if kind in ('even', 'odd'):
+            even = k % 2 == 0
+            yes = even == (kind == 'even')
+            return out(f'{"Yes" if yes else "No"}, **{k}** is {"even" if even else "odd"}: {k} ÷ 2 = {show(Fraction(k, 2))}.', 'numbers')
+        root = int(abs(k) ** 0.5)
+        while (root + 1) ** 2 <= k:
+            root += 1
+        yes = k >= 0 and root * root == k
+        return out(f'{"Yes" if yes else "No"}, **{k}** is {"" if yes else "not "}a perfect square' + (f': {root} × {root} = {k}.' if yes else '.'), 'numbers')
+    m = re.fullmatch(r'(?:what are|list|find|give me)?\s*(?:all\s+)?(?:the\s+)?(?:factors|divisors) of (\d+)', lower)
+    if m and int(m[1]) <= 10 ** 9:
+        k = int(m[1])
+        small = [d for d in range(1, int(k ** 0.5) + 1) if k % d == 0]
+        factors = sorted(set(small + [k // d for d in small]))
+        return out(f'The factors of **{k}** are {", ".join(map(str, factors))}.', 'numbers')
+    m = re.fullmatch(r'is (-?\d+) divisible by (-?\d+)', lower)
+    if m and int(m[2]) != 0:
+        a, b = int(m[1]), int(m[2])
+        return out(f'{"Yes" if a % b == 0 else "No"}, {a} ÷ {b} = {show(Fraction(a, b))}' + ('.' if a % b == 0 else f', remainder {a % b}.'), 'numbers')
+    return None
+
+
+def word_tools(text):
+    """'Spell necessary backwards', 'how many letters are in necessary?', 'count the vowels in banana'."""
+    lower = text.strip(' ?.!')
+    m = re.fullmatch(r'(?i)(?:spell|write|say)\s+["“]?([A-Za-z\'-]+)["”]?\s+(?:backwards?|in reverse)|reverse (?:the word\s+)?["“]?([A-Za-z\'-]+)["”]?', lower)
+    if m:
+        word = m[1] or m[2]
+        return out(f'**{word}** backwards is **{word[::-1]}**.', 'words')
+    m = re.fullmatch(r'(?i)(?:how many|count(?: the)?)\s+(letters|vowels|consonants)\s+(?:are\s+)?(?:there\s+)?in\s+(?:the word\s+)?["“]?([A-Za-z\'-]+)["”]?(?:\s+have)?'
+                     r'|how many (letters|vowels|consonants) does (?:the word\s+)?["“]?([A-Za-z\'-]+)["”]? have', lower)
+    if m:
+        kind, word = (m[1] or m[3]).lower(), m[2] or m[4]
+        letters = [c for c in word.lower() if c.isalpha()]
+        chosen = {'letters': letters, 'vowels': [c for c in letters if c in 'aeiou'],
+                  'consonants': [c for c in letters if c not in 'aeiou']}[kind]
+        return out(f'**{word}** has **{len(chosen)}** {kind if len(chosen) != 1 else kind[:-1]}' + (f': {", ".join(chosen)}.' if kind != 'letters' else '.'), 'words')
+    m = re.fullmatch(r'(?i)(?:write|put|make|spell)\s+["“]?(.+?)["”]?\s+in\s+(upper|lower)\s*case(?: letters)?', lower)
+    if m:
+        value = m[1].upper() if m[2].lower() == 'upper' else m[1].lower()
+        return out(f'**{value}**', 'words')
+    return None
+
+
 def reply(text):
     if len(text) > 1500:
         return None
-    for solver in (fallacy, categorical, comparison, conditional, equation, word_problem, clock, weekday, analogy, common_sense):
+    for solver in (number_facts, word_tools, fallacy, categorical, comparison, conditional, equation, word_problem, clock, weekday, analogy, common_sense):
         try:
             answer = solver(text)
         except (ValueError, ZeroDivisionError, IndexError, KeyError):

@@ -1,4 +1,4 @@
-# CAEL 0.2.6
+# CAEL 0.2.7
 
 **One assistant, one model bundle: chat, helpers, emoji, portraits and small
 general pictures.** The release routes between existing CAEL engines and the
@@ -20,9 +20,26 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.2.6.cael` (about 1.3 GB), verifies every file
+`--download` fetches `models/cael-0.2.7.cael` (about 1.4 GB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.2.7
+
+One bundle with everything, and the orchestrator chains all the new engines. Still non-neural at runtime.
+
+- **One unified bundle** with the picture model from the first nightly growth run: **139 subjects** (114 before),
+  including koala, panda, kangaroo, piano, violin, windmill, pineapple and watermelon.
+- **Engines chained by the orchestrator** ([orchestrator.py](cael_unified/orchestrator.py)): dictionary,
+  grammar, translation, trip, advice and reasoning steps pass results on ("What is the opposite of brave? Then
+  define that word", "What is the capital of France? Then what is the weather there?"). "Explain why" after a
+  step gives that step's reasoning.
+- **New small engines:** number facts (prime, even, factors, divisibility), word tools (spell backwards, count
+  letters or vowels), per-item word problems and syllogisms with a named member.
+- **Grammar:** a past time word now gives the past tense ("she go to school yesterday" becomes "She went to
+  school yesterday"), and contractions are handled when changing tense.
+- **Side-by-side with Qwen2.5-0.5B-Instruct**, a transformer of similar size: see
+  [COMPARISON_QWEN_0_5B.md](COMPARISON_QWEN_0_5B.md) for the results and the improvement list.
 
 ## New in 0.2.6
 

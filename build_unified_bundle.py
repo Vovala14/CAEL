@@ -1,6 +1,6 @@
-"""Build the 0.2.6 model bundle from an explicit, privacy-auditable input allowlist.
+"""Build the 0.2.7 model bundle from an explicit, privacy-auditable input allowlist.
 
-0.2.6 = the published 0.2.1 bundle (chat, emoji, portrait, base image, story 0.1) plus the
+0.2.7 = the published 0.2.1 bundle (chat, emoji, portrait, base image, story 0.1) plus the
 runtime model folders the live assistant now uses, installed under models/ by
 `python -m cael_unified --download`, and the model selections that make a fresh checkout
 behave like the reviewed live configuration.
@@ -17,7 +17,7 @@ from cael_unified.bundle import REQUIRED, ROOT, VERSION, digest
 MODEL_FILES = {
     'models/cael-language-0.3.2-math-python': None,          # whole folder: weights, licences, notices
     'models/cael-knowledge-v1': ['knowledge.sqlite', 'query_policy.json', 'query_report.json', 'ranker.json', 'report.json'],
-    'models/cael-image-hybrid-0.4.3': ['final_faces.npz'],
+    'models/cael-image-hybrid-nightly': ['2026-10-20.npz'],  # pictures: 139 subjects (0.4.3 plus nightly-trained subjects)
     'models/cael-story-0.3.7-r2': None,
     'models/cael-prompts-0.3.7-r2': None,
     'models/cael-request-policy-0.3.6-r1': None,
@@ -91,7 +91,7 @@ def build(base_bundle, output):
         components.update({
             'language': 'Unified count language 0.3.2 (sparse token counts; MIT / CC BY / CC BY-SA sources with notices)',
             'knowledge': 'Local Wikipedia knowledge snapshot (CC BY-SA 4.0) with lookup policy and ranker',
-            'hybrid_image': '114-topic hybrid image model 0.4.3: one real structure per picture (rigid objects repainted, not bent), best-of-8 synthesis, 256 px detail, landmark face morphing; from local SD1.5 renders',
+            'hybrid_image': '139-topic hybrid image model (0.4.3 plus 25 nightly-trained subjects, 2026-10-20): one real structure per picture (rigid objects repainted, not bent), best-of-8 synthesis, 256 px detail, landmark face morphing; from local SD1.5 renders',
             'story': 'Story 0.3.7-r2 bounded integer planner', 'prompt': 'Prompt writer 0.3.7-r2',
             'policies': 'Request and news routing policies, reasoning and social reasoning counts',
             'code': 'Code-search operation costs 0.3.8 (from MBPP training syntax trees, CC BY 4.0)',

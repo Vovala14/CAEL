@@ -8,8 +8,8 @@ import urllib.request
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = '0.2.6'
-SUPPORTED = {'0.2.1', '0.2.2', '0.2.3', '0.2.4', '0.2.5', '0.2.6'}
+VERSION = '0.2.7'
+SUPPORTED = {'0.2.1', '0.2.2', '0.2.3', '0.2.4', '0.2.5', '0.2.6', '0.2.7'}
 DEFAULT_BUNDLE = ROOT / 'models' / f'cael-{VERSION}.cael'
 INSTALLED = 'models/'   # bundle members under models/ are installed into the checkout, not the cache
 REQUIRED = {'chat/model_v1.json.gz', 'chat/model_v2.json.gz', 'chat/knowledge.json.gz',
@@ -43,7 +43,7 @@ def open_bundle(path=None, cache_root=None):
     with zipfile.ZipFile(path) as archive:
         entries = archive.infolist()
         names = [entry.filename for entry in entries]
-        if len(names) != len(set(names)) or sum(i.file_size for i in entries) > 2 * 1024 ** 3:
+        if len(names) != len(set(names)) or sum(i.file_size for i in entries) > 4 * 1024 ** 3:
             raise ValueError('Duplicate entries or oversized model bundle')
         for entry in entries:
             safe_member(entry.filename)

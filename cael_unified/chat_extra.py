@@ -131,7 +131,7 @@ FACTS = [
 GOOD_NEWS = re.compile(r"(?i)\bi\s+(?:just\s+|finally\s+)?(?:got|landed|passed|won|finished|graduated|got engaged|am engaged|'m engaged|got married|got promoted|am getting married|had a baby|bought a house|got accepted)\b(.*)")
 LONG_DAY = re.compile(r"(?i)\b(?:i (?:had|have had|'ve had)|it was|what) (?:a |such a )?(?:really |very |so )?(long|hard|rough|tough|busy|bad|stressful|tiring|exhausting|crazy) (?:day|week|shift|night)\b(.*)")
 LEARNING = re.compile(r"(?i)\bi(?:'m| am)\s+(?:learning|trying to learn|starting|getting into|practising|practicing|taking up|studying)\s+(?:to\s+|how to\s+)?(.+?)\s*[.!]*\s*$")
-TIPS_ASK = re.compile(r"(?i)^\s*(?:any|some|got any|do you have any|give me some|what are some|can you give me some)?\s*(?:tips|advice|suggestions|pointers)\b(?:\s+(?:for|on|about)\s+(.+?))?\s*\??\s*$|"
+TIPS_ASK = re.compile(r"(?i)^\s*(?:any|some|got any|do you have any|give me some|give me an?|give me one|what are some|can you give me some|can you give me an?|an?|one)?\s*(?:tips?|advice|suggestions?|pointers?)\b(?:\s+(?:for|on|about)\s+(.+?))?\s*\??\s*$|"
                       r"^\s*how (?:can|do|should) i (?:get better at|improve (?:at|my)?|start|learn)\s+(.+?)\s*\??\s*$")
 OPINION = re.compile(r"(?i)^\s*what do you think (?:about|of)\s+(.+?)\s*\??\s*$|^\s*(?:how do you feel about|what(?:'s| is) your opinion (?:on|of|about))\s+(.+?)\s*\??\s*$")
 FUN = re.compile(r"(?i)\b(?:tell me (?:something|a fact) (?:interesting|cool|fun|surprising|random)|tell me something i (?:don't|do not) know|"
@@ -403,6 +403,11 @@ def reply(text, messages=(), seed=0):
         if key:
             picks = TIPS[key]
             return out('Here are a few tips:\n\n' + '\n'.join(f'- {t}' for t in picks), 'tips')
+        if m[1] and not key:              # "a tip for stress": CAEL's own advice on that subject
+            from . import thinking
+            answer = thinking.reply(f'how do I deal with {m[1].strip()}?', messages, seed)
+            if answer:
+                return answer
         if not (m[1] or m[2]):            # "any tips?" with no subject in sight: ask; a named subject goes to the thinker
             return out('Happy to help! What would you like tips on? For example cooking, running, studying, sleep, saving money or a new language.', 'tips')
     m = OPINION.match(text)

@@ -24,9 +24,15 @@ import re
 VERBS = (r'(?:what|whats|what\'s|who|where|when|which|how|why|is|are|does|do|can|could|write|create|make|generate|build|code|'
          r'calculate|compute|work out|solve|convert|translate|draw|paint|show|tell|give|list|explain|define|describe|find|'
          r'look up|search|add|subtract|multiply|divide|double|halve|square|take|use|run|test|call|apply|check|fix|sort|'
-         r'reverse|count|summari[sz]e|say|recommend|suggest|plan|compare|now)')
+         r'reverse|count|summari[sz]e|say|recommend|suggest|plan|compare|now|help|correct|rewrite|change|put|spell|conjugate|'
+         r'should)')
 STEP_SPLIT = re.compile(r'(?i)(?:[,;.?!]\s*|\s+)(?:and\s+)?(?:then|after that|afterwards|next|finally|and finally|once (?:that\'s|that is) done)\s*,?\s+'
-                        r'|(?:\n\s*)+(?:\d+[.)]\s*|step \d+\s*[:.]\s*|-\s+)?|(?<=[?!])\s+(?=' + VERBS + r'\b)')
+                        r'|(?:\n\s*)+(?:\d+[.)]\s*|step \d+\s*[:.]\s*|-\s+)?|(?<=[?!])\s+(?=' + VERBS + r'\b)'
+                        r'|(?<=[?!.])\s+(?:also|and also|plus)\s*,?\s+(?=' + VERBS + r'\b)')
+NUMBERING = re.compile(r'(?i)^\s*(?:\d+[.)]|step \d+\s*[:.])\s*')
+# A step that asks about the step before it: "explain the rule", "why?", "show your working".
+EXPLAIN = re.compile(r'(?i)^(?:and\s+|please\s+|now\s+)?(?:explain(?:\s+(?:why|how|the rule|the rules|that|it|this|your reasoning|the reasoning|the steps|the answer))?'
+                     r'|why(?:\s+is that)?|how come|show (?:me )?(?:your|the) (?:working|steps|reasoning)|what (?:is|was) the rule)\s*[?.!]*$')
 REFERENCE = re.compile(r'(?i)\b(?:the (?:result|answer|number|value|output|total|function|code|word|phrase|name|city|place)'
                        r'(?: (?:from|of) (?:step|part) (\d+))?|that (?:number|result|answer|value|word|phrase|function|name)|'
                        r'(?:step|part) (\d+)|this|that|it)\b')
@@ -65,18 +71,32 @@ def plan(text):
     """The steps of a multi-part request, or None when it is a single request."""
     if len(text) > 1500 or '```' in text:
         return None
-    parts = [p.strip(' ,;') for p in STEP_SPLIT.split(text) if p and p.strip(' ,;.')]
+    parts = [NUMBERING.sub('', p.strip(' ,;')) for p in STEP_SPLIT.split(text) if p and p.strip(' ,;.')]
+    parts = [p for p in parts if p.strip(' ,;.')]
     if len(parts) < 2 or len(parts) > 6:
         return None
     # The first part may set the scene ("I have 3 apples ..."); every later part must be a request of its own.
     request = re.compile(r'(?i)(?:please\s+|and\s+|also\s+)?' + VERBS + r'\b')
-    if not all(request.match(p) for p in parts[1:]):
+    if not all(request.match(p) or EXPLAIN.match(p) for p in parts[1:]):
         return None
-    if not request.match(parts[0]) and not any(REFERENCE.search(p) for p in parts[1:]):
+    points_back = any(REFERENCE.search(p) or EXPLAIN.match(p) for p in parts[1:])
+    if not request.match(parts[0]) and not points_back:
         return None
-    if not any(REFERENCE.search(p) for p in parts[1:]) and not re.search(r'(?i)\b(?:then|after that|next|finally)\b|\n', text):
+    if not points_back and not re.search(r'(?i)\b(?:then|after that|next|finally|also|plus)\b|\n', text):
         return None
     return parts
+
+
+def normalise(step):
+    """Everyday phrasings of a step that the engines read better as a plain question."""
+    text = re.sub(r'(?i)^(?:and\s+|also\s+|now\s+|please\s+)+', '', step.strip())
+    text = re.sub(r'(?i)^(?:can you\s+|could you\s+)?tell me\s+(?=(?:how|what|who|when|where|which|why|whether|if)\b)', '', text)
+    text = re.sub(r'(?i)^(?:can you\s+|could you\s+)?tell me the (\w+(?: \w+)?) of (.+?)\s*[?.!]*$', r'what is the \1 of \2?', text)
+    text = re.sub(r'(?i)^say\s+(.+?)\s+in\s+([A-Z][a-z]+)\s*[?.!]*$', r'how do you say \1 in \2?', text)
+    # Splitting at "? Then" drops the question mark some engines read ("..., is Tom an animal?").
+    if not re.search(r'[?.!"\')]$', text) and re.search(r'(?i)^(?:is|are|does|do|did|can|could|would|should)\b|,\s*(?:is|are|does|do|can)\b', text):
+        text += '?'
+    return text
 
 
 # Values -----------------------------------------------------------------------------------------
@@ -96,7 +116,9 @@ def short_answer(response):
     first = response.strip().split('\n', 1)[0]
     match = re.match(r'^(?:the|a|an)?\s*.+?\b(?:is|was|are|were) \**([^.*]+?)\**\.?$', first, re.I)
     if match and len(match[1].split()) <= 5:
-        return match[1].strip(' "')
+        # "Hamlet was written by William Shakespeare." -> the person, not "written by ..."
+        return re.sub(r'(?i)^(?:written|painted|directed|composed|invented|discovered|founded|designed|built|created) by\s+', '',
+                      match[1].strip(' "'))
     quoted = re.search(r'\*\*(.+?)\*\*', first)
     if quoted and len(quoted[1].split()) <= 6:
         return quoted[1]
@@ -108,6 +130,23 @@ def classify(route, response):
     if route == 'chat/rules-use' and result:
         value = result[1]
         return ('number', value) if NUMBER.fullmatch(value) else ('short', value.strip("'\""))
+    # Word answers: the first synonym or opposite, the meaning of a phrase, a corrected sentence.
+    if route == 'chat/dictionary-synonyms':
+        found = re.search(r':\s*([A-Za-z][\w\' -]*?)\s*[,.]', response.split('\n', 1)[0])
+        if found:
+            return 'short', found[1]
+    if route == 'chat/dictionary-antonyms':
+        found = re.search(r'\*\*([^*]+)\*\*[^*]*$', response.split('\n', 1)[0])
+        if found:
+            return 'short', found[1].split(',')[0].strip()
+    if route == 'chat/everyday-translate-meaning':
+        found = re.search(r'means\s+"([^"]+)"', response)
+        if found:
+            return 'short', found[1]
+    if route.startswith('chat/grammar-'):
+        found = re.search(r'(?:Corrected|In the past tense|In the passive|With punctuation)[^*]*\*\*(.+?)\*\*', response)
+        if found:
+            return 'short', found[1]
     code = re.search(r'```python\n(.*?)```', response, re.S)
     if code and re.search(r'^def \w+\(', code[1], re.M):
         return 'code', code[1]
@@ -190,9 +229,17 @@ def resolve(request, board):
         if entry is None:
             return match[0]
         notes.append(f'"{match[0]}" = {entry.value} (from step {entry.step})')
-        return str(entry.value)
+        value = str(entry.value)
+        # A whole sentence goes in quotes so the next engine reads it as the text to work on.
+        return f'"{value}"' if len(value.split()) >= 3 and re.search(r'[.!?]$', value) else value
 
     text = REFERENCE.sub(swap, text)
+    # "What is the weather there?" after a step that named a place.
+    place = board.get(kinds={'short'})
+    there = re.search(r'(?i)(?<!\bis )(?<!\bare )\bthere(?=\s*[?.!]*$)', text)
+    if place and there and len(str(place.value).split()) <= 4 and not NUMBER.fullmatch(str(place.value)):
+        text = text[:there.start()] + f'in {place.value}' + text[there.end():]
+        notes.append(f'"there" = {place.value} (from step {place.step})')
     return text, notes, None
 
 
@@ -201,7 +248,8 @@ def wants_value(text, match):
     before = text[:match.start()].lower()
     after = text[match.end():].lower()
     return bool(re.search(r'(?:add|subtract|multiply|divide|double|triple|halve|square|translate|draw|paint|convert|take|'
-                          r'times|plus|minus|by|to|from|of|and|is|with|use|spell|reverse|describe|explain|define)\s*$', before)
+                          r'times|plus|minus|by|to|from|of|and|is|with|use|spell|reverse|describe|explain|define|'
+                          r'(?:letters|vowels|consonants|words) (?:are )?in)\s*$', before)
                 or re.match(r'\s*(?:by|to|from|into|in|squared|times|plus|minus|divided|multiplied|and|\?|$)', after))
 
 
@@ -237,7 +285,11 @@ def run(steps, answer_one, messages=()):
     board = Board()
     history = list(messages[:-1]) if messages else []
     for index, request in enumerate(steps, 1):
-        text, notes, code = resolve(request, board)
+        if EXPLAIN.match(request.strip()) and board.entries:
+            board.add(explain(index, request, board.entries[-1]))
+            history += [dict(role='user', content=request), dict(role='assistant', content=board.entries[-1].response)]
+            continue
+        text, notes, code = resolve(normalise(request), board)
         if code is not None:
             value, response = run_code(code, request)
             entry = Entry(index, request, 'chat/code-run', response, 'number' if isinstance(value, (int, float)) and not isinstance(value, bool)
@@ -262,6 +314,20 @@ def run(steps, answer_one, messages=()):
         board.add(entry)
         history += [dict(role='user', content=text), dict(role='assistant', content=entry.response)]
     return board
+
+
+def explain(index, request, previous):
+    """'Explain the rule' / 'why?' after a step: the reasoning that step's engine gave for its answer."""
+    body = previous.response.strip()
+    reasons = re.split(r'\n\s*\n', body, maxsplit=1)
+    reasoning = reasons[1].strip() if len(reasons) > 1 and re.search(r'(?i)steps:|what i changed|because|rule|\n\d\.|\n- ', reasons[1]) else ''
+    if not reasoning and previous.verification.get('status'):
+        reasoning = f'The answer was checked independently ({previous.verification["status"]}).'
+    if not reasoning:
+        reasoning = ('That step came from ' + previous.route.split('/', 1)[-1].replace('-', ' ') +
+                     '; it did not give separate reasoning beyond the answer itself.')
+    return Entry(index, request, 'chat/plan-explain', f'Here is the reasoning behind step {previous.step}:\n\n{reasoning}', 'text',
+                 reasoning, [f'explains step {previous.step}'])
 
 
 def report(board):

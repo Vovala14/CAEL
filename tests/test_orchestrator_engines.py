@@ -42,6 +42,31 @@ class PlanShapeTests(unittest.TestCase):
         self.assertIn('every cat is an animal', board.entries[1].response)
 
 
+class CodexEngineChainTests(unittest.TestCase):
+    """Results from the exact-maths helper and the bounded Python interpreter pass between steps."""
+
+    def test_decimal_of_an_exact_result_and_several_solutions(self):
+        self.assertEqual(orchestrator.classify('helper/geometry', 'Area = 9*pi (approximately 28.27433388)'), ('number', '28.27433388'))
+        answers = {'Solve x*x = 4': dict(route='helper/equation', response='x = -2 or x = 2'),
+                   '(2) + (3)': dict(route='helper/arithmetic', response='(2) + (3) = 5')}
+        board = orchestrator.run(['Solve x*x = 4', 'add 3 to it'], lambda text, history: answers[text])
+        self.assertEqual(board.entries[1].value, '5')
+        self.assertIn('more than one solution; later steps use x = 2', board.entries[0].notes)
+
+    def test_code_runs_in_the_bounded_interpreter(self):
+        code = '```python\ndef count_vowels(text):\n    return sum(char in "aeiou" for char in text)\n```'
+        board = orchestrator.run(['write a function that counts vowels', 'run it on "banana"'],
+                                 lambda text, history: dict(route='chat/code-composed', response=code))
+        self.assertEqual(board.entries[1].value, 3)
+        self.assertIn("bounded Python interpreter", board.entries[1].response)
+
+    def test_yes_no_rewrites_and_steps_without_a_result(self):
+        self.assertEqual(orchestrator.normalise('tell me if the result is a prime number'), 'is the result a prime number?')
+        answers = {'How much change do I get?': dict(route='helper/quantity-clarify', response='I cannot reliably parse every event.')}
+        board = orchestrator.run(['How much change do I get?', 'double it'], lambda text, history: answers[text])
+        self.assertEqual(board.entries[1].route, 'chat/plan-skipped')
+
+
 class EngineAdditionsTests(unittest.TestCase):
     def test_numbers_and_words(self):
         self.assertIn('not prime: 14 = 2 × 7', reasoning_extra.reply('is 14 a prime number?')['response'])

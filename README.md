@@ -1,4 +1,4 @@
-# CAEL 0.2.7
+# CAEL 0.2.8
 
 **One assistant, one model bundle: chat, helpers, emoji, portraits and small
 general pictures.** The release routes between existing CAEL engines and the
@@ -20,9 +20,24 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.2.7.cael` (about 1.4 GB), verifies every file
+`--download` fetches `models/cael-0.2.8.cael` (about 1.4 GB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.2.8
+
+Exact maths, a bounded Python interpreter, tool building and local file tools, all chained by the orchestrator.
+Still non-neural at runtime.
+
+- **Exact maths** ([helper_math.py](cael_unified/helper_math.py)): equations with several solutions, geometry with
+  exact values (9π, about 28.27) and rate problems.
+- **Bounded Python interpreter** ([python_vm.py](cael_unified/codegen/python_vm.py)): functions and short scripts
+  are interpreted step by step with limits, never run natively; "what will this code print?" shows checked output.
+- **Code review and repair, function and tool building**: composed functions, stateful functions from examples,
+  multi-step task tools from a "Steps:" list.
+- **Local file, PDF and media-review tools** for the owner's own computer: see [LOCAL_TOOLS.md](LOCAL_TOOLS.md).
+- **Orchestrator chaining**: "Solve 2x + 3 = 11, then square it"; "What is the area of a circle with radius 3?
+  Then divide it by 2"; "Write a function that counts vowels, then run it on 'banana'" (run in the interpreter).
 
 ## New in 0.2.7
 

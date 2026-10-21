@@ -90,6 +90,8 @@ def plan(text):
 def normalise(step):
     """Everyday phrasings of a step that the engines read better as a plain question."""
     text = re.sub(r'(?i)^(?:and\s+|also\s+|now\s+|please\s+)+', '', step.strip())
+    # "tell me if the result is a prime number" -> "is the result a prime number?"
+    text = re.sub(r'(?i)^(?:can you\s+|could you\s+)?(?:tell me|check)\s+(?:if|whether)\s+(.+?)\s+(is|are)\s+(.+?)\s*[?.!]*$', r'\2 \1 \3?', text)
     text = re.sub(r'(?i)^(?:can you\s+|could you\s+)?tell me\s+(?=(?:how|what|who|when|where|which|why|whether|if)\b)', '', text)
     text = re.sub(r'(?i)^(?:can you\s+|could you\s+)?tell me the (\w+(?: \w+)?) of (.+?)\s*[?.!]*$', r'what is the \1 of \2?', text)
     text = re.sub(r'(?i)^say\s+(.+?)\s+in\s+([A-Z][a-z]+)\s*[?.!]*$', r'how do you say \1 in \2?', text)
@@ -150,6 +152,10 @@ def classify(route, response):
     code = re.search(r'```python\n(.*?)```', response, re.S)
     if code and re.search(r'^def \w+\(', code[1], re.M):
         return 'code', code[1]
+    # Exact symbolic results come with a decimal ("Area = 9*pi (approximately 28.27433388)"): pass the decimal on.
+    approximate = re.search(r'\(approximately\s+(-?\d+(?:\.\d+)?)\)', response.split('\n', 1)[0])
+    if route.startswith('helper/') and approximate:
+        return 'number', approximate[1]
     if route.startswith(('helper/', 'chat/everyday-figure')) or route in ('chat/web-wikidata-faq',):
         number = number_in(response)
         if number is not None and route.startswith('helper/'):
@@ -266,6 +272,16 @@ def run_code(entry, request):
     if any(isinstance(a, int) and not isinstance(a, bool) and abs(a) > 100_000 for a in args) or \
             any(isinstance(a, (str, list, tuple, dict)) and len(a) > 10_000 for a in args):
         return None, 'That input is too large for me to run safely.'
+    call = f'{name}({", ".join(map(repr, args))})'
+    # First the bounded Python machine (codegen/python_vm.py): it interprets the function itself, so no generated code
+    # runs natively. Only code it does not support yet (such as `import math`) falls back to the restricted runner.
+    from .codegen.python_vm import run_cases
+    checked = run_cases(entry.value, [dict(name=name, args=list(args))])
+    outcome = (checked.get('cases') or [{}])[0]
+    if outcome.get('status') == 'value':
+        return outcome['value'], f'`{call}` returns `{outcome["value"]!r}` (run by CAEL\'s bounded Python interpreter).'
+    if outcome.get('status') == 'error':
+        return None, f'Running `{name}` raised {outcome["error"]}: {outcome["message"]}'
     scope = {'__builtins__': {k: __builtins__[k] if isinstance(__builtins__, dict) else getattr(__builtins__, k)
                               for k in ('len', 'sum', 'min', 'max', 'sorted', 'list', 'dict', 'set', 'tuple', 'str', 'int',
                                         'float', 'abs', 'round', 'range', 'all', 'any', 'zip', 'enumerate', 'reversed', 'bool')},
@@ -275,7 +291,6 @@ def run_code(entry, request):
         value = scope[name](*args)
     except Exception as error:
         return None, f'Running `{name}` raised {type(error).__name__}: {error}'
-    call = f'{name}({", ".join(map(repr, args))})'
     return value, f'`{call}` returns `{value!r}`.'
 
 
@@ -290,6 +305,14 @@ def run(steps, answer_one, messages=()):
             history += [dict(role='user', content=request), dict(role='assistant', content=board.entries[-1].response)]
             continue
         text, notes, code = resolve(normalise(request), board)
+        reference = REFERENCE.search(request)
+        last = board.entries[-1] if board.entries else None
+        if code is None and not notes and last is not None and last.kind == 'text' and reference \
+                and wants_value(request, reference) and re.search(r'clarify|not-found|unsure|unsupported|cannot', last.route):
+            # "Then double it" after a step that found no answer: say so, instead of a confused reply.
+            board.add(Entry(index, request, 'chat/plan-skipped', f'I could not do this step: step {last.step} gave no result to use.',
+                            'text', None, [f'step {last.step} had no result']))
+            continue
         if code is not None:
             value, response = run_code(code, request)
             entry = Entry(index, request, 'chat/code-run', response, 'number' if isinstance(value, (int, float)) and not isinstance(value, bool)
@@ -306,6 +329,11 @@ def run(steps, answer_one, messages=()):
             response = (answer or {}).get('response') or 'I could not do this step.'
             route = (answer or {}).get('route', 'none')
             kind, value = classify(route, response)
+            # "x = -2 or x = 2": say which solution later steps use, instead of choosing silently.
+            several = re.search(r'(?i)^\s*(\w+)\s*=\s*(-?[\d./]+)(?:\s*(?:,|or)\s*\1\s*=\s*-?[\d./]+)+', response.split('\n', 1)[0])
+            if kind == 'number' and several:
+                value = re.findall(r'=\s*(-?[\d./]+)', response.split('\n', 1)[0])[-1]
+                notes.append(f'more than one solution; later steps use {several[1]} = {value}')
             if kind == 'number' and '/' in str(value):
                 top, bottom = str(value).split('/')
                 value = decimal(int(top) / int(bottom))

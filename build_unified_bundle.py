@@ -1,6 +1,6 @@
-"""Build the 0.2.7 model bundle from an explicit, privacy-auditable input allowlist.
+"""Build the 0.2.8 model bundle from an explicit, privacy-auditable input allowlist.
 
-0.2.7 = the published 0.2.1 bundle (chat, emoji, portrait, base image, story 0.1) plus the
+0.2.8 = the published 0.2.1 bundle (chat, emoji, portrait, base image, story 0.1) plus the
 runtime model folders the live assistant now uses, installed under models/ by
 `python -m cael_unified --download`, and the model selections that make a fresh checkout
 behave like the reviewed live configuration.

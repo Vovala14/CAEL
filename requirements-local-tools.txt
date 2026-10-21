@@ -1,0 +1,2 @@
+# Optional pure-Python PDF parser, BSD-3-Clause. Pillow already in unified runtime.
+pypdf==6.21.2 --hash=sha256:1d44d1a3a200f25062adff0085b02040e4646431ac2ccac22e42679e91466084

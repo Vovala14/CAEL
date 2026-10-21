@@ -42,6 +42,10 @@ cael_chat_ca/
 cael_flamew/
 release_0_2/
 local_tools/
+!cael_unified/local_tools/
+!cael_unified/local_tools/*.py
+!licenses/local_tools/
+!licenses/local_tools/**
 cael_assistant/model_cache/
 cael_assistant/public_url.txt
 cael_assistant/_req.json

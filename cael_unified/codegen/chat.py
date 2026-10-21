@@ -122,8 +122,75 @@ EXPLAIN_DETAILS = ('Read from the Python syntax tree (ast) and, for short pure e
                    'safe built-ins. Concept notes and recipes are short hand-written references.')
 
 
-def reply(text, seed=0):
+def reply(text, seed=0, messages=None):
+    from .task_tools import reply as task_tool_reply
+    task_tool=task_tool_reply(text,messages=messages)
+    if task_tool is not None:return task_tool
+    # A counterexample answer can extend the immediately preceding coding
+    # request. Never merge unrelated function names or an arbitrary old turn.
+    questions=('The examples leave more than one plausible program.',
+               'The examples do not determine field ')
+    if messages and len(messages) >= 3 and messages[-2].get('role') == 'assistant' and \
+            messages[-2].get('content', '').startswith(questions):
+        follow_name, follow_cases = examples(text)
+        if follow_cases:
+            for index in range(len(messages)-3,max(-1,len(messages)-10),-2):
+                previous=messages[index]
+                if previous.get('role')!='user':break
+                old_name,old_cases=examples(previous.get('content',''))
+                if old_name!=follow_name or not old_cases:break
+                text=previous['content']+'\n'+text
+                if index<2 or messages[index-1].get('role')!='assistant' or not messages[index-1].get('content','').startswith(questions):break
+    # Keep a pasted repair request when the very next turn supplies tests.
+    if messages and len(messages)>=3 and messages[-2].get('role')=='assistant' and \
+            messages[-2].get('content','').endswith('No behavioral patch was applied.') and '```' not in text:
+        from .workbench import examples as repair_examples
+        previous=messages[-3]
+        if previous.get('role')=='user' and '```' in previous.get('content','') and len(repair_examples(text))>=2:
+            text=previous['content']+'\n'+text
+    from .workbench import reply as workbench_reply
+    reviewed = workbench_reply(text)
+    if reviewed is not None:
+        return reviewed
     out = lambda response, route, details=DETAILS: dict(response=response, route='chat/code-' + route, sources=[], details=details)
+    # Stateful functions have their own example-guided transition grammar.
+    # Handle these before the fixed algorithm/description adapters, which do
+    # not preserve stateful modifiers such as "running" and "reset".
+    from . import state_search
+    state_name, state_cases = examples(text)
+    first_example = re.search(r'\b' + re.escape(state_name) + r'\s*\(', text) if state_name else None
+    description = text[:first_example.start()] if first_example else text
+    if len(state_cases) >= 2 and '```' not in text:
+        from .toolmaker import reply as toolmaker_reply
+        built = toolmaker_reply(state_name, state_cases, description, text)
+        if built is not None:
+            return built
+    if state_search.interested(description) and is_request(text) and '```' not in text:
+        if re.search(r'(?i)\b(?:without|do not|in[- ]place|recursion|recursive|async|numpy|pandas)\b', description):
+            return out('I cannot verify those implementation constraints with the stateful synthesizer. '
+                       'Specify whether an ordinary integer loop is acceptable.', 'state-clarify')
+        if len(state_cases) >= 2:
+            answer = state_search.reply(state_name, state_cases, description)
+            if answer is not None:
+                return answer
+        if not state_cases:
+            from .state_plan import reply as planned_state_reply
+            answer = planned_state_reply(description)
+            if answer is not None:
+                return answer
+        return out('I can synthesize a stateful function from contrasting examples. '
+                   'Give two or more calls with expected results, including an empty input or a reset boundary. '
+                   'I support integer lists, one changing accumulator, and final or running outputs.',
+                   'state-needs-examples', 'The requested stateful behavior has not been inferred. No function was emitted.')
+    if len(examples(text)[1]) < 2:
+        from .contracts import reply as compose_reply
+        composed = compose_reply(text)
+        if composed is not None:
+            return composed
+        if is_request(text) and re.search(r'(?i)\b(?:without using|do not use|in[- ]place)\b', text):
+            return out('I cannot verify those extra implementation constraints with this composer. '
+                       'Please clarify the allowed operations or whether a standard implementation is acceptable.',
+                       'clarify', 'No code was emitted because the requested implementation constraints are unsupported.')
     if len(examples(text)[1]) < 2:
         answer = explain.reply(text, lambda response, route: out(response, route, EXPLAIN_DETAILS))
         if answer is not None:

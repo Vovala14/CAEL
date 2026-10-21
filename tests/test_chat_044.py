@@ -100,7 +100,9 @@ class HelperTests(unittest.TestCase):
                               ('Solve x + 1 = x + 2','This equation has no solution.'),
                               ('Solve x + 1 = x + 1','Every value of x satisfies this equation.')]:
             with self.subTest(text=text):self.assertEqual(reply(text)['response'],expected)
-        self.assertEqual(reply('Solve x*x = 4')['route'],'helper/unsupported')
+        self.assertEqual(reply('Solve x*x = 4')['route'],'helper/equation')
+        self.assertIn('x = -2',reply('Solve x*x = 4')['response'])
+        self.assertIn('x = 2',reply('Solve x*x = 4')['response'])
         self.assertIn('Collect terms',reply('Explain 3*x - 2 = x + 8')['response'])
         self.assertIsNone(reply('__import__("os").system("bad")'))
         self.assertEqual(reply('9 ** 99999999')['route'],'helper/undefined')

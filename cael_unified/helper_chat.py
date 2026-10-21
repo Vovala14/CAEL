@@ -132,6 +132,9 @@ def reply(text,messages=None):
         operation=followup[1] or followup[3];number=followup[2] or followup[4]
         symbol={'add':'+','subtract':'-','multiply':'*','divide':'/'}[operation.lower()]
         return result(f'({render(previous[1])}) {symbol} ({number})',explain=explain) or dict(route='helper/undefined',response='That operation is undefined, such as division by zero.',sources=[])
+    from .helper_math import reply as math_reply
+    extended=math_reply(text)
+    if extended:return extended
     equation=linear(text,explain)
     if equation:return equation
     bare=text.strip().rstrip(' ?.').lower()

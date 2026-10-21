@@ -158,13 +158,16 @@ def evaluate(source):
         return None
     if not safe_to_run(tree):
         return None
-    allowed = {name: __builtins__[name] if isinstance(__builtins__, dict) else getattr(__builtins__, name) for name in SAFE_CALLS}
+    from .python_vm import Machine, Scope, Unsupported, ITERATORS, VIEWS
+    machine = Machine(steps=4000)
     try:
-        value = eval(compile(tree, '<snippet>', 'eval'), {'__builtins__': allowed})
+        value = machine.expr(tree.body, Scope(machine=machine))
+        if type(value) in (range, *ITERATORS, *VIEWS):
+            value = machine.bounded(list(value))
+    except Unsupported:
+        return None
     except Exception as error:
         return ('error', f'{type(error).__name__}: {error}')
-    if isinstance(value, (map, filter, zip, enumerate, reversed, range)):
-        value = list(value)
     text = repr(value)
     return ('value', text if len(text) <= 300 else text[:300] + ' ...')
 
@@ -367,9 +370,13 @@ def reply(text, out):
                     return out('I could not repair that automatically. Python reports: '
                                f'{syntax_error(source)}. Check that line for a missing `:`, bracket or quote.', 'not-fixed')
                 return out(fix_reply(source, fixed, notes), 'fixed')
-    if CODE_ASK.search(text):
+    if CODE_ASK.search(text) or re.search(r'(?i)\bwhat (?:will|does) (?:this|the following) (?:python )?(?:code )?print\b', text):
         source = code_in(text)
         if source and looks_like_code(source, text):
+            from .trace import output
+            printed = output(source)
+            if printed is not None:
+                return out('Checked output:\n```text\n' + printed + '\n```\n\n' + explain(source), 'explained')
             return out(explain(source), 'explained')
     name = concept(text)
     if name and (pythonish or name in ('list comprehension', 'lambda', 'decorator', 'generator', 'f-string', 'args kwargs', 'slicing')):

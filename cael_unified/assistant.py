@@ -250,6 +250,12 @@ class Assistant:
                         detail='Non-neural conditional count language component. Training attribution is listed under data sources and licences. This is a statistical choice, not a verified factual lookup.'
                     return dict(route='chat/choice-count',response=f'{"ABCD"[best]}. {endings[best]}',sources=[],
                                 details=detail,choice=best,continuation_scores=scores)
+            # An active task tool belongs to this conversation. Resolve its
+            # specification/use before a coincidentally named global rule.
+            from .codegen.task_tools import reply as task_tool_reply
+            answer = task_tool_reply(text, messages=messages)
+            if answer is not None:
+                return answer
             # Learned rules: sequences, reusing a rule by name, the rule list, and feedback on a rule (rules.py).
             from . import rules
             answer = rules.reply(text, messages)
@@ -257,10 +263,14 @@ class Assistant:
                 return answer
             # Python questions first: the helper would otherwise send "what does this code do?" to a web lookup.
             from .codegen import chat as codegen
-            answer = codegen.reply(text, seed)
+            answer = codegen.reply(text, seed, messages=messages)
             if answer is not None:
                 return answer
             # Word questions (meanings, synonyms, forms, spelling) from the offline dictionary, before any web lookup.
+            from .helper_math import reply as exact_math_reply
+            answer = exact_math_reply(text)
+            if answer is not None:
+                return answer
             from . import dictionary, grammar
             answer = grammar.reply(text) or dictionary.reply(text)
             if answer is not None:

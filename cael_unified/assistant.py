@@ -199,8 +199,9 @@ class Assistant:
             if steps:
                 self._planning = True
                 try:
+                    # Each step gets its own seed, so "make another one" is not a copy of the step before.
                     board = orchestrator.run(steps, lambda step, history: self._respond(
-                        history + [dict(role='user', content=step)], n=1, seed=seed, mode=mode), messages)
+                        history + [dict(role='user', content=step)], n=1, seed=(seed + len(history)) % 2 ** 31, mode=mode), messages)
                 finally:
                     self._planning = False
                 return orchestrator.report(board)

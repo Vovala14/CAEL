@@ -304,9 +304,21 @@ def run(steps, answer_one, messages=()):
             board.add(explain(index, request, board.entries[-1]))
             history += [dict(role='user', content=request), dict(role='assistant', content=board.entries[-1].response)]
             continue
-        text, notes, code = resolve(normalise(request), board)
-        reference = REFERENCE.search(request)
         last = board.entries[-1] if board.entries else None
+        step_text = normalise(request)
+        # "Make a prompt for a dog image, then make one for a cat": "one"/"another" is another prompt of the same kind.
+        if last is not None and last.route.startswith('chat/prompt-'):
+            step_text = re.sub(r'(?i)^(make|write|create|generate|give me|do)\s+(?:one|another)(?:\s+(?:one|more))?\b',
+                               r'\1 a prompt', step_text)
+            if re.fullmatch(r'(?i)(?:make|write|create|generate|give me|do) a prompt\s*[.!?]*', step_text):
+                from .promptgen import parse as parse_prompt
+                earlier = parse_prompt(last.request)
+                if earlier and earlier['brief']:
+                    step_text = step_text.rstrip(' .!?') + ' for ' + earlier['brief']
+                    if earlier['kind'] == 'image' and not re.search(r'(?i)\b(?:image|picture|photo)\b', earlier['brief']):
+                        step_text += ' image'
+        text, notes, code = resolve(step_text, board)
+        reference = REFERENCE.search(request)
         if code is None and not notes and last is not None and last.kind == 'text' and reference \
                 and wants_value(request, reference) and re.search(r'clarify|not-found|unsure|unsupported|cannot', last.route):
             # "Then double it" after a step that found no answer: say so, instead of a confused reply.

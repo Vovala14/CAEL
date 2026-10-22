@@ -67,6 +67,34 @@ class CodexEngineChainTests(unittest.TestCase):
         self.assertEqual(board.entries[1].route, 'chat/plan-skipped')
 
 
+class PromptKindTests(unittest.TestCase):
+    """'Make prompt for a dog image' is a picture prompt, not an assistant task (seen on vynly.co)."""
+
+    def test_picture_prompts_in_any_word_order(self):
+        from cael_unified.promptgen import is_prompt_request, parse
+        for text, brief in [('Make prompt for a dog image', 'a dog'), ('prompt for a dragon picture', 'a dragon'),
+                            ('Make a prompt for a dragon picture.', 'a dragon'), ('make me a midjourney prompt for a robot', 'a robot'),
+                            ('improve this prompt: a dog on a beach', 'a dog on a beach'),
+                            ('write a prompt for an image of a cat', 'an image of a cat')]:
+            with self.subTest(text=text):
+                self.assertTrue(is_prompt_request(text))
+                request = parse(text)
+                self.assertEqual(request['kind'], 'image')
+                self.assertEqual(request['brief'], brief)
+        self.assertEqual(parse('write a prompt for a chatbot that summarises emails')['kind'], 'task')
+        self.assertEqual(parse('write a story prompt about a lost key')['kind'], 'story')
+
+    def test_another_prompt_keeps_the_subject(self):
+        seen = []
+
+        def answer(text, history):
+            seen.append(text)
+            return dict(route='chat/prompt-image', response='Image prompt:\na dog, ...')
+        orchestrator.run(['write a prompt for a dog image', 'make another one', 'make one for a cat image'], answer)
+        self.assertEqual(seen[1], 'make a prompt for a dog image')
+        self.assertEqual(seen[2], 'make a prompt for a cat image')
+
+
 class EngineAdditionsTests(unittest.TestCase):
     def test_numbers_and_words(self):
         self.assertIn('not prime: 14 = 2 × 7', reasoning_extra.reply('is 14 a prime number?')['response'])

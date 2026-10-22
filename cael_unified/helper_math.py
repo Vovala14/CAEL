@@ -27,7 +27,7 @@ def parsed(source):
         if isinstance(node, ast.Constant) and type(node.value) in (int, float):
             if not math.isfinite(float(node.value)) or abs(node.value) > 10**50:
                 raise ValueError('Number limit')
-            return sp.Rational(str(node.value))
+            return sp.Rational(ast.get_source_segment(source, node))
         if isinstance(node, ast.Name):
             if node.id == 'pi':
                 return sp.pi

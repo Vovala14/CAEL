@@ -24,7 +24,7 @@ import re
 VERBS = (r'(?:what|whats|what\'s|who|where|when|which|how|why|is|are|does|do|can|could|write|create|make|generate|build|code|'
          r'calculate|compute|work out|solve|convert|translate|draw|paint|show|tell|give|list|explain|define|describe|find|'
          r'look up|search|add|subtract|multiply|divide|double|halve|square|take|use|run|test|call|apply|check|fix|sort|'
-         r'reverse|count|summari[sz]e|say|recommend|suggest|plan|compare|now|help|correct|rewrite|change|put|spell|conjugate|'
+         r'reverse|count|summari[sz]e|say|recommend|suggest|plan|compare|now|help|correct|rewrite|change|put|spell|conjugate|triple|increase|decrease|'
          r'should)')
 STEP_SPLIT = re.compile(r'(?i)(?:[,;.?!]\s*|\s+)(?:and\s+)?(?:then|after that|afterwards|next|finally|and finally|once (?:that\'s|that is) done)\s*,?\s+'
                         r'|(?:\n\s*)+(?:\d+[.)]\s*|step \d+\s*[:.]\s*|-\s+)?|(?<=[?!])\s+(?=' + VERBS + r'\b)'
@@ -190,6 +190,8 @@ SPOKEN = [
     (r'^square\s+(.+)$', '({0}) * ({0})'),
     (r'^(.+?)\s+squared$', '({0}) * ({0})'),
     (r'^(?:take|what is|find|calculate)?\s*(\d+(?:\.\d+)?)\s*%\s+of\s+(.+)$', '({0} / 100) * ({1})'),
+    (r'^increase\s+(.+?)\s+by\s+(-?\d+(?:\.\d+)?)\s*%$', '({0}) * (1 + ({1}) / 100)'),
+    (r'^decrease\s+(.+?)\s+by\s+(-?\d+(?:\.\d+)?)\s*%$', '({0}) * (1 - ({1}) / 100)'),
     (r'^(?:what is\s+)?(.+?)\s+(plus|minus|times|divided by|multiplied by)\s+(.+)$', None),
 ]
 OPERATORS = {'plus': '+', 'minus': '-', 'times': '*', 'divided by': '/', 'multiplied by': '*'}
@@ -253,7 +255,7 @@ def wants_value(text, match):
     """Is a bare 'it' / 'that' / 'this' a reference to an earlier answer here (and not 'what is it like')?"""
     before = text[:match.start()].lower()
     after = text[match.end():].lower()
-    return bool(re.search(r'(?:add|subtract|multiply|divide|double|triple|halve|square|translate|draw|paint|convert|take|'
+    return bool(re.search(r'(?:add|subtract|multiply|divide|double|triple|halve|square|increase|decrease|translate|draw|paint|convert|take|'
                           r'times|plus|minus|by|to|from|of|and|is|with|use|spell|reverse|describe|explain|define|'
                           r'(?:letters|vowels|consonants|words) (?:are )?in)\s*$', before)
                 or re.match(r'\s*(?:by|to|from|into|in|squared|times|plus|minus|divided|multiplied|and|\?|$)', after))
@@ -317,6 +319,11 @@ def run(steps, answer_one, messages=()):
                     step_text = step_text.rstrip(' .!?') + ' for ' + earlier['brief']
                     if earlier['kind'] == 'image' and not re.search(r'(?i)\b(?:image|picture|photo)\b', earlier['brief']):
                         step_text += ' image'
+        pending_reference = REFERENCE.search(step_text)
+        if last is not None and last.value is None and pending_reference and not (pending_reference[1] or pending_reference[2]) and wants_value(step_text, pending_reference):
+            board.add(Entry(index, request, 'chat/plan-skipped',
+                            f'I could not do this step: step {last.step} gave no single result to use.', 'text', None))
+            continue
         text, notes, code = resolve(step_text, board)
         reference = REFERENCE.search(request)
         if code is None and not notes and last is not None and last.kind == 'text' and reference \
@@ -341,15 +348,13 @@ def run(steps, answer_one, messages=()):
             response = (answer or {}).get('response') or 'I could not do this step.'
             route = (answer or {}).get('route', 'none')
             kind, value = classify(route, response)
-            # "x = -2 or x = 2": say which solution later steps use, instead of choosing silently.
+            # Several solutions have no single value to pass to a later step.
             several = re.search(r'(?i)^\s*(\w+)\s*=\s*(-?[\d./]+)(?:\s*(?:,|or)\s*\1\s*=\s*-?[\d./]+)+', response.split('\n', 1)[0])
             if kind == 'number' and several:
-                value = re.findall(r'=\s*(-?[\d./]+)', response.split('\n', 1)[0])[-1]
-                notes.append(f'more than one solution; later steps use {several[1]} = {value}')
-            if kind == 'number' and '/' in str(value):
-                top, bottom = str(value).split('/')
-                value = decimal(int(top) / int(bottom))
-                response = response.rstrip() + f' (about {value})'
+                kind, value = 'text', None
+                route = 'chat/plan-clarify-solutions'
+                response += '\nWhich solution should the next step use?'
+                notes.append('multiple solutions; no single value selected')
             entry = Entry(index, request, route, response, kind, value, notes, (answer or {}).get('verification', {}))
         board.add(entry)
         history += [dict(role='user', content=text), dict(role='assistant', content=entry.response)]

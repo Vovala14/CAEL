@@ -1,4 +1,4 @@
-"""Build the 0.2.8 model bundle from an explicit, privacy-auditable input allowlist.
+"""Build the unified model bundle from an explicit, privacy-auditable input allowlist.
 
 0.2.8 = the published 0.2.1 bundle (chat, emoji, portrait, base image, story 0.1) plus the
 runtime model folders the live assistant now uses, installed under models/ by
@@ -37,9 +37,11 @@ MODEL_FILES = {
 SELECTIONS = ('story', 'language', 'request_policy', 'news_policy', 'prompt', 'hybrid_image', 'choice', 'text_repair')
 
 
-def model_files():
+def model_files(no_images=False):
     files = {}
     for folder, names in MODEL_FILES.items():
+        if no_images and folder.startswith(('models/cael-image-', 'models/cael-general-')):
+            continue
         base = ROOT / folder
         paths = [base / n for n in names] if names else sorted(p for p in base.rglob('*') if p.is_file())
         for path in paths:
@@ -51,10 +53,12 @@ def model_files():
     return files
 
 
-def selections(files):
+def selections(files, no_images=False):
     live = json.loads((ROOT / 'research' / 'active_models.json').read_text(encoding='utf-8'))
     out = {}
     for key in SELECTIONS:
+        if no_images and key in ('general_image', 'hybrid_image', 'portrait_image'):
+            continue
         entry = dict(live[key])
         if 'path' not in entry:
             # Code-only selection (multiple-choice chooser): its settings are tied to reviewed code by sha256.
@@ -75,12 +79,12 @@ def selections(files):
     return out
 
 
-def build(base_bundle, output):
+def build(base_bundle, output, no_images=False, release_config=False):
     base_bundle, output = Path(base_bundle), Path(output)
     if output.exists():
         raise FileExistsError(output)
-    extra = model_files()
-    chosen = selections(extra)
+    extra = model_files(no_images)
+    chosen = selections(extra, no_images)
     with zipfile.ZipFile(base_bundle) as base:
         base_manifest = json.loads(base.read('bundle.json'))
         if base_manifest.get('version') != '0.2.1' or not REQUIRED <= set(base_manifest['files']):
@@ -101,6 +105,10 @@ def build(base_bundle, output):
                         architecture='Shared router and one archive of distinct non-neural engines, not a single jointly trained weight tensor',
                         private_training_photos_included=False, credentials_included=False, private_queries_included=False,
                         training_teacher='Neural Stable Diffusion 1.5 for synthetic image data only; every runtime engine is non-neural')
+        if no_images:
+            manifest['profile'] = 'no-images'
+            manifest['training_teacher'] = 'No image-generation model included; every runtime engine is non-neural'
+            manifest['components'] = {k: v for k, v in components.items() if not any(w in k.lower() for w in ('image', 'portrait', 'photo'))}
         files = {}
         output.parent.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(output, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
@@ -110,6 +118,8 @@ def build(base_bundle, output):
                 with source_open() as source, archive.open(info, 'w', force_zip64=True) as target:
                     shutil.copyfileobj(source, target, 1024 * 1024)
             for name, expected in sorted(base_manifest['files'].items()):
+                if no_images and name.startswith(('image/', 'portrait/')):
+                    continue
                 if name.startswith('licenses/'):
                     continue                     # replaced by the current, larger licence set
                 add(name, lambda n=name: base.open(n))
@@ -121,7 +131,13 @@ def build(base_bundle, output):
             archive.writestr('bundle.json', json.dumps(manifest, indent=2))
     result = dict(version=VERSION, url=f'https://github.com/Vovala14/CAEL/releases/download/v{VERSION}/cael-{VERSION}.cael',
                   sha256=digest(output), bytes=output.stat().st_size)
-    (ROOT / 'bundle_config.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
+    if no_images:
+        if not release_config:
+            result.pop('url')  # Local experiments must not advertise an uploaded release.
+        result['profile'] = 'no-images'
+        output.with_suffix('.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
+    if not no_images or release_config:
+        (ROOT / 'bundle_config.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(result, indent=2))
     return manifest
 
@@ -130,5 +146,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base', default=str(ROOT / 'models' / 'cael-0.2.1.cael'))
     parser.add_argument('--out', default=str(ROOT / 'dist' / f'cael-{VERSION}.cael'))
+    parser.add_argument('--no-images', action='store_true', help='Exclude picture and portrait models; retain emoji and text engines')
+    parser.add_argument('--release-config', action='store_true', help='Write the GitHub release download configuration for an authorized publication')
     args = parser.parse_args()
-    build(args.base, args.out)
+    build(args.base, args.out, args.no_images, args.release_config)

@@ -112,6 +112,8 @@ class Assistant:
                             details='Chat mode has no picture engine, so CAEL\'s prompt helper wrote an image prompt instead (rule-based, non-neural).')
         else:
             where = 'Picture drawing is off in chat mode. Switch to Auto or Picture mode and ask again, or use this prompt in any image tool:'
+            if self.manifest.get('profile') == 'no-images':
+                where = 'This bundle has no picture model. Here is a prompt to use in an image tool:'
             after = 'Want a different style or setting? Tell me and I will rewrite the prompt.'
         if not prompt:
             return dict(route='chat/picture-in-chat', response=where.rsplit('.', 1)[0] + '. Tell me what the picture should show and I will write a prompt for it.',
@@ -208,6 +210,8 @@ class Assistant:
         route = route_request(text, mode)
         if route == 'chat' and mode == 'auto' and picture_follow_up(messages):
             route = 'image'
+        if route == 'image' and self.manifest.get('profile') == 'no-images':
+            return self.picture_in_chat(text, messages, seed)
         if route == 'image' and mode == 'auto' and self.vynly_reply(text, messages) is not None:
             route = 'chat'          # "how do I generate an image on Vynly?" is a help question, not a drawing request
         # A picture request in chat-only mode (the vynly.co widget has no drawing): write the prompt instead.
@@ -232,6 +236,10 @@ class Assistant:
             choice=choice_problem(text)
             if choice:
                 context,endings=choice
+                from .symbolic_choice import reply as symbolic_choice_reply
+                answer=symbolic_choice_reply(context,endings,self._reasoning)
+                if answer is not None:
+                    return answer
                 scores=self.score_endings(context,endings)
                 if scores is not None:
                     chooser=self.choice_settings()

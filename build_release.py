@@ -7,13 +7,13 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-VERSION = '0.2.8'
+VERSION = '0.2.9'
 
 
 def tracked_files():
     """Exactly the files committed to git: ignored local experiments, caches and weights cannot slip in."""
     import subprocess
-    listing = subprocess.run(['git', 'ls-files', '-z'], cwd=ROOT, check=True, capture_output=True).stdout
+    listing = subprocess.run(['git', '-c', f'safe.directory={ROOT.as_posix()}', 'ls-files', '-z'], cwd=ROOT, check=True, capture_output=True).stdout
     return [ROOT / name for name in listing.decode('utf-8').split('\0') if name]
 
 
@@ -46,7 +46,7 @@ def source_bytes(path):
     return raw.replace(b'\r\n', b'\n') if text and not binary else raw
 
 
-def main(out, bundle):
+def main(out, bundle, no_images=False):
     if out.exists():
         raise FileExistsError(out)
     paths = public_paths()
@@ -54,18 +54,30 @@ def main(out, bundle):
     if bundle:
         if not bundle.is_file():
             raise FileNotFoundError(bundle)
-        config = json.loads((ROOT / 'bundle_config.json').read_text())
+        config = json.loads((bundle.with_suffix('.json') if no_images else ROOT / 'bundle_config.json').read_text())
         if digest(bundle) != config['sha256']:
             raise ValueError('Bundle differs from release configuration')
+        if no_images:
+            from cael_unified.bundle import required_members
+            with zipfile.ZipFile(bundle) as model_archive:
+                profile = json.loads(model_archive.read('bundle.json'))
+                if profile.get('profile') != 'no-images':
+                    raise ValueError('Expected a no-images bundle')
+                required_members(profile)
         sums[f'models/cael-{VERSION}.cael'] = config['sha256']
-    manifest = ROOT / 'SHA256SUMS.json'
-    manifest.write_text(json.dumps(sums, indent=2) + '\n', encoding='utf-8')
+    # Use the model's checksum-pinned configuration, including its release URL when published.
+    replacements = {}
+    if no_images:
+        replacements['bundle_config.json'] = (json.dumps(config, indent=2) + '\n').encode('utf-8')
+        sums['bundle_config.json'] = hashlib.sha256(replacements['bundle_config.json']).hexdigest()
+    sums_bytes = (json.dumps(sums, indent=2) + '\n').encode('utf-8')
     out.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(out, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
-        for path in paths + [manifest]:
+        for path in paths:
             info = zipfile.ZipInfo(f'CAEL-{VERSION}/' + path.relative_to(ROOT).as_posix(), date_time=(2026, 10, 17, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
-            archive.writestr(info, source_bytes(path))
+            archive.writestr(info, replacements.get(path.relative_to(ROOT).as_posix(), source_bytes(path)))
+        archive.writestr(f'CAEL-{VERSION}/SHA256SUMS.json', sums_bytes)
         if bundle:
             archive.write(bundle, f'CAEL-{VERSION}/models/cael-{VERSION}.cael', compress_type=zipfile.ZIP_STORED)
     print(json.dumps(dict(archive=str(out), sha256=digest(out), bytes=out.stat().st_size, source_files=len(paths)), indent=2))
@@ -76,5 +88,8 @@ if __name__ == '__main__':
     parser.add_argument('--out', type=Path, default=ROOT / 'dist' / f'CAEL-{VERSION}.zip')
     parser.add_argument('--bundle', type=Path, default=ROOT / 'dist' / f'cael-{VERSION}.cael')
     parser.add_argument('--source-only', action='store_true')
+    parser.add_argument('--no-images', action='store_true', help='Package a local no-images model profile and its configuration')
     args = parser.parse_args()
-    main(args.out.resolve(), None if args.source_only else args.bundle.resolve())
+    if args.no_images and args.source_only:
+        parser.error('--no-images requires a model bundle')
+    main(args.out.resolve(), None if args.source_only else args.bundle.resolve(), args.no_images)

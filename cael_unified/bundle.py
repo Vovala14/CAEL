@@ -8,13 +8,28 @@ import urllib.request
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = '0.2.8'
-SUPPORTED = {'0.2.1', '0.2.2', '0.2.3', '0.2.4', '0.2.5', '0.2.6', '0.2.7', '0.2.8'}
+VERSION = '0.2.9'
+SUPPORTED = {'0.2.1', '0.2.2', '0.2.3', '0.2.4', '0.2.5', '0.2.6', '0.2.7', '0.2.8', '0.2.9'}
 DEFAULT_BUNDLE = ROOT / 'models' / f'cael-{VERSION}.cael'
 INSTALLED = 'models/'   # bundle members under models/ are installed into the checkout, not the cache
 REQUIRED = {'chat/model_v1.json.gz', 'chat/model_v2.json.gz', 'chat/knowledge.json.gz',
             'story/model.json', 'emoji/model.pt', 'emoji/references.pt', 'emoji/learned.pt',
             'emoji/learned_sources.json', 'image/model.pt', 'portrait/model.pt'}
+PICTURE_FILES = {'image/model.pt', 'portrait/model.pt'}
+
+
+def required_members(manifest):
+    profile = manifest.get('profile', 'full')
+    if profile not in ('full', 'no-images'):
+        raise ValueError('Unsupported bundle profile')
+    if profile == 'no-images':
+        files = manifest.get('files', {})
+        if any(name.startswith(('image/', 'portrait/', 'models/cael-image-', 'models/cael-general-')) for name in files):
+            raise ValueError('Image model in a no-images bundle')
+        if any(key in manifest.get('selections', {}) for key in ('general_image', 'hybrid_image', 'portrait_image')):
+            raise ValueError('Image selection in a no-images bundle')
+        return REQUIRED - PICTURE_FILES
+    return REQUIRED
 
 
 def digest(path):
@@ -53,7 +68,7 @@ def open_bundle(path=None, cache_root=None):
         if manifest.get('format') != 'cael-unified-v1' or manifest.get('version') not in SUPPORTED:
             raise ValueError('Unsupported model bundle format or version')
         files = manifest['files']
-        if set(names) != set(files) | {'bundle.json'} or not REQUIRED <= set(files):
+        if set(names) != set(files) | {'bundle.json'} or not required_members(manifest) <= set(files):
             raise ValueError('Incomplete or unlisted model bundle files')
         for name in files:
             safe_member(name)

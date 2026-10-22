@@ -8,8 +8,8 @@ Concept notes and standard-library recipes are short hand-written references and
 import ast
 import re
 
-CODE_ASK = re.compile(r'(?i)\b(?:what does (?:this|the|my|following)? ?(?:code|snippet|function|line|program|script|expression)?\s*(?:do|return|print|mean)'
-                      r'|explain (?:this|the|my|following) (?:code|snippet|function|line|program|script|expression)'
+CODE_ASK = re.compile(r'(?i)\b(?:what does (?:this|the|my|following)? ?(?:python\s+)?(?:code|snippet|function|line|program|script|expression)?\s*(?:do|return|print|mean)'
+                      r'|explain (?:this|the|my|following) (?:python\s+)?(?:code|snippet|function|line|program|script|expression)'
                       r'|what is the (?:output|result) of)\b')
 FIX_ASK = re.compile(r'(?i)\b(?:fix|debug|repair|correct)\b.{0,30}\b(?:code|function|snippet|syntax|error|this|it|script)\b'
                      r'|\bwhat(?:\'s| is) wrong with\b|\bwhy (?:does|doesn\'t|won\'t|is) (?:this|my) (?:code|function)')

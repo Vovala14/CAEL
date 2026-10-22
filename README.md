@@ -1,9 +1,9 @@
-# CAEL 0.2.8
+# CAEL 0.2.9
 
-**One assistant, one model bundle: chat, helpers, emoji, portraits and small
-general pictures.** The release routes between existing CAEL engines and the
-new subject-conditioned image experiment. It is one portable archive, not a
-single jointly trained neural model.
+**One assistant, one model bundle: chat, reasoning, math, Python, stories,
+prompt writing and emoji.** This release excludes picture and portrait generation
+weights. Image requests produce a prompt for an external image tool. CAEL routes
+between distinct non-neural engines in one portable archive.
 
 ## Start
 
@@ -20,9 +20,28 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.2.8.cael` (about 1.4 GB), verifies every file
+`--download` fetches `models/cael-0.2.9.cael` (about 554 MB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.2.9
+
+- Exact fractions carry between plan steps; decimal arithmetic retains the input
+  digits. Chained percentage changes and tripling work through the orchestrator.
+- Equations with several solutions request clarification before dependent steps.
+- "Explain this Python code" reaches the bounded interpreter, with no native
+  execution or file access granted to pasted code.
+- Explicit multiple-choice state/transfer and logic questions use the existing
+  symbolic engines when premises and answers can be checked unambiguously.
+  Ambiguous questions retain the existing chooser.
+- No image-generation checkpoints are included; emoji and detailed image prompts
+  remain available. The thinking animation is retained.
+
+The selected language checkpoint is unchanged. Experimental syntax and event
+scorers did not improve HellaSwag reliably and are not activated or bundled as
+models. No new leaderboard score is claimed. See [release notes](RELEASE_0_2_9.md).
+The sections below describe earlier releases; their image features are absent
+from the 0.2.9 bundle.
 
 ## New in 0.2.8
 

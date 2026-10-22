@@ -1,6 +1,7 @@
 {
-  "version": "0.2.8",
-  "url": "https://github.com/Vovala14/CAEL/releases/download/v0.2.8/cael-0.2.8.cael",
-  "sha256": "aed36a57b687608caa76ed5287aad6d00ca7c0502e0154da5401d7c60c60b57a",
-  "bytes": 1373095086
+  "version": "0.2.9",
+  "url": "https://github.com/Vovala14/CAEL/releases/download/v0.2.9/cael-0.2.9.cael",
+  "sha256": "6f830f484a8b2ccabdfe525fb53cdade462dfbeb1d376867550ec3f1805de869",
+  "bytes": 555287369,
+  "profile": "no-images"
 }

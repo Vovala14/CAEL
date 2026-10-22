@@ -50,8 +50,9 @@ class CodexEngineChainTests(unittest.TestCase):
         answers = {'Solve x*x = 4': dict(route='helper/equation', response='x = -2 or x = 2'),
                    '(2) + (3)': dict(route='helper/arithmetic', response='(2) + (3) = 5')}
         board = orchestrator.run(['Solve x*x = 4', 'add 3 to it'], lambda text, history: answers[text])
-        self.assertEqual(board.entries[1].value, '5')
-        self.assertIn('more than one solution; later steps use x = 2', board.entries[0].notes)
+        self.assertIsNone(board.entries[1].value)
+        self.assertEqual(board.entries[1].route, 'chat/plan-skipped')
+        self.assertIn('multiple solutions; no single value selected', board.entries[0].notes)
 
     def test_code_runs_in_the_bounded_interpreter(self):
         code = '```python\ndef count_vowels(text):\n    return sum(char in "aeiou" for char in text)\n```'

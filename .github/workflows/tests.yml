@@ -13,9 +13,16 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
       - run: python -m pip install -r requirements-unified.txt
-      # Fetch and verify the published 0.2.5 model bundle, exactly as SETUP.bat does for users.
-      - run: python -m cael_unified --download
+      - run: python -m pip install 'pytest>=8,<9'
+      # A release publishes its checksum-pinned asset immediately after the source push.
+      - run: |
+          for attempt in 1 2 3 4 5 6; do
+            python -m cael_unified --download && break
+            if [ "$attempt" = 6 ]; then exit 1; fi
+            sleep 10
+          done
       - run: python -m unittest discover -s tests -v
+      - run: python -m pytest -q tests/test_release_029.py tests/test_upgrade_20261022.py tests/test_symbolic_choice.py tests/test_code_explain_routing.py
       - run: python chat.py "Tell a story about a mouse finding cheese in a bakery." --ask "Who has the cheese?"
       - if: matrix.python-version == '3.12'
         run: python train.py --out models/reproduction

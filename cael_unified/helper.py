@@ -54,7 +54,8 @@ def calculate(text):
 
         def value(node):
             if isinstance(node, ast.Constant) and type(node.value) in (int, float):
-                return Fraction(str(node.value))
+                # Preserve the original decimal digits instead of the float AST value.
+                return Fraction(ast.get_source_segment(expression, node))
             if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.UAdd, ast.USub)):
                 number = value(node.operand)
                 return number if isinstance(node.op, ast.UAdd) else -number

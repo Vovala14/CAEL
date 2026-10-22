@@ -33,20 +33,20 @@ def exact(text):
     return Fraction(text.replace(',', ''))
 
 
-def evaluate(node, names=None):
+def evaluate(node, names=None, source=None):
     """A separate exact evaluator: + - * / // % ** and unary minus on fractions only."""
     names = names or {}
     if isinstance(node, ast.Expression):
-        return evaluate(node.body, names)
+        return evaluate(node.body, names, source)
     if isinstance(node, ast.Constant) and type(node.value) in (int, float):
-        return Fraction(str(node.value))
+        return Fraction(ast.get_source_segment(source, node) if source is not None else str(node.value))
     if isinstance(node, ast.Name) and node.id in names:
         return names[node.id]
     if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.USub, ast.UAdd)):
-        value = evaluate(node.operand, names)
+        value = evaluate(node.operand, names, source)
         return -value if isinstance(node.op, ast.USub) else value
     if isinstance(node, ast.BinOp):
-        a, b = evaluate(node.left, names), evaluate(node.right, names)
+        a, b = evaluate(node.left, names, source), evaluate(node.right, names, source)
         if isinstance(node.op, ast.Add):
             return a + b
         if isinstance(node.op, ast.Sub):
@@ -81,7 +81,7 @@ def check_arithmetic(request, answer):
         raise Unchecked('expression does not parse')
     if sum(1 for _ in ast.walk(tree)) > 120:
         raise Unchecked('expression too large')
-    expected = evaluate(tree)
+    expected = evaluate(tree, source=expression)
     stated = exact(match[2])
     if expected == stated:
         return dict(status='verified', check=f're-evaluated {expression} independently: {show(expected)}')
@@ -100,7 +100,7 @@ def check_equation(request, answer):
     text = re.sub(r'(\d|\))\s*(?=' + name + r'\b)', r'\1*', equation[1])
     text = re.sub(r'(\d|\))\s*(?=\()', r'\1*', text)
     try:
-        left, right = [evaluate(ast.parse(side.strip(), mode='eval'), {name: value}) for side in text.split('=')]
+        left, right = [evaluate(ast.parse(side.strip(), mode='eval'), {name: value}, side.strip()) for side in text.split('=')]
     except (SyntaxError, ZeroDivisionError):
         raise Unchecked('equation does not parse')
     if left == right:

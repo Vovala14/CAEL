@@ -12,7 +12,10 @@ class MemoryTests(unittest.TestCase):
         os.environ['CAEL_LTM'] = os.path.join(self.folder, 'ltm.json')
 
     def tearDown(self):
-        os.environ['CAEL_LTM'] = self.old
+        if self.old is None:
+            os.environ.pop('CAEL_LTM', None)
+        else:
+            os.environ['CAEL_LTM'] = self.old
 
     def test_rules_and_counts_persist_without_text(self):
         memory = ltm.memory()

@@ -199,7 +199,8 @@ class IntegrationTests(unittest.TestCase):
 
     def test_image_and_emoji_requests_do_not_use_the_new_repair_model(self):
         with patch('cael_unified.text_repair.repair_messages',side_effect=AssertionError('Image repair forbidden')),patch.object(self.engine,'image_reply',return_value={'route':'image/test'}),patch.object(self.engine,'emoji_reply',return_value={'route':'emoji/test'}):
-            self.assertEqual(self.engine.respond([user('Make a picture of a car')],seed=1)['route'],'image/test')
+            expected = 'chat/picture-in-chat' if self.engine.manifest.get('profile') == 'no-images' else 'image/test'
+            self.assertEqual(self.engine.respond([user('Make a picture of a car')],seed=1)['route'],expected)
             self.assertEqual(self.engine.respond([user('Make a pizza emoji')],seed=1)['route'],'emoji/test')
 
     def test_choice_questions_keep_their_original_wording(self):

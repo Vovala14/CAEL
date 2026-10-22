@@ -125,9 +125,11 @@ def db():
 @lru_cache(maxsize=1)
 def frequent():
     """Common English words, most frequent first (data/spell/en_50k.txt: 'word count' lines)."""
-    if not WORDS.exists():
+    bundled = PATH.parent / 'frequent.txt'
+    words = bundled if bundled.is_file() else WORDS
+    if not words.exists():
         return []
-    return [line.split()[0] for line in WORDS.read_text(encoding='utf-8', errors='ignore').splitlines() if line.split()]
+    return [line.split()[0] for line in words.read_text(encoding='utf-8', errors='ignore').splitlines() if line.split()]
 
 
 def clean(word):

@@ -50,6 +50,8 @@ def model_files(no_images=False):
             if path.suffix in ('.pt',) or 'private' in path.name.lower():
                 raise ValueError('Unexpected weight or private file in runtime model folder: ' + str(path))
             files[path.relative_to(ROOT).as_posix()] = path
+    # The dictionary's frequency rank must also work without the developer's data/ folder.
+    files['models/cael-dictionary-wn30/frequent.txt'] = ROOT / 'data/spell/en_50k.txt'
     return files
 
 

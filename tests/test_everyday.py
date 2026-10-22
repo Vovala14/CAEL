@@ -69,7 +69,8 @@ class WidgetTests(unittest.TestCase):
         self.assertIn('vynly.co/generate', answer['response'])
         self.assertIn('\n\na dog', answer['response'])
         self.assertNotIn('**', answer['response'])
-        self.assertIn('Switch to Auto or Picture mode', self.ask('create an image of a dog', site=False)['response'])
+        expected = 'no picture model' if self.assistant.manifest.get('profile') == 'no-images' else 'Switch to Auto or Picture mode'
+        self.assertIn(expected, self.ask('create an image of a dog', site=False)['response'])
         self.assertEqual(self.ask('how do I generate an image on vynly?')['route'], 'chat/vynly-faq')
 
     def test_greetings_in_other_languages(self):

@@ -198,5 +198,213 @@
   "white",
   "sails wind",
   "2026-10-20"
+ ],
+ [
+  "avocado",
+  "fruit food",
+  0.1,
+  "green",
+  "edible",
+  "2026-10-21"
+ ],
+ [
+  "barn",
+  "building",
+  15,
+  "red",
+  "farm",
+  "2026-10-21"
+ ],
+ [
+  "bench",
+  "furniture",
+  1.8,
+  "brown",
+  "sit",
+  "2026-10-21"
+ ],
+ [
+  "broccoli",
+  "vegetable food",
+  0.2,
+  "green",
+  "edible",
+  "2026-10-21"
+ ],
+ [
+  "bulldozer",
+  "vehicle machine",
+  7,
+  "yellow",
+  "wheels construction",
+  "2026-10-21"
+ ],
+ [
+  "camel",
+  "animal wild",
+  2,
+  "brown",
+  "hump desert",
+  "2026-10-21"
+ ],
+ [
+  "cherry",
+  "fruit food",
+  0.02,
+  "red",
+  "edible",
+  "2026-10-21"
+ ],
+ [
+  "crab",
+  "animal sea",
+  0.2,
+  "red orange",
+  "claws shell",
+  "2026-10-21"
+ ],
+ [
+  "drum",
+  "instrument",
+  0.5,
+  "red white",
+  "music beat",
+  "2026-10-21"
+ ],
+ [
+  "flamingo",
+  "animal bird",
+  1.2,
+  "pink",
+  "flies wings feathers",
+  "2026-10-21"
+ ],
+ [
+  "hot_dog",
+  "food",
+  0.2,
+  "brown red",
+  "edible",
+  "2026-10-21"
+ ],
+ [
+  "igloo",
+  "building",
+  3,
+  "white",
+  "snow ice",
+  "2026-10-21"
+ ],
+ [
+  "jellyfish",
+  "animal sea",
+  0.4,
+  "pink blue",
+  "tentacles water",
+  "2026-10-21"
+ ],
+ [
+  "lantern",
+  "object",
+  0.3,
+  "black gold",
+  "light",
+  "2026-10-21"
+ ],
+ [
+  "microphone",
+  "device",
+  0.2,
+  "black silver",
+  "sound",
+  "2026-10-21"
+ ],
+ [
+  "pear",
+  "fruit food",
+  0.1,
+  "green yellow",
+  "edible",
+  "2026-10-21"
+ ],
+ [
+  "pyramid",
+  "building",
+  140,
+  "yellow",
+  "ancient desert",
+  "2026-10-21"
+ ],
+ [
+  "rhino",
+  "animal wild",
+  3.5,
+  "gray",
+  "horn",
+  "2026-10-21"
+ ],
+ [
+  "skyscraper",
+  "building",
+  300,
+  "gray blue",
+  "tall glass",
+  "2026-10-21"
+ ],
+ [
+  "squirrel",
+  "animal",
+  0.4,
+  "brown red",
+  "fur tail climbs",
+  "2026-10-21"
+ ],
+ [
+  "suitcase",
+  "object",
+  0.7,
+  "black blue",
+  "travel",
+  "2026-10-21"
+ ],
+ [
+  "sushi",
+  "food",
+  0.05,
+  "white red",
+  "edible",
+  "2026-10-21"
+ ],
+ [
+  "telescope",
+  "device",
+  1.2,
+  "white black",
+  "stars",
+  "2026-10-21"
+ ],
+ [
+  "tomato",
+  "vegetable food",
+  0.08,
+  "red",
+  "edible",
+  "2026-10-21"
+ ],
+ [
+  "treehouse",
+  "building",
+  4,
+  "brown",
+  "tree wood",
+  "2026-10-21"
+ ],
+ [
+  "vase",
+  "object",
+  0.3,
+  "blue white",
+  "flowers",
+  "2026-10-21"
  ]
 ]

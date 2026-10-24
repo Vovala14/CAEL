@@ -1,6 +1,7 @@
 """Shared chat/helper/emoji/photo interface for one CAEL model bundle."""
 import json
 from pathlib import Path
+import os
 import re
 import secrets
 import threading
@@ -12,6 +13,10 @@ from .promptgen import is_prompt_request
 
 # The whole open chat window is sent with every request so nothing said in it is forgotten.
 MAX_MESSAGES = 1000
+# Replies that mean "I could not answer"; for a factual question these trigger the web search (web_search.py).
+WEB_FALLBACK_ROUTES = frozenset({'chat/talk-unsure', 'chat/cannot-answer', 'chat/web-not-found', 'chat/web-answer-not-found',
+                                 'chat/web-ambiguous', 'chat/web-unavailable', 'chat/local-other', 'chat/local-define',
+                                 'chat/local-clarify', 'chat/local-unknown', 'chat/local-howto', 'chat/factual-clarify'})
 MAX_CHARACTERS = 400_000
 IMAGE = re.compile(r'\b(?:draw|paint|sketch|render)\b|\b(?:make|create|generate|show|give)\b.{0,45}\b(?:image|picture|photo|portrait|pic|illustration)s?\b', re.I)
 CODE = re.compile(r'\b(?:python|javascript|code|function|script|program|api|resize|crop|compress|matplotlib|pillow|opencv)\b', re.I)
@@ -164,7 +169,28 @@ class Assistant:
                         or tool_input(messages[-1]['content'],messages))):
                 messages,changes=repair_messages(messages)
         answer=self._respond(messages,n=n,seed=seed,mode=mode)
-        # Independent check of the answer; corrects or flags errors and counts outcomes per engine (verify.py, ltm.py).
+        # Last resort for factual questions CAEL could not answer: search the web, read the pages and quote the most
+        # relevant sentence with its source (web_search.py). Off with CAEL_WEB_SEARCH=0.
+        if (mode in ('auto','chat') and isinstance(answer,dict) and os.environ.get('CAEL_WEB_SEARCH','1')!='0'
+                and isinstance(messages,list) and messages):
+            from . import web_search
+            text=messages[-1].get('content','')
+            route=answer.get('route','')
+            # An encyclopedia article that is not about the question's subject ("The Silent Cartographer" for
+            # "What does a cartographer do?") counts as not answered too.
+            off_topic=False
+            if route.startswith('chat/web-wikipedia') and answer.get('sources'):
+                from urllib.parse import unquote
+                subject=set(web_search.terms(web_search.subject_of(text)))
+                link=answer['sources'][0].get('url','')
+                title=set(web_search.terms(re.sub(r'\s*\(.*','',unquote(link.rsplit('/',1)[-1]).replace('_',' '))))
+                definition=bool(re.match(r"(?i)\s*(?:what|who)(?:'s| is| are| does| do)\s+(?:an?\s+|the\s+)?[\w\s-]+?(?:\s+do|\s+mean)?\s*\??$",text))
+                off_topic=bool(subject) and bool(title) and '/wiki/' in link and (
+                    not subject<=title or (definition and bool(title-subject-{'the'})))   # "Bikini barista" for "barista"
+            if (route in WEB_FALLBACK_ROUTES or off_topic) and web_search.should_search(text):
+                found=web_search.answer(text)
+                if found is not None:
+                    answer=found
         if isinstance(answer,dict) and isinstance(messages,list) and messages and isinstance(messages[-1].get('content'),str):
             from .verify import apply
             answer=apply(messages[-1]['content'],answer)
@@ -327,6 +353,11 @@ class Assistant:
             # Learned rules: sequences, reusing a rule by name, the rule list, and feedback on a rule (rules.py).
             from . import rules
             answer = rules.reply(text, messages)
+            if answer is not None:
+                return answer
+            # "Write a Python script that searches the web for ...": CAEL's own search, as a runnable script (web_search.py).
+            from . import web_search
+            answer = web_search.script_reply(text)
             if answer is not None:
                 return answer
             # Python questions first: the helper would otherwise send "what does this code do?" to a web lookup.

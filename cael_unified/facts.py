@@ -199,6 +199,14 @@ class FactLookup:
             (r'who (?:invented|discovered) (?:the )?(.+)', 'P61', 'invented'),
             (r'who (?:founded|started|created the company) (.+)', 'P112', 'founded'),
             (r'who (?:designed|was the architect of|built) (?:the )?(.+)', 'P84', 'designed'),
+            (r'(?:what is |what\'s )?(?:the )?(?:currency|money) (?:of|in|used in) (?:the )?(.+)', 'P38', 'currency'),
+            (r'(?:what is |what\'s )?(?:the )?boiling point of (.+)', 'P2102', 'boiling'),
+            (r'(?:what is |what\'s )?(?:the )?melting point of (.+)', 'P2101', 'melting'),
+            (r'how (?:tall|high) is (?:the )?(.+)', 'P2048', 'height'),
+            (r'how long is (?:the )?(.+)', 'P2043', 'length'),
+            (r'(?:when|what year) (?:was|were|did) (?:the )?(.+?) (?:open|opened|open to the public)', 'P1619', 'opened'),
+            (r'(?:when|what year) (?:was|were|did) (?:the )?(.+?) (?:released|published|come out|first released)', 'P577', 'released'),
+            (r'(?:when|what year) (?:was|were|did) (?:the )?(.+?) (?:founded|established|created|formed|start|started)', 'P571', 'founded-date'),
         ]
         for pattern, prop, kind in patterns:
             match = re.fullmatch(pattern + r'[?.!]*', text.strip(), re.I)
@@ -237,6 +245,8 @@ class FactLookup:
             if candidates:
                 qid = max(candidates, key=lambda i: len(found.get(i, {}).get('sitelinks', {})))
             entity = found.get(qid, entity)
+        if kind == 'height' and not entity.get('claims', {}).get(prop):
+            prop = 'P2044'                       # mountains have an elevation above sea level, not a height
         claims = [c for c in entity.get('claims', {}).get(prop, []) if c.get('rank') != 'deprecated'
                   and not c.get('qualifiers', {}).get('P582')]
         preferred = [c for c in claims if c.get('rank') == 'preferred']
@@ -254,6 +264,38 @@ class FactLookup:
                 return None  # Undated population must not be presented as current.
             dated = max(claim['qualifiers']['P585'], key=lambda q: q.get('datavalue', {}).get('value', {}).get('time', ''))
             output = f"{label}: {int(float(amount)):,} people (Wikidata figure dated {wikidata_date(dated['datavalue']['value'])})."
+        elif kind in ('boiling', 'melting'):
+            value = claims[0].get('mainsnak', {}).get('datavalue', {}).get('value', {})
+            amount, unit = value.get('amount'), value.get('unit', '').rsplit('/', 1)[-1]
+            units = {'Q25267': '°C', 'Q42289': '°F', 'Q11579': 'K'}
+            if amount is None or unit not in units:
+                return None
+            number = float(amount)
+            celsius = number if units[unit] == '°C' else (number - 32) * 5 / 9 if units[unit] == '°F' else number - 273.15
+            output = f'The {kind} point of {label} is {celsius:.1f} °C ({celsius * 9 / 5 + 32:.1f} °F).'.replace('.0 °', ' °')
+        elif kind in ('height', 'length'):
+            value = claims[0].get('mainsnak', {}).get('datavalue', {}).get('value', {})
+            amount, unit = value.get('amount'), value.get('unit', '').rsplit('/', 1)[-1]
+            units = {'Q11573': 'm', 'Q828224': 'km', 'Q3710': 'ft', 'Q253276': 'miles', 'Q174728': 'cm'}
+            if amount is None or unit not in units:
+                return None
+            number = float(amount)
+            shown = f'{number:,.0f}' if number >= 100 else f'{number:,.1f}'.rstrip('0').rstrip('.')
+            extra = f' ({number * 3.28084:,.0f} ft)' if units[unit] == 'm' else f' ({number * 0.621371:,.0f} miles)' if units[unit] == 'km' else ''
+            size = 'high above sea level' if prop == 'P2044' else 'tall' if kind == 'height' else 'long'
+            output = f'{label} is {shown} {units[unit]}{extra} {size}.'
+        elif kind in ('opened', 'released', 'founded-date'):
+            times = sorted(c.get('mainsnak', {}).get('datavalue', {}).get('value', {}).get('time', '') for c in claims)
+            first = next((c for c in sorted(claims, key=lambda c: c.get('mainsnak', {}).get('datavalue', {}).get('value', {}).get('time', ''))
+                          if c.get('mainsnak', {}).get('datavalue')), None)
+            if not first or not times[0]:
+                return None
+            date = wikidata_date(first['mainsnak']['datavalue']['value'])
+            months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+            readable = (f'{int(date[8:10])} {months[int(date[5:7]) - 1]} {date[:4]}' if len(date) == 10 else
+                        f'{months[int(date[5:7]) - 1]} {date[:4]}' if len(date) == 7 else date)
+            verb = {'opened': 'opened', 'released': 'was first released', 'founded-date': 'was founded'}[kind]
+            output = f'{label} {verb} on {readable}.' if len(date) == 10 else f'{label} {verb} in {readable}.'
         elif kind == 'birth':
             dates = {c.get('mainsnak', {}).get('datavalue', {}).get('value', {}).get('time', '') for c in claims}
             if len(dates) != 1 or not next(iter(dates)):
@@ -274,6 +316,8 @@ class FactLookup:
                          invented='was invented by', founded='was founded by', designed='was designed by')
             if kind == 'capital':
                 output = f"The capital of {label} is {', '.join(names)}."
+            elif kind == 'currency':
+                output = f"The currency of {label} is the {' and the '.join(names)}."
             elif kind in verbs:
                 output = f"{label} {verbs[kind]} {' and '.join(names)}."
             else:
@@ -284,6 +328,10 @@ class FactLookup:
     def leader(self, text):
         match = re.search(r'\b(president|prime minister|ceo)\s+(?:of|at)\s+(.+)', text, re.I)
         if not match:
+            return None
+        # "the first female prime minister", "the previous CEO": not the current office holder.
+        if re.search(r'(?i)\b(?:first|former|previous|last|female|male|youngest|oldest|longest|shortest|second|third|\d{4}|ever|past)\b',
+                     text[:match.start()] + ' ' + text[match.end():]):
             return None
         office, name = match.groups()
         name = re.sub(r'\b(?:right now|today|currently)\b', '', name, flags=re.I).strip(' ?.!,')
@@ -715,7 +763,10 @@ class FactLookup:
             return None
         try:
             if method == self.wikipedia:
-                leader = self.structured_faq(text) or self.leader(text)
+                try:                                     # a Wikidata miss or outage falls through to the encyclopedia
+                    leader = self.structured_faq(text) or self.leader(text)
+                except (LookupUnavailable, KeyError, TypeError, ValueError, IndexError):
+                    leader = None
                 if leader:
                     return leader
                 return self.wikipedia(text, parsed_question=parsed_question)

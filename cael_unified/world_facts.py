@@ -112,6 +112,14 @@ def reply(text):
     q = re.sub(r'\s+', ' ', text.lower().strip().rstrip('?.!'))
     q = re.sub(r'\bour solar system\b', 'the solar system', q)
     for patterns, answer in COMPILED:
-        if any(p.search(q) for p in patterns):
+        for p in patterns:
+            m = p.search(q)
+            if not m:
+                continue
+            # A narrower place than the fact covers: "the largest bone in the human foot" is not the femur.
+            rest = q[m.end():]
+            scope = re.search(r'\b(?:in|of|on|inside) (?:the |a |an |our )?([a-z]+(?: [a-z]+)?)', rest)
+            if scope and not re.search(r'\b(?:world|earth|planet|universe|solar system|human body|body|history|nature|sea|ocean|wild|space)\b', scope[1] + rest):
+                return None
             return dict(response=answer, route='chat/world-fact', sources=[], details=DETAILS)
     return None

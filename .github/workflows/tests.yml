@@ -3,6 +3,8 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      CAEL_WEB_SEARCH: '0'   # tests stay offline and repeatable
     strategy:
       matrix:
         python-version: ['3.11', '3.12']

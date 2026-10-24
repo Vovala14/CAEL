@@ -186,13 +186,23 @@ def single(messages, seed=0):
     if not t:
         return None
     rng = random.Random(f'{seed}:{t}')
-    pick = lambda options: options[rng.randrange(len(options))]
+    recent = '\n'.join(m['content'] for m in messages[:-1] if m.get('role')=='assistant')[-1600:]
+    def pick(options):
+        # Same conversation + seed remains deterministic; repeated greetings
+        # and acknowledgements need not repeat the previous stock sentence.
+        fresh = [option for option in options if option not in recent]
+        available = fresh or options
+        return available[rng.randrange(len(available))]
     name = user_name(messages)
     previous = last_bot(messages)
     out = lambda response, kind: dict(response=response, route='chat/smalltalk-' + kind, sources=[], details=DETAILS)
     remembered = memory.recall(messages, name)
     if remembered is not None:
         return remembered
+    from .social_chat import reply as social_reply
+    social = social_reply(messages, seed)
+    if social is not None:
+        return social
 
     # Introductions and names.
     intro = re.fullmatch(r"(?:(?:" + GREETING + r") )?(?:my name is|call me|i am called) ([a-z][a-z'-]{1,30})(?: and .*)?", t)

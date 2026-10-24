@@ -288,6 +288,14 @@ def context_reply(text, messages, seed):
                 return dict(out(chat_corpus.shorten(rest, limit=1600), 'more'),
                             details='The rest of the human-written reply shown before (see its source there).')
         return out("That was all I had on it. Want to ask about a different part?", 'more')
+    # Explicit social acts take precedence over a generic reaction to the last
+    # question. "Thanks" / "Hello" are not news about how the user's day went.
+    from . import smalltalk
+    social = smalltalk.reply(messages, seed)
+    if social and social['route'].startswith('chat/smalltalk-'):
+        kinds = set(social['route'][len('chat/smalltalk-'):].split('+'))
+        if kinds <= {'greeting','thanks','goodbye','name','apology'}:
+            return social
     # The person answered one of CAEL's own conversational questions ("How was it?"): react, then keep the conversation
     # going. Functional questions ("Which city should I check the weather for?") are left to the route that asked them.
     last_question = re.findall(r'[^.!?]*\?', before.strip())[-1:] if before.rstrip().endswith('?') else []
@@ -344,6 +352,10 @@ def destination(place):
 def reply(text, messages=(), seed=0):
     rng = random.Random(seed + len(text))
     lower = text.lower()
+    from .social_chat import reply as social_reply
+    social = social_reply(messages or [dict(role='user',content=text)],seed)
+    if social is not None:
+        return social
     m = OTHERS_NEWS.search(text)
     if m:
         return out(f"That's wonderful news for your {m[1].lower()}! Please pass on my congratulations. Are you excited too?", 'good-news')

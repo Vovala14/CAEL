@@ -392,6 +392,10 @@ def reply(text,messages=None):
     except (Unclear,ValueError) as error:return out(str(error),'clarify')
     except (Unsupported,SyntaxError,RecursionError) as error:return out('That helper or plan is outside the bounded tool compiler. No successful tool was created.','unsupported')
     if result['status']!='built':return out(result['message'],result['status'])
+    from .tool_contract import attach
+    plain_out=out
+    out=lambda response,route:attach(plain_out(response,route),plan['name'],result['source'],'integer-list',
+        dict(probes=result['probes'],examples=result['examples']),plan['input'] is not None,result['value'])
     if follow:return out(USE_PREFIX+'`'+plan['name']+'` on '+repr(plan['input'])+':\n\n```text\n'+repr(result['value'])+'\n```\nThe tool was reconstructed from this conversation’s specification and checked in the bounded interpreter.','used')
     lines=[PREFIX+'`'+plan['name']+'`.', 'Plan: '+' → '.join(plan['clauses'])+'.', '```python\n'+result['source']+'```']
     if search_stats:lines.append('I searched '+str(search_stats['plans'])+' operation compositions against the supplied examples. This bounded search is incomplete and does not establish a unique solution; no expected answer was inserted into the code.')

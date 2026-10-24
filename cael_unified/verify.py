@@ -215,6 +215,11 @@ CHECKS = [('helper/arithmetic', check_arithmetic), ('helper/equation', check_equ
 
 def check(request, answer):
     """dict(status, check, correction?) for one answer."""
+    if 'python_tool' in answer:
+        from .codegen.tool_contract import read
+        try:read(answer['python_tool'])
+        except ValueError as error:return dict(status='failed',check=str(error))
+        return dict(status='unchecked',check='Compiler/plan consistency checks are recorded on the tool; they are not an independent proof of intent. Calls use the bounded Python interpreter.')
     route = answer.get('route', '')
     for prefix, function in CHECKS:
         if route.startswith(prefix):

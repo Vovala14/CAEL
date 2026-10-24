@@ -123,6 +123,9 @@ EXPLAIN_DETAILS = ('Read from the Python syntax tree (ast) and, for short pure e
 
 
 def reply(text, seed=0, messages=None):
+    from .python_tasks import reply as python_task_reply
+    completed=python_task_reply(text,messages)
+    if completed is not None:return completed
     from .task_tools import reply as task_tool_reply
     task_tool=task_tool_reply(text,messages=messages)
     if task_tool is not None:return task_tool

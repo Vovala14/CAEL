@@ -68,12 +68,17 @@ def people(context):
     return names
 
 
-def solve(solver, context, question, depth=0):
+def _solve(solver, context, question, depth=0):
     """Answer a question that may need sub-questions. solver(context, question) answers plain ones.
     Returns the solver's result with a 'chain' of (sub-question, answer) steps, or raises Unparsed."""
     context = normalise(context)
     if depth > 3:
         raise Unparsed('The question nests too deeply')
+    from .reasoning_order import explicit_order
+    if explicit_order(context):
+        # The ordering compiler handles ordinal predicates itself. Replacing
+        # "the first" with a single guessed item would lose ambiguity.
+        return solver(context,question)
     chain = []
     q = question.strip()
 
@@ -90,19 +95,35 @@ def solve(solver, context, question, depth=0):
     if room or inside:
         place = (room or inside)[1].strip().lower()
         found = []
+        unknown = []
+        support = set()
         for person in people(context):
-            try:
-                answer = solver(context, f'Where is {person}?').get('answer', 'unknown')
-            except Unparsed:
-                continue
+            # A failed parse is not evidence of absence. Keep the whole
+            # scenario unsupported instead of silently dropping that person.
+            result = solver(context, f'Where is {person}?')
+            answer = result.get('answer', 'unknown')
+            support.update(result.get('support',[]))
             chain.append((f'Where is {person}?', answer))
-            if answer.lower() == place:
+            if answer == 'conflicting':
+                return dict(answer='conflicting',support=sorted(support),chain=chain,composed=True)
+            if answer in ('unknown','maybe',None):
+                unknown.append(person)
+            if isinstance(answer,str) and answer.lower() == place:
                 found.append(person)
+        if unknown:
+            result = dict(answer='unknown',support=sorted(support),chain=chain,composed=True,
+                          known_matches=found,unresolved_people=unknown)
+            if room and found:
+                result['verdict_text'] = (' and '.join(found)+(' are' if len(found)>1 else ' is')+' in the '+place+'. '
+                    'The premises do not determine whether the other tracked people are there.')
+            return result
         if room:
             if not chain:
                 raise Unparsed('No people to check')
             answer = ' and '.join(found) if found else 'nobody'
-            return dict(answer=answer, support=[], chain=chain, composed=True, asked=q)
+            result = dict(answer=answer, support=sorted(support), chain=chain, composed=True, asked=q)
+            if not found:result['verdict_text']='None of the tracked people is in the '+place+'.'
+            return result
         if len(found) != 1:
             return dict(answer='unknown', support=[], chain=chain, composed=True)
         q = q[:inside.start()] + found[0] + q[inside.end():]
@@ -125,12 +146,27 @@ def solve(solver, context, question, depth=0):
     return result
 
 
+class Unsettled(Exception):
+    """A parsed sub-question whose answer is missing or contradictory."""
+    def __init__(self,result,chain):
+        self.result = dict(answer='conflicting' if result.get('answer')=='conflicting' else 'unknown',
+                           support=result.get('support',[]),family=result.get('family','state'),
+                           chain=list(chain),composed=True,unresolved_step=chain[-1][0])
+
+
+def solve(solver, context, question, depth=0):
+    try:
+        return _solve(solver,context,question,depth)
+    except Unsettled as error:
+        return error.result
+
+
 def settle(solver, context, question, chain):
     result = solver(context, question)
     answer = result.get('answer')
     chain.append((question, answer))
     if answer in (None, 'unknown', 'conflicting', 'nobody', 'nothing'):
-        raise Unparsed(f'The premises do not settle "{question}"')
+        raise Unsettled(result,chain)
     written = re.search(r'(?i)\b' + re.escape(answer) + r'\b', context)   # "daniel" -> "Daniel", as the premises write it
     if written:
         answer = written[0]

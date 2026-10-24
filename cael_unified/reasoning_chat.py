@@ -8,7 +8,8 @@ RESET=re.compile(r'(?i)^\s*(?:forget|clear|reset) (?:the |these |those )?(?:prem
 
 def reasoning_response(text):
     return (text.startswith(('Premises saved.','The stated premises do not determine','The stated premises conflict'))
-            or '\n\nBased on:\n' in text or text.startswith(('Yes, that follows from the premises.','No—the premises establish its opposite.')))
+            or '\n\nBased on:\n' in text or '\n\nChecked all ' in text or '\n\nWhat I checked:\n' in text
+            or text.startswith(('Yes, that follows from the premises.','No—the premises establish its opposite.')))
 
 
 def quantity_exchange(context,question,text,response):
@@ -45,6 +46,7 @@ def quantity_exchange(context,question,text,response):
 
 def context_from_history(messages):
     from .reasoning import split_problem
+    from .reasoning_order import explicit_order
     context='';question=None
     for i in range(max(0,len(messages)-81),len(messages)-1):
         entry=messages[i]
@@ -65,6 +67,8 @@ def context_from_history(messages):
         if problem:
             addition,question,_=problem
             context=(context+'. '+addition) if head and head[1].lower() in ('add','also','update') and context else addition
+        elif not head and explicit_order(payload):
+            context=payload;question=None
         elif head:
             context=(context+'. '+payload) if head[1].lower() in ('add','also','update') and context else payload
             if head[1].lower() not in ('add','also','update'):question=None
@@ -76,11 +80,13 @@ def context_from_history(messages):
 def respond(engine,text,messages=None):
     from .reasoning import split_problem
     from .reasoning_logic import sentences
+    from .reasoning_order import explicit_order
     if not engine.model:return None
     history=messages or []
     context,last_question=context_from_history(history)
     if RESET.fullmatch(text):
         return dict(route='chat/reasoning-context',response='Premises cleared. Start a new scenario with “Facts:”.',sources=[])
+    if explicit_order(text) and not HEADER.match(text):text='Facts: '+text
     head=HEADER.match(text)
     if head:
         payload=text[head.end():].strip()
@@ -103,7 +109,16 @@ def respond(engine,text,messages=None):
         if not last_question:
             return dict(route='chat/reasoning-clarify',response='What conclusion should I explain from those premises?',sources=[])
         return engine._respond('Given: '+context+'. '+last_question,None)
-    if context and re.match(r'(?i)^(?:is|are|does|do|where|who|what|how|which|why|can|must)\b',text):
+    if context and re.match(r'(?i)^(?:is|are|does|do|where|who|what|how|which|why|can|could|must)\b',text):
+        from .reasoning_order import explicit_order, ordering
+        if explicit_order(context):
+            from .reasoning_logic import Unparsed
+            try:
+                ordering(context,text)
+            except Unparsed:
+                pass
+            else:
+                return engine._respond('Given: '+context+'. Question: '+text,None)
         # Only a contiguous reasoning exchange carries premises forward.
         ignored=set('is are was were does do did where who what how which why can must will would the a an of to in from for that it we you true false prove conclude follow'.split())
         relevant=(set(re.findall(r'\w+',context.lower())) & set(re.findall(r'\w+',text.lower()))) - ignored

@@ -345,6 +345,10 @@ def reply(text,messages=None):
     except (Unclear,ValueError,TypeError) as error:return out(str(error),'clarify')
     except (Unsupported,SyntaxError,RecursionError):return out('That data tool is outside the bounded grammar/interpreter. No successful tool is claimed.','unsupported')
     if result['status']!='built':return out(result['message'],result['status'])
+    from .tool_contract import attach
+    plain_out=out
+    out=lambda response,suffix:attach(plain_out(response,suffix),plan['name'],result['source'],plan['domain'],
+        dict(probes=result['probes'],examples=len(plan['cases'])),plan['input'] is not MISSING,result['value'])
     if follow:return out(USED+'`'+plan['name']+'`:\n```text\n'+repr(result['value'])+'\n```\nReconstructed from this conversation and checked in the bounded interpreter.','used')
     lines=[PREFIX+'`'+plan['name']+'`.', 'Plan: '+' → '.join(plan['clauses'])+'.','```python\n'+result['source']+'```',
            'Checked generated code against the plan on '+str(result['probes'])+' probes ('+str(result['probe_errors'])+' raised errors) and '+str(len(plan['cases']))+' supplied examples. '

@@ -119,7 +119,9 @@ class SourceCacheTests(unittest.TestCase):
         self.engine._facts.net = net
         answer = self.ask('What is Aster Device?')
         self.assertEqual(answer['route'], 'chat/web-wikipedia-extractive')
-        self.assertEqual(answer['response'], clean)
+        # The answer text, then where it came from as a link (assistant.py adds it to every internet answer).
+        self.assertEqual(answer['response'].split('\n\n**Source')[0], clean)
+        self.assertIn('**Source:** [Wikipedia — Aster Device](https://en.wikipedia.org/w/index.php?oldid=9911)', answer['response'])
         self.assertIn('oldid=9911', answer['sources'][0]['url'])
         self.assertTrue(answer['knowledge']['internet_used'])
         calls = net.calls

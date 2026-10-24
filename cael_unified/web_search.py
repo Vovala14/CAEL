@@ -366,6 +366,14 @@ def subject_of(question):
     return re.sub(r'\s+(?:have|has|do|does|mean|work|live|eat|cost|weigh|use|is|are)$', '', subject)
 
 
+def link(result):
+    """A Markdown link naming the page and its website: [Berlin Wall (en.wikipedia.org)](https://...)."""
+    title = re.sub(r'[\[\]]', '', (result.title or result.domain()).strip())[:80]
+    site = result.domain()
+    label = title if site in title.lower() else f'{title} ({site})'
+    return f'[{label}]({result.url.replace(" ", "%20").replace(")", "%29")})'
+
+
 def best_sentences(question, pages):
     q = terms(question)
     if not q:
@@ -521,11 +529,15 @@ def answer(text):
             break
     # Confirmed only when different websites agree; pages of one site (all Wikipedia) are not independent.
     confident = len(sites) >= 2
+    # Where the data came from, as clickable links in the reply itself.
+    shown = [r for r in links if r.domain() in sites] if confident else [source]
+    cited = ', '.join(link(r) for r in shown[:3])
     if confident:
-        body = f'From a web search: **{key}**.\n\n> {best}\n\n{len(sites)} different websites agree on this.'
+        body = (f'From a web search: **{key}**.\n\n> {best}\n\n{len(sites)} different websites agree on this.\n\n'
+                f'**Sources:** {cited}')
     else:
         body = (f'I don\'t know this for sure. The most relevant sentence I found on the web:\n\n> {best}\n\n'
-                f'It comes from one website only and I could not check it, so please verify it with the link below.')
+                f'**Source:** {cited}. It is the only website that said this, and I could not check it, so please verify it there.')
     sources = [dict(source=f'{r.title or r.domain()} ({r.domain()})', url=r.url, licence='see the website',
                     licence_url=r.url, attribution=r.domain()) for r in links]
     details = (f'Searched with {", ".join(used)}; read {len(top)} pages through Jina Reader or a direct fetch; picked the sentence that '

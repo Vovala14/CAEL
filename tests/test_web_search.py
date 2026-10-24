@@ -29,6 +29,7 @@ class WebSearchTests(unittest.TestCase):
         self.assertEqual(answer['route'], 'chat/web-search-unconfirmed')      # one website only: not presented as confirmed
         self.assertIn('```python', answer['details'])                         # the search, as a script
         self.assertEqual(answer['sources'][0]['url'], 'https://en.wikipedia.org/wiki/Berlin_Wall')
+        self.assertIn('**Source:** [Berlin Wall (en.wikipedia.org)](https://en.wikipedia.org/wiki/Berlin_Wall)', answer['response'])
 
     def test_agreement_across_websites_is_confirmed(self):
         results = [W.Result('Octopus facts', 'https://a.example/octopus', '', 'Fixture'),
@@ -39,6 +40,8 @@ class WebSearchTests(unittest.TestCase):
         self.assertEqual(answer['route'], 'chat/web-search')
         self.assertIn('**three**', answer['response'])
         self.assertIn('2 different websites agree', answer['response'])
+        self.assertIn('[Octopus facts (a.example)](https://a.example/octopus)', answer['response'])
+        self.assertIn('[Octopus anatomy (b.example)](https://b.example/octopus)', answer['response'])
 
     def test_page_text_cleanup(self):
         text = ('Look up sommelier in Wiktionary, the free dictionary.\nFor the knife, see Sommelier knife.\n'

@@ -182,6 +182,7 @@ class Finder:
 
     @staticmethod
     def reply(text, title, url):
+        text = f'{text}\n\n**Source:** [{title} (Wikipedia)]({url.replace(" ", "%20").replace(")", "%29")})'
         return dict(response=text, route='chat/web-answer', sources=[dict(source=f'Wikipedia: {title}', url=url, licence='CC BY-SA 4.0',
                     licence_url='https://creativecommons.org/licenses/by-sa/4.0/', attribution='Wikipedia contributors')],
                     details='Found in the opening paragraph of the linked Wikipedia article; the sentence had to contain the '

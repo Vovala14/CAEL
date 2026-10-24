@@ -191,6 +191,19 @@ class Assistant:
                 found=web_search.answer(text)
                 if found is not None:
                     answer=found
+        # Every answer taken from the internet says where it came from, with a link (Wikipedia, Wikidata, weather...).
+        if (isinstance(answer,dict) and str(answer.get('route','')).startswith('chat/web-')
+                and '**Source' not in answer.get('response','')):
+            cited=[]
+            for item in answer.get('sources') or []:
+                url=item.get('url','') if isinstance(item,dict) else ''
+                if url.startswith('https://api.met.no/'):
+                    url='https://www.met.no/en'          # people get the provider's site, not raw forecast data
+                if url.startswith('https://') and url not in [u for _,u in cited]:
+                    cited.append((re.sub(r'[\[\]]','',str(item.get('source') or url))[:80],url.replace(' ','%20').replace(')','%29')))
+            if cited:
+                label='**Source:** ' if len(cited)==1 else '**Sources:** '
+                answer=dict(answer,response=answer['response'].rstrip()+'\n\n'+label+', '.join(f'[{n}]({u})' for n,u in cited[:3]))
         if isinstance(answer,dict) and isinstance(messages,list) and messages and isinstance(messages[-1].get('content'),str):
             from .verify import apply
             answer=apply(messages[-1]['content'],answer)

@@ -17,8 +17,8 @@ Each step then goes through the ordinary routing, so every engine is reused unch
 step, and the details list which engine answered each one and what was substituted.
 """
 import ast
+import json
 from dataclasses import dataclass, field
-import math
 import re
 
 VERBS = (r'(?:what|whats|what\'s|who|where|when|which|how|why|is|are|does|do|can|could|write|create|make|generate|build|code|'
@@ -49,6 +49,11 @@ class Entry:
     value: object = None
     notes: list = field(default_factory=list)
     verification: dict = field(default_factory=dict)
+    status: str = 'ok'       # ok | uncertain | failed | skipped
+    dependencies: list = field(default_factory=list)
+    sources: list = field(default_factory=list)
+    resolved_request: str = ''
+    tool: dict = field(default_factory=dict)
 
 
 class Board:
@@ -66,17 +71,65 @@ class Board:
                 return entry
         return None
 
+    def dependency(self, step=None):
+        if step is not None:
+            entry=next((e for e in self.entries if e.step==step),None)
+        else:
+            # An explanation adds no new result, but failures are barriers:
+            # never search past one for an older convenient answer.
+            entry=next((e for e in reversed(self.entries) if e.route!='chat/plan-explain'),None)
+        if entry is None:
+            raise ResolutionError(f'Step {step} has not produced a result.' if step else 'There is no earlier result to use.',step)
+        if entry.status!='ok' or (entry.value is None and entry.kind!='literal'):
+            raise ResolutionError(f'Step {entry.step} gave no single usable result.',entry.step)
+        return entry
+
+
+class ResolutionError(ValueError):
+    def __init__(self,message,step=None):
+        super().__init__(message)
+        self.step=step
+
+
+def protected_spans(text):
+    """Quotes/backticks are data. Apostrophes inside words are not quote starts."""
+    spans=[];i=0
+    while i<len(text):
+        char=text[i]
+        if char not in '\"\'`' or (char=="'" and i and text[i-1].isalnum()):
+            i+=1;continue
+        end=i+1
+        while end<len(text):
+            if text[end]=='\\':end+=2;continue
+            if text[end]==char:
+                spans.append((i,end+1));i=end+1;break
+            end+=1
+        else:i+=1
+    return spans
+
+
+def unprotected(text,match,spans):
+    return not any(left<match.end() and match.start()<right for left,right in spans)
+
 
 def plan(text):
     """The steps of a multi-part request, or None when it is a single request."""
     if len(text) > 1500 or '```' in text:
         return None
-    parts = [NUMBERING.sub('', p.strip(' ,;')) for p in STEP_SPLIT.split(text) if p and p.strip(' ,;.')]
+    request = re.compile(r'(?i)(?:please\s+|and\s+|also\s+)?' + VERBS + r'\b')
+    spans=protected_spans(text)
+    cuts=[m for m in STEP_SPLIT.finditer(text) if unprotected(text,m,spans)
+          and ('\n' not in m[0] or (not re.match(r'[A-Za-z_]\w*\s*\(',text[m.end():])
+               and (request.match(text[m.end():]) or EXPLAIN.match(text[m.end():]))))]
+    parts=[];start=0
+    for cut in cuts:
+        parts.append(text[start:cut.start()]);start=cut.end()
+    parts.append(text[start:])
+    parts = [NUMBERING.sub('', p.strip(' ,;')) for p in parts if p and p.strip(' ,;.')]
     parts = [p for p in parts if p.strip(' ,;.')]
     if len(parts) < 2 or len(parts) > 6:
         return None
     # The first part may set the scene ("I have 3 apples ..."); every later part must be a request of its own.
-    request = re.compile(r'(?i)(?:please\s+|and\s+|also\s+)?' + VERBS + r'\b')
     if not all(request.match(p) or EXPLAIN.match(p) for p in parts[1:]):
         return None
     points_back = any(REFERENCE.search(p) or EXPLAIN.match(p) for p in parts[1:])
@@ -105,7 +158,7 @@ def normalise(step):
 def number_in(response):
     """The answer number of an engine reply: the result after '=' or the first number in the first sentence."""
     first = response.split('\n', 1)[0]
-    after = re.search(r'=\s*(' + NUMBER.pattern + r')\s*$', first)
+    after = re.search(r'=\s*\**(' + NUMBER.pattern + r')\**(?:\s+[A-Za-z]+)?\s*[.!]?$', first)
     if after:
         return after[1]
     found = NUMBER.findall(re.sub(r'\[[^\]]*\]|\(\d{4}\)', '', first))
@@ -128,6 +181,12 @@ def short_answer(response):
 
 
 def classify(route, response):
+    if route=='chat/reasoning-words':
+        first=response.strip().split('\n',1)[0]
+        count=re.fullmatch(r'\*\*.+?\*\* has \*\*(\d+)\*\* (?:letters?|vowels?|consonants?)(?:[.:].*)?',first)
+        if count:return 'number',count[1]
+        reverse=re.fullmatch(r'\*\*.+?\*\* backwards is \*\*(.+?)\*\*\.',first)
+        if reverse:return 'short',reverse[1]
     result = re.search(r'` = \*\*(.+?)\*\*', response)          # "`area(6, 7)` = **42**" from a learned rule
     if route == 'chat/rules-use' and result:
         value = result[1]
@@ -153,6 +212,10 @@ def classify(route, response):
     if code and re.search(r'^def \w+\(', code[1], re.M):
         return 'code', code[1]
     # Exact symbolic results come with a decimal ("Area = 9*pi (approximately 28.27433388)"): pass the decimal on.
+    # Exact-quantity answers mark their result in bold ("2 to the power of 10 = **1024**", "You get **$1.40** in change").
+    bold = re.search(r'\*\*\$?(-?\d[\d,]*(?:\.\d+)?)%?(?:°[CF])?(?:\s[a-z/]+)?\*\*', response.split('\n', 1)[0])
+    if route.startswith('helper/quantity-') and bold:
+        return 'number', bold[1].replace(',', '')
     approximate = re.search(r'\(approximately\s+(-?\d+(?:\.\d+)?)\)', response.split('\n', 1)[0])
     if route.startswith('helper/') and approximate:
         return 'number', approximate[1]
@@ -220,35 +283,64 @@ def spoken_arithmetic(text):
 def resolve(request, board):
     """Replace back-references with the values they point to. Returns (new text, notes, code entry or None)."""
     notes = []
-    wants_code = re.search(r'(?i)\b(?:run|call|test|apply|execute|use)\b.*\b(?:it|that|the function|the code|this)\b'
-                           r'|\bwhat does (?:it|the function) (?:return|give)\b', request)
-    if wants_code:
-        entry = board.get(kinds={'code'})
-        if entry:
-            return request, [f'uses the function from step {entry.step}'], entry
+    wants_code = bool(re.match(r'(?i)^(?:run|call|test|apply|execute|use)\b',request)
+                      or re.match(r'(?i)^what does (?:it|the function) (?:return|give)\b',request))
+    code=None
     text = request
+    spans=protected_spans(text)
 
     def swap(match):
+        nonlocal code
+        if not unprotected(text,match,spans) or not is_reference(text,match):return match[0]
         step = match[1] or match[2]
-        word = match[0].lower()
-        if word in ('this', 'that', 'it') and not wants_value(text, match):
-            return match[0]
-        entry = board.get(int(step)) if step else board.get(kinds={'number', 'short'})
-        if entry is None:
-            return match[0]
+        entry = board.dependency(int(step) if step else None)
+        if entry.kind=='code' or wants_code and code is None and entry.tool:
+            if not wants_code or code is not None and code.step!=entry.step:
+                raise ResolutionError('Specify one function to run, or ask to explain its step.',entry.step)
+            code=entry
+            notes.append(f'uses the function from step {entry.step}')
+            return 'the function'
+        if wants_code and code is None:
+            raise ResolutionError(f'Step {entry.step} did not produce a function to run.',entry.step)
+        if numeric_request(text) and (entry.kind=='literal' or not NUMBER.fullmatch(str(entry.value).replace(',',''))):
+            raise ResolutionError(f'Step {entry.step} did not produce a single number.',entry.step)
         notes.append(f'"{match[0]}" = {entry.value} (from step {entry.step})')
-        value = str(entry.value)
+        value = repr(entry.value) if entry.kind=='literal' or wants_code and entry.kind!='number' else str(entry.value)
         # A whole sentence goes in quotes so the next engine reads it as the text to work on.
-        return f'"{value}"' if len(value.split()) >= 3 and re.search(r'[.!?]$', value) else value
+        if code is None and not wants_code and len(value.split()) >= 3 and re.search(r'[.!?]$', value):return repr(value)
+        return value
 
     text = REFERENCE.sub(swap, text)
     # "What is the weather there?" after a step that named a place.
-    place = board.get(kinds={'short'})
     there = re.search(r'(?i)(?<!\bis )(?<!\bare )\bthere(?=\s*[?.!]*$)', text)
-    if place and there and len(str(place.value).split()) <= 4 and not NUMBER.fullmatch(str(place.value)):
+    if there and unprotected(text,there,protected_spans(text)):
+        place=board.dependency()
+        if place.kind!='short' or len(str(place.value).split())>4 or NUMBER.fullmatch(str(place.value)):
+            raise ResolutionError(f'Step {place.step} did not identify a single place.',place.step)
         text = text[:there.start()] + f'in {place.value}' + text[there.end():]
         notes.append(f'"there" = {place.value} (from step {place.step})')
-    return text, notes, None
+    return text, notes, code
+
+
+def numeric_request(text):
+    return bool(re.match(r'(?i)^(?:add|subtract|multiply|divide|double|triple|halve|square|increase|decrease)\b',text))
+
+
+def is_reference(text, match):
+    if match[1] or match[2]:return True
+    tail=text[match.end():]
+    # "this: hello", "the word banana" and "is it raining" provide their
+    # own subject. They are not dependencies on a previous tool result.
+    if re.match(r'\s*[:=]',tail):return False
+    if match[0].lower() in ('it','this','that'):
+        if re.match(r'(?i)\s+(?:like|raining|snowing|sunny|cold|hot|possible)\b',tail):return False
+        return wants_value(text,match)
+    next_word=re.match(r'\s+([\w]+)',tail)
+    if next_word and next_word[1].lower() not in {
+        'in','into','to','from','of','by','on','with','using','for','and','is','are','was','were',
+        'backwards','backward','squared','plus','minus','times','divided','multiplied','has','have',
+    }:return False
+    return True
 
 
 def wants_value(text, match):
@@ -256,44 +348,60 @@ def wants_value(text, match):
     before = text[:match.start()].lower()
     after = text[match.end():].lower()
     return bool(re.search(r'(?:add|subtract|multiply|divide|double|triple|halve|square|increase|decrease|translate|draw|paint|convert|take|'
-                          r'times|plus|minus|by|to|from|of|and|is|with|use|spell|reverse|describe|explain|define|'
+                          r'times|plus|minus|by|to|from|of|and|is|with|use|run|call|execute|test|apply|spell|reverse|describe|explain|define|'
                           r'(?:letters|vowels|consonants|words) (?:are )?in)\s*$', before)
                 or re.match(r'\s*(?:by|to|from|into|in|squared|times|plus|minus|divided|multiplied|and|\?|$)', after))
 
 
-def run_code(entry, request):
+def code_outcome(entry, request):
     """Call the function an earlier step wrote, on the arguments the request gives."""
-    name = re.search(r'^def (\w+)\(', entry.value, re.M)[1]
+    source=entry.value
+    if entry.tool:
+        from .codegen.tool_contract import read
+        try:artifact=read(entry.tool)
+        except ValueError as error:return None,str(error),'failed'
+        source=artifact['source'];name=artifact['entrypoint']
+    function = re.search(r'^def (\w+)\(', source, re.M)
+    if not function:return None,'That step did not provide a supported Python function.','failed'
+    if not entry.tool:name = function[1]
     args_text = re.search(r'(?i)\b(?:on|with|for|using|of)\s+(.+?)\s*[?.!]*$', request)
     if not args_text:
-        return None, 'Tell me which input to run it on, for example "run it on 10".'
+        return None, 'Tell me which input to run it on, for example "run it on 10".', 'uncertain'
     try:
-        args = ast.literal_eval('(' + args_text[1].replace(' and ', ', ') + ',)')
-    except (ValueError, SyntaxError):
-        return None, f'I could not read "{args_text[1]}" as Python values.'
-    if any(isinstance(a, int) and not isinstance(a, bool) and abs(a) > 100_000 for a in args) or \
-            any(isinstance(a, (str, list, tuple, dict)) and len(a) > 10_000 for a in args):
-        return None, 'That input is too large for me to run safely.'
-    call = f'{name}({", ".join(map(repr, args))})'
-    # First the bounded Python machine (codegen/python_vm.py): it interprets the function itself, so no generated code
-    # runs natively. Only code it does not support yet (such as `import math`) falls back to the restricted runner.
+        raw=args_text[1]
+        if len(raw)>8000:raise ValueError('Argument text too large')
+        spans=protected_spans(raw);depth=0;pieces=[];start=0
+        for match in re.finditer(r'[\[\]{}()]|\band\b',raw):
+            if not unprotected(raw,match,spans):continue
+            if match[0] in ('[','{','('):depth+=1
+            elif match[0] in (']','}',')'):depth-=1
+            elif depth==0:
+                pieces.append(raw[start:match.start()]);start=match.end()
+        pieces.append(raw[start:]);raw=','.join(pieces)
+        tree=ast.parse('_call('+raw+')',mode='eval')
+        if sum(1 for _ in ast.walk(tree))>1000:raise ValueError('Argument AST too large')
+        args=[ast.literal_eval(a) for a in tree.body.args]
+        kwargs={k.arg:ast.literal_eval(k.value) for k in tree.body.keywords}
+        if None in kwargs or len(kwargs)!=len(tree.body.keywords):raise ValueError('Ambiguous keyword arguments')
+    except (ValueError, SyntaxError, RecursionError, TypeError):
+        return None, 'I could not read the inputs as bounded Python literal arguments.', 'uncertain'
+    call = f'{name}({", ".join([repr(a) for a in args]+[k+"="+repr(v) for k,v in kwargs.items()])})'
+    # No native exec fallback: unsupported operations and exhausted budgets are
+    # failures, never invitations to retry the same source without limits.
     from .codegen.python_vm import run_cases
-    checked = run_cases(entry.value, [dict(name=name, args=list(args))])
+    checked = run_cases(source, [dict(name=name, args=args,kwargs=kwargs)])
     outcome = (checked.get('cases') or [{}])[0]
     if outcome.get('status') == 'value':
-        return outcome['value'], f'`{call}` returns `{outcome["value"]!r}` (run by CAEL\'s bounded Python interpreter).'
+        return outcome['value'], f'`{call}` returns `{outcome["value"]!r}` (run by CAEL\'s bounded Python interpreter).', 'ok'
     if outcome.get('status') == 'error':
-        return None, f'Running `{name}` raised {outcome["error"]}: {outcome["message"]}'
-    scope = {'__builtins__': {k: __builtins__[k] if isinstance(__builtins__, dict) else getattr(__builtins__, k)
-                              for k in ('len', 'sum', 'min', 'max', 'sorted', 'list', 'dict', 'set', 'tuple', 'str', 'int',
-                                        'float', 'abs', 'round', 'range', 'all', 'any', 'zip', 'enumerate', 'reversed', 'bool')},
-             'math': math}
-    try:
-        exec(entry.value.replace('import math\n', ''), scope)
-        value = scope[name](*args)
-    except Exception as error:
-        return None, f'Running `{name}` raised {type(error).__name__}: {error}'
-    return value, f'`{call}` returns `{value!r}`.'
+        return None, f'Running `{name}` raised {outcome["error"]}: {outcome["message"]}', 'failed'
+    status=outcome.get('status',checked.get('status','unsupported'))
+    return None, f'I could not run `{name}` within the bounded Python interpreter ({status}).', 'failed'
+
+
+def run_code(entry,request):
+    value,response,_=code_outcome(entry,request)
+    return value,response
 
 
 # Running a plan ---------------------------------------------------------------------------------
@@ -301,9 +409,15 @@ def run(steps, answer_one, messages=()):
     """Run each step through answer_one(text, history) and share results on a board."""
     board = Board()
     history = list(messages[:-1]) if messages else []
+    if not 1<=len(steps)<=6:raise ValueError('Use between one and six plan steps')
     for index, request in enumerate(steps, 1):
-        if EXPLAIN.match(request.strip()) and board.entries:
-            board.add(explain(index, request, board.entries[-1]))
+        target=re.fullmatch(r'(?i)(?:explain|explain why|show (?:the )?(?:reasoning|steps) for) (?:step|part) (\d+)\s*[?.!]*',request.strip())
+        if target or EXPLAIN.match(request.strip()):
+            previous=next((e for e in board.entries if e.step==int(target[1])),None) if target else (board.entries[-1] if board.entries else None)
+            if previous:
+                board.add(explain(index,request,previous))
+            else:
+                board.add(Entry(index,request,'chat/plan-skipped','There is no completed step with that number to explain.','text',None,status='skipped'))
             history += [dict(role='user', content=request), dict(role='assistant', content=board.entries[-1].response)]
             continue
         last = board.entries[-1] if board.entries else None
@@ -319,35 +433,71 @@ def run(steps, answer_one, messages=()):
                     step_text = step_text.rstrip(' .!?') + ' for ' + earlier['brief']
                     if earlier['kind'] == 'image' and not re.search(r'(?i)\b(?:image|picture|photo)\b', earlier['brief']):
                         step_text += ' image'
-        pending_reference = REFERENCE.search(step_text)
-        if last is not None and last.value is None and pending_reference and not (pending_reference[1] or pending_reference[2]) and wants_value(step_text, pending_reference):
-            board.add(Entry(index, request, 'chat/plan-skipped',
-                            f'I could not do this step: step {last.step} gave no single result to use.', 'text', None))
+        try:
+            text, notes, code = resolve(step_text, board)
+        except ResolutionError as error:
+            board.add(Entry(index,request,'chat/plan-skipped','I could not do this step: '+str(error),
+                            'text',None,status='skipped',dependencies=[error.step] if error.step else []))
+            history += [dict(role='user',content=request),dict(role='assistant',content=board.entries[-1].response)]
             continue
-        text, notes, code = resolve(step_text, board)
-        reference = REFERENCE.search(request)
-        if code is None and not notes and last is not None and last.kind == 'text' and reference \
-                and wants_value(request, reference) and re.search(r'clarify|not-found|unsure|unsupported|cannot', last.route):
-            # "Then double it" after a step that found no answer: say so, instead of a confused reply.
-            board.add(Entry(index, request, 'chat/plan-skipped', f'I could not do this step: step {last.step} gave no result to use.',
-                            'text', None, [f'step {last.step} had no result']))
-            continue
+        dependencies=sorted({int(n) for note in notes for n in re.findall(r'\bstep (\d+)\b',note)})
         if code is not None:
-            value, response = run_code(code, request)
+            value, response, status = code_outcome(code, text)
             entry = Entry(index, request, 'chat/code-run', response, 'number' if isinstance(value, (int, float)) and not isinstance(value, bool)
-                          else 'short', value, notes)
+                          else 'short' if isinstance(value,str) else 'literal', value, notes,status=status,dependencies=dependencies,
+                          resolved_request=text,verification=dict(status='unchecked',check='Bounded execution, not an independent correctness proof.'))
         else:
             arithmetic = spoken_arithmetic(text)
             if arithmetic:
                 notes.append(f'read as {arithmetic}')
                 text = arithmetic
-            answer = answer_one(text, history)
+            try:
+                answer = answer_one(text, history)
+            except Exception as error:
+                entry=Entry(index,request,'chat/plan-error','This step failed; independent steps can still continue.',
+                            'text',None,[type(error).__name__],status='failed',dependencies=dependencies,resolved_request=text)
+                board.add(entry)
+                history += [dict(role='user',content=text),dict(role='assistant',content=entry.response)]
+                continue
             if answer:
                 from . import verify
-                answer = verify.apply(text, answer)   # a corrected value is what later steps will use
+                if re.search(r'```python\n.*?^def \w+\(',answer.get('response',''),re.S|re.M):
+                    # Do not send source through the legacy native-code checker
+                    # here. This plan invokes functions only through the VM.
+                    if answer.get('verification',{}).get('status')!='failed':
+                        answer=dict(answer,verification=dict(status='unchecked',check='Function kept as source; calls use the bounded Python interpreter.'))
+                else:
+                    answer = verify.apply(text, answer)   # corrected values feed later steps
             response = (answer or {}).get('response') or 'I could not do this step.'
             route = (answer or {}).get('route', 'none')
             kind, value = classify(route, response)
+            status='ok' if answer else 'failed'
+            artifact={}
+            if 'python_tool' in (answer or {}):
+                from .codegen.tool_contract import read
+                try:
+                    artifact=read(answer['python_tool'])
+                    result=answer.get('tool_result')
+                    if result is not None:
+                        if result.get('status')!='value' or result.get('source_sha256')!=artifact['sha256']:
+                            raise ValueError('Tool result/source mismatch')
+                        value=result['value']
+                        kind='number' if type(value) in (int,float) else 'short' if type(value) is str else 'literal'
+                        if kind=='number':value=str(value)
+                    else:kind,value='code',artifact['source']
+                except (ValueError,TypeError,KeyError):
+                    artifact={};status='failed';value=None
+            reasoning=(answer or {}).get('reasoning')
+            if isinstance(reasoning,list):status='uncertain';value=None
+            if isinstance(reasoning,dict):
+                conclusion=reasoning.get('answer')
+                if conclusion in (None,'unknown','conflicting','maybe'):
+                    status='uncertain';value=None
+                elif isinstance(conclusion,str) and NUMBER.fullmatch(conclusion):kind,value='number',conclusion
+                elif isinstance(conclusion,str):kind,value='short',conclusion
+            if re.search(r'(?:^|[/\-])(?:clarify|not-found|unsure|unsupported|undefined|cannot|needs-examples)(?:$|[/\-])',route):
+                status='uncertain';value=None
+            if (answer or {}).get('verification',{}).get('status')=='failed':status='failed';value=None
             # Several solutions have no single value to pass to a later step.
             several = re.search(r'(?i)^\s*(\w+)\s*=\s*(-?[\d./]+)(?:\s*(?:,|or)\s*\1\s*=\s*-?[\d./]+)+', response.split('\n', 1)[0])
             if kind == 'number' and several:
@@ -355,7 +505,9 @@ def run(steps, answer_one, messages=()):
                 route = 'chat/plan-clarify-solutions'
                 response += '\nWhich solution should the next step use?'
                 notes.append('multiple solutions; no single value selected')
-            entry = Entry(index, request, route, response, kind, value, notes, (answer or {}).get('verification', {}))
+                status='uncertain'
+            entry = Entry(index, request, route, response, kind, value, notes, (answer or {}).get('verification', {}),
+                          status,dependencies,list((answer or {}).get('sources') or []),text,artifact)
         board.add(entry)
         history += [dict(role='user', content=text), dict(role='assistant', content=entry.response)]
     return board
@@ -366,25 +518,39 @@ def explain(index, request, previous):
     body = previous.response.strip()
     reasons = re.split(r'\n\s*\n', body, maxsplit=1)
     reasoning = reasons[1].strip() if len(reasons) > 1 and re.search(r'(?i)steps:|what i changed|because|rule|\n\d\.|\n- ', reasons[1]) else ''
-    if not reasoning and previous.verification.get('status'):
+    if not reasoning and previous.verification.get('status') in ('verified','corrected'):
         reasoning = f'The answer was checked independently ({previous.verification["status"]}).'
+    if previous.status!='ok':
+        reasoning=f'Step {previous.step} was {previous.status}; it produced no single usable result.\n'+previous.response
     if not reasoning:
         reasoning = ('That step came from ' + previous.route.split('/', 1)[-1].replace('-', ' ') +
                      '; it did not give separate reasoning beyond the answer itself.')
     return Entry(index, request, 'chat/plan-explain', f'Here is the reasoning behind step {previous.step}:\n\n{reasoning}', 'text',
-                 reasoning, [f'explains step {previous.step}'])
+                 reasoning, [f'explains step {previous.step}'],dependencies=[previous.step],sources=list(previous.sources))
 
 
 def report(board):
-    lines, trace = [], []
+    lines, trace, sources = [], [], []
+    seen=set()
     for e in board.entries:
         lines.append(f'**{e.step}. {e.request[0].upper() + e.request[1:]}**\n{e.response.strip()}')
-        trace.append(f'Step {e.step} [{e.route}] -> {e.kind}' + (f': {e.value}' if e.kind in ('number', 'short') else '')
+        trace.append(f'Step {e.step} [{e.route}; {e.status}] -> {e.kind}' + (f': {e.value}' if e.kind in ('number', 'short') else '')
                      + (f' [check: {e.verification.get("status", "unchecked")}]')
                      + (' (' + '; '.join(e.notes) + ')' if e.notes else ''))
+        for source in e.sources:
+            key=json.dumps(source,sort_keys=True,default=str)
+            if key not in seen:sources.append(source);seen.add(key)
     details = ('Multi-step plan: the request was split into steps, each step was answered by the ordinary CAEL route '
                'for it, and later steps used earlier results through a shared board.\n' + '\n'.join(trace))
-    return dict(route='chat/plan', response='\n\n'.join(lines), sources=[], details=details,
+    counts={status:sum(e.status==status for e in board.entries) for status in ('ok','uncertain','failed','skipped')}
+    state='complete' if counts['ok']==len(board.entries) else 'partial' if counts['ok'] else 'failed'
+    def public_value(entry):
+        if entry.kind=='code' or entry.value is None:return None
+        try:json.dumps(entry.value,allow_nan=False);return entry.value
+        except (TypeError,ValueError):return repr(entry.value)
+    return dict(route='chat/plan', response='\n\n'.join(lines), sources=sources, details=details,
+                plan_status=state,execution_summary=counts,
                 plan=[dict(step=e.step, request=e.request, route=e.route, kind=e.kind,
-                           value=e.value if isinstance(e.value, (int, float, str)) else None, notes=e.notes,
-                           verification=e.verification) for e in board.entries])
+                           value=public_value(e), notes=e.notes,status=e.status,dependencies=e.dependencies,
+                           resolved_request=e.resolved_request,sources=e.sources,verification=e.verification,
+                           python_tool=e.tool or None) for e in board.entries])

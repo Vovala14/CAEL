@@ -7,7 +7,7 @@ from . import reasoning_compose as compose
 from .reasoning_logic import LogicCA, Unparsed, sentences
 from .reasoning_world import WorldCA
 from .reasoning_relations import relations
-from .reasoning_order import ordering
+from .reasoning_order import ordering, explicit_order, evidence_text
 from .social_reasoning import SocialCA
 from .reasoning_sat import query as case_query
 from .reasoning_babi import compass_query, induction_query, load_table, motivation_query, position_query, rewrite, time_query
@@ -19,11 +19,41 @@ MOTIVATIONS = ROOT/'models/cael-reasoning-v1/motivations.json'   # counted from 
 NATURAL = r'(?:does it follow that|can we conclude(?: that)?|can you conclude(?: that)?|is it true that|must it be true that|must it be that|is it certain that|prove that)'
 
 
+PRESENT_MOVES = r'(?:goes|walks|runs|moves|travels|journeys|drives|cycles|heads|returns|comes|hurries|wanders)'
+
+
+def present_story(text):
+    """Present-tense stories in the past tense the event tracker reads; the question at the end is unchanged.
+
+    "Mary is in the kitchen. Mary goes to the bedroom. Where is Mary?" -> "Mary went to the kitchen. Mary went to
+    the bedroom. Where is Mary?"; "Ben has the keys. Ben gives the keys to Lucy." -> "Ben got the keys. Ben gave the
+    keys to Lucy." Only sentences that start with a capitalised name and one of these verbs are changed."""
+    parts = re.split(r'(?<=[.!?])\s+', text.strip())
+    if len(parts) < 2 or not parts[-1].endswith('?'):
+        return text
+    name = r'([A-Z][a-z]+)'
+    rules = [(r'^' + name + r' is (?:in|at|inside) (?:the )?(.+?)\.$', r'\1 went to the \2.'),
+             (r'^' + name + r' ' + PRESENT_MOVES + r' (?:back )?(?:to|into) (?:the )?(.+?)\.$', r'\1 went to the \2.'),
+             (r'^' + name + r' (?:has|holds|takes|picks up|grabs|gets) (?:the|a|an) (.+?)\.$', r'\1 got the \2.'),
+             (r'^' + name + r' (?:gives|hands|passes) (?:the|a|an) (.+?) to ' + name + r'\.$', r'\1 gave the \2 to \3.'),
+             (r'^' + name + r' (?:drops|puts down|leaves) (?:the|a|an) (.+?)\.$', r'\1 dropped the \2.')]
+    changed, out = False, []
+    for part in parts[:-1]:
+        new = part
+        for pattern, template in rules:
+            if re.match(pattern, part):
+                new = re.sub(pattern, template, part)
+                break
+        changed |= new != part
+        out.append(new)
+    return ' '.join(out + parts[-1:]) if changed else text
+
+
 def split_problem(text):
     text=text.strip()
     explicit=bool(re.match(r'(?i)^(?:facts|premises|given|suppose|scenario|context)\s*:',text))
     text=re.sub(r'(?i)^(?:facts|premises|given|suppose|scenario|context)\s*:\s*','',text)
-    markers=list(re.finditer(r'(?im)(?:^|(?<=[.\n])\s*)(?:question\s*:\s*|query\s*:\s*|prove\s*:\s*|true or false\s*:\s*|'+NATURAL+r'\s*|(?=(?:is|does|where|who|what|how|which|can|why)\b))',text))
+    markers=list(re.finditer(r'(?im)(?:^|(?<=[.\n])\s*)(?:question\s*:\s*|query\s*:\s*|prove\s*:\s*|true or false\s*:\s*|'+NATURAL+r'\s*|(?=(?:is|does|where|who|what|how|which|can|could|must|why)\b))',text))
     for marker in reversed(markers):
         context=text[:marker.start()].strip(' .\n')
         question=text[marker.end():].strip()
@@ -67,6 +97,10 @@ class Reasoner:
             raise Unparsed('Reasoning model missing')
         if len(context)>40000 or len(sentences(context))>400:
             raise Unparsed('Keep the scenario within 400 premises and 40,000 characters')
+        if explicit_order(context):
+            # A rejected ordering clue must not be reinterpreted by a different
+            # family that would silently ignore part of the scenario.
+            return dict(ordering(context,question),family='ordering')
         errors=[]
         table=getattr(self,'_motivations',None)
         if table is None:
@@ -116,6 +150,7 @@ class Reasoner:
     def _respond(self,text,messages=None):
         if not self.model:
             return None
+        text=present_story(text)
         # Several questions about the same facts: answer each one (reasoning_compose.py).
         several=compose.questions(text)
         if several:
@@ -143,6 +178,7 @@ class Reasoner:
         if problem is None:
             return None
         context,question,explicit=problem
+        explicit=explicit or explicit_order(context)
         # Recognize premise scenarios, not arbitrary multi-sentence conversation.
         scenario=explicit or re.search(r'(?i)\b(?:all|every|each|everything that|moved to|went to|journeyed to|travelled to|picked up|gave the|bigger than|fits inside|'
                                        r'is north of|is south of|is east of|is west of|entered the|left the|told .+? that|to the left of|to the right of|is left of|is right of|leftmost|rightmost|is above|is below|'
@@ -160,7 +196,9 @@ class Reasoner:
             return dict(route='chat/reasoning-unsupported',response='I cannot reliably parse that scenario. Use simple facts and rules, events, or an explicit list with ordering clues.',
                         details='The scenario was not sent to an internet provider. '+str(error),sources=[])
         answer=result['answer']
-        if answer=='unknown':
+        if result.get('verdict_text'):
+            response=result['verdict_text']
+        elif answer=='unknown':
             response='The stated premises do not determine the answer.'
         elif answer=='conflicting':
             response='The stated premises conflict, so there is no single consistent answer.'
@@ -195,6 +233,8 @@ class Reasoner:
                 response+='\n\nBased on:\n'+'\n'.join(support[:6])
         elif result.get('chain'):
             response+='\n\nWhat I checked:\n'+compose.chain_text(result['chain'])
+        if result['family']=='ordering':
+            response+='\n\n'+evidence_text(result)
         result['internet_used']=False
         details='Reasoned only from your stated premises; no internet request. '
         if result['family']=='state':

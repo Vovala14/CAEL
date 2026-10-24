@@ -114,6 +114,54 @@ def reply(text):
             return dict(route='chat/code-clarify', response='Should duplicate values count when finding the second largest, or do you want the second distinct value?', sources=[])
         return make('second_largest', 'numbers', 'values = sorted(' + ('set(numbers)' if distinct else 'numbers') + ")\nif len(values) < 2:\n    raise ValueError('Need at least two " + ('distinct ' if distinct else '') + "values')\nreturn values[-2]", 'Uses the requested duplicate policy; raises ValueError if there are fewer than two eligible values.')
 
+    # Common text operations on words and characters (each is a standard one-line Python idiom).
+    texty = re.search(r'\b(?:string|sentence|text|word|words|phrase|name)\b', t) and not re.search(r'\b(?:list of (?:numbers|integers)|numbers|integers)\b', t)
+    if texty:
+        word_ops = [
+            (r'\breverse\w*\b.*\b(?:order of (?:the )?words|words? order|each word.s position)\b|\breverse\w* (?:the )?words\b', 'reverse_words', 'text',
+             "return ' '.join(text.split()[::-1])", 'Splits on whitespace and joins the words in reverse order with single spaces.'),
+            (r'\breverse\w* each word\b|\breverse\w* (?:the )?letters (?:of|in) each word\b', 'reverse_each_word', 'text',
+             "return ' '.join(word[::-1] for word in text.split())", 'Reverses the letters of every word and keeps the word order.'),
+            (r'\bcapitali[sz]\w* (?:the )?first (?:letter|character) of (?:every|each|all) words?\b|\btitle case\b|\bcapitali[sz]\w* (?:every|each|all) words?\b', 'capitalize_words', 'text',
+             "return ' '.join(word[:1].upper() + word[1:] for word in text.split(' '))", 'Uppercases the first letter of every word and leaves the rest of each word unchanged.'),
+            (r'\bcount\w* (?:the )?(?:number of )?words\b|\bhow many words\b|\bnumber of words\b|\bword count\b', 'count_words', 'text',
+             'return len(text.split())', 'Counts whitespace-separated words; an empty string has 0 words.'),
+            (r'\blongest word\b', 'longest_word', 'text',
+             "words = text.split()\nif not words:\n    return ''\nreturn max(words, key=len)", 'Returns the first longest word; an empty string returns an empty string.'),
+            (r'\bshortest word\b', 'shortest_word', 'text',
+             "words = text.split()\nif not words:\n    return ''\nreturn min(words, key=len)", 'Returns the first shortest word; an empty string returns an empty string.'),
+            (r'\bremove\w* (?:all )?(?:the )?(?:spaces|whitespace)\b', 'remove_spaces', 'text', "return ''.join(text.split())", 'Removes spaces, tabs and new lines.'),
+            (r'\bremove\w* (?:all )?(?:the )?punctuation\b', 'remove_punctuation', 'text',
+             "punctuation = '!\"#$%&\\'()*+,-./:;<=>?@[\\\\]^_`{|}~'\nreturn ''.join(char for char in text if char not in punctuation)",
+             'Removes the ASCII punctuation characters and keeps everything else.'),
+            (r'\bremove\w* (?:all )?(?:the )?vowels\b', 'remove_vowels', 'text', "return ''.join(char for char in text if char not in 'aeiouAEIOU')", 'Removes A, E, I, O and U in both cases.'),
+            (r'\bacronym\b', 'acronym', 'text', "return ''.join(word[0].upper() for word in text.split())", 'Takes the first letter of every word, in upper case.'),
+            (r'\b(?:upper ?case|uppercase|capital letters)\b(?!.*\bfirst\b)', 'to_upper', 'text', 'return text.upper()', 'Returns the text in upper case.'),
+            (r'\b(?:lower ?case|lowercase)\b', 'to_lower', 'text', 'return text.lower()', 'Returns the text in lower case.'),
+            (r'\bcount\w* (?:how many times|the occurrences of|occurrences of) (?:a )?word\b', 'count_word', 'text, word',
+             'return text.lower().split().count(word.lower())', 'Counts whole words, ignoring case.'),
+            (r'\breverse\w* (?:a |the )?(?:string|text)\b', 'reverse_string', 'text', 'return text[::-1]', 'Returns the characters in reverse order.'),
+        ]
+        for pattern, name, params, body, note in word_ops:
+            if re.search(pattern, t):
+                return make(name, params, body, note)
+    if re.search(r'\b(?:list|array|numbers|integers)\b', t):
+        list_ops = [
+            (r'\b(?:largest|biggest|maximum|max|highest|greatest) (?:number|value|element|item|integer)?\b(?!.*\bsecond\b)', 'largest', 'numbers',
+             "if not numbers:\n    raise ValueError('The list is empty')\nreturn max(numbers)", 'Raises ValueError for an empty list.'),
+            (r'\b(?:smallest|minimum|min|lowest|least) (?:number|value|element|item|integer)?\b(?!.*\bsecond\b)', 'smallest', 'numbers',
+             "if not numbers:\n    raise ValueError('The list is empty')\nreturn min(numbers)", 'Raises ValueError for an empty list.'),
+            (r'\bproduct of (?:all )?(?:the )?(?:numbers|elements|items|values)\b|\bmultipl\w* (?:all )?(?:the )?(?:numbers|elements|values)\b', 'product', 'numbers',
+             'result = 1\nfor value in numbers:\n    result *= value\nreturn result', 'The product of an empty list is 1.'),
+            (r'\breverse\w* (?:a |the )?(?:list|array)\b', 'reverse_list', 'items', 'return list(items)[::-1]', 'Returns a new reversed list.'),
+            (r'\blast (?:element|item|value)\b', 'last_item', 'items', "if not items:\n    raise ValueError('The list is empty')\nreturn items[-1]", 'Raises ValueError for an empty list.'),
+            (r'\bfirst (?:element|item|value)\b', 'first_item', 'items', "if not items:\n    raise ValueError('The list is empty')\nreturn items[0]", 'Raises ValueError for an empty list.'),
+        ]
+        if not re.search(r'\b(?:even|odd|positive|negative|greater than|less than|above|below|squares?|sorted?)\b', t):
+            for pattern, name, params, body, note in list_ops:
+                if re.search(pattern, t):
+                    return make(name, params, body, note)
+
     # A small compositional list algebra: filter -> map -> unique -> sort -> reduce.
     if not re.search(r'\b(?:list|array|numbers|integers|iterable)\b', t):
         return None

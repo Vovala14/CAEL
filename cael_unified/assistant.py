@@ -92,6 +92,7 @@ class Assistant:
         from .facts import FactLookup
         self._facts = FactLookup()
         self._lock = threading.RLock()
+        self._plan_context = threading.local()
 
     def picture_in_chat(self, text, messages, seed):
         """Chat mode cannot draw, so hand over a ready image prompt and say where to use it."""
@@ -156,7 +157,11 @@ class Assistant:
                 and messages[-1]['role']=='user' and len(messages)<=MAX_MESSAGES
                 and sum(len(m['content']) for m in messages)<=MAX_CHARACTERS):
             raw_route=route_request(messages[-1]['content'],mode)
-            if raw_route not in ('image','emoji') and not choice_problem(messages[-1]['content']) and not picture_follow_up(messages):
+            from .writing_chat import protect_input as writing_input
+            from .codegen.python_tasks import protect_input as tool_input
+            if raw_route not in ('image','emoji') and not choice_problem(messages[-1]['content']) and not picture_follow_up(messages) \
+                    and not (mode in ('auto','chat') and (writing_input(messages[-1]['content'],messages)
+                        or tool_input(messages[-1]['content'],messages))):
                 messages,changes=repair_messages(messages)
         answer=self._respond(messages,n=n,seed=seed,mode=mode)
         # Independent check of the answer; corrects or flags errors and counts outcomes per engine (verify.py, ltm.py).
@@ -183,30 +188,61 @@ class Assistant:
         text = messages[-1]['content'].strip()
         if not text:
             raise ValueError('Request is empty')
+        plan_context=getattr(self,'_plan_context',None)
+        if plan_context is None:
+            plan_context=self._plan_context=threading.local()
+        if mode in ('auto','chat'):
+            # A tool's operation list is one specification, not unrelated chat
+            # commands. Execute only pure, bounded compiler-produced tools.
+            from .codegen.python_tasks import reply as task_reply,structured_request
+            answer=task_reply(text,messages)
+            if answer is not None:return answer
+            if structured_request(text):
+                from .codegen.task_tools import reply as build_tool
+                answer=build_tool(text,messages)
+                if answer is not None:return answer
+        # Plan explicit multi-step requests before a single-step writing,
+        # reasoning or factual route can consume the entire message. The guard
+        # belongs to this execution thread, not another user's concurrent chat.
+        if mode in ('auto','chat') and not getattr(plan_context,'running',False):
+            from . import orchestrator
+            steps=orchestrator.plan(text)
+            if steps:
+                plan_context.running=True
+                try:
+                    board=orchestrator.run(steps,lambda step,history:self._respond(
+                        history+[dict(role='user',content=step)],n=1,seed=(seed+len(history))%2**31,mode=mode),messages)
+                finally:
+                    plan_context.running=False
+                return orchestrator.report(board)
+        # Resolve an explicit prose-editing exchange before factual pronoun
+        # rewriting or splitting a learner's sentence into executable steps.
+        if mode in ('auto', 'chat'):
+            from .writing_chat import reply as writing_reply
+            answer = writing_reply(text, messages)
+            if answer is not None:
+                return answer
+            # An explicit ordering scenario owns its clues and continuations;
+            # generic conversational/comparison routes must not discard them.
+            from .reasoning_order import chat_scope as ordering_scope
+            if ordering_scope(text,messages):
+                if self._reasoning is None:
+                    from .reasoning import Reasoner
+                    self._reasoning=Reasoner()
+                answer=self._reasoning.respond(text,messages)
+                if answer is not None:
+                    return answer
         # A follow-up ("and what about Germany?", "when was he born?") is answered as the full question it stands for.
-        if mode in ('auto', 'chat') and not getattr(self, '_rewriting', False):
+        if mode in ('auto', 'chat') and not getattr(plan_context, 'rewriting', False):
             from . import chat_extra
             full = chat_extra.rewrite(messages)
             if full and full.strip().lower() != text.lower():
-                self._rewriting = True
+                plan_context.rewriting = True
                 try:
                     answer = self._respond(messages[:-1] + [dict(messages[-1], content=full)], n=n, seed=seed, mode=mode)
                 finally:
-                    self._rewriting = False
+                    plan_context.rewriting = False
                 return dict(answer, understood_as=full, details=answer.get('details', '') + f'\nUnderstood as: "{full}".')
-        # A multi-part request ("..., then ...") becomes a plan whose steps share results (orchestrator.py).
-        if mode in ('auto', 'chat') and not getattr(self, '_planning', False):
-            from . import orchestrator
-            steps = orchestrator.plan(text)
-            if steps:
-                self._planning = True
-                try:
-                    # Each step gets its own seed, so "make another one" is not a copy of the step before.
-                    board = orchestrator.run(steps, lambda step, history: self._respond(
-                        history + [dict(role='user', content=step)], n=1, seed=(seed + len(history)) % 2 ** 31, mode=mode), messages)
-                finally:
-                    self._planning = False
-                return orchestrator.report(board)
         route = route_request(text, mode)
         if route == 'chat' and mode == 'auto' and picture_follow_up(messages):
             route = 'image'
@@ -233,9 +269,32 @@ class Assistant:
             answer = self.vynly_reply(text, messages)
             if answer is not None:
                 return answer
+            # Exact everyday quantities: powers, fractions, units, speed, prices, "N times as many" (quantities.py).
+            from . import quantities
+            answer = quantities.reply(text)
+            if answer is not None:
+                return answer
+            # Well-known world facts (world_facts.py), then superlatives / counts / years found in Wikipedia's
+            # opening paragraphs (answer_finder.py). Both answer only clear question shapes.
+            from . import world_facts, answer_finder
+            answer = world_facts.reply(text) or answer_finder.reply(text)
+            if answer is not None:
+                return answer
+            # "What is the capital of Canada?": the structured Wikidata answer, not a long local paragraph.
+            if re.match(r"(?i)^\s*(?:what(?:'s| is) |tell me |name )?(?:the )?capital (?:city )?of [^?.!,]{2,40}[?.!]*\s*$", text):
+                try:
+                    answer = self._facts.structured_faq(re.sub(r'(?i)\bcapital city of\b', 'capital of', text.strip().rstrip('?.! ')))
+                except Exception:
+                    answer = None
+                if answer is not None:
+                    return answer
             choice=choice_problem(text)
             if choice:
                 context,endings=choice
+                from .choice_helpers import reply as helper_choice_reply
+                answer=helper_choice_reply(context,endings,self._reasoning)
+                if answer is not None:
+                    return answer
                 from .symbolic_choice import reply as symbolic_choice_reply
                 answer=symbolic_choice_reply(context,endings,self._reasoning)
                 if answer is not None:
@@ -282,6 +341,11 @@ class Assistant:
                 return answer
             from . import dictionary, grammar
             answer = grammar.reply(text) or dictionary.reply(text)
+            if answer is not None:
+                return answer
+            # Everyday writing: summaries, emails, name ideas, simple explanations, comparisons (compose_text.py).
+            from . import compose_text
+            answer = compose_text.reply(text, seed)
             if answer is not None:
                 return answer
             from . import everyday

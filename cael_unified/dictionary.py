@@ -244,16 +244,15 @@ def antonyms(word):
         return None
     direct = [b for row in found for a, b in row[4] if a.lower() == base]
     if not direct:
-        # Satellite adjectives ("ancient") have no direct opposite; the head adjective of their FIRST sense ("old") does.
-        for row in found:
-            if row[0] != 'adjective' or not row[6]:
-                continue
+        # Satellite adjectives ("ancient") have no direct opposite; the head adjectives of their first meanings do
+        # ("past" -> present, future; "old" -> new, young). Collect them and put the everyday words first.
+        for row in [r for r in found if r[0] == 'adjective' and r[6]][:3]:
             head = row[6][0]
             for _, _, _, _, ants, *_ in senses(head, 'adjective')[0]:
                 direct += [b for a, b in ants if a.lower() == head.lower()]
-            if direct:
-                direct = direct[:2]
-                break
+        if direct:
+            rank = {w: i for i, w in enumerate(frequent()[:50000])}
+            direct = sorted(dict.fromkeys(direct), key=lambda w: rank.get(w.lower(), 10 ** 6))[:3]
     if not direct:
         return out(f'My dictionary has no opposite listed for "{base}".', 'antonyms')
     return out(f'The opposite of **{base}** is **{", ".join(dict.fromkeys(direct[:4]))}**.', 'antonyms')

@@ -72,7 +72,7 @@ ASK_CHECK = re.compile(r'(?i)^\s*(?:is|was)\s+(?:this|the following)\s+(?:senten
 ASK_PAST = re.compile(r'(?i)\b(?:make|put|change|turn|rewrite|write)\s+(?:this|the|it|the sentence|this sentence)?\s*(?:sentence\s+)?(?:in|into|to)?\s*(?:the\s+)?past(?: tense)?\s*[:\-]?\s*(.+)$')
 # The sentence first: 'put "she walks home" in the past tense'.
 ASK_PAST_BEFORE = re.compile(r'(?i)\b(?:make|put|change|turn|rewrite|write)\s+["“](.+?)["”]\s+(?:in|into|to)\s+(?:the\s+)?past(?: tense)?\s*[.?!]?\s*$')
-ASK_PASSIVE = re.compile(r'(?i)\b(?:put|make|change|turn|rewrite|write)\s+(?:this|it|the sentence)?\s*(?:in|into|to)?\s*(?:the\s+)?passive(?: voice)?\s*[:\-]?\s*(.+)$')
+ASK_PASSIVE = re.compile(r'(?i)\b(?:put|make|change|turn|rewrite|write|convert)\s+(?:this|it|the|that)?\s*(?:sentence\s+)?(?:in|into|to)?\s*(?:the\s+)?passive(?: voice)?\s*[:\-]?\s*(.+)$')
 ASK_ROLE = re.compile(r'(?i)^\s*what(?:\'s| is| are)\s+(?:the|a)?\s*(subject|verbs?|object|nouns?|adjectives?|adverbs?)\s+(?:in|of)\s+(.+?)\s*\??\s*$')
 ASK_PUNCT = re.compile(r'(?i)\b(?:add|fix|correct|insert)\s+(?:the\s+)?punctuation(?:\s+(?:to|in))?\s*[:\-]?\s*(.+)$')
 ASK_USAGE = re.compile(r'(?i)\b(?:difference between|when (?:do|should) (?:i|you) use|should i (?:say|use|write)|which is (?:correct|right)|'
@@ -87,17 +87,34 @@ def unquote(text):
     return re.sub(r'^\s*["“\'‘]|["”\'’]\s*$', '', text.strip()).strip()
 
 
+TOKEN = re.compile(r"https?://[^\s<>\"']*[^\s<>\"'.,!?;:]|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}"
+                   r"|[A-Za-z]:[\\/][^\s<>\"']*[^\s<>\"'.,!?;:]|v\d+(?:\.\d+)+"
+                   r"|`[^`\n]+`|\d+(?:[.,:/-]\d+)*|[^\W\d][\w]*(?:['’\-][\w]+)*|[^\s]")
+
+
 def tokens(text):
-    return re.findall(r"[A-Za-z]+(?:'[A-Za-z]+)?|\d+|[^\sA-Za-z\d]", text)
+    return TOKEN.findall(text)
 
 
 def join(words):
     text = ''
+    quoted = set()
+    attach_next = False
     for w in words:
-        if re.fullmatch(r'[.,!?;:)\]]', w) or (text.endswith(('(', '[')) and w):
+        if w in ('"', "'"):
+            opening = w not in quoted
+            text += (' ' if text and opening and not attach_next else '') + w
+            if opening:
+                quoted.add(w)
+            else:
+                quoted.remove(w)
+            attach_next = opening
+            continue
+        if re.fullmatch(r'[.,!?;:)\]”’]', w) or attach_next or (text.endswith(('(', '[', '“', '$', '£', '€')) and w):
             text += w
         else:
             text += (' ' if text else '') + w
+        attach_next = w in ('(', '[', '“', '‘', '$', '£', '€')
     return text
 
 
@@ -187,16 +204,21 @@ def capitalised(word):
 
 def spell(word):
     lower = word.lower()
-    if len(lower) < 4 or lower in CONTRACTIONS or not re.fullmatch(r'[a-z]+', lower) or dic.known(lower):
+    # Do not guess a different name, acronym, identifier or valid English word.
+    common = {'teh': 'the', 'thier': 'their', 'recieve': 'receive', 'recieved': 'received',
+              'definately': 'definitely', 'seperate': 'separate', 'grammer': 'grammar', 'becuase': 'because'}
+    if lower in common and not word.isupper():
+        return common[lower].capitalize() if word[0].isupper() else common[lower]
+    if word != lower or len(lower) < 4 or lower in CONTRACTIONS or not re.fullmatch(r'[a-z]+', lower) or dic.known(lower):
         return word
     candidates = [w for w in dic.frequent()[:40000] if abs(len(w) - len(lower)) <= 1 and w[0] == lower[0]]
-    best = min(candidates, key=lambda w: (dic.edit_distance(lower, w, 2), candidates.index(w)), default=None)
-    if best and dic.edit_distance(lower, best, 2) <= (1 if len(lower) < 7 else 2):
-        return best
+    nearby = [w for w in candidates if dic.edit_distance(lower, w, 1) <= 1]
+    if len(nearby) == 1:
+        return nearby[0]
     return word
 
 
-def correct(sentence):
+def _correct_sentence(sentence):
     """(corrected sentence, [reasons])."""
     words = tokens(sentence)
     notes = []
@@ -270,14 +292,14 @@ def correct(sentence):
             if fixed:
                 words[m + 1] = fixed
                 note(f'"{words[m]}" is {"plural" if plural else "singular"}, so the verb is "{fixed}"')
-    # Double negatives: "don't know nothing" -> "don't know anything".
-    text_now = ' '.join(w.lower() for w in words)
-    if re.search(r"n't\b|\bnot\b|\bnever\b", text_now):
-        for i, w in enumerate(words):
-            swap = {'nothing': 'anything', 'nobody': 'anybody', 'nowhere': 'anywhere', 'none': 'any'}.get(w.lower())
-            if swap and i and any(re.search(r"n't$|^not$|^never$", x.lower()) for x in words[:i]):
-                words[i] = swap
-                note(f'one negative is enough: "{swap}", not "{w.lower()}" after a "not"')
+    # Only a direct negative-verb construction. A negative in another clause
+    # ("She didn't say he knew nothing") must not invert the embedded meaning.
+    for i, w in enumerate(words):
+        swap = {'nothing': 'anything', 'nobody': 'anybody', 'nowhere': 'anywhere'}.get(w.lower())
+        if swap and i >= 2 and words[i-1].lower() in ('know', 'see', 'hear', 'say', 'want', 'have', 'go') \
+                and re.search(r"n't$|^not$", words[i-2].lower()):
+            words[i] = swap
+            note(f'in standard English, use "{swap}" after this negative verb')
     # Two people or things joined by "and" take a plural verb: "He and I go", "My friend and I were".
     lowered = [w.lower() for w in words]
     if 'and' in lowered[:5] and lowered.index('and') > 0:
@@ -298,7 +320,8 @@ def correct(sentence):
     # A past time ("yesterday", "last week", "two days ago") needs the past tense: "she go ... yesterday" -> "she went".
     when = re.search(r'(?i)\b(?:yesterday|last (?:night|week|month|year|summer|winter|monday|tuesday|wednesday|thursday|friday|'
                      r'saturday|sunday)|\w+ (?:days?|weeks?|months?|years?) ago|in (?:1[5-9]|20)\d\d)\b', ' '.join(words))
-    if when and not re.search(r'(?i)\b(?:will|going to|tomorrow|next)\b', ' '.join(words)):
+    if when and sum(w.lower() in SUBJECT_ONE | SUBJECT_MANY for w in words) <= 1 \
+            and not re.search(r'(?i)\b(?:will|going to|tomorrow|next)\b', ' '.join(words)):
         for i, w in enumerate(words):
             lower = w.lower()
             if i and words[i - 1].lower() in SUBJECT_ONE | SUBJECT_MANY and re.fullmatch(r'[a-z]+', lower) and lower not in MODALS \
@@ -316,6 +339,10 @@ def correct(sentence):
                                                 not any(x.lower() in SUBJECT_ONE for x in words[:i]) and
                                                 all(not is_verb(x) or x.lower() in ('and',) for x in words[:i - 1]))
         if prev in SUBJECT_ONE or subject_many:
+            # In an inverted question the earlier auxiliary already carries
+            # agreement: "Does he like ...?", not "Does he likes ...?".
+            if i >= 2 and words[i-2].lower() in MODALS | {'have','are','were','will','can','could','would','should','may','might','must'}:
+                break
             if lower in ('dont',) or lower == "don't":
                 if prev in SUBJECT_ONE:
                     words[i] = "doesn't"
@@ -330,7 +357,8 @@ def correct(sentence):
             elif prev == 'i' and lower in ('has', 'is', 'are'):
                 words[i] = {'has': 'have', 'is': 'am', 'are': 'am'}[lower]
                 note(f'"I" takes "{words[i]}", not "{w}"')
-            elif prev in SUBJECT_ONE and lower in ('have', 'are', 'were', 'do') and prev not in ('i', 'you'):
+            elif prev in SUBJECT_ONE and lower in ('have', 'are', 'were', 'do') and prev not in ('i', 'you') \
+                    and not (lower == 'were' and re.search(r'(?i)\b(?:if|wish|wishes|though)\b', ' '.join(words[:i]))):
                 words[i] = {'have': 'has', 'are': 'is', 'were': 'was', 'do': 'does'}[lower]
                 note(f'"{prev}" takes "{words[i]}", not "{w}"')
             elif subject_many and lower in ('has',):
@@ -365,7 +393,8 @@ def correct(sentence):
                    if dic.IRREGULAR[b][1] != dic.IRREGULAR[b][0]}
     for i, w in enumerate(words):
         lower = w.lower()
-        if i and lower in participles and words[i - 1].lower() in SUBJECT_ONE | SUBJECT_MANY | {'he', 'she', 'they'}:
+        if i and lower in participles and words[i - 1].lower() in SUBJECT_ONE | SUBJECT_MANY | {'he', 'she', 'they'} \
+                and not (i >= 2 and words[i-2].lower() in {'have','has','had',"haven't","hasn't","hadn't",'is','are','was','were'}):
             words[i] = participles[lower]
             note(f'"{lower}" needs "have" before it; on its own the past tense is "{words[i]}"')
     # "were" for "where": "I don't know were he is".
@@ -377,7 +406,7 @@ def correct(sentence):
     # Numbers with singular nouns: "two cat" -> "two cats".
     for i in range(len(words) - 1):
         lower, nxt = words[i].lower(), words[i + 1]
-        if (lower in NUMBERS or (lower.isdigit() and int(lower) > 1)) and re.fullmatch(r'[a-z]+', nxt) and 'noun' in pos_of(nxt) \
+        if (lower in NUMBERS or (lower.isdigit() and int(lower) > 1)) and re.fullmatch(r'[a-z]+', nxt) and main_pos(nxt) == 'noun' \
                 and not nxt.endswith('s') and dic.plural(nxt)['response'].split('**')[3] != nxt and not is_verb(nxt) or \
                 (lower in NUMBERS or (lower.isdigit() and int(lower) > 1)) and nxt in ('cat', 'dog', 'apple', 'book', 'car', 'friend', 'day'):
             fixed = plural_noun(nxt)
@@ -398,7 +427,7 @@ def correct(sentence):
         elif lower == 'there' and nxt and 'noun' in pos_of(nxt) and not is_verb(nxt) and nxt not in ('is', 'are', 'was', 'were') and i and words[i - 1].lower() not in ('over', 'in', 'from', 'out', 'up', 'down', 'is', 'are'):
             words[i] = 'their'
             note('"their" shows belonging (their car), not "there"')
-        elif lower == "it's" and nxt and main_pos(nxt) == 'noun' and nxt not in ('a', 'an', 'the', 'not', 'been', 'going', 'time'):
+        elif lower == "it's" and i > 0 and nxt in ('tail', 'tails', 'fur', 'paw', 'paws', 'wing', 'wings', 'colour', 'color', 'lid'):
             words[i] = 'its'
             note('"its" shows belonging (its tail); "it\'s" means "it is"')
         elif lower == 'its' and nxt in ('a', 'an', 'the', 'not', 'been', 'going', 'raining', 'my', 'your', 'so', 'very', 'too', 'time', 'ok', 'okay', 'true', 'fine'):
@@ -432,20 +461,113 @@ def correct(sentence):
     if words and words[0][0].islower():
         words[0] = words[0][0].upper() + words[0][1:]
         note('a sentence starts with a capital letter')
-    if words and words[-1] not in '.!?':
+    if words and words[-1] not in '.!?' and not (words[-1] in ('"', '”', "'") and len(words)>1 and words[-2] in '.!?'):
         question = words[0].lower() in ('is', 'are', 'do', 'does', 'did', 'can', 'could', 'will', 'would', 'what', 'who', 'where', 'when', 'why', 'how', 'which', 'should')
         words.append('?' if question else '.')
         note('a sentence ends with a full stop' + (' (or a question mark for a question)' if question else ''))
     return join(words), notes
 
 
+def _auxiliaries(sentence):
+    """Local verb-form rules; ambiguous noun readings and distant clauses pass."""
+    words = tokens(sentence)
+    notes = []
+    lower = [w.lower().replace('’', "'") for w in words]
+    modals = {'can', 'could', 'will', 'would', 'shall', 'should', 'may', 'might', 'must',
+              "can't", "cannot", "couldn't", "won't", "wouldn't", "shouldn't", "mustn't"}
+    do = {'do', 'does', 'did', "don't", "doesn't", "didn't"}
+    pronouns = {'i', 'you', 'he', 'she', 'it', 'we', 'they'}
+    ambiguous = {'saw', 'left', 'found', 'felt', 'thought', 'read', 'cut', 'put', 'set', 'hurt', 'cost', 'hit', 'had'}
+    for i, word in enumerate(lower):
+        if i and lower[i-1] in pronouns and word in ("isn't", "aren't", "wasn't", "weren't"):
+            subject = lower[i-1]
+            if subject == 'i' and word in ("isn't", "aren't"):
+                words[i] = 'am not'
+            elif subject in {'you','we','they'}:
+                words[i] = {"isn't":"aren't", "wasn't":"weren't"}.get(word, words[i])
+            elif subject in {'he','she','it'}:
+                if word == "weren't" and re.search(r'(?i)\b(?:if|wish|though)\b', ' '.join(words[:i])):
+                    continue
+                words[i] = {"aren't":"isn't", "weren't":"wasn't"}.get(word, words[i])
+            if words[i].lower() != word:
+                notes.append(f'"{subject}" takes "{words[i]}" in this negative construction')
+        if word not in modals | do | {'have','has','had',"haven't","hasn't","hadn't"}:
+            continue
+        j = i + 1
+        # Inverted questions: "Does she really likes ...?". Do not search
+        # beyond one explicit subject and a small set of transparent adverbs.
+        if j < len(words) and lower[j] in pronouns:
+            j += 1
+        while j < len(words) and lower[j] in {'not','never','really','already','just','always','often'}:
+            j += 1
+        if j >= len(words) or not re.fullmatch(r'[a-z]+', lower[j]):
+            continue
+        verb = lower[j]
+        base = base_verb(verb)
+        senses, used = dic.senses(verb)
+        if base != verb and any(row[0] == 'verb' and verb in row[3] for row in senses):
+            continue   # "can saw wood" / "could found a company": valid base verbs
+        if word in {'have','has','had',"haven't","hasn't","hadn't"} and base != verb \
+                and used == verb and any(row[0] == 'noun' and verb in row[3] for row in senses):
+            continue   # "has rose bushes" / "have works of art": ordinary possessions
+        if word in modals | do and base != verb and is_verb(verb) and not verb.endswith('ing'):
+            # "Do work" and "have saw blades" must not be treated as finite verbs.
+            if verb in ambiguous:
+                continue
+            words[j] = base
+            notes.append(f'after "{words[i]}", use the base verb "{base}", not "{verb}"')
+        elif word in {'have','has','had',"haven't","hasn't","hadn't"} and verb not in ambiguous \
+                and base in dic.IRREGULAR and verb == dic.IRREGULAR[base][0].split('/')[0].strip():
+            fixed = participle(base)
+            if fixed != verb:
+                words[j] = fixed
+                notes.append(f'after "{words[i]}", use the past participle "{fixed}", not "{verb}"')
+    return join(words), notes
+
+
+def correct(sentence):
+    """Correct independent sentences without flattening paragraphs or technical tokens."""
+    output, notes = [], []
+    abbreviations = {'mr','mrs','ms','dr','prof','sr','jr','st','vs','etc'}
+    for line in re.split(r'(\n+)', sentence):
+        if not line or line.isspace():
+            output.append(line)
+            continue
+        start, quoted = 0, False
+        pieces = []
+        matches = list(TOKEN.finditer(line))
+        for i, token in enumerate(matches):
+            if token[0] in ('"','“','”'):
+                quoted = not quoted
+            if token[0] not in ('.','!','?') or quoted:
+                continue
+            previous = matches[i-1][0] if i else ''
+            if token[0] == '.' and (previous.lower() in abbreviations or (len(previous)==1 and previous.isupper() and previous!='I')):
+                continue
+            end = token.end()
+            if end == len(line) or line[end].isspace():
+                pieces.append(line[start:end]); start=end
+        if start < len(line):
+            pieces.append(line[start:])
+        corrected = []
+        for piece in pieces:
+            leading = piece[:len(piece)-len(piece.lstrip())]
+            trailing = piece[len(piece.rstrip()):]
+            prepared, aux_notes = _auxiliaries(piece.strip())
+            fixed, changes = _correct_sentence(prepared)
+            corrected.append(leading + fixed + trailing)
+            notes.extend(aux_notes + changes)
+        output.append(''.join(corrected))
+    return ''.join(output), list(dict.fromkeys(notes))
+
+
 def fix_reply(sentence):
     sentence = unquote(sentence)
-    if not sentence or len(sentence) > 400:
+    if not sentence or len(sentence) > 2000:
         return None
     fixed, notes = correct(sentence)
     if not notes:
-        return out(f'I found no mistakes in "{sentence}". It looks correct to me (I check common errors: agreement, '
+        return out(f'I found no common-rule errors in "{sentence}" (I check agreement, '
                    'articles, confused words, verb forms, spelling and capitals).', 'ok')
     only_style = all(n.startswith(('a sentence starts', 'a sentence ends')) for n in notes)
     lead = 'Corrected' if not only_style else 'Almost correct, just tidied'
@@ -460,7 +582,7 @@ def check_reply(sentence):
     fixed, notes = correct(sentence)
     real = [n for n in notes if not n.startswith(('a sentence starts', 'a sentence ends'))]
     if not real:
-        return out(f'Yes, "{sentence}" is correct.' + (' Just remember the capital letter and the full stop.' if notes else ''), 'ok')
+        return out(f'I found no common-rule errors in "{sentence}".' + (' Remember the capital letter and end punctuation.' if notes else ''), 'ok')
     return out(f'Not quite. It should be: **{fixed}**\n\n' + '\n'.join(f'- {n[0].upper() + n[1:]}.' for n in real), 'fixed')
 
 
@@ -570,10 +692,74 @@ def usage_reply(text):
     return None
 
 
+ASK_GAP = re.compile(r'(?is)^\s*(?:please\s+)?(?:fill(?:\s+in)?(?:\s+the)?\s+(?:gap|blank)s?|choose|pick|complete(?:\s+the\s+sentence)?|which (?:word )?(?:is correct|fits))'
+                     r'[^:]*?((?:["“\'‘]?[\w\'’]+["”\'’]?\s*(?:,|or|and|/)\s*)+["“\'‘]?[\w\'’]+["”\'’]?)[^:]*:\s*(.*(?:_{2,}|\.\.\.|…).*)$')
+
+
+def gap_choice(word, before, after):
+    """Which of a confusable set fits the gap, from the neighbouring words (part of speech from WordNet)."""
+    nxt = (after.split() or [''])[0].lower().strip('.,!?;:')
+    prev = (before.split() or [''])[-1].lower().strip('.,!?;:')
+    noun_next = nxt and 'noun' in pos_of(nxt) and not (is_verb(nxt) and nxt.endswith('ing')) and nxt not in ('a', 'an', 'the', 'not')
+    verbish_next = nxt.endswith('ing') or nxt in ('a', 'an', 'the', 'not', 'been', 'going', 'welcome', 'very', 'so', 'too', 'right', 'here', 'there', 'late', 'early')
+    w = word.lower().replace('’', "'")
+    if w in ("its", "it's"):
+        return "it's" if (verbish_next or not noun_next or main_pos(nxt) == 'adjective') and nxt not in ('own',) else 'its'
+    if w in ('your', "you're"):
+        return "you're" if verbish_next or main_pos(nxt) == 'adjective' else 'your'
+    if w in ('their', 'there', "they're"):
+        if nxt in ('is', 'are', 'was', 'were', "isn't", "aren't", '') or prev in ('over', 'from', 'in', 'out', 'up', 'down', 'go', 'went', 'is', 'are'):
+            return 'there'
+        return "they're" if verbish_next or main_pos(nxt) == 'adjective' else 'their'
+    if w in ('then', 'than'):
+        return 'than' if prev.endswith('er') or prev in ('more', 'less', 'rather', 'other', 'better', 'worse', 'fewer') else 'then'
+    if w in ('to', 'too', 'two'):
+        if nxt and nxt.endswith('s') and 'noun' in pos_of(nxt):
+            return 'two'
+        return 'too' if not nxt or main_pos(nxt) == 'adjective' and prev not in ('want', 'like', 'have', 'going') else 'to'
+    if w in ('whose', "who's"):
+        return "who's" if verbish_next or is_verb(nxt) else 'whose'
+    return None
+
+
+def gap_reply(options_text, sentence):
+    options = [o.strip(' "“”\'‘’') for o in re.split(r'\s*(?:,|\bor\b|\band\b|/)\s*', options_text) if o.strip(' "“”\'‘’')]
+    if not 2 <= len(options) <= 4:
+        return None
+    gap = re.search(r'_{2,}|\.\.\.|…', sentence)
+    before, after = sentence[:gap.start()], sentence[gap.end():]
+    choice = None
+    for option in options:
+        picked = gap_choice(option, before, after)
+        if picked:
+            choice = next((o for o in options if o.lower().replace('’', "'") == picked), None)
+            break
+    if choice is None:
+        # Otherwise: the option the grammar checker leaves unchanged.
+        fits = []
+        for option in options:
+            filled = before + option + after
+            fixed, notes = correct(filled)
+            if option.lower() in fixed.lower() and not notes:
+                fits.append(option)
+        choice = fits[0] if len(fits) == 1 else None
+    if choice is None:
+        return None
+    filled = (before + choice + after).strip()
+    filled = filled[0].upper() + filled[1:]
+    why = next((explanation for pattern, explanation in USAGE if re.search(pattern, ' '.join(o.lower() for o in options))), '')
+    return out(f'**{filled}**\n\nThe answer is "{choice}".' + (f'\n\n{why}' if why else ''), 'gap')
+
+
 def reply(text):
     """A grammar answer, or None."""
     if not dic.db() or len(text) > 600 or '```' in text:
         return None
+    match = ASK_GAP.match(text)
+    if match:
+        answer = gap_reply(match[1], match[2].strip())
+        if answer:
+            return answer
     for pattern, handler in ((ASK_PUNCT, punctuation_reply), (ASK_PASSIVE, passive_reply), (ASK_PAST_BEFORE, past_reply), (ASK_PAST, past_reply)):
         match = pattern.search(text)
         if match and match[1].strip():

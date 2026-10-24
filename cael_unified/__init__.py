@@ -1,5 +1,5 @@
-"""One public interface for the CAEL 0.2.9 model bundle."""
-__version__ = '0.2.9'
+"""One public interface for the CAEL 0.3.1 model bundle."""
+__version__ = '0.3.1'
 
 
 def __getattr__(name):

@@ -7,7 +7,7 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-VERSION = '0.2.9'
+VERSION = '0.3.1'
 
 
 def tracked_files():

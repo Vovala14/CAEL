@@ -1,4 +1,4 @@
-# CAEL 0.2.9
+# CAEL 0.3.1
 
 **One assistant, one model bundle: chat, reasoning, math, Python, stories,
 prompt writing and emoji.** This release excludes picture and portrait generation
@@ -20,9 +20,31 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.2.9.cael` (about 554 MB), verifies every file
+`--download` fetches `models/cael-0.3.1.cael` (about 553 MB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.3.1
+
+Smarter, text-only and under CAEL's own licence. Every engine is still non-neural.
+
+- **Everyday maths** ([quantities.py](cael_unified/quantities.py)): powers, fractions as decimals or percentages,
+  unit and temperature conversions, average speed, "3 times as many", shopping totals and change, "% off", with
+  exact fractions and steps.
+- **World facts** ([world_facts.py](cael_unified/world_facts.py), [answer_finder.py](cael_unified/answer_finder.py)):
+  well-known facts, plus superlatives, counts and years read from Wikipedia opening sentences only when a
+  sentence really says it (linked); capitals from Wikidata.
+- **Everyday writing** ([compose_text.py](cael_unified/compose_text.py)): one-sentence summaries, emails for
+  common purposes, name ideas, "explain X simply", "difference between X and Y".
+- **Language and reasoning:** fill-the-gap (its/it's, their/there/they're…), passive phrasing, better opposites,
+  present-tense stories and hand-overs; common text and list functions in code.
+- **Codex's 0.3 work** (multiple-choice through the solvers, small talk, writing help, Python task tools).
+- **Results:** 75 of 76 on the neutral set used to compare with Qwen2.5-0.5B (Qwen 65; this set guided the work),
+  49 of 50 on a fresh set written beforehand, 102/102 on the labelled set, 0 wrong on 110 held-out advice questions.
+- **Licence:** CAEL now has its own [CAEL Non-Commercial License](LICENSE) (personal and research use free;
+  commercial use by separate licence). Third-party parts that did not allow commercial use were removed
+  (EmpatheticDialogues-trained reply models, ARC Corpus evidence). See [NOTICE.md](NOTICE.md).
+- **Text-only:** picture models are not part of 0.3.1.
 
 ## New in 0.2.9
 

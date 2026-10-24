@@ -8,7 +8,10 @@ from cael_unified.bundle import VERSION
 
 
 def test_release_version_agrees():
-    assert VERSION == __version__ == '0.2.9'
+    import json
+    from cael_unified.bundle import ROOT
+    configured = json.loads((ROOT / 'bundle_config.json').read_text(encoding='utf-8'))['version']
+    assert VERSION == __version__ == configured
 
 
 def test_picture_follow_up_cannot_load_weights_in_no_images_profile():

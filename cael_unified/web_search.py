@@ -67,7 +67,7 @@ def client():
 # ---------------------------------------------------------------- search providers
 
 def brave(query):
-    key = os.environ.get('BRAVE_API_KEY')
+    key = os.environ.get('BRAVE_API_KEY', '').strip()
     if not key:
         return []
     with client() as http:
@@ -278,7 +278,7 @@ def sentences(text):
             if not s:
                 continue
             index += 1
-            if 6 <= len(s.split()) <= 60 and s[-1:] in '.!?' and not CITATION.search(s) and \
+            if 6 <= len(s.split()) <= 60 and s[-1:] in '.!' and not CITATION.search(s) and \
                     not re.search(r'(?i)cookie|sign in|log in|subscribe|javascript|privacy policy|all rights reserved|\|', s):
                 yield index, s
 
@@ -385,7 +385,7 @@ def link(result):
     return f'[{label}]({result.url.replace(" ", "%20").replace(")", "%29")})'
 
 
-def best_sentences(question, pages):
+def best_sentences(question, pages, web_index=False):
     q = terms(question)
     if not q:
         return []
@@ -403,8 +403,9 @@ def best_sentences(question, pages):
     def exact_page(result):
         title_terms = set(terms(re.sub(r'\s*\(.*', '', result.title)))
         return bool(subject_terms) and subject_terms <= title_terms and title_terms <= subject_terms | {'the'}
-    # When the subject has its own page ("Berlin Wall"), only that page answers; side articles mention it in passing.
-    if any(exact_page(r) for r, _ in pages):
+    # Encyclopedia only: when the subject has its own page ("Berlin Wall"), only that page answers; side articles
+    # mention it in passing. With a web index (Brave, SearxNG) other sites may answer too, if they name the subject.
+    if not web_index and any(exact_page(r) for r, _ in pages):
         pages = [(r, t) for r, t in pages if exact_page(r)]
     for rank, (result, text) in enumerate(pages):
         title_terms = set(terms(re.sub(r'\s*\(.*', '', result.title)))
@@ -529,7 +530,13 @@ def answer(text):
     with ThreadPoolExecutor(max_workers=4) as pool:
         texts = list(pool.map(lambda r: read(r.url), top))
     pages = [(r, t if t else r.snippet) for r, t in zip(top, texts)]       # a search snippet only when the page could not be read
-    scored = best_sentences(question, pages)
+    web_index = any(p in used for p in ('Brave Search', 'SearxNG'))
+    if web_index:
+        # A web index's own result descriptions often answer the question directly ("Argentina won ... on penalties");
+        # each counts for its own website.
+        pages += [(r, r.snippet if r.snippet.rstrip().endswith(('.', '!', '?')) else r.snippet.rstrip() + '.')
+                  for r in results[:8] if r.provider in ('Brave Search', 'SearxNG') and len(r.snippet.split()) >= 6]
+    scored = best_sentences(question, pages, web_index)
     if not scored or scored[0][0] < 1.6:
         return None
     best_score, best, source, key = scored[0]

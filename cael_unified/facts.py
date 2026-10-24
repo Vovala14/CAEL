@@ -685,7 +685,9 @@ class FactLookup:
             request = dict(intent='faq', subject='')
         sport_result = re.search(r'(?i)\b(?:scores?|fixtures|standings|league table|last game|next game|next match|f1 results)\b|\bwho won\b.*\b(?:match|game|final|race|cup|championship|tournament)\b|\b(?:football|soccer|basketball|nba|nfl|f1|cricket|tennis|hockey)\b.*\bresults\b', text)
         score_definition = re.fullmatch(r'(?i)(?:what is|define|explain) (?:an? |the )?(?:score|fixture|fixtures|standings)[?.!]*', text)
-        if sport_result and not score_definition:
+        # A result from a past year is history, not a live score: "Who won the 2022 World Cup?".
+        past_year = any(int(y) < datetime.now(timezone.utc).year for y in re.findall(r'\b(19\d\d|20\d\d)\b', text))
+        if sport_result and not score_definition and not past_year:
             return result('I cannot verify live scores, fixtures or standings with the connected sources. Ask for sports news instead.', 'unsupported-sports', [])
         if re.search(r'\b(?:stock|crypto|bitcoin|ethereum|btc|eth)\b.*\b(?:price|worth|value)\b|\b(?:price|value)\b.*\b(?:stock|crypto|bitcoin|ethereum|btc|eth)\b|\b(?:live score|last game|next game|f1 results)\b', text, re.I):
             return result('I do not have a verified free commercial feed for live prices or sports results. I will not substitute an old encyclopedia entry for live data.', 'unsupported', [])

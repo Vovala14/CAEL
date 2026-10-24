@@ -210,8 +210,11 @@ def read(url):
 
 def stem(word):
     for ending in ('ing', 'ies', 'es', 's', 'ed'):
-        if len(word) > len(ending) + 3 and word.endswith(ending):
-            return word[:-len(ending)]
+        if len(word) > len(ending) + 2 and word.endswith(ending):
+            base = word[:-len(ending)]
+            if ending in ('ing', 'ed') and len(base) > 2 and base[-1] == base[-2] and base[-1] not in 'ls':
+                base = base[:-1]                     # "winning" -> "win", "stopped" -> "stop"
+            return base
     return word
 
 
@@ -343,7 +346,9 @@ def key_answer(sentence, kind, question_terms, question=''):
                         return name
             if verb is None:
                 return None
-        for m in re.finditer(NAME if kind == 'name' else r'\b((?:[A-Z][a-z\'’-]+)(?:\s+(?:[A-Z][a-z\'’-]+|de|of))*)', sentence):
+        # A person needs a first and last name; a winner can be a team or a country ("Argentina won ...").
+        person = kind == 'name' and not re.search(r'\b(?:won|win|wins|champion|champions|beat|defeated)\b', q)
+        for m in re.finditer(NAME if person else r'\b((?:[A-Z][a-z\'’-]+)(?:\s+(?:[A-Z][a-z\'’-]+|de|of))*)', sentence):
             if new_name(m[1], question_terms):
                 return m[1]
     return None
@@ -358,7 +363,13 @@ def subject_of(question):
     # "CEO of Nvidia" -> "Nvidia": job titles are what is asked, not the subject.
     caps = [re.sub(r'^(?:CEO|President|Prime Minister|King|Queen|Founder|Leader|Head|Mayor|Governor|Director)\s+of\s+', '', c) for c in caps]
     if caps:
-        return max(caps, key=len)
+        best = max(caps, key=len)
+        year = re.search(r'\b(1\d{3}|20\d\d)\s+(?:the\s+)?' + re.escape(best), question)
+        return f'{year[1]} {best}' if year else best          # "2022 World Cup", not every World Cup
+    shopping = re.search(r'(?i)\b(?:the|a|an)\s+(?:best|top|good|cheapest|greatest|nicest|most popular)\s+((?:[a-z-]+\s+){0,2}?[a-z-]+?)'
+                         r'\s*(?:to (?:buy|get|use|watch|read|learn|visit|play)|for \w+(?: \w+)?|in \w+)?\s*\??$', question)
+    if shopping:
+        return shopping[1]                                   # "the best phone to buy" -> "phone"
     m = re.search(r'\b(?:the|a|an)\s+((?:[a-z-]+\s+){0,2}[a-z-]+)\s*(?:\?|$|\b(?:released|built|founded|made|invented|written|discovered|start|begin|end|fall)\b)', question.lower())
     if not m:
         m = re.search(r'\b(?:does|do|did|is|are|was|were)\s+(?:an?\s+|the\s+)?((?:[a-z-]+\s+){0,2}[a-z-]+?)(?:\s+(?:have|has|do|does|mean|work|live|eat|cost|weigh|use))?\s*\??$', question.lower())
@@ -382,6 +393,7 @@ def best_sentences(question, pages):
     weight = {t: 1.0 + (0.5 if len(t) > 6 else 0) for t in q}
     subject = subject_of(question)
     subject_terms = set(terms(subject))
+    winner = bool(re.search(r'(?i)\bwho (?:won|wins|win|beat|defeated)\b|\bwinner of\b', question))
     definition = bool(re.match(r'(?i)\s*(?:what|who)(?:\'s| is| are| was| were| does| do)\s+(?:an?\s+|the\s+)?[\w\s-]+?(?:\s+do|\s+mean|\s+work)?\s*\??$', question)) \
         and kind_of(question) == 'other'
     # Action words of the question ("designed", "released", "fall") count double: the sentence must say the asked thing.
@@ -415,6 +427,8 @@ def best_sentences(question, pages):
             score += 3.0 if exact else 1.0 if on_topic else 0             # the subject's own page first
             if definition and exact:
                 score += 4.0 / (1 + position / 2)                         # "what is X": the page's opening definition
+            if winner and re.search(r'\b(?:won|wins|crowned|beat|defeated|champions?|victory|winners?)\b', s, re.I):
+                score += 2.0                                              # "Argentina were crowned the champions"
             answer = key_answer(s, kind, q, question)
             if kind != 'other':
                 score += 1.5 if answer else -2
@@ -477,6 +491,9 @@ def should_search(text):
         return False
     future = [int(y) for y in re.findall(r'\b(20\d\d)\b', text) if int(y) > time.gmtime().tm_year]
     if future:
+        return False
+    # Buying advice ("the best phone to buy", "which laptop should I get") is not a fact a web sentence can settle.
+    if re.search(r'(?i)\b(?:best|top|cheapest|good)\b.*\b(?:to buy|to get|should i (?:buy|get)|for me)\b|\bwhich\b.*\bshould i\b|\brecommend\b', text):
         return False
     return len(terms(text)) >= 1
 

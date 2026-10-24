@@ -59,6 +59,7 @@ FACTS = [
     ((r'most populous country', r'country with the most people', r'(?:largest|biggest) country by population'),
      'India is the most populous country (it passed China in 2023); each has over 1.4 billion people.'),
     ((r'(?:largest|biggest) city(?! in (?!the world))', r'most populous city'), 'Tokyo is usually listed as the largest metropolitan area, with about 37 million people.'),
+    ((r'(?:tallest|highest) (?:building|skyscraper)',), 'The Burj Khalifa in Dubai is the tallest building, at 828 m (2,717 ft); it opened in 2010.'),
     ((r'how many countries',), 'There are 195 countries: 193 United Nations member states plus 2 observer states (Vatican City and Palestine).'),
     # animals
     ((r'(?:largest|biggest) animal(?! on land)',), 'The blue whale is the largest animal ever known, up to about 30 m long.'),

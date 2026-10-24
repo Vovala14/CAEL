@@ -16,7 +16,8 @@ MAX_MESSAGES = 1000
 # Replies that mean "I could not answer"; for a factual question these trigger the web search (web_search.py).
 WEB_FALLBACK_ROUTES = frozenset({'chat/talk-unsure', 'chat/cannot-answer', 'chat/web-not-found', 'chat/web-answer-not-found',
                                  'chat/web-ambiguous', 'chat/web-unavailable', 'chat/local-other', 'chat/local-define',
-                                 'chat/local-clarify', 'chat/local-unknown', 'chat/local-howto', 'chat/factual-clarify'})
+                                 'chat/local-clarify', 'chat/local-unknown', 'chat/local-howto', 'chat/factual-clarify',
+                                 'chat/local-knowledge-ambiguous'})
 MAX_CHARACTERS = 400_000
 IMAGE = re.compile(r'\b(?:draw|paint|sketch|render)\b|\b(?:make|create|generate|show|give)\b.{0,45}\b(?:image|picture|photo|portrait|pic|illustration)s?\b', re.I)
 CODE = re.compile(r'\b(?:python|javascript|code|function|script|program|api|resize|crop|compress|matplotlib|pillow|opencv)\b', re.I)
@@ -187,10 +188,20 @@ class Assistant:
                 definition=bool(re.match(r"(?i)\s*(?:what|who)(?:'s| is| are| does| do)\s+(?:an?\s+|the\s+)?[\w\s-]+?(?:\s+do|\s+mean)?\s*\??$",text))
                 off_topic=bool(subject) and bool(title) and '/wiki/' in link and (
                     not subject<=title or (definition and bool(title-subject-{'the'})))   # "Bikini barista" for "barista"
-            if (route in WEB_FALLBACK_ROUTES or off_topic) and web_search.should_search(text):
-                found=web_search.answer(text)
+                # A "List of ..." page is not an answer unless a list was asked for.
+                off_topic=off_topic or ('/wiki/List_of' in link and not re.search(r'(?i)\blist\b',text))
+            past_sports=route=='chat/web-unsupported-sports' and bool(re.search(r'\b(?:19|20)\d\d\b',text))
+            if route in WEB_FALLBACK_ROUTES or off_topic or past_sports:
+                found=web_search.answer(text) if web_search.should_search(text) else None
                 if found is not None:
                     answer=found
+                elif off_topic:
+                    # An article about something else ("Best Buy" for "the best phone to buy") is worse than saying so.
+                    answer=dict(route='chat/talk-unsure',sources=[],
+                                details='The closest encyclopedia article was about a different subject and a web search found no '
+                                        'matching sentence, so CAEL does not guess.',
+                                response="I'm not sure about that one, and I'd rather not guess. "
+                                         "If you tell me a bit more, or name the specific thing, I can look it up.")
         # Every answer taken from the internet says where it came from, with a link (Wikipedia, Wikidata, weather...).
         if (isinstance(answer,dict) and str(answer.get('route','')).startswith('chat/web-')
                 and '**Source' not in answer.get('response','')):

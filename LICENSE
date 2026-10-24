@@ -1,10 +1,11 @@
-MICA AI NON-COMMERCIAL LICENSE (Personal and Research Use Only)
+CAEL NON-COMMERCIAL LICENSE (Personal and Research Use Only)
 
 Copyright (c) 2026 Vovala14. All rights reserved except as granted below.
 
-This license applies to all materials in this repository, including MICA
-Ember and MICA Flame, and any code, models, weights, prompts, data,
-documentation, and other files in it (the "Software").
+This license applies to CAEL (Cellular Automaton Event Language) and to the
+code, models, weights, prompts, data, documentation and other files in this
+repository and in CAEL model bundles that are owned by the copyright holder
+(the "Software"). Third-party components are covered by section 8 instead.
 
 1. GRANT OF PERMISSION
    Permission is granted, free of charge, to any person obtaining a copy of
@@ -14,9 +15,10 @@ documentation, and other files in it (the "Software").
    (b) Research Use: non-commercial academic, scientific, or educational
        research, and publication of the results of that research.
 
-2. COMMERCIAL USE IS FORBIDDEN
+2. COMMERCIAL USE REQUIRES A SEPARATE LICENSE
    You may NOT use the Software, or anything derived from it, for any
-   commercial purpose. Commercial purposes include, without limitation:
+   commercial purpose without a separate written license from the copyright
+   holder. Commercial purposes include, without limitation:
    (a) selling, licensing, sublicensing, renting, or otherwise charging for
        the Software or derivatives, or access to them;
    (b) using the Software in, or to provide, a product or service that is
@@ -26,19 +28,19 @@ documentation, and other files in it (the "Software").
        for any other commercial advantage; and
    (d) using the Software or its outputs to train, fine-tune, or distill
        models or systems that are used commercially.
-   Commercial use requires a separate written license from the copyright
-   holder.
+   The copyright holder keeps all commercial rights and may use and license
+   the Software commercially.
 
 3. REDISTRIBUTION
    You may share copies or modified versions only for non-commercial
    purposes, and only if you (a) include this license and the copyright
    notice with them, (b) clearly mark any changes you made, and (c) license
-   your distribution under these same terms. You may not remove or alter
-   this license or the copyright notice.
+   your distribution of the Software under these same terms. You may not
+   remove or alter this license or the copyright notice.
 
 4. ATTRIBUTION
    Any research publication or public work that uses the Software must
-   credit "MICA Ember / MICA Flame by Vovala14" and link to this repository.
+   credit "CAEL by Vovala14" and link to https://github.com/Vovala14/CAEL .
 
 5. OWNERSHIP
    The Software is licensed, not sold. The copyright holder retains all
@@ -48,12 +50,21 @@ documentation, and other files in it (the "Software").
    This license terminates automatically if you breach it. On termination
    you must stop using the Software and delete your copies.
 
-7. NO WARRANTY
+7. NO WARRANTY AND LIMITATION OF LIABILITY
    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
    OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
-   FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+   FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
+   THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY,
+   WHETHER IN CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN
+   CONNECTION WITH THE SOFTWARE OR ITS USE.
 
-8. LIMITATION OF LIABILITY
-   IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES,
-   OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT, OR OTHERWISE, ARISING
-   FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+8. THIRD-PARTY COMPONENTS
+   Third-party data, software and graphics included in or used to build CAEL
+   keep their own licenses, listed in licenses/, in each model folder's
+   SOURCES.md / TRAINING_NOTICES.md and in the bundle. This license does not
+   replace or restrict them. In particular, components derived from Creative
+   Commons Attribution-ShareAlike material (for example the Wikipedia,
+   Stack Exchange, Dolly, Wikibooks, Wikivoyage and Universal Dependencies
+   derived knowledge and count tables) are shared under their CC BY-SA terms,
+   which also allow commercial use. CAEL only uses third-party material whose
+   license allows commercial use.

@@ -2,7 +2,11 @@
 
 CAEL (Cellular Automaton Event Language) is a separate model family owned by Vovala14. Version0.1 derives from the locally preserved constrained symbolic event-CA experiment of2026-10-13. It is not the native MICA architecture or a MICA foundation-model release.
 
-The original experiment is retained unchanged outside this repository. Source license terms are preserved verbatim in LICENSE; they are non-commercial and include attribution to MICA Ember / MICA Flame by Vovala14, https://github.com/Vovala14/Mica-Ai. This attribution records code provenance, not architectural identity. CAEL is not released under an OSI open-source license.
+The original experiment is retained unchanged outside this repository. Earlier CAEL releases (up to 0.2.9 / 0.3) carried that experiment's licence text verbatim, which named MICA Ember / MICA Flame. CAEL and MICA have the same copyright holder (Vovala14), who now licenses CAEL under its own CAEL Non-Commercial License (LICENSE): free for personal and research use, with commercial use reserved to the copyright holder. CAEL is a separate model family and contains no MICA code, weights or outputs. CAEL is not released under an OSI open-source license.
+
+## Commercial-use policy for third-party material
+
+CAEL only uses third-party data, software and graphics whose licence allows commercial use (MIT, Apache, BSD, CC BY, CC BY-SA, WordNet, Unicode, CreativeML OpenRAIL-M). Removed in 0.3.1: the 0.2.1 small-talk reply models (`chat/model_v1.json.gz`, `chat/model_v2.json.gz`), which were fitted on EmpatheticDialogues (CC BY-NC 4.0). The ARC Corpus is never used at runtime (its terms forbid redistribution); a local research reproduction can opt in only with `CAEL_RESEARCH_ARC=1`.
 
 Changes: standalone portable training/evaluation, CAEL naming, cumulative event-memory training, explicit multi-event API, stricter supported-question handling, reports and public packaging. Runtime includes handwritten parsing and slot formatting plus learned cellular event rules, plans and a template-like regular grammar. No neural model is used for training or inference; the curriculum is expert-authored synthetic data.
 
@@ -26,7 +30,7 @@ Stable Diffusion 1.5 through stable-diffusion.cpp. It is treated as a derivative
 under CreativeML OpenRAIL-M. Original diffusion/text-encoder weights are replaced
 by subject-specific registered 64x64 statistical appearance/deformation modes.
 Use and redistribution must comply with the included teacher license, paragraph
-5 and Attachment A, in addition to the existing non-commercial terms for owned
+5 and Attachment A, in addition to the CAEL Non-Commercial License for owned
 modifications. Full teacher license: licenses/LICENSE-stable-diffusion-v1-5.txt.
 Primary sources: https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5
 and https://github.com/CompVis/stable-diffusion/blob/main/LICENSE.

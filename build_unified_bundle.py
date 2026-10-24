@@ -11,7 +11,7 @@ from pathlib import Path
 import shutil
 import zipfile
 
-from cael_unified.bundle import REQUIRED, ROOT, VERSION, digest
+from cael_unified.bundle import NON_COMMERCIAL, REQUIRED, ROOT, VERSION, digest
 
 # Runtime model folders, file by file where a folder also holds experiment leftovers.
 MODEL_FILES = {
@@ -122,6 +122,8 @@ def build(base_bundle, output, no_images=False, release_config=False):
             for name, expected in sorted(base_manifest['files'].items()):
                 if no_images and name.startswith(('image/', 'portrait/')):
                     continue
+                if name in NON_COMMERCIAL:
+                    continue                     # never shipped again: trained on non-commercial data
                 if name.startswith('licenses/'):
                     continue                     # replaced by the current, larger licence set
                 add(name, lambda n=name: base.open(n))

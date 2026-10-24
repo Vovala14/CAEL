@@ -21,7 +21,9 @@ from .bundle import ROOT
 from . import wordmath
 
 KNOWLEDGE = ROOT / 'models/cael-knowledge-v1/knowledge.sqlite'
-ARC_CORPUS = ROOT / 'data/arc_corpus/arc_corpus.sqlite'   # optional: ARC Corpus (AI2, CC BY-SA 4.0)
+# ARC Corpus (AI2 science sentences): its own terms forbid redistribution and restrict commercial use, so CAEL never
+# uses it at runtime. Only a local research reproduction can opt in with CAEL_RESEARCH_ARC=1 (never shipped or served).
+ARC_CORPUS = ROOT / 'data/arc_corpus/arc_corpus.sqlite'
 STOP = set('''a an the of to in on for and or is are was were be been being do does did what which who whom whose why how when where
 this that these those it its as at by from with without into onto than then so such can could would should will may might must
 most least more less best likely following statement statements describes explain explains true false not no yes all some any each
@@ -79,7 +81,10 @@ def short_answers(endings, limit=10):
 
 
 def arc_evidence():
-    """The ARC Corpus evidence index, if it has been built locally."""
+    """The ARC Corpus evidence index: off unless a local research run sets CAEL_RESEARCH_ARC=1 (see ARC_CORPUS)."""
+    import os
+    if os.environ.get('CAEL_RESEARCH_ARC') != '1':
+        return None
     return Evidence(ARC_CORPUS, table='sentences') if ARC_CORPUS.exists() else None
 
 

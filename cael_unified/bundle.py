@@ -12,10 +12,13 @@ VERSION = '0.2.9'
 SUPPORTED = {'0.2.1', '0.2.2', '0.2.3', '0.2.4', '0.2.5', '0.2.6', '0.2.7', '0.2.8', '0.2.9'}
 DEFAULT_BUNDLE = ROOT / 'models' / f'cael-{VERSION}.cael'
 INSTALLED = 'models/'   # bundle members under models/ are installed into the checkout, not the cache
-REQUIRED = {'chat/model_v1.json.gz', 'chat/model_v2.json.gz', 'chat/knowledge.json.gz',
+REQUIRED = {'chat/knowledge.json.gz',
             'story/model.json', 'emoji/model.pt', 'emoji/references.pt', 'emoji/learned.pt',
             'emoji/learned_sources.json', 'image/model.pt', 'portrait/model.pt'}
 PICTURE_FILES = {'image/model.pt', 'portrait/model.pt'}
+# Members of older bundles that are never shipped or loaded again: the 0.2.1 small-talk reply models were fitted on
+# EmpatheticDialogues (CC BY-NC 4.0, non-commercial). CAEL uses only data that allows commercial use.
+NON_COMMERCIAL = {'chat/model_v1.json.gz', 'chat/model_v2.json.gz'}
 
 
 def required_members(manifest):

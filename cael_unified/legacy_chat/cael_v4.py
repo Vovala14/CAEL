@@ -169,17 +169,18 @@ def task_reply(typ,messages):
         return idk(text,what)
     return idk(text)
 class V4:
-    def __init__(s,v2):
+    def __init__(s,v2=None):
         s.v2=v2
     def respond(s,messages):
         typ,st,cells,sc=route(messages)
         if typ=='smalltalk':
-            r=s.v2.respond(messages); r=dict(r); r['route']='smalltalk'; return r
+            # The 0.2.1 small-talk reply models were fitted on non-commercial data and are no longer loaded; the
+            # unified assistant answers small talk with its own engines (smalltalk, chat_extra, chat_corpus).
+            return dict(response="Tell me more about that.",route='smalltalk')
         return dict(response=task_reply(typ,messages),route=typ)
 def load_v2(directory):
+    """Load the knowledge store (Dolly CC BY-SA 3.0 and SQuAD CC BY-SA 4.0 sentences). Returns no reply model."""
     global STORE
     directory = Path(directory)
     STORE = json.load(gzip.open(directory / "knowledge.json.gz", "rt", encoding="utf-8"))
-    from .reply_skeleton_ca_v2 import SkeletonV2
-    m1=json.load(gzip.open(directory / 'model_v1.json.gz','rt',encoding='utf-8'));m2=json.load(gzip.open(directory / 'model_v2.json.gz','rt',encoding='utf-8'));m2['lex']['v1']=m1['lex']
-    return SkeletonV2(m1,m2)
+    return None

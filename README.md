@@ -347,8 +347,10 @@ training and evaluation remain: [documentation](STORY_MODEL.md),
 
 ## Licenses
 
-CAEL code and owned modifications retain the [non-commercial license](LICENSE)
-and [provenance notices](NOTICE.md). Public emoji references retain Apache and
+CAEL code and owned models are under the [CAEL Non-Commercial License](LICENSE): free for personal and
+research use; commercial use needs a separate licence from the copyright holder. CAEL only uses third-party
+material that allows commercial use; see [provenance notices](NOTICE.md). Components derived from CC BY-SA
+sources (Wikipedia, Stack Exchange, Dolly, Wikibooks, Wikivoyage) stay under CC BY-SA. Public emoji references retain Apache and
 Unicode notices. Synthetic-data-derived general-image weights are also subject
 to [CreativeML OpenRAIL-M](licenses/LICENSE-stable-diffusion-v1-5.txt), including
 paragraph 5 and Attachment A. Those restrictions apply to use and redistribution

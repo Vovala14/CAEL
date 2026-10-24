@@ -83,7 +83,7 @@ def main():
     aliases['woman'] = [w for w in aliases['woman'] if w not in ('person', 'people', 'portrait')]
     checkpoint = dict(format='cael-general-appearance-v1', priors=priors, aliases=aliases,
                       guard_references=torch.cat(references), settings=protocol['settings'], provenance=protocol,
-                      license='MICA AI Non-Commercial; also subject to CreativeML OpenRAIL-M including Attachment A',
+                      license='CAEL Non-Commercial; also subject to CreativeML OpenRAIL-M including Attachment A',
                       reference_pixels_use='Synthetic fitting references for numerical rejection only; never retrieved for generation')
     model_path = out / 'model_general.pt'
     torch.save(checkpoint, model_path)

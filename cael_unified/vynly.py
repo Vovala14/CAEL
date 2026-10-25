@@ -26,6 +26,12 @@ SITE = 'https://vynly.co'
 OWN_WORDS = re.compile(r"(?i)\bvynly\b|\bsparks?\b|\btrails?\b|\bflares?\b|\bprovenance\b|\bc2pa\b|\bsynthid\b|\bdemo[ -]token\b|"
                        r"\bagent tokens?\b|\bvln_|@vynly/mcp|\bvia agent\b|\bparascene\b|\bdeclared ?source\b|\bai (?:image )?(?:detector|checker)\b|"
                        r"\bagent leaderboard\b|\bvynly publisher\b")
+# "a.i.", "A I", "a. i." written for "AI".
+SPACED_AI = re.compile(r"(?i)\ba\s*\.\s*i\b\.?|\ba\s+i\b\.?")
+# "Why does an AI-art site detect AI?" is about Vynly even without its name.
+WHY_CHECK = re.compile(r"(?i)\bwhy\b[^?!]{0,80}\b(?:detect\w*|detector|check(?:s|er|ing)?|verif\w*)\b|"
+                       r"\b(?:detect\w*|detector)\b[^?!]{0,40}\bai (?:art|images?)\b|"
+                       r"\b(?:check|tell|know)\b (?:if|whether) (?:an?|this|my) (?:image|picture|photo) is (?:ai|real|fake)\b")
 HELP_QUESTION = re.compile(r"(?i)^\s*(?:how|where|what|why|when|who|which|can|could|do|does|is|are|should|will|i (?:can'?t|cannot|want|need)|help|tell me)\b")
 STOP = set('a an the is are was were be to of in on for and or with how do does did i you it my me can could what why where when '
            'which who this that there on at by from as your vynly about tell please would should will just get'.split())
@@ -58,6 +64,14 @@ FAQ = [
     dict(id='flares', pattern=r"\bflares?\b|\bwatch (?:ai )?videos?\b|\breels?\b",
          url='/flares', title='Flares',
          answer='Flares is the vertical video feed: short AI-generated videos from Sora, Veo, Runway, Kling, Luma and more, each tagged with the tool that made it. Watching is free and needs no account.'),
+    dict(id='why-check', pattern=r"\bwhy\b[^?!]{0,80}\b(?:detect\w*|detector|check(?:s|er|ing)?|verif\w*)\b[^?!]*|"
+                                 r"\b(?:detect\w*|detector)\b[^?!]{0,40}\bai (?:art|images?)\b[^?!]*",
+         url='/about', title='Why Vynly checks uploads',
+         answer="Because Vynly is only for AI-made art. The check on every upload keeps ordinary photos out, so AI and real "
+                "photos are never mixed and nobody has to argue whether a post is real. It reads AI-provenance metadata (C2PA "
+                "signatures, IPTC DigitalSourceType, generator tags). If a screenshot or re-save stripped that metadata, you "
+                "pick the AI tool you used when posting and the post is marked self-declared. Anyone can run the same check "
+                "on an image for free at vynly.co/check."),
     dict(id='check', pattern=r"\b(?:is (?:this|an?) image (?:ai|real|fake)|ai (?:image )?(?:detector|checker)|detect (?:ai|if)|check (?:if|whether|an? image)|/check|c2pa|synthid)\b",
          url='/check', title='AI Image Checker',
          answer="Vynly's free AI Image Checker at vynly.co/check tells you whether an image carries AI evidence. Paste a URL or drop a file; no signup is needed. It reads embedded provenance (C2PA signatures, SynthID / XMP tags, PNG generator chunks), then looks for visible AI watermarks (Gemini's mark, DALL-E's rainbow corner, 'Made with AI'). A style-based guess comes last and is clearly labelled as a guess, not proof. It is the same check Vynly runs on every post."),
@@ -163,7 +177,8 @@ class VynlyHelp:
         return bool(previous) and bool(re.search(r'More: vynly\.co/\S*\s*$', previous[-1].get('content', '')))
 
     def about_vynly(self, text, messages=None):
-        if OWN_WORDS.search(text):
+        text = SPACED_AI.sub('ai', text)
+        if OWN_WORDS.search(text) or WHY_CHECK.search(text) and re.search(r'(?i)\bai\b', text):
             return True
         if self.flagged(messages) and HELP_QUESTION.search(text):
             return True
@@ -198,6 +213,7 @@ class VynlyHelp:
 
     def answer(self, text, messages=None):
         """A response dict for a Vynly question, or None (then normal chat answers)."""
+        text = SPACED_AI.sub('ai', text)
         explicit = bool(OWN_WORDS.search(text))
         f = self.faq(text)
         if f:

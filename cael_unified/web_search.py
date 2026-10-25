@@ -1,10 +1,12 @@
 """Web search when CAEL does not know: search, read the pages, pick the sentences that answer, check agreement.
 
 Search providers, in this order, using whichever are available:
-  1. Brave Search API            when BRAVE_API_KEY is set (free monthly tier; your own key)
-  2. SearxNG                     when CAEL_SEARXNG_URL is set (comma-separated instance URLs; JSON format enabled)
+  1. SearxNG                     when CAEL_SEARXNG_URL is set (comma-separated instance URLs; JSON format enabled)
+  2. ddgs metasearch             when the `ddgs` package is installed (no key, no quota: queries public search
+                                 engines' result pages the way SearxNG does)
   3. DuckDuckGo Instant Answers  always (no key; topic summaries and links, not a full web index)
   4. Wikipedia full-text search  always
+  5. Brave Search API            only when no full web index above answered and BRAVE_API_KEY is set (paid quota)
 Pages are read through Jina Reader (https://r.jina.ai/<url>, clean text, no key needed) or, if that fails, fetched
 directly with httpx (public addresses only, size and time limits) and reduced to text.
 
@@ -94,6 +96,18 @@ def searxng(query):
     return out
 
 
+def metasearch(query):
+    """The `ddgs` library (MIT): web results from public search engines, no API key or monthly quota. Engines may
+    still slow down very frequent queries, so CAEL's own limit of 30 searches a minute stays in place."""
+    try:
+        from ddgs import DDGS
+    except ImportError:
+        return []
+    hits = DDGS(timeout=10).text(query, region='us-en', safesearch='moderate', max_results=10) or []
+    return [Result(h.get('title', ''), h['href'], h.get('body', ''), 'ddgs metasearch')
+            for h in hits if str(h.get('href', '')).startswith('http')][:8]
+
+
 def duckduckgo(query):
     """DuckDuckGo Instant Answer API: an abstract (with its source) and related topic links."""
     with client() as http:
@@ -123,13 +137,18 @@ def wikipedia(query):
                    re.sub(r'<[^>]+>', '', html.unescape(h.get('snippet', ''))), 'Wikipedia') for h in hits]
 
 
-PROVIDERS = (('Brave Search', brave), ('SearxNG', searxng), ('DuckDuckGo', duckduckgo), ('Wikipedia', wikipedia))
+PROVIDERS = (('SearxNG', searxng), ('ddgs metasearch', metasearch), ('DuckDuckGo', duckduckgo), ('Wikipedia', wikipedia),
+             ('Brave Search', brave))
+# Providers that search the whole web (not only topic summaries or one encyclopedia).
+WEB_INDEXES = ('SearxNG', 'ddgs metasearch', 'Brave Search')
 
 
 def search(query):
     def run():
         results, used = [], []
         for name, provider in PROVIDERS:
+            if name == 'Brave Search' and any(u in WEB_INDEXES for u in used):
+                continue                                 # the paid API only when the free web indexes failed
             try:
                 found = provider(query)
             except Exception:
@@ -139,7 +158,7 @@ def search(query):
             for r in found:
                 if r.url not in {x.url for x in results}:
                     results.append(r)
-            if len(results) >= 8 and name in ('Brave Search', 'SearxNG'):
+            if len(results) >= 8 and name in WEB_INDEXES:
                 break                                    # a full web index answered; no need for the topic APIs
         return results, used
     return cached(('search', query.lower()), 6 * 3600, run)
@@ -404,7 +423,7 @@ def best_sentences(question, pages, web_index=False):
         title_terms = set(terms(re.sub(r'\s*\(.*', '', result.title)))
         return bool(subject_terms) and subject_terms <= title_terms and title_terms <= subject_terms | {'the'}
     # Encyclopedia only: when the subject has its own page ("Berlin Wall"), only that page answers; side articles
-    # mention it in passing. With a web index (Brave, SearxNG) other sites may answer too, if they name the subject.
+    # mention it in passing. With a web index (SearxNG, ddgs, Brave) other sites may answer too, if they name the subject.
     if not web_index and any(exact_page(r) for r, _ in pages):
         pages = [(r, t) for r, t in pages if exact_page(r)]
     for rank, (result, text) in enumerate(pages):
@@ -448,7 +467,14 @@ HEADERS = {{"User-Agent": "my-search-script/1.0"}}
 
 
 def search(query):
-    """Brave (with BRAVE_API_KEY), then a SearxNG instance (CAEL_SEARXNG_URL), then DuckDuckGo Instant Answers."""
+    """ddgs (no key), then Brave (with BRAVE_API_KEY), a SearxNG instance (CAEL_SEARXNG_URL), DuckDuckGo Instant Answers."""
+    try:
+        from ddgs import DDGS
+        hits = DDGS().text(query, max_results=8)
+        if hits:
+            return [(h["title"], h["href"]) for h in hits]
+    except ImportError:
+        pass
     if os.environ.get("BRAVE_API_KEY"):
         r = httpx.get("https://api.search.brave.com/res/v1/web/search", params={{"q": query, "count": 8}},
                       headers={{**HEADERS, "X-Subscription-Token": os.environ["BRAVE_API_KEY"]}}, timeout=10)
@@ -543,12 +569,12 @@ def answer(text):
     with ThreadPoolExecutor(max_workers=4) as pool:
         texts = list(pool.map(lambda r: read(r.url), top))
     pages = [(r, t if t else r.snippet) for r, t in zip(top, texts)]       # a search snippet only when the page could not be read
-    web_index = any(p in used for p in ('Brave Search', 'SearxNG'))
+    web_index = any(p in used for p in WEB_INDEXES)
     if web_index:
         # A web index's own result descriptions often answer the question directly ("Argentina won ... on penalties");
         # each counts for its own website.
         pages += [(r, r.snippet if r.snippet.rstrip().endswith(('.', '!', '?')) else r.snippet.rstrip() + '.')
-                  for r in results[:8] if r.provider in ('Brave Search', 'SearxNG') and len(r.snippet.split()) >= 6]
+                  for r in results[:8] if r.provider in WEB_INDEXES and len(r.snippet.split()) >= 6]
     scored = best_sentences(question, pages, web_index)
     # The sentence must say the asked thing, not only name the subject: "Scotland is a country ..." does not answer
     # "What is the national animal of Scotland?". Answer-type words (year, city ...) need not appear.
@@ -607,7 +633,7 @@ def script_reply(text):
         return None
     query = m[1].strip(' "\'') or 'your question'
     return dict(route='chat/code-web-search', sources=[],
-                response=f'```python\n{script(query)}```\nIt searches with Brave (if you set `BRAVE_API_KEY`), a SearxNG instance '
-                         f'(`CAEL_SEARXNG_URL`) or DuckDuckGo Instant Answers, reads the top pages as clean text with Jina Reader, '
-                         f'and prints the sentence from each page that best matches your words. Install with `pip install httpx`.',
+                response=f'```python\n{script(query)}```\nIt searches with the free `ddgs` library (no key), or Brave (if you set '
+                         f'`BRAVE_API_KEY`), a SearxNG instance (`CAEL_SEARXNG_URL`) or DuckDuckGo Instant Answers, reads the top pages as clean text with Jina Reader, '
+                         f'and prints the sentence from each page that best matches your words. Install with `pip install httpx ddgs`.',
                 details='A Python search script written from CAEL\'s search template. No neural model.')

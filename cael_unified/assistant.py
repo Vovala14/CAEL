@@ -335,6 +335,12 @@ class Assistant:
             answer = quantities.reply(text)
             if answer is not None:
                 return answer
+            # "Complete: roses are red" / "an apple a day": finish a well-known rhyme or saying (completions.py).
+            if not multiple_choice:
+                from . import completions
+                answer = completions.reply(text)
+                if answer is not None:
+                    return answer
             # Well-known world facts (world_facts.py), then superlatives / counts / years found in Wikipedia's
             # opening paragraphs (answer_finder.py). Both answer only clear question shapes.
             from . import world_facts, answer_finder

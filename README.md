@@ -1,4 +1,4 @@
-# CAEL 0.3.2
+# CAEL 0.3.3
 
 **One assistant, one model bundle: chat, reasoning, math, Python, stories,
 prompt writing and emoji.** This release excludes picture and portrait generation
@@ -20,9 +20,25 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.3.2.cael` (about 553 MB), verifies every file
+`--download` fetches `models/cael-0.3.3.cael` (about 553 MB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.3.3
+
+Unlimited web search with no API key. Every engine is still non-neural.
+
+- **Free web search first.** CAEL now searches with the open-source [ddgs](https://pypi.org/project/ddgs/)
+  metasearch library (MIT): no API key and no monthly quota. The order is a SearxNG instance if you set
+  `CAEL_SEARXNG_URL`, then ddgs, DuckDuckGo Instant Answers and Wikipedia. The paid Brave Search API is used
+  only when none of the free web searches answered. On the fresh question sets it scores the same as Brave:
+  36 of 44 and 27 of 40 (Brave: 38 and 29). CAEL still makes at most 30 searches a minute.
+- **Finishes well-known lines.** "Complete: roses are red", "roses are red, violets are" or "an apple a day" are
+  finished from a hand-written list of about 85 traditional rhymes, proverbs and famous lines (public domain).
+  CAEL says when it doesn't know a line instead of inventing one.
+- **Vynly help.** "Why does an AI-art site check for AI?" (also written "A.I." or "a I") and "How do I check if
+  an image is AI?" get Vynly's own answers.
+- Install the new requirement with `python -m pip install -r requirements-unified.txt`.
 
 ## New in 0.3.2
 

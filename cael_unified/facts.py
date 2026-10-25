@@ -192,6 +192,8 @@ class FactLookup:
             (r'(?:how many people live in|what is the population of|population of) (.+)', 'P1082', 'population'),
             (r'when was (.+?) born', 'P569', 'birth'),
             (r'where is (.+)', 'P17', 'country'),
+            (r'(?:what|which) languages? (?:do (?:they|people|you|most people) speak|is spoken|are spoken|does everyone speak) in (.+)', 'P37', 'language'),
+            (r"(?:what is |what's |what are )?(?:the )?(?:official |main |national )?languages? (?:of|in) (.+)", 'P37', 'language'),
             (r'who (?:wrote|authored|is the author of|was the author of) (?:the (?:book|novel|play|poem) )?(.+)', 'P50', 'wrote'),
             (r'who painted (.+)', 'P170', 'painted'),
             (r'who (?:directed|was the director of|is the director of) (?:the (?:film|movie) )?(.+)', 'P57', 'directed'),
@@ -245,6 +247,8 @@ class FactLookup:
             if candidates:
                 qid = max(candidates, key=lambda i: len(found.get(i, {}).get('sitelinks', {})))
             entity = found.get(qid, entity)
+        if kind == 'country' and entity.get('claims', {}).get('P131'):
+            prop = 'P131'                        # "Where is the Eiffel Tower?": the city or district, then the country
         if kind == 'height' and not entity.get('claims', {}).get(prop):
             prop = 'P2044'                       # mountains have an elevation above sea level, not a height
         claims = [c for c in entity.get('claims', {}).get(prop, []) if c.get('rank') != 'deprecated'
@@ -320,8 +324,18 @@ class FactLookup:
                 output = f"The currency of {label} is the {' and the '.join(names)}."
             elif kind in verbs:
                 output = f"{label} {verbs[kind]} {' and '.join(names)}."
+            elif kind == 'language':
+                output = (f"The official language of {label} is {names[0]}." if len(names) == 1
+                          else f"The official languages of {label} are {', '.join(names[:-1])} and {names[-1]}.")
             else:
-                output = f"{label} is in {', '.join(names)}."
+                country = []
+                if prop == 'P131':
+                    ids = [c.get('mainsnak', {}).get('datavalue', {}).get('value', {}).get('id') for c in entity.get('claims', {}).get('P17', [])]
+                    ids = [i for i in ids if i]
+                    labels = self.entities(ids[:1], props='labels') if ids else {}
+                    country = [labels.get(i, {}).get('labels', {}).get('en', {}).get('value') for i in ids[:1]]
+                    country = [c for c in country if c and c not in names]
+                output = f"{label} is in {', '.join(names + country)}."
         return result(output, 'wikidata-faq', [source('Wikidata', 'https://www.wikidata.org/wiki/' + qid,
                       'CC0 1.0', CC0, 'Wikidata contributors')], 'Structured source facts can lag changes; check the linked statement references.')
 

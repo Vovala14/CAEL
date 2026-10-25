@@ -110,12 +110,24 @@ TIPS = {
              'Short regular sessions beat long rare ones.', 'A lesson or two helps a lot.'],
     'meditat': ['Start with five minutes a day.', 'Focus on your breathing; when your mind wanders, gently come back.', 'Same time and place each day helps.',
                 'A guided recording makes starting easier.', 'Be patient; it gets easier with practice.'],
+    'interview': ['Research the company and the role, and prepare two or three questions to ask them.',
+                  'Practise answers to common questions out loud, using short real examples (situation, action, result).',
+                  'Plan your outfit and route the day before, and arrive about ten minutes early.',
+                  'Listen carefully, take a moment before answering, and it is fine to ask them to repeat a question.',
+                  'Send a short thank-you message afterwards.'],
+    'focus': ['Work on one task at a time and put your phone in another room.', 'Use short focused blocks (25-50 minutes) with breaks.',
+              'Decide the next small step before you start.', 'Keep water nearby and take a short walk when your mind drifts.'],
+    'confiden': ['Prepare well; confidence grows from knowing your material.', 'Stand tall, breathe slowly and speak a little slower.',
+                 'Remember past things you handled well.', 'Start with small challenges and build up.', 'Be kind to yourself about mistakes.'],
+    'date': ['Pick a relaxed place where you can talk easily.', 'Ask open questions and really listen to the answers.',
+             'Be yourself rather than trying to impress.', 'Put your phone away.', 'Keep it short and fun the first time.'],
 }
 TIP_WORDS = [('cook', r'cook|bak|recipe|kitchen'), ('run', r'\brun|jog|marathon'), ('language', r'language|spanish|french|german|english|italian|japanese|chinese'),
              ('code', r'cod(?:e|ing)|program|python|javascript'), ('draw', r'draw|paint|sketch|art\b'), ('guitar', r'guitar|piano|instrument'),
              ('study', r'stud(?:y|ying)|exam|revis|learn faster'), ('sleep', r'sleep|insomnia'), ('save', r'sav(?:e|ing) money|budget'),
              ('garden', r'garden|plants'), ('photo', r'photo'), ('speak', r'public speaking|presentation|speech'), ('write', r'\bwrit(?:e|ing)\b'),
-             ('chess', r'chess'), ('swim', r'swim'), ('meditat', r'meditat|mindful')]
+             ('chess', r'chess'), ('swim', r'swim'), ('meditat', r'meditat|mindful'), ('interview', r'interview'),
+             ('focus', r'focus|concentrat|procrastinat'), ('confiden', r'confiden|shy|nervous'), ('date', r'\bdate\b|dating')]
 FACTS = [
     'Octopuses have three hearts and blue blood.', 'Honey never spoils; edible honey has been found in ancient Egyptian tombs.',
     'A day on Venus is longer than its year.', 'Bananas are berries, but strawberries are not.', 'Sharks existed before trees.',
@@ -131,7 +143,7 @@ FACTS = [
 GOOD_NEWS = re.compile(r"(?i)\bi\s+(?:just\s+|finally\s+)?(?:got|landed|passed|won|finished|graduated|got engaged|am engaged|'m engaged|got married|got promoted|am getting married|had a baby|bought a house|got accepted)\b(.*)")
 LONG_DAY = re.compile(r"(?i)\b(?:i (?:had|have had|'ve had)|it was|what) (?:a |such a )?(?:really |very |so )?(long|hard|rough|tough|busy|bad|stressful|tiring|exhausting|crazy) (?:day|week|shift|night)\b(.*)")
 LEARNING = re.compile(r"(?i)\bi(?:'m| am)\s+(?:learning|trying to learn|starting|getting into|practising|practicing|taking up|studying)\s+(?:to\s+|how to\s+)?(.+?)\s*[.!]*\s*$")
-TIPS_ASK = re.compile(r"(?i)^\s*(?:any|some|got any|do you have any|give me some|give me an?|give me one|what are some|can you give me some|can you give me an?|an?|one)?\s*(?:tips?|advice|suggestions?|pointers?)\b(?:\s+(?:for|on|about)\s+(.+?))?\s*\??\s*$|"
+TIPS_ASK = re.compile(r"(?i)^\s*(?:please\s+)?(?:any|some|got any|do you have any|(?:can|could) you (?:give|share|offer)(?: me)?(?: some| any| a few| an?)?|give me(?: some| a few| an?| one)?|what are some|share(?: some)?|an?|one)?\s*(?:good\s+|useful\s+|quick\s+)?(?:tips?|advice|suggestions?|pointers?)\b(?:\s+(?:for|on|about)\s+(.+?))?\s*\??\s*$|"
                       r"^\s*how (?:can|do|should) i (?:get better at|improve (?:at|my)?|start|learn)\s+(.+?)\s*\??\s*$")
 OPINION = re.compile(r"(?i)^\s*what do you think (?:about|of)\s+(.+?)\s*\??\s*$|^\s*(?:how do you feel about|what(?:'s| is) your opinion (?:on|of|about))\s+(.+?)\s*\??\s*$")
 FUN = re.compile(r"(?i)\b(?:tell me (?:something|a fact) (?:interesting|cool|fun|surprising|random)|tell me something i (?:don't|do not) know|"

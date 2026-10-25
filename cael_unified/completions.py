@@ -97,7 +97,7 @@ LINES = [
 ]
 
 ASK = re.compile(r"(?i)^\s*(?:please\s+)?(?:can you\s+|could you\s+)?(?:compl[ie]te?|compete|finish|continue|end)"
-                 r"(?:\s+(?:the|this|my))?(?:\s+(?:line|sentence|phrase|rhyme|poem|saying|proverb|quote|verse))?"
+                 r"(?:(?:\s+(?:the|this|my))?\s+(?:line|sentence|phrase|rhyme|poem|saying|proverb|quote|verse)|\s+this)?"
                  r"(?:\s+for me)?\s*[:,\-]?\s*(.+?)\s*$")
 NEXT = re.compile(r"(?i)^\s*what comes (?:next|after)\s*[:,\-]?\s*(.+?)\s*$|^\s*(.+?)\s*[,:\-]?\s*what comes next\s*\??\s*$")
 

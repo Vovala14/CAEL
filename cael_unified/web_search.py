@@ -611,8 +611,9 @@ def answer(text):
         body = (f'{lead}\n\n> {best}\n\n{len(sites)} different websites agree on this.\n\n'
                 f'**Sources:** {cited}')
     else:
-        body = (f'I don\'t know this for sure. The most relevant sentence I found on the web:\n\n> {best}\n\n'
-                f'**Source:** {cited}. It is the only website that said this, and I could not check it, so please verify it there.')
+        lead = f'From one website: **{key}**.' if key else 'Here is what one website says:'
+        body = (f'{lead}\n\n> {best}\n\n'
+                f'**Source:** {cited}. Only this website said it, so I could not double-check it; please verify it there.')
     sources = [dict(source=f'{r.title or r.domain()} ({r.domain()})', url=r.url, licence='see the website',
                     licence_url=r.url, attribution=r.domain()) for r in links]
     details = (f'Searched with {", ".join(used)}; read {len(top)} pages through Jina Reader or a direct fetch; picked the sentence that '

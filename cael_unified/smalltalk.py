@@ -51,6 +51,15 @@ FEELINGS = {
     'confused': ["No problem, let's sort it out. What's confusing you?"],
 }
 
+RIDDLES = [  # traditional riddles
+    ('What has keys but can\'t open locks?', 'a piano'), ('What has hands but can\'t clap?', 'a clock'),
+    ('What gets wetter the more it dries?', 'a towel'), ('What has to be broken before you can use it?', 'an egg'),
+    ('What has a neck but no head?', 'a bottle'), ('What can you catch but not throw?', 'a cold'),
+    ('What goes up but never comes down?', 'your age'), ('What has many teeth but can\'t bite?', 'a comb'),
+    ('What is full of holes but still holds water?', 'a sponge'), ('What has one eye but can\'t see?', 'a needle'),
+    ('The more of them you take, the more you leave behind. What are they?', 'footsteps'),
+    ('What belongs to you, but other people use it more than you do?', 'your name'),
+]
 JOKES = [
     "Why did the scarecrow win an award? Because he was outstanding in his field.",
     "What do you call a fish with no eyes? A fsh.",
@@ -368,6 +377,14 @@ def single(messages, seed=0):
     if re.fullmatch(r'(?:(?:can|could|would) you |please )?(?:tell|say) (?:me )?(?:a |another |one more )?(?:joke|funny joke|something funny)(?: please)?|make me laugh|(?:i want|i need) a joke|do you know (?:a|any) jokes?', t):
         joke = pick([j for j in JOKES if j != previous] or JOKES)
         return out(joke, 'joke')
+    if re.fullmatch(r'(?:(?:can|could|would) you |please )?(?:tell|give|ask) (?:me )?(?:a |another |one more )?(?:riddle|brain ?teaser|puzzle)(?: please)?|do you know (?:a|any) riddles?', t):
+        return out(pick([f'Here is one: {q}\n\nThink about it... the answer is **{a}**.' for q, a in RIDDLES]), 'riddle')
+    if re.fullmatch(r"(?:you are|you're|ur|u r|youre) (?:so |really |very |pretty |kind of )?(funny|smart|clever|cool|awesome|nice|great|amazing|helpful|sweet|kind|cute|the best|hilarious)", t):
+        return out(pick(["Thank you, that's really kind! You made my day.", "Aw, thanks! I try my best.",
+                         "Thank you! You're pretty great yourself."]), 'compliment')
+    if re.fullmatch(r"(?:can|could|will) (?:we|you) be (?:my )?friends?|(?:do you )?want to be (?:my )?friends?|are we friends|be my friend", t):
+        return out("I'd like that! I'm a small program, so I can't be a friend the way a person can, but I'm always happy to "
+                   "chat, help or tell you a story. What would you like to talk about?", 'friendship')
     if re.fullmatch(r'what should i do (?:this weekend|today|tonight|now|later)|i (?:do not|dont) know what to do|any ideas for (?:the weekend|today|tonight)|i am bored what should i do', t):
         return out("A few ideas: go for a walk somewhere new, cook something you've never tried, call a friend, start a book or a puzzle, "
                    "or try something creative. I can write you a short story or make a little picture. What sounds good?", 'ideas')

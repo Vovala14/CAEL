@@ -102,9 +102,93 @@ FACTS = [
     ((r'(?:world war (?:ii|2|two)|second world war)\b.*\b(?:begin|start)', r'when did ww2 (?:start|begin)'), 'World War II began in 1939, when Germany invaded Poland on 1 September 1939.'),
     ((r'(?:world war (?:i|1|one)|first world war)\b.*\b(?:end|finish)', r'when did ww1 end'), 'World War I ended in 1918, with the armistice of 11 November 1918.'),
     ((r'(?:world war (?:i|1|one)|first world war)\b.*\b(?:begin|start)', r'when did ww1 (?:start|begin)'), 'World War I began in 1914 (28 July 1914).'),
+    # sports
+    ((r'how many players (?:are )?(?:on|in) an? (?:soccer|football) team', r'how many players (?:does|do) an? (?:soccer|football) team'),
+     'A soccer (football) team has 11 players on the field, including the goalkeeper.'),
+    ((r'how many players (?:are )?(?:on|in) an? basketball team',), 'A basketball team has 5 players on the court.'),
+    ((r'how many players (?:are )?(?:on|in) an? (?:baseball) team',), 'A baseball team has 9 players on the field.'),
+    ((r'how many players (?:are )?(?:on|in) an? (?:volleyball) team',), 'A volleyball team has 6 players on the court.'),
+    ((r'how many players (?:are )?(?:on|in) an? (?:hockey|ice hockey) team',), 'An ice hockey team has 6 players on the ice, including the goalie.'),
+    ((r'how many players (?:are )?(?:on|in) an? (?:american football|nfl) team',), 'An American football team has 11 players on the field.'),
+    ((r'how many players (?:are )?(?:on|in) an? (?:rugby) team',), 'A rugby union team has 15 players; rugby league has 13.'),
+    ((r'how many players (?:are )?(?:on|in) an? (?:cricket) team',), 'A cricket team has 11 players.'),
+    ((r'how (?:long|many minutes) is an? (?:soccer|football) (?:game|match)',), 'A soccer match lasts 90 minutes: two halves of 45 minutes, plus stoppage time.'),
+    ((r'how often (?:are|is) the olympics', r'how often do the olympics'), 'The Summer and Winter Olympic Games are each held every four years, two years apart.'),
+    # breathing, plants, body
+    ((r'(?:what )?gas (?:do )?(?:humans|people|we|you) (?:breathe|exhale) out', r'what do (?:humans|we|people) (?:breathe|exhale) out', r'what gas do we exhale'),
+     'Humans breathe out carbon dioxide (CO₂), along with nitrogen, unused oxygen and water vapour.'),
+    ((r'(?:what )?gas (?:do )?(?:humans|people|we|you) (?:breathe in|inhale|need to breathe)', r'what do (?:humans|we) breathe in'),
+     'Humans breathe in air and use its oxygen (O₂); air is about 21% oxygen and 78% nitrogen.'),
+    ((r'(?:what )?gas do plants (?:take in|absorb|use|need)', r'what do plants (?:take in|absorb) from the air'),
+     'Plants take in carbon dioxide (CO₂) from the air and give off oxygen during photosynthesis.'),
+    ((r'what do plants (?:give off|release|produce)',), 'Plants release oxygen as a by-product of photosynthesis.'),
+    ((r'how many bones does a baby have', r'how many bones (?:is|are) a baby born with'), 'A newborn baby has about 270 to 300 bones; many fuse together, leaving 206 in an adult.'),
+    ((r'how many (?:litres|liters) of blood', r'how much blood (?:is in|does) (?:the |a )?(?:human|body|adult|person)'), 'An adult has about 5 litres of blood (roughly 7 to 8% of body weight).'),
+    ((r'how many senses',), 'People traditionally list five senses: sight, hearing, smell, taste and touch (balance and others are also senses).'),
+    ((r'how many chromosomes',), 'Humans have 46 chromosomes in 23 pairs.'),
+    ((r'normal (?:human )?body temperature', r'what is (?:the )?(?:average )?body temperature'), 'Normal human body temperature is about 37 °C (98.6 °F).'),
+    ((r'how many hours of sleep (?:do|does|should)',), 'Adults need about 7 to 9 hours of sleep a night; teenagers about 8 to 10, and children more.'),
+    # discoveries and inventions
+    ((r'who discovered gravity', r'who (?:came up with|explained) gravity'), 'Isaac Newton described gravity with his law of universal gravitation (1687); Einstein later explained it as the curvature of space-time.'),
+    ((r'who discovered penicillin',), 'Alexander Fleming discovered penicillin in 1928.'),
+    ((r'who invented the (?:light ?bulb|lightbulb)', r'who made the first light ?bulb'),
+     'Thomas Edison made the first commercially practical light bulb in 1879; Joseph Swan developed one at the same time in England.'),
+    ((r'who invented the telephone',), 'Alexander Graham Bell is credited with inventing the telephone (patented in 1876).'),
+    ((r'who invented the (?:airplane|aeroplane|plane)', r'who made the first (?:airplane|plane) flight'), 'The Wright brothers, Orville and Wilbur, made the first powered airplane flight in 1903.'),
+    ((r'who invented the (?:internet|world wide web|web)\b',), 'Tim Berners-Lee invented the World Wide Web in 1989; the internet itself grew from ARPANET, designed by Vint Cerf, Bob Kahn and others.'),
+    ((r'who invented the (?:printing press)',), 'Johannes Gutenberg invented the movable-type printing press around 1440.'),
+    ((r'who discovered electricity',), 'No one person discovered electricity; Benjamin Franklin showed in 1752 that lightning is electrical, and Michael Faraday and others made it usable.'),
+    ((r'who discovered america',), 'Indigenous peoples lived in the Americas for thousands of years; Leif Erikson reached North America around 1000, and Christopher Columbus arrived in 1492.'),
+    ((r'who (?:proposed|came up with|developed) the theory of evolution', r'who discovered evolution'), 'Charles Darwin (with Alfred Russel Wallace) proposed evolution by natural selection, published in 1859.'),
+    ((r'who (?:developed|came up with) the theory of relativity', r'who discovered relativity'), 'Albert Einstein developed the theory of relativity (special relativity in 1905, general relativity in 1915).'),
+    # calendar and time
+    ((r'how many hours (?:are )?in a day', r'how many hours does a day have'), 'A day has 24 hours.'),
+    ((r'how many minutes (?:are )?in an hour',), 'An hour has 60 minutes.'),
+    ((r'how many seconds (?:are )?in a minute',), 'A minute has 60 seconds.'),
+    ((r'how many seconds (?:are )?in an hour',), 'An hour has 3,600 seconds (60 × 60).'),
+    ((r'how many seconds (?:are )?in a day',), 'A day has 86,400 seconds (24 × 60 × 60).'),
+    ((r'how many days (?:are )?in a week',), 'A week has 7 days.'),
+    ((r'how many months (?:are )?in a year',), 'A year has 12 months.'),
+    ((r'how many days (?:are )?in (?:february)',), 'February has 28 days, or 29 in a leap year.'),
+    ((r'how many years (?:are )?in a (?:century)',), 'A century is 100 years.'),
+    ((r'how many years (?:are )?in a (?:decade)',), 'A decade is 10 years.'),
+    # nature and everyday science
+    ((r'what colou?rs? (?:are|is) (?:in )?(?:the|a) rainbow', r'colou?rs of the rainbow'), 'A rainbow has seven named colours: red, orange, yellow, green, blue, indigo and violet.'),
+    ((r'what colou?r is the sky', r'why is the sky blue'), 'The sky looks blue because air scatters the Sun\'s blue light much more than red light (Rayleigh scattering).'),
+    ((r'how many colou?rs (?:are )?in (?:the|a) rainbow',), 'A rainbow is usually described with seven colours: red, orange, yellow, green, blue, indigo and violet.'),
+    ((r'what are the primary colou?rs',), 'The traditional primary colours are red, yellow and blue; for light (screens) they are red, green and blue.'),
+    ((r'what are the three states of matter', r'states of matter'), 'The three everyday states of matter are solid, liquid and gas (plasma is a fourth).'),
+    ((r'how far is the moon', r'distance (?:from|between) (?:the )?earth (?:to|and) (?:the )?moon'), 'The Moon is about 384,400 km (238,900 miles) from Earth on average.'),
+    ((r'how far is the sun', r'distance (?:from|between) (?:the )?earth (?:to|and) (?:the )?sun'), 'The Sun is about 150 million km (93 million miles) from Earth.'),
+    ((r'how old is the earth', r'age of the earth'), 'Earth is about 4.54 billion years old.'),
+    ((r'how old is the universe', r'age of the universe'), 'The universe is about 13.8 billion years old.'),
+    ((r'how long does it take (?:for )?(?:the )?earth to (?:go around|orbit|circle) the sun',), 'Earth takes about 365.25 days to orbit the Sun, which is why we add a leap day every four years.'),
+    ((r'how long does it take (?:for )?light (?:from the sun )?to (?:reach|get to) (?:the )?earth', r'how long does sunlight take'),
+     'Sunlight takes about 8 minutes and 20 seconds to reach Earth.'),
+    ((r'what is the (?:main|most common) gas in (?:the )?(?:air|atmosphere)', r'what is air made of'), 'Air is about 78% nitrogen and 21% oxygen, with argon, carbon dioxide and other gases making up the rest.'),
+    ((r'what is the hardest (?:natural )?(?:substance|material|mineral)', r'hardest thing on earth'), 'Diamond is the hardest natural material.'),
+    ((r'what is the moon made of', r'what(?: is|\'s) the moon made (?:of|from)'),
+     'The Moon is made of rock: a crust of silicate rock (mostly feldspar-rich minerals and basalt), a rocky mantle and a small iron-rich core, covered in fine dust called regolith.'),
+    ((r'why do (?:the )?leaves change colou?r', r'why do leaves turn (?:red|yellow|orange|brown)', r'why do leaves change in (?:autumn|fall)'),
+     'In autumn, trees stop making green chlorophyll, so the yellow and orange pigments (carotenoids) that were hidden show through; some trees also make red pigments (anthocyanins).'),
+    ((r'why (?:do|does) (?:we|the earth) have seasons', r'what causes (?:the )?seasons'),
+     'Earth has seasons because its axis is tilted about 23.4°, so each hemisphere gets more direct sunlight for part of the year (summer) and less for the other part (winter).'),
+    ((r'why is the (?:sea|ocean) salty', r'why are (?:the )?oceans salty'),
+     'The sea is salty because rivers carry dissolved minerals from rocks into the ocean; when water evaporates, the salt stays behind.'),
+    ((r'what causes thunder', r'why does thunder happen'), 'Thunder is the sound of air expanding explosively when a lightning bolt heats it to about 30,000 °C.'),
+    ((r'why do stars twinkle',), 'Stars twinkle because moving layers of air in Earth\'s atmosphere bend their light slightly in changing directions.'),
+    # animals and food
+    ((r'(?:what|which) animal (?:lives|lived) the longest', r'longest living animal'), 'The Greenland shark can live around 400 years, the longest of any known vertebrate; some clams and sponges live even longer.'),
+    ((r'smallest (?:mammal)',), 'The Etruscan shrew (by weight) and the bumblebee bat are the smallest mammals.'),
+    ((r'(?:largest|biggest) mammal',), 'The blue whale is the largest mammal; on land it is the African bush elephant.'),
+    ((r'what do (?:pandas) eat',), 'Giant pandas eat almost only bamboo, up to about 12 to 38 kg a day.'),
+    ((r'what do (?:cows) eat',), 'Cows eat grass, hay and other plants; they are herbivores with a four-part stomach.'),
+    ((r'what is the main ingredient (?:in|of) (?:guacamole)',), 'Avocado is the main ingredient of guacamole.'),
+    ((r'what is the main ingredient (?:in|of) (?:hummus)',), 'Chickpeas are the main ingredient of hummus, with tahini, lemon juice and garlic.'),
+    ((r'what is the main ingredient (?:in|of) (?:bread)',), 'Flour is the main ingredient of bread, with water, yeast and salt.'),
 ]
 COMPILED = [([re.compile(r'\b' + p) for p in patterns], answer) for patterns, answer in FACTS]
-QUESTION = re.compile(r'(?i)^\s*(?:what|which|who|how|when|in what|where|tell me|name)\b')
+QUESTION = re.compile(r'(?i)^\s*(?:what|which|who|how|when|why|in what|where|tell me|name)\b')
 
 
 def reply(text):
@@ -120,7 +204,8 @@ def reply(text):
             # A narrower place than the fact covers: "the largest bone in the human foot" is not the femur.
             rest = q[m.end():]
             scope = re.search(r'\b(?:in|of|on|inside) (?:the |a |an |our )?([a-z]+(?: [a-z]+)?)', rest)
-            if scope and not re.search(r'\b(?:world|earth|planet|universe|solar system|human body|body|history|nature|sea|ocean|wild|space)\b', scope[1] + rest):
+            if scope and not re.search(r'\b(?:world|earth|planet|universe|solar system|human body|body|history|nature|sea|ocean|wild|space|'
+                                       r'autumn|fall|winter|summer|spring|the air|air|a day|an hour|a year|a week|a minute|total)\b', scope[1] + rest):
                 return None
             return dict(response=answer, route='chat/world-fact', sources=[], details=DETAILS)
     return None

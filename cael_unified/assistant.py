@@ -25,6 +25,19 @@ HOWTO = re.compile(r'^\s*(?:how|why|what is|what are|explain)\b', re.I)
 STORY_REQUEST = re.compile(r'(?i)^\s*(?:please\s+)?(?:(?:can|could|would) you\s+)?(?:tell|write|create|make|generate|give)\b.{0,65}\b(?:story|tale|fable)\b')
 
 
+UNANSWERED=re.compile(r"(?i)^(?:tell me more about that|i don'?t know|i'?m not sure|i could not|i couldn'?t|good question! i don'?t know)|"
+                      r"rather not guess|don'?t want to make something up|could not confidently match")
+
+
+def unanswered(answer):
+    """A reply that gives no answer: "tell me more", "not sure", or a not-found / clarify route."""
+    if not isinstance(answer,dict):
+        return False
+    route=str(answer.get('route',''))
+    return (route in WEB_FALLBACK_ROUTES or route in ('chat/complete-unknown','error')
+            or bool(UNANSWERED.search(str(answer.get('response','')).strip())))
+
+
 def choice_problem(text):
     matches=list(re.finditer(r'(?m)^\s*([A-D])[.)]\s+(.+?)\s*$',text))
     if not 2<=len(matches)<=4 or [m[1] for m in matches]!=list('ABCD'[:len(matches)]):
@@ -155,6 +168,57 @@ class Assistant:
             return self._language.score_endings(context,endings)
 
     def respond(self, messages, n=2, seed=None, mode='auto'):
+        # Misspellings and chat shorthand ("whats the captial of australia", "r u smart") are read as the corrected
+        # message (spelling.py). If that still gets no answer, the original wording is tried too.
+        fixed=self.spell_checked(messages,mode)
+        if fixed is None:
+            answer=self._answer(messages,n=n,seed=seed,mode=mode)
+            return self.try_readings(messages,answer,n,seed,mode)
+        corrected,changes=fixed
+        answer=self._answer(corrected,n=n,seed=seed,mode=mode)
+        if unanswered(answer):
+            original=self._answer(messages,n=n,seed=seed,mode=mode)
+            if not unanswered(original):
+                return original
+            other=self.try_readings(corrected,answer,n,seed,mode)
+            if other is not answer:
+                return other
+        note='Spelling interpretation: '+'; '.join(f'{a!r} → {b!r}' for a,b in changes)+'.'
+        earlier=list(answer.get('input_corrections') or [])
+        return dict(answer,understood_as=corrected[-1]['content'],
+                    input_corrections=[dict(original=a,replacement=b) for a,b in changes]+earlier,
+                    details=(answer.get('details','')+'\n'+note).strip())
+
+    def try_readings(self,messages,answer,n,seed,mode):
+        """When nothing answered and a word had two about equally likely spellings ("talest": latest / tallest),
+        try each reading and keep the first that gets an answer."""
+        if not unanswered(answer) or mode not in ('auto','chat') or not isinstance(messages,list) or not messages                 or messages[-1].get('role')!='user' or choice_problem(messages[-1].get('content','')):
+            return answer
+        from . import spelling
+        for text in spelling.variants(messages[-1]['content']):
+            other=self._answer(messages[:-1]+[dict(messages[-1],content=text)],n=n,seed=seed,mode=mode)
+            if not unanswered(other):
+                return dict(other,understood_as=text,details=(other.get('details','')+f'\nRead as: "{text}".').strip())
+        return answer
+
+    @staticmethod
+    def spell_checked(messages,mode):
+        """(messages with the last user message corrected, changes), or None when nothing needs correcting."""
+        if mode not in ('auto','chat') or not isinstance(messages,list) or not messages:
+            return None
+        last=messages[-1]
+        if not isinstance(last,dict) or last.get('role')!='user' or not isinstance(last.get('content'),str):
+            return None
+        text=last['content']
+        if len(text)>600 or choice_problem(text) or re.search(r'```|^\s*(?:def|class|import|from)\s+\w|\w\([^)]*\)\s*[:=]?\s*$',text,re.M):
+            return None
+        from . import spelling
+        new,changes=spelling.correct(text)
+        if not changes or new==text:
+            return None
+        return messages[:-1]+[dict(last,content=new)],changes
+
+    def _answer(self, messages, n=2, seed=None, mode='auto'):
         from .text_repair import repair_messages
         changes=[]
         if (mode in ('auto','chat','prompt','story') and isinstance(messages,list) and messages
@@ -180,10 +244,14 @@ class Assistant:
             # An encyclopedia article that is not about the question's subject ("The Silent Cartographer" for
             # "What does a cartographer do?") counts as not answered too.
             off_topic=False
-            if route.startswith('chat/web-wikipedia') and answer.get('sources'):
+            if (route.startswith('chat/web-wikipedia') or route=='chat/local-knowledge') and answer.get('sources'):
                 from urllib.parse import unquote
                 subject=set(web_search.terms(web_search.subject_of(text)))
                 link=answer['sources'][0].get('url','')
+                # Local snapshot answers name their article ("Doctor Who" for "What does a doctor do?").
+                named=answer['sources'][0].get('title') if route=='chat/local-knowledge' else None
+                if named:
+                    link='/wiki/'+named.replace(' ','_')
                 title=set(web_search.terms(re.sub(r'\s*\(.*','',unquote(link.rsplit('/',1)[-1]).replace('_',' '))))
                 definition=bool(re.match(r"(?i)\s*(?:what|who)(?:'s| is| are| does| do)\s+(?:an?\s+|the\s+)?[\w\s-]+?(?:\s+do|\s+mean)?\s*\??$",text))
                 off_topic=bool(subject) and bool(title) and '/wiki/' in link and (
@@ -337,8 +405,8 @@ class Assistant:
                 return answer
             # "Complete: roses are red" / "an apple a day": finish a well-known rhyme or saying (completions.py).
             if not multiple_choice:
-                from . import completions
-                answer = completions.reply(text)
+                from . import completions, acronyms
+                answer = completions.reply(text) or acronyms.reply(text)
                 if answer is not None:
                     return answer
             # Well-known world facts (world_facts.py), then superlatives / counts / years found in Wikipedia's
@@ -520,6 +588,11 @@ class Assistant:
                 result['response']='Story:\n'+result['response']
             return dict(result,route='chat/story',sources=[],details='A short story from the trained integer CA planner, world memory and counted grammar. Supports a finite vocabulary and eight goals.')
         except Unsupported as error:
+            if not question:
+                from .free_story import story as free_story
+                found=free_story(text,seed)
+                if found is not None:
+                    return found
             if required or STORY_REQUEST.search(text):
                 return dict(route='chat/story-unsupported',response=str(error)+' Try a finding, sharing, helping, losing, visiting, resting, learning or comforting goal. For example: “Tell a story about an astronaut finding a compass in a space station.”',sources=[])
             return None

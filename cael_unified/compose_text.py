@@ -157,7 +157,7 @@ def email(details):
 # ---------------------------------------------------------------- names
 
 ASK_NAMES = re.compile(r'(?i)^\s*(?:please\s+)?(?:suggest|give me|come up with|brainstorm|list|think of|what are (?:some|good)|i need)\s+'
-                       r'(?:some\s+|a few\s+)?(\d+|one|two|three|four|five|six|seven|eight|nine|ten)?\s*(?:good\s+|catchy\s+|creative\s+|cool\s+|fun\s+)?'
+                       r'(?:some\s+|a few\s+|a\s+|an\s+)?(\d+|one|two|three|four|five|six|seven|eight|nine|ten)?\s*(?:good\s+|catchy\s+|creative\s+|cool\s+|fun\s+)?'
                        r'(?:names?|name ideas|business names|brand names)\s+(?:for\s+)?(?:an?\s+|my\s+|the\s+)?(.+?)\s*[?.!]*$')
 THEMES = {
     'coffee': ['bean', 'brew', 'roast', 'cup', 'mug', 'grind', 'crema', 'espresso', 'steam', 'drip'],
@@ -179,8 +179,23 @@ STYLES = ['The {a} & {b}', '{A} House', 'Little {A}', 'The Daily {A}', '{A} and 
           'Morning {A}', 'Wild {A}', '{A} Street', 'Copper {A}', '{A}works', 'Blue {A}', 'The Humble {A}']
 
 
+PET_NAMES = {
+    'dog': ['Max', 'Bella', 'Charlie', 'Luna', 'Cooper', 'Daisy', 'Rocky', 'Bailey', 'Milo', 'Ruby', 'Teddy', 'Biscuit', 'Scout', 'Maple'],
+    'cat': ['Luna', 'Milo', 'Oliver', 'Cleo', 'Simba', 'Nala', 'Pepper', 'Mochi', 'Shadow', 'Willow', 'Ginger', 'Felix', 'Whiskers'],
+    'pet': ['Pip', 'Nugget', 'Peanut', 'Coco', 'Bean', 'Buttons', 'Pepper', 'Sunny', 'Ziggy', 'Mango', 'Pickles', 'Clover'],
+}
+
+
 def names(count, thing, seed=0):
     thing_word = re.sub(r'[^a-z ]', '', thing.lower()).strip()
+    pet = re.search(r'\b(dog|puppy|cat|kitten|hamster|rabbit|bunny|bird|parrot|fish|turtle|guinea pig|pet|horse)\b', thing_word)
+    if pet and not re.search(r'\b(?:shop|store|business|brand|cafe|company|salon|blog|channel)\b', thing_word):
+        kind = 'dog' if pet[1] in ('dog', 'puppy') else 'cat' if pet[1] in ('cat', 'kitten') else 'pet'
+        pool = list(PET_NAMES[kind])
+        random.Random(seed + len(thing_word)).shuffle(pool)
+        lines = '\n'.join(f'{i}. {n}' for i, n in enumerate(pool[:count], 1))
+        return out(f'Here are {min(count, len(pool))} name ideas for your {pet[1]}:\n\n{lines}\n\nWant something funny, cute or unusual?',
+                   'names', 'Popular and classic pet names from CAEL\'s hand-written list. No neural model.')
     key = next((k for k in THEMES if re.search(r'\b' + k, thing_word)), None)
     pool = list(THEMES[key]) if key else []
     if len(pool) < 4:
@@ -315,9 +330,76 @@ def compare(a, b):
 
 # ---------------------------------------------------------------- entry point
 
+# ---------------------------------------------------------------- occasion messages
+
+ASK_NOTE = re.compile(r"(?i)^\s*(?:please\s+|can you\s+|could you\s+|help me\s+)?(?:write|draft|compose|create|make|give me|i need)\s+"
+                      r"(?:me\s+)?(?:a\s+|an\s+|some\s+)?(?:short\s+|quick\s+|sweet\s+|nice\s+|funny\s+|heartfelt\s+|simple\s+|happy\s+|warm\s+|cute\s+|lovely\s+|kind\s+)*"
+                      r"(birthday|bday|thank[- ]?you|thanks|congratulations|congrats|get[- ]well(?:[- ]soon)?|good[- ]luck|anniversary|"
+                      r"apology|sorry|wedding|graduation|farewell|goodbye|retirement|welcome|christmas|holiday|new year'?s?|"
+                      r"valentine'?s?(?: day)?|mother'?s day|father'?s day|sympathy|condolence)\s+"
+                      r"(?:message|note|card|wish(?:es)?|text|greeting|letter|speech)\s*(?:(?:for|to)\s+(.+?))?\s*[.!?]*$")
+NOTES = {
+    'birthday': ['Happy birthday{to}! I hope your day is full of laughter, good food and the people you love. Wishing you a wonderful year ahead.',
+                 'Happy birthday{to}! Thank you for everything you do. May this year bring you lots of joy, good health and plenty of reasons to smile.',
+                 'Wishing you the happiest of birthdays{to}! Enjoy every moment today; you deserve it.'],
+    'thanks': ['Thank you{to} for everything. Your help and kindness made a real difference, and I am truly grateful.',
+               'I just wanted to say thank you{to}. I really appreciate your time, your patience and your support.'],
+    'congratulations': ['Congratulations{to}! All your hard work has paid off, and I am so happy for you. Enjoy this moment!',
+                        'Huge congratulations{to}! This is a wonderful achievement, and you should be really proud.'],
+    'get well': ['Get well soon{to}! Sending you warm wishes for a quick recovery. Take it easy and rest as much as you need.',
+                 'Thinking of you{to} and hoping you feel better every day. Take care of yourself.'],
+    'good luck': ['Good luck{to}! You have prepared well and you are ready for this. I believe in you.',
+                  'Wishing you the best of luck{to}. Whatever happens, be proud of how far you have come.'],
+    'anniversary': ['Happy anniversary{to}! Here is to all the memories you have made together and all the adventures still to come.'],
+    'sorry': ['I am sorry{to}. I did not handle things well, and I understand why you are upset. I would like to make it right.'],
+    'wedding': ['Congratulations on your wedding{to}! Wishing you a lifetime of love, laughter and happiness together.'],
+    'graduation': ['Congratulations on your graduation{to}! All those late nights paid off. The future is bright, and I cannot wait to see what you do next.'],
+    'farewell': ['It has been a pleasure{to}. Thank you for everything, and best of luck with what comes next. You will be missed!'],
+    'retirement': ['Happy retirement{to}! Thank you for all your years of hard work. Enjoy the time to rest, travel and do what you love.'],
+    'welcome': ['Welcome{to}! We are so glad to have you here, and we hope you feel at home right away.'],
+    'holiday': ['Happy holidays{to}! Wishing you peace, joy and time with the people you love.'],
+    'new year': ['Happy New Year{to}! Wishing you health, happiness and success in the year ahead.'],
+    'valentine': ['Happy Valentine\'s Day{to}! You make every day better, and I am so lucky to have you.'],
+    "mother's day": ['Happy Mother\'s Day{to}! Thank you for your love, your patience and everything you do. You are the best.'],
+    "father's day": ['Happy Father\'s Day{to}! Thank you for always being there for me. I am so grateful for you.'],
+    'sympathy': ['I am so sorry for your loss{to}. Please know that I am thinking of you, and I am here if you need anything.'],
+}
+KINDS = {'bday': 'birthday', 'thank you': 'thanks', 'thank-you': 'thanks', 'thankyou': 'thanks', 'congrats': 'congratulations',
+         'get well soon': 'get well', 'get-well': 'get well', 'get-well-soon': 'get well', 'good-luck': 'good luck', 'apology': 'sorry',
+         'goodbye': 'farewell', 'christmas': 'holiday', "new year's": 'new year', 'new years': 'new year', 'condolence': 'sympathy'}
+
+
+def occasion_note(kind, person, seed=0):
+    kind = kind.lower().replace('’', "'")
+    kind = KINDS.get(kind, kind)
+    kind = 'valentine' if kind.startswith('valentine') else "mother's day" if kind.startswith('mother') else \
+        "father's day" if kind.startswith('father') else kind
+    options = NOTES.get(kind)
+    if not options:
+        return None
+    to = ''
+    if person:
+        who = re.sub(r"(?i)^(?:my|our)\s+", '', person.strip())
+        family = {'mom': 'Mom', 'mum': 'Mum', 'mother': 'Mom', 'dad': 'Dad', 'father': 'Dad', 'grandma': 'Grandma',
+                  'grandpa': 'Grandpa', 'grandmother': 'Grandma', 'grandfather': 'Grandpa'}
+        name = family.get(who.lower())
+        if name:
+            to = ', ' + name
+        elif re.fullmatch(r"[A-Z][a-z]+(?: [A-Z][a-z]+)?", who):
+            to = ', ' + who
+    message = options[seed % len(options)].format(to=to)
+    return out(message + '\n\nWant it shorter, funnier or more personal? Tell me something about them and I\'ll add it.',
+               'note', 'Written from CAEL\'s hand-written message templates for common occasions. No neural model.')
+
+
 def reply(text, seed=0):
     if len(text) > 4000 or '```' in text:
         return None
+    m = ASK_NOTE.match(text)
+    if m:
+        answer = occasion_note(m[1], m[2], seed)
+        if answer:
+            return answer
     m = ASK_SUMMARY.match(text)
     if m:
         count = 2 if m[1] and m[1].startswith(('sentences', 'lines')) else 1

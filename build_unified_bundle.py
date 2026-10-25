@@ -31,6 +31,7 @@ MODEL_FILES = {
     'models/cael-text-repair-0.4.4-r1': None,
     'models/cael-dictionary-wn30': None,                     # WordNet 3.0 definitions and synonyms (licence included)
     'models/cael-chat-corpus-v1': None,                      # OASST (Apache 2.0) and Dolly (CC BY-SA 3.0) conversation corpus
+    'models/cael-spelling-v1': None,                         # spelling word/pair counts from Wikipedia + chat corpus (CC BY-SA 4.0)
     'models/cael-thinking-v2': ['knowledge.sqlite', 'meaning.npz', 'guides.sqlite', 'SOURCES.md'],   # advice knowledge, CC BY-SA 4.0                # spelling repair (counted; CC BY-SA word guard, licence included)                            # Vynly helper knowledge (public site + approved docs)
 }
 # Selected in the live configuration; general_image is dropped because the hybrid model covers all its subjects.

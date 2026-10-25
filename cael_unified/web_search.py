@@ -26,7 +26,7 @@ import threading
 import time
 from urllib.parse import quote, urlparse
 
-UA = 'CAEL/0.3.1 (+https://github.com/Vovala14/CAEL; non-neural assistant)'
+UA = 'CAEL/0.3.2 (+https://github.com/Vovala14/CAEL; non-neural assistant)'
 STOP = set('a an the of to in on at for with by from as is are was were be been being do does did what which who whom whose why how '
            'when where there their they it its this that these those and or but if then than so very much many can could would '
            'should will shall may might must about into over under after before during tell me please know give find out i you '
@@ -479,9 +479,22 @@ if __name__ == "__main__":
 
 # ---------------------------------------------------------------- entry points
 
-QUESTION = re.compile(r'(?i)^\s*(?:what|which|who|whom|whose|when|where|why|how|is|are|was|were|does|do|did|can|could|has|have|'
+QUESTION = re.compile(r'(?i)^\s*(?:(?:in|on|at|by|from|for|during|since|until) (?:what|which|whom)|name|what|which|who|whom|whose|when|where|why|how|is|are|was|were|does|do|did|can|could|has|have|'
                       r'tell me about|search(?: the web| online)? for|look up|find out|google)\b')
+# Words naming the kind of answer wanted; a sentence that gives the answer need not repeat them.
+ANSWER_TYPES = {'year', 'city', 'countri', 'country', 'person', 'place', 'date', 'day', 'month', 'name', 'kind', 'type',
+                'has', 'have', 'had', 'did', 'doe', 'does', 'mani', 'many', 'much'}
 PERSONAL = re.compile(r'(?i)\b(?:i|me|my|mine|myself|you|your|yours|yourself|we|our|us)\b')
+
+
+def says_asked(question, text, subject_terms=None):
+    """Whether a passage says the asked thing, not only names the subject: "Scotland is a country ..." does not answer
+    "What is the national animal of Scotland?". Answer-type words (year, city ...) need not appear."""
+    if subject_terms is None:
+        subject_terms = set(terms(subject_of(question)))
+    focus = set(terms(question)) - subject_terms - ANSWER_TYPES
+    need = len(focus) if len(focus) <= 2 else -(-len(focus) * 3 // 5)
+    return len(focus & set(terms(text))) >= need
 
 
 def should_search(text):
@@ -537,12 +550,23 @@ def answer(text):
         pages += [(r, r.snippet if r.snippet.rstrip().endswith(('.', '!', '?')) else r.snippet.rstrip() + '.')
                   for r in results[:8] if r.provider in ('Brave Search', 'SearxNG') and len(r.snippet.split()) >= 6]
     scored = best_sentences(question, pages, web_index)
+    # The sentence must say the asked thing, not only name the subject: "Scotland is a country ..." does not answer
+    # "What is the national animal of Scotland?". Answer-type words (year, city ...) need not appear.
+    scored = [x for x in scored if says_asked(question, x[1], subject_terms)]
     if not scored or scored[0][0] < 1.6:
         return None
     best_score, best, source, key = scored[0]
     # Agreement: different websites if a web index was used, otherwise different pages.
     close = [x for x in scored[:15] if x[0] >= 0.6 * best_score]           # only near-best sentences may confirm
-    same = [r for s, _, r, k in close if key and k and k.lower() == key.lower()] if key else [source]
+    if key:
+        same = [r for s, _, r, k in close if k and k.lower() == key.lower()]
+    else:
+        # No extracted name/number/year: the first new word of the best sentence ("Diamond", "Iron", "Mars") is its
+        # answer, and other near-best sentences confirm it when they say the same word.
+        asked = set(terms(question))
+        new = [t for t in terms(best) if t not in asked]
+        head = new[0] if new else None
+        same = [source] + [r for _, sent, r, _ in close if r is not source and head and head in terms(sent)[:6]]
     sites = {r.domain() for r in same}
     agree = sorted(sites) if len(sites) > 1 else sorted({r.url for r in same})
     links = []
@@ -557,7 +581,8 @@ def answer(text):
     shown = [r for r in links if r.domain() in sites] if confident else [source]
     cited = ', '.join(link(r) for r in shown[:3])
     if confident:
-        body = (f'From a web search: **{key}**.\n\n> {best}\n\n{len(sites)} different websites agree on this.\n\n'
+        lead = f'From a web search: **{key}**.' if key else 'From a web search:'
+        body = (f'{lead}\n\n> {best}\n\n{len(sites)} different websites agree on this.\n\n'
                 f'**Sources:** {cited}')
     else:
         body = (f'I don\'t know this for sure. The most relevant sentence I found on the web:\n\n> {best}\n\n'

@@ -1,4 +1,4 @@
-# CAEL 0.3.1
+# CAEL 0.3.2
 
 **One assistant, one model bundle: chat, reasoning, math, Python, stories,
 prompt writing and emoji.** This release excludes picture and portrait generation
@@ -20,9 +20,35 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.3.1.cael` (about 553 MB), verifies every file
+`--download` fetches `models/cael-0.3.2.cael` (about 553 MB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.3.2
+
+Internet search when CAEL does not know. Every engine is still non-neural.
+
+- **Web search fallback** ([web_search.py](cael_unified/web_search.py)). When a factual question has no local
+  answer, CAEL searches the web, reads the pages and quotes the sentence that answers it.
+  - It searches Brave Search when `BRAVE_API_KEY` is set, then a SearxNG instance (`CAEL_SEARXNG_URL`), then
+    DuckDuckGo Instant Answers, then Wikipedia. When one fails or its free tier runs out, the next is used.
+  - Pages are read as clean text through Jina Reader or a direct fetch that only reaches public addresses.
+  - Every web answer links where it came from. When two or more different websites agree, the answer says so.
+    Otherwise it says it is not sure and asks you to check the source.
+  - A sentence that only names the subject ("Scotland is a country ...") is not taken as the answer.
+  - "Write a Python script that searches the web for ..." returns the same search as a runnable script.
+  - Turn it off with `CAEL_WEB_SEARCH=0`. Your question is sent to the search services and Jina Reader.
+- **More Wikidata facts:** currency, boiling and melting points, height, length, opening and release dates,
+  founding dates and creators (written, painted, directed, composed, invented, founded, designed).
+- **Multiple choice:** a question with A-D options always goes to the multiple-choice engines, even when it
+  says "then" or mentions posts and followers.
+- **Results on new questions written for this test:** 86% (38/44) with web search, 59% with
+  Wikipedia/Wikidata only and 23% with no internet. On a second fresh set written after the fixes,
+  73% (29/40) with web search, 35% with Wikipedia/Wikidata only and 10% with no internet. A web answer
+  takes about 5-25 seconds. Web search does not help with theory-of-mind stories: on Tiny Theory of Mind,
+  CAEL scores about 24%.
+- **NNAI-Bench:** 68.11% macro accuracy in a maintainer run of 0.3.1, marked test-adapted on the
+  [leaderboard](https://huggingface.co/spaces/vynly/non-neural-ai-leaderboard).
 
 ## New in 0.3.1
 

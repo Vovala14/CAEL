@@ -174,7 +174,12 @@ class Finder:
                 when = (span[3] if wanted_end else span[1]).strip()
                 return self.reply(f'**{year}** ({when}). {first[0] if first else ""}'.strip(), title, url)
             past = PAST.get(verb, verb + 'ed')
+            # Every word of the event must be in the sentence or the article title: "the first Moon landing" is not
+            # answered by "landings took place ... in 2019", nor "the Great Fire of London" by a plague article.
+            needed = {stem(w) for w in words(event)} - {stem(w) for w in words(title)}
             for sentence in sentences(intro)[:6]:
+                if not needed <= {stem(w) for w in words(sentence)}:
+                    continue
                 m = re.search(r'\b' + re.escape(past) + r'\b[^.]*?\b(1\d{3}|20\d\d)\b', sentence, re.I)
                 if m:
                     return self.reply(f'**{m[1]}**. {sentence}', title, url)

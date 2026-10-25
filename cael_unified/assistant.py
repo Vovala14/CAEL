@@ -191,7 +191,15 @@ class Assistant:
                 # A "List of ..." page is not an answer unless a list was asked for.
                 off_topic=off_topic or ('/wiki/List_of' in link and not re.search(r'(?i)\blist\b',text))
             past_sports=route=='chat/web-unsupported-sports' and bool(re.search(r'\b(?:19|20)\d\d\b',text))
-            if route in WEB_FALLBACK_ROUTES or off_topic or past_sports:
+            # A local passage that may not say the asked thing (Dirac's electron model for "Who discovered the
+            # electron?") is checked on the web; it is replaced only when different websites agree on an answer.
+            weak_local=(route=='chat/local-knowledge' and web_search.should_search(text)
+                        and not web_search.says_asked(text,answer.get('response','')))
+            if weak_local:
+                found=web_search.answer(text)
+                if found is not None and found.get('route')=='chat/web-search':
+                    answer=found
+            elif route in WEB_FALLBACK_ROUTES or off_topic or past_sports:
                 found=web_search.answer(text) if web_search.should_search(text) else None
                 if found is not None:
                     answer=found
@@ -238,6 +246,9 @@ class Assistant:
         text = messages[-1]['content'].strip()
         if not text:
             raise ValueError('Request is empty')
+        # A question with lettered A-D options is a multiple-choice question: its "then" is not a list of steps to plan,
+        # and words like "post" or "followers" in its story do not make it a vynly.co help question.
+        multiple_choice=mode in ('auto','chat') and choice_problem(text) is not None
         plan_context=getattr(self,'_plan_context',None)
         if plan_context is None:
             plan_context=self._plan_context=threading.local()
@@ -254,7 +265,7 @@ class Assistant:
         # Plan explicit multi-step requests before a single-step writing,
         # reasoning or factual route can consume the entire message. The guard
         # belongs to this execution thread, not another user's concurrent chat.
-        if mode in ('auto','chat') and not getattr(plan_context,'running',False):
+        if mode in ('auto','chat') and not multiple_choice and not getattr(plan_context,'running',False):
             from . import orchestrator
             steps=orchestrator.plan(text)
             if steps:
@@ -283,7 +294,7 @@ class Assistant:
                 if answer is not None:
                     return answer
         # A follow-up ("and what about Germany?", "when was he born?") is answered as the full question it stands for.
-        if mode in ('auto', 'chat') and not getattr(plan_context, 'rewriting', False):
+        if mode in ('auto', 'chat') and not multiple_choice and not getattr(plan_context, 'rewriting', False):
             from . import chat_extra
             full = chat_extra.rewrite(messages)
             if full and full.strip().lower() != text.lower():
@@ -293,8 +304,8 @@ class Assistant:
                 finally:
                     plan_context.rewriting = False
                 return dict(answer, understood_as=full, details=answer.get('details', '') + f'\nUnderstood as: "{full}".')
-        route = route_request(text, mode)
-        if route == 'chat' and mode == 'auto' and picture_follow_up(messages):
+        route = 'chat' if multiple_choice else route_request(text, mode)
+        if route == 'chat' and mode == 'auto' and not multiple_choice and picture_follow_up(messages):
             route = 'image'
         if route == 'image' and self.manifest.get('profile') == 'no-images':
             return self.picture_in_chat(text, messages, seed)
@@ -316,7 +327,7 @@ class Assistant:
             if route == 'story':
                 return self.story_reply(messages,seed,required=True)
             # Questions about vynly.co, where CAEL is the helper chatbot (cael_unified/vynly.py).
-            answer = self.vynly_reply(text, messages)
+            answer = None if multiple_choice else self.vynly_reply(text, messages)
             if answer is not None:
                 return answer
             # Exact everyday quantities: powers, fractions, units, speed, prices, "N times as many" (quantities.py).

@@ -1,0 +1,44 @@
+{
+ "n": 200,
+ "overall": 69.0,
+ "context_accuracy": 61.3,
+ "fact_update_accuracy": 92.0,
+ "by_category": {
+  "conflict": {
+   "n": 35,
+   "accuracy": 42.9
+  },
+  "memory": {
+   "n": 50,
+   "accuracy": 86.0
+  },
+  "planning": {
+   "n": 35,
+   "accuracy": 20.0
+  },
+  "reference": {
+   "n": 30,
+   "accuracy": 90.0
+  },
+  "update": {
+   "n": 50,
+   "accuracy": 92.0
+  }
+ },
+ "short_vs_long": {
+  "5-20 messages": 75.8,
+  "21-50 messages": 65.7
+ },
+ "latency_median_s": 0.0039,
+ "latency_p95_s": 0.0446,
+ "cpu_seconds_total": 3.2,
+ "compression_ratio_median": 6.36,
+ "system": "cael-0.3.5-stage3-updates",
+ "split": "test",
+ "load_seconds": 0.85,
+ "rss_loaded_mb": 86.7,
+ "peak_ram_mb": 346.0,
+ "python_baseline_mb": 20.2,
+ "threads": 1,
+ "device": "cpu"
+}

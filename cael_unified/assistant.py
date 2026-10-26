@@ -326,6 +326,11 @@ class Assistant:
             answer=sudoku.reply(text,messages)
             if answer is not None:
                 return answer
+            # Questions about earlier messages: people, things, events, changes, conflicts and plans (conversation_memory.py).
+            from . import conversation_memory
+            answer=conversation_memory.reply([m for m in messages if m['role']!='system'])
+            if answer is not None:
+                return answer
         if mode in ('auto','chat'):
             # A tool's operation list is one specification, not unrelated chat
             # commands. Execute only pure, bounded compiler-produced tools.

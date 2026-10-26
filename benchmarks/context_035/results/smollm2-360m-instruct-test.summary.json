@@ -1,0 +1,48 @@
+{
+ "n": 200,
+ "overall": 5.5,
+ "context_accuracy": 5.3,
+ "fact_update_accuracy": 6.0,
+ "by_category": {
+  "conflict": {
+   "n": 35,
+   "accuracy": 2.9
+  },
+  "memory": {
+   "n": 50,
+   "accuracy": 10.0
+  },
+  "planning": {
+   "n": 35,
+   "accuracy": 2.9
+  },
+  "reference": {
+   "n": 30,
+   "accuracy": 3.3
+  },
+  "update": {
+   "n": 50,
+   "accuracy": 6.0
+  }
+ },
+ "short_vs_long": {
+  "5-20 messages": 16.7,
+  "21-50 messages": 0.0
+ },
+ "latency_median_s": 8.5704,
+ "latency_p95_s": 14.0597,
+ "cpu_seconds_total": 24468.58,
+ "compression_ratio_median": null,
+ "system": "smollm2-360m-instruct",
+ "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+ "split": "test",
+ "load_seconds": 0.72,
+ "rss_loaded_mb": 1933.7,
+ "peak_ram_mb": 2045.9,
+ "python_baseline_mb": 504.2,
+ "threads": 8,
+ "device": "cpu",
+ "system_prompt": "You are a helpful assistant. Answer the user's last question using what was said earlier in the conversation.",
+ "decoding": "greedy, max_new_tokens=64, float32",
+ "torch": "2.9.1+rocm7.2.1"
+}

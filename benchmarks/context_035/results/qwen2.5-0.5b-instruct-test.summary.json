@@ -1,0 +1,48 @@
+{
+ "n": 200,
+ "overall": 52.5,
+ "context_accuracy": 50.7,
+ "fact_update_accuracy": 58.0,
+ "by_category": {
+  "conflict": {
+   "n": 35,
+   "accuracy": 31.4
+  },
+  "memory": {
+   "n": 50,
+   "accuracy": 76.0
+  },
+  "planning": {
+   "n": 35,
+   "accuracy": 25.7
+  },
+  "reference": {
+   "n": 30,
+   "accuracy": 60.0
+  },
+  "update": {
+   "n": 50,
+   "accuracy": 58.0
+  }
+ },
+ "short_vs_long": {
+  "5-20 messages": 60.6,
+  "21-50 messages": 48.5
+ },
+ "latency_median_s": 9.5657,
+ "latency_p95_s": 14.9212,
+ "cpu_seconds_total": 26895.16,
+ "compression_ratio_median": null,
+ "system": "qwen2.5-0.5b-instruct",
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "split": "test",
+ "load_seconds": 1.17,
+ "rss_loaded_mb": 2485.7,
+ "peak_ram_mb": 2560.2,
+ "python_baseline_mb": 504.1,
+ "threads": 8,
+ "device": "cpu",
+ "system_prompt": "You are a helpful assistant. Answer the user's last question using what was said earlier in the conversation.",
+ "decoding": "greedy, max_new_tokens=64, float32",
+ "torch": "2.9.1+rocm7.2.1"
+}

@@ -53,6 +53,30 @@ class SudokuTests(unittest.TestCase):
         self.assertIn('Not quite', sudoku.reply('check my sudoku ' + wrong)['response'])
         self.assertIn('no solution', sudoku.reply('solve this sudoku ' + '11' + INKALA[2:])['response'])
 
+    def test_a_game_played_move_by_move(self):
+        history = []
+
+        def say(text):
+            history.append(dict(role='user', content=text))
+            answer = sudoku.reply(text, history)
+            history.append(dict(role='assistant', content=answer['response']))
+            return answer
+
+        first = say('play sudoku, easy')
+        puzzle = cells(re.search(r'Puzzle in one line: `([0-9.]{81})`', first['response']).group(1))
+        solution = sudoku.exact_cover(puzzle)[0]
+        empty = [i for i in range(81) if not puzzle[i]]
+        i = empty[0]
+        clash = next(d for d in range(1, 10) if sudoku.conflicts(puzzle, i, d))
+        self.assertIn('cannot go', say(f'r{i // 9 + 1}c{i % 9 + 1}={clash}')['response'])
+        self.assertIn(f'Placed {solution[i]}', say(f'put {solution[i]} in row {i // 9 + 1} column {i % 9 + 1}')['response'])
+        self.assertIn('right so far', say('check')['response'])
+        self.assertIn('Undone', say('undo')['response'])
+        given = next(j for j in range(81) if puzzle[j])
+        self.assertIn('given', say(f'r{given // 9 + 1}c{given % 9 + 1}=1')['response'])
+        moves = ', '.join(f'r{j // 9 + 1}c{j % 9 + 1}={solution[j]}' for j in empty)
+        self.assertEqual(say(moves)['route'], 'chat/sudoku-won')
+
     def test_playing_across_a_conversation(self):
         first = sudoku.reply('play sudoku, medium')
         history = [dict(role='user', content='play sudoku, medium'), dict(role='assistant', content=first['response'])]

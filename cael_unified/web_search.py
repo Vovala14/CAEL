@@ -28,7 +28,7 @@ import threading
 import time
 from urllib.parse import quote, urlparse
 
-UA = 'CAEL/0.3.3 (+https://github.com/Vovala14/CAEL; non-neural assistant)'
+UA = 'CAEL/0.3.4 (+https://github.com/Vovala14/CAEL; non-neural assistant)'
 STOP = set('a an the of to in on at for with by from as is are was were be been being do does did what which who whom whose why how '
            'when where there their they it its this that these those and or but if then than so very much many can could would '
            'should will shall may might must about into over under after before during tell me please know give find out i you '

@@ -1,4 +1,4 @@
-"""Shared 0.3.3 worker: anonymous sessions, queued jobs, private image access.
+"""Shared 0.3.4 worker: anonymous sessions, queued jobs, private image access.
 
 There is no visitor-count cap. Bounded work queues protect the PC's resources;
 chat and image work use separate pools so image generation does not block chat.
@@ -31,7 +31,7 @@ async function waitJob(id){const started=Date.now();while(Date.now()-started<900
 form.addEventListener('submit',async event=>{event.preventDefault();const text=input.value.trim();if(!text)return;add(text,true);messages.push({role:'user',content:text});input.value='';setThinking(true);try{const payload={messages:messages,mode:document.querySelector('#mode').value,n:2,client_id:crypto.randomUUID()};const id=await submitJob(payload);const result=await waitJob(id);add(result.response,false,result.images||[],result.details||'');messages.push({role:'assistant',content:result.response})}catch(error){add(error.message);messages.pop()}finally{setThinking(false);input.focus()}});
 '''
 PAGE = LOCAL_PAGE[:LOCAL_PAGE.index("form.addEventListener('submit'")] + PUBLIC_SCRIPT + '</script></html>'
-PAGE = PAGE.replace('Chat, helper, emoji and small pictures in one place', 'Chat, helper, emoji and small pictures · shared 0.3.3 worker')
+PAGE = PAGE.replace('Chat, helper, emoji and small pictures in one place', 'Chat, helper, emoji and small pictures · shared 0.3.4 worker')
 PAGE = PAGE.replace('</header>', '<br><small><a href="/sources" target="_blank" rel="noopener" style="color:inherit">Internet data sources and licences</a></small></header>')
 PAGE = PAGE.replace("add(result.response,false,result.images||[],result.details||'')", "add(result.response,false,result.images||[],result.details||'',result.sources||[])")
 

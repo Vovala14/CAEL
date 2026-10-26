@@ -424,6 +424,9 @@ def correct_words(text):
         original = m.group(0)
         word = original.lower()
         replacement = None
+        # Letters joined to digits are codes, not words ("r1c1", "4x4", "b12").
+        if text[m.end():m.end() + 1].isdigit() or (m.start() and text[m.start() - 1].isdigit()):
+            continue
         # A capitalised word followed by a verb is a name ("Helo splits 28 apples", "Theo has ...").
         follow = re.match(r"\s+([a-z]+)", text[m.end():])
         named = original[0].isupper() and bool(follow) and (

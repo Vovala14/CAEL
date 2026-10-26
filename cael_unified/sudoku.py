@@ -289,38 +289,144 @@ def valid_complete(grid):
     return all(sorted(grid[i] for i in unit) == list(range(1, 10)) for unit in UNITS)
 
 
-# ---------------------------------------------------------------- chat
+# ---------------------------------------------------------------- chat: a game you play move by move
 
-ASK_NEW = re.compile(r'(?i)\b(?:give|make|generate|create|show|send)\b.*\bsudoku\b|\b(?:play|start|new)\b.*\bsudoku\b|\bsudoku\b.*\b(?:puzzle )?(?:for me|please)\b')
+ASK_NEW = re.compile(r'(?i)\b(?:give|make|generate|create|show|send)\b.*\bsudoku\b|\b(?:play|start|new)\b.*\bsudoku\b|'
+                     r'\bsudoku\b.*\b(?:puzzle )?(?:for me|please)\b|\b(?:new|another|next) (?:game|puzzle|one|sudoku)\b|\bplay again\b')
 LEVEL = re.compile(r'(?i)\b(easy|simple|beginner|medium|normal|hard|expert|hardest|highest|evil|extreme|diabolical|insane|'
                    r'difficult|maximum|max|toughest|impossible|master|ultimate)\b')
 TOP = {'hardest', 'highest', 'evil', 'extreme', 'diabolical', 'insane', 'maximum', 'max', 'toughest', 'impossible', 'master', 'ultimate'}
+STATE = re.compile(r'Puzzle in one line: `([0-9.]{81})`(?:.*?Your grid: `([0-9.]{81})`)?', re.S)
+MOVE = re.compile(r'(?i)\br\s*([1-9])\s*c\s*([1-9])\s*(?:=|:|is|to|->)?\s*([0-9])\b|'
+                  r'\b(?:put|place|write|set|enter|add)\s+(?:a\s+)?([1-9])\s+(?:in|at|on|into)\s+(?:the\s+)?row\s*([1-9])\s*,?\s*(?:and\s+)?col(?:umn)?\s*([1-9])\b|'
+                  r'\brow\s*([1-9])\s*,?\s*(?:and\s+)?col(?:umn)?\s*([1-9])\s*(?:=|:|is|to|->|gets|should be)\s*([0-9])\b|'
+                  r'^\s*([1-9])\s*[, ]\s*([1-9])\s*[,=: ]\s*([0-9])\s*$')
+CLEAR = re.compile(r'(?i)\b(?:clear|erase|remove|delete|empty)\s+(?:r\s*([1-9])\s*c\s*([1-9])|row\s*([1-9])\s*,?\s*(?:and\s+)?col(?:umn)?\s*([1-9]))')
+
+
+def as_cells(line):
+    return [int(ch) if ch.isdigit() else 0 for ch in line]
+
+
+def line_of(grid):
+    return ''.join(str(v) if v else '.' for v in grid)
+
+
+def games(messages):
+    """[(puzzle, grid)] states CAEL showed in this conversation, newest last."""
+    found = []
+    for m in messages or []:
+        if m.get('role') == 'assistant':
+            s = STATE.search(m.get('content', ''))
+            if s:
+                puzzle = as_cells(s.group(1))
+                found.append((puzzle, as_cells(s.group(2)) if s.group(2) else list(puzzle)))
+    return found
 
 
 def last_puzzle(messages):
-    """The puzzle CAEL gave earlier in this conversation (its one-line form), or None."""
-    for m in reversed(messages or []):
-        if m.get('role') == 'assistant':
-            found = re.search(r'Puzzle in one line: `([0-9.]{81})`', m.get('content', ''))
-            if found:
-                return [int(ch) if ch.isdigit() else 0 for ch in found.group(1)]
-    return None
+    states = games(messages)
+    return states[-1][0] if states else None
+
+
+def board_text(puzzle, grid, note=''):
+    filled = sum(1 for v in grid if v)
+    return (f'{note}```text\n{show(grid)}\n```\n{filled}/81 filled. Moves: `r3c4=7` or "put 7 in row 3 column 4"; also **hint**, '
+            f'**check**, **undo**, **solve it** or **new game**.\n\nPuzzle in one line: `{line_of(puzzle)}`\nYour grid: `{line_of(grid)}`')
+
+
+def conflicts(grid, i, d):
+    """Where d already appears in the row, column or box of cell i."""
+    clashes = []
+    for u, unit in enumerate(UNITS):
+        if i in unit and any(grid[j] == d for j in unit if j != i):
+            clashes.append(UNIT_NAMES[u])
+    return clashes
+
+
+def moves_in(text):
+    found = []
+    for m in MOVE.finditer(text):
+        g = [x for x in m.groups() if x is not None]
+        if m.group(4):                                   # "put 7 in row 3 column 4"
+            d, r, c = g
+        else:
+            r, c, d = g
+        found.append((int(r) - 1, int(c) - 1, int(d)))
+    for m in CLEAR.finditer(text):
+        r, c = [x for x in m.groups() if x is not None]
+        found.append((int(r) - 1, int(c) - 1, 0))
+    return found
+
+
+def play(text, low, states):
+    """Moves, undo, check, hint and solve on the current game; None when the message is not about the game."""
+    puzzle, grid = states[-1]
+    solution = exact_cover(puzzle, limit=1)
+    solution = solution[0] if solution else None
+    if re.fullmatch(r'\s*(?:undo|take (?:it|that) back|undo (?:that|the last move))\s*[.!]*\s*', low):
+        if len(states) >= 2 and states[-2][0] == puzzle:
+            return out(board_text(puzzle, states[-2][1], 'Undone.\n'), 'play')
+        return out(board_text(puzzle, grid, 'Nothing to undo yet.\n'), 'play')
+    if re.fullmatch(r'\s*(?:check|check (?:it|my (?:grid|board|progress|answer))|how am i doing|am i right|any mistakes\??)\s*[.!?]*\s*', low):
+        if not solution:
+            return None
+        wrong = [i for i in range(81) if grid[i] and not puzzle[i] and grid[i] != solution[i]]
+        mine = sum(1 for i in range(81) if grid[i] and not puzzle[i])
+        if not wrong:
+            return out(f'**All {mine} of your digits are right so far.** Keep going!' if mine else 'You have not placed any digits yet.', 'check')
+        where = ', '.join(f'r{i // 9 + 1}c{i % 9 + 1}' for i in wrong[:5])
+        return out(f'**{len(wrong)} of your {mine} digits {"is" if len(wrong) == 1 else "are"} wrong** ({where}). They do not break a rule yet, '
+                   'but they lead to a dead end. Clear them with e.g. `clear ' + f'r{wrong[0] // 9 + 1}c{wrong[0] % 9 + 1}` and try again.', 'check')
+    if re.search(r'\bhint\b|i\'?m stuck|\bstuck\b|next (?:move|step)|^\s*help(?: me)?\s*[.!?]*$', low):
+        found = hint(grid)
+        if found:
+            return out('**Hint:** ' + found[2], 'hint')
+        if solution:
+            i = next(i for i in range(81) if not grid[i])
+            return out(f'No single forced move is visible right now (this level needs deeper reasoning). Here is a free digit: '
+                       f'**r{i // 9 + 1}c{i % 9 + 1} = {solution[i]}**.', 'hint')
+    if re.search(r'\bsolve it\b|show (?:me )?the (?:solution|answer)|\bgive up\b|what\'?s the (?:solution|answer)', low) and solution:
+        return out(f'Here is the solution:\n```text\n{show(solution)}\n```\nWant another one? Say **new game** (easy, medium, hard, expert '
+                   'or highest).', 'solve')
+    moves = moves_in(text)
+    if not moves:
+        return None
+    grid = list(grid)
+    notes = []
+    for r, c, d in moves:
+        i = r * 9 + c
+        if puzzle[i]:
+            notes.append(f'r{r + 1}c{c + 1} is a given ({puzzle[i]}) and cannot be changed.')
+            continue
+        if d == 0:
+            grid[i] = 0
+            notes.append(f'Cleared r{r + 1}c{c + 1}.')
+            continue
+        clashes = conflicts(grid, i, d)
+        if clashes:
+            notes.append(f'{d} cannot go in r{r + 1}c{c + 1}: there is already a {d} in its ' + ' and '.join(clashes) + '.')
+            continue
+        grid[i] = d
+        notes.append(f'Placed {d} at r{r + 1}c{c + 1}.')
+    if all(grid) and valid_complete(grid):
+        return out(f'**Solved! Congratulations!** \U0001F389\n```text\n{show(grid)}\n```\nWant another one? Say **new game** '
+                   '(easy, medium, hard, expert or highest).', 'won')
+    return out(board_text(puzzle, grid, ' '.join(notes) + '\n'), 'play')
 
 
 def reply(text, messages=None):
     low = text.lower()
-    earlier = last_puzzle(messages)
-    follow_up = earlier is not None and re.fullmatch(
-        r"\s*(?:(?:give me |can i (?:have|get) |i need |any )?(?:a |another )?hint|i'?m stuck|help(?: me)?|next (?:move|step)|"
-        r"(?:please )?solve it|show (?:me )?the (?:solution|answer)|(?:i )?give up|what'?s the (?:solution|answer))\s*[.!?]*\s*", low)
-    if 'sudoku' not in low and not follow_up and not re.search(r'(?i)\bsolve (?:this|the) (?:puzzle|grid)\b', text) \
-            and not (earlier is not None and parse(text) is not None):
+    states = games(messages)
+    if states and not ASK_NEW.search(text):
+        answer = play(text, low, states)
+        if answer is not None:
+            return answer
+    earlier = states[-1][0] if states else None
+    if 'sudoku' not in low and not re.search(r'(?i)\bsolve (?:this|the) (?:puzzle|grid)\b', text) \
+            and not (earlier is not None and (parse(text) is not None or ASK_NEW.search(text))):
         return None
     grid = parse(text)
-    if grid is None and follow_up:
-        grid = list(earlier)
-        if re.search(r'hint|stuck|help|next', low):
-            low += ' hint'
     if grid is not None:
         clues = sum(1 for v in grid if v)
         if clues == 81:
@@ -339,7 +445,7 @@ def reply(text, messages=None):
                        'Ask me to solve it if you want the answer.', 'hint')
         try:
             solutions, guesses, logic_only = solve(grid, limit=2)
-        except TimeoutError:   # pragma: no cover - only for grids with almost no givens
+        except TimeoutError:   # only for grids with almost no givens
             return out('This grid has so few givens that it has a huge number of solutions, so it is not a proper Sudoku. '
                        'A proper puzzle needs at least 17 givens and exactly one solution.', 'none')
         if not solutions:
@@ -349,24 +455,21 @@ def reply(text, messages=None):
         how = ('it can be solved by logic alone (naked and hidden singles)' if logic_only else
                f'logic alone gets stuck, so it needed a search of {guesses} steps with backtracking')
         return out(f'Solved ({clues} givens, {how}; difficulty: {level or "not unique"}):\n```text\n{show(solutions[0])}\n```' + extra, 'solve')
-    if ASK_NEW.search(text) or re.search(r'(?i)\bsudoku\b', text):
-        word = (LEVEL.search(text) or [None, 'expert'])[1].lower()
-        note = ''
-        if word in TOP or re.search(r'(?i)most difficult|world.?s hardest|inkala', text):
-            puzzle, name = hardest()
-            level = 'highest-level'
-            note = (f'\n\nThis is a reshuffled version of a famous hardest puzzle ({name}): digits relabelled and rows, columns '
-                    'and boxes swapped, so it looks new but is exactly as hard. Logic rules alone cannot finish it.')
-        else:
-            level = {'simple': 'easy', 'beginner': 'easy', 'normal': 'medium', 'difficult': 'hard'}.get(word, word)
-            puzzle, level = generate(level)
-        clues = sum(1 for v in puzzle if v)
-        article = 'an' if level[0] in 'aeiou' else 'a'
-        return out(f'Here is {article} **{level}** Sudoku ({clues} givens, exactly one solution):{note}\n```text\n{show(puzzle)}\n```\n'
-                   'Fill each row, column and 3x3 box with 1 to 9. Send it back with your digits to check it, ask for a '
-                   '**hint** with the grid, or ask me to **solve** it.\n\nPuzzle in one line: `'
-                   + ''.join(str(v) if v else '.' for v in puzzle) + '`', 'new')
-    return None
+    # A new game. Without a level, a medium puzzle: fun rather than frustrating.
+    word = (LEVEL.search(text) or [None, 'medium'])[1].lower()
+    note = ''
+    if word in TOP or re.search(r'(?i)most difficult|world.?s hardest|inkala', text):
+        puzzle, name = hardest()
+        level = 'highest-level'
+        note = (f'This is a reshuffled version of a famous hardest puzzle ({name}): digits relabelled and rows, columns and '
+                'boxes swapped, so it looks new but is exactly as hard. Logic rules alone cannot finish it.\n\n')
+    else:
+        level = {'simple': 'easy', 'beginner': 'easy', 'normal': 'medium', 'difficult': 'hard'}.get(word, word)
+        puzzle, level = generate(level)
+    clues = sum(1 for v in puzzle if v)
+    article = 'an' if level[0] in 'aeiou' else 'a'
+    return out(f'Here is {article} **{level}** Sudoku ({clues} givens, exactly one solution). Fill every row, column and 3x3 box '
+               f'with 1 to 9.\n\n' + board_text(puzzle, puzzle, note), 'new')
 
 
 def out(response, kind):

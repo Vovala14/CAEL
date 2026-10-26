@@ -1,4 +1,4 @@
-# CAEL 0.3.3
+# CAEL 0.3.4
 
 **One assistant, one model bundle: chat, reasoning, math, Python, stories,
 prompt writing and emoji.** This release excludes picture and portrait generation
@@ -20,9 +20,37 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.3.3.cael` (about 553 MB), verifies every file
+`--download` fetches `models/cael-0.3.4.cael` (about 553 MB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.3.4
+
+Understands misspellings, answers far more everyday questions, writes and checks everyday Python, reasons through
+everyday problems, and plays Sudoku. Every engine is still non-neural.
+
+- **Spelling and chat shorthand** ([spelling.py](cael_unified/spelling.py)): "whats the captial of australia",
+  "wich planet", "r u smart", "ur funny" are read as meant. Word and word-pair counts come from CAEL's own Wikipedia
+  snapshot and chat corpus (new model folder `models/cael-spelling-v1`, CC BY-SA 4.0), plus spoken-English
+  frequencies and WordNet; the neighbouring words decide between candidates. Names, code and correct text are left
+  alone. If the corrected message still gets no answer, the original and other likely readings are tried.
+- **Fewer refusals:** abbreviations ("what does CPU stand for"), jobs ("what does a nurse do"), stories about any
+  subject, occasion messages (birthday, thanks, get well ...), pet names, tips, riddles, compliments, more everyday
+  facts, a country's languages and "where is X" with the city.
+- **Everyday Python** ([python_help.py](cael_unified/python_help.py)): 60 tested functions for common requests, a
+  composer that builds small functions from the request's wording (number and string checks, transforms, filtered
+  list totals, positions, counts), and a guide to Python basics (lists, dictionaries, files, pip, input, loops ...).
+  Every function shown has been run on its examples.
+- **Everyday reasoning** ([everyday_reasoning.py](cael_unified/everyday_reasoning.py)): word problems, "at the same
+  time" trick questions, days of the week, clock times, ages, comparing numbers, counting letters, sequences, odd one
+  out, where things are, family relations and "all/some" logic, each with its working.
+- **Sudoku** ([sudoku.py](cael_unified/sudoku.py)): "play sudoku" (easy, medium, hard, expert or highest) gives a new
+  puzzle with exactly one solution, played move by move in the chat (`r3c4=7`, "put 7 in row 3 column 4", undo,
+  check, hint, solve it). It solves any pasted grid, including the hardest known puzzles, in milliseconds (Knuth's
+  Algorithm X); the highest level is a reshuffled famous hardest puzzle with the same difficulty.
+- **Results on fresh questions written after the changes:** everyday questions 85% -> 93% spelled correctly and
+  35% -> 87% misspelled; Python questions 5/10 -> 10/10; reasoning 3/20 -> 19/20; function requests 10/10 on the
+  last untouched set.
 
 ## New in 0.3.3
 

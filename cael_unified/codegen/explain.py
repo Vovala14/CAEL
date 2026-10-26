@@ -128,7 +128,8 @@ def code_in(text):
         body = '\n'.join(lines[1:]).strip('\n')
         head = lines[0].split(':', 1)
         return (head[1].strip() + '\n' + body).strip('\n') if len(head) == 2 and head[1].strip() else body
-    match = re.search(r'(?i)\b(?:output|result|value) of\s+(.+?)\s*\??$', text) or re.search(r'[?:]\s*(.+)$', text)
+    match = (re.search(r'(?i)\b(?:code|snippet|program|script|line|expression)\s*[:?]\s*(.+?)\s*$', text)
+             or re.search(r'(?i)\b(?:output|result|value) of\s+(.+?)\s*\??$', text) or re.search(r'[?:]\s*(.+)$', text))
     return match[1].strip() if match else None
 
 

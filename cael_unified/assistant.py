@@ -398,6 +398,13 @@ class Assistant:
             answer = None if multiple_choice else self.vynly_reply(text, messages)
             if answer is not None:
                 return answer
+            # Everyday reasoning (word problems, days, sequences, where things are, family relations) and everyday
+            # Python (tested functions for common tasks, Python basics): everyday_reasoning.py, python_help.py.
+            if not multiple_choice:
+                from . import everyday_reasoning, python_help
+                answer = python_help.reply(text) or everyday_reasoning.reply(text)
+                if answer is not None:
+                    return answer
             # Exact everyday quantities: powers, fractions, units, speed, prices, "N times as many" (quantities.py).
             from . import quantities
             answer = quantities.reply(text)

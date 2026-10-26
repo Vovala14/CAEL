@@ -320,6 +320,12 @@ class Assistant:
         plan_context=getattr(self,'_plan_context',None)
         if plan_context is None:
             plan_context=self._plan_context=threading.local()
+        if mode in ('auto','chat') and not multiple_choice:
+            # Sudoku: solve a pasted grid, give a new puzzle (up to the hardest), a hint, or check a filled grid (sudoku.py).
+            from . import sudoku
+            answer=sudoku.reply(text,messages)
+            if answer is not None:
+                return answer
         if mode in ('auto','chat'):
             # A tool's operation list is one specification, not unrelated chat
             # commands. Execute only pure, bounded compiler-produced tools.

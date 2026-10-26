@@ -66,7 +66,7 @@ MISSPELLED = {w: r for r, ws in {
     'anniversary': 'aniversary anniversery',
 }.items() for w in ws.split() if not w.endswith('_')}
 # Words CAEL must not "correct": its own names, site features and common chat words outside the dictionaries.
-OWN = set('cael vynly mica mage sparks spark trails trail flares flare midjourney dalle sora runway flux comfyui c2pa synthid '
+OWN = set('cael vynly mica mage sudoku sparks spark trails trail flares flare midjourney dalle sora runway flux comfyui c2pa synthid '
           'okay ok hey hi hello lol haha yeah yep nope wow omg emoji emojis selfie online offline email emails app apps '
           'youtube tiktok instagram google facebook whatsapp iphone android wifi covid'.split())
 FUNCTION = set('the a an and or but if then than so because as of in on at by for with about into onto from to up down out '

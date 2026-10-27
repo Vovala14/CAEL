@@ -1,4 +1,4 @@
-# CAEL 0.3.4
+# CAEL 0.3.6
 
 **One assistant, one model bundle: chat, reasoning, math, Python, stories,
 prompt writing and emoji.** This release excludes picture and portrait generation
@@ -20,9 +20,24 @@ python -m cael_unified --ui
 
 Open **http://127.0.0.1:8765**. On Windows, `SETUP.bat` installs dependencies
 and downloads the checksum-verified bundle; `RUN.bat` starts the local UI.
-`--download` fetches `models/cael-0.3.4.cael` (about 553 MB), verifies every file
+`--download` fetches `models/cael-0.3.6.cael` (about 563 MB), verifies every file
 and installs its model folders under `models/`. It also records the reviewed model
 selections in `research/active_models.json` unless that file already exists.
+
+## New in 0.3.6
+
+- **Conversation reasoning:** compact clause records, fact updates and corrections, conflicting sources,
+  paraphrased recall, and bounded operations over values in the current conversation.
+- **Lower-memory word lookups:** spelling counts and word groups can use compact, memory-mapped NumPy tables.
+- **No neural runtime:** the symbolic/count architecture is retained. Picture and portrait model weights
+  remain excluded; emoji and image-prompt writing remain available.
+
+On the locally authored 400-question context benchmark, frozen 0.3.6 answered **122/400 (30.50%)**, versus
+0.3.5 at 53/400 (13.25%), Qwen2.5-0.5B at 102/400 (25.50%) and Qwen3-0.6B at 121/400 (30.25%).
+The Qwen3 difference is one answer, effectively a tie. These are heuristic-graded local conversation tests,
+not a general capability ranking or a new HellaSwag/Tiny ToM leaderboard score. References, planning and
+unsupported questions remain weak. See [release and evaluation notes](RELEASE_0_3_6.md) for conditions,
+limitations, source freeze and reproducible evidence.
 
 ## New in 0.3.4
 

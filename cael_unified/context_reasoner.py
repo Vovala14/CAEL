@@ -107,7 +107,7 @@ PERSON_REL = cm.RELATIONS | {'friend', 'friends', 'cousins', 'colleagues', 'neig
 def lemma(word):
     """Dictionary base form ('studied' -> 'study', 'went' -> 'go', 'cousins' -> 'cousin') by WordNet forms and suffix rules."""
     w = word.lower()
-    if len(w) <= 3 or not w.isalpha():
+    if len(w) <= 2 or not w.isalpha():
         return w
     db = cm._wordnet()
     if db is not None:
@@ -133,7 +133,7 @@ def bases(word):
     w = word.lower()
     out = {lemma(w)}
     db = cm._wordnet()
-    if db is not None and w.isalpha() and len(w) > 3:
+    if db is not None and w.isalpha() and len(w) > 2:
         out |= {row[0] for row in db.execute('SELECT base FROM form WHERE form=?', (w,))}
         for suffix, repl in (('ies', 'y'), ('es', ''), ('s', ''), ('ied', 'y'), ('ed', ''), ('ed', 'e'), ('ing', ''), ('ing', 'e')):
             if w.endswith(suffix) and len(w) - len(suffix) >= 3:
@@ -312,10 +312,18 @@ class Context:
         nd = re.match(r"^[Tt]he ([A-Z][a-z]+?)s? (?:next door|downstairs|upstairs)", text)
         if nd:
             c.subject = nd.group(1).lower()
-        if c.subject is None and re.match(r"^(?:He|She|They)\b", text) and self.clauses:
-            prev = next((p for p in reversed(self.clauses) if p.subject and p.subject != 'user'), None)
-            if prev is not None:
-                c.subject = prev.subject
+        pron = re.match(r"^(?:(?:so|and|but|also|oh|well|anyway|btw|honestly|lol|hm+)[,]?\s+)?(He|She|They)\b", text)
+        if pron and self.clauses:
+            want = {'He': 'm', 'She': 'f', 'They': None}[pron.group(1)]
+            people = set(self.reader.store.gender) | {n for names in self.relations.values() for n in names}
+            for prev in reversed(self.clauses[-12:]):
+                cands = ([prev.subject] if prev.subject in people else []) + sorted(prev.mentions & people)
+                if pron.group(1) == 'They' and prev.subject and prev.subject not in ('user',) and not prev.subject.startswith('my '):
+                    cands = [prev.subject] + cands
+                pick = next((n for n in cands if want is None or self.reader.store.gender.get(n, 'u') in (want, 'u')), None)
+                if pick:
+                    c.subject = pick
+                    break
         # relation links: "my cousin Joaquin", "Joaquin is my cousin"
         for rel, name in re.findall(r"\b[Mm]y ((?:best |older |younger |little |big )?[a-z]+),? ([A-Z][a-z]+)\b", text):
             head = rel.split()[-1]
@@ -548,11 +556,15 @@ class Question:
             ({'colour'} if re.search(r'colou?r', low) else set())
         self.subjects = self.find_subjects()
         mv = re.search(r"\b(?:did|does|do|will|would|can|could)\b(?: [a-z']+){1,6}? (have|has|own|carry|carrying|bring|wear|keep|take|need|want|"
-                       r"buy|get|give|use|make|eat|drink|order|find|lose|see|meet|visit|play|read|watch|study|teach|call)\b\??$", low) or \
+                       r"buy|get|give|use|make|eat|drink|order|find|lose|see|meet|visit|play|read|watch|study|teach|call|open|fit|unlock|"
+                       r"cost|mean|need|like|love|hate|prefer|speak|win|lose)\b\??$", low) or \
             re.search(r"\b(?:was|were|is|are) [a-z]+ (carrying|wearing|holding|using|eating|drinking|reading|watching)\b", low)
         self.verb = lemma(mv.group(1)) if mv else None
         self.lemmas -= self.subjects                  # the person asked about is not evidence of the answer
         self.anchors = self.find_anchors() - self.subjects
+        self.places = {w.lower() for w in re.findall(r"\b([A-Z][a-z]+)\b", self.text[1:])
+                       if w.lower() not in self.subjects and w not in cm.NAME_STOP and w.lower() not in DAY_NAMES and
+                       w.lower() not in MONTHS and any(w.lower() in c.raw for c in ctx.clauses) and cm.is_place(w)}
         cat = re.match(r"(?:which|what) ([a-z]+)\b", self.low)
         self.category = lemma(cat.group(1)) if cat and cat.group(1) not in ANSWER_NOUNS and is_noun(lemma(cat.group(1))) and \
             cat.group(1) not in AUX_WORDS else None
@@ -576,8 +588,9 @@ class Question:
                 out.add(name)
             elif name in known:
                 self.stranger = True               # 'Ben Franklin' is not the Ben from this chat
-        for rel in re.findall(r"\bmy ((?:best |older |younger )?[a-z-]+?)(?:'s|s)?\b", low):
+        for rel in re.findall(r"\bmy ((?:best |older |younger )?[a-z]+(?:-in-law)?)\b", low):
             head = rel.split()[-1]
+            head = head[:-2] if head.endswith("'s") else head
             if head in IN_LAW:
                 out |= ctx.in_law(head)
                 continue
@@ -616,7 +629,7 @@ class Question:
         wh, low = self.wh, self.low
         if re.search(r'\b(?:for a living|for work|job|profession|occupation|career|work as|line of work|what does \w+ do)\b', low)                 and wh in ('what', 'how'):
             return 'job'
-        if re.search(r'\b(?:called|named|name|nickname)\b', low) and wh in ('what', 'which', 'how', 'who'):
+        if re.search(r'\b(?:called|named|name|nickname|call)\b', low) and wh in ('what', 'which', 'how', 'who'):
             return 'name'
         if re.search(r'\b(?:which|what) (?:street|road|avenue|address)\b', low):
             return 'street'
@@ -800,6 +813,11 @@ def retrieve(ctx, q):
             continue
         if q.anchors and not all(matches(ctx, a, c.lemmas) for a in q.anchors if a in ctx.vocabulary or q.strict(a)):
             continue
+        if q.places and not all(re.search(r'\b' + pl + r'\b', c.raw) for pl in q.places):
+            continue
+        if q.subjects == {'user'} and c.subject and c.subject not in ('user',) and not c.subject.startswith(('my ', 'the ')) \
+                and c.subject in ctx.reader.store.gender:
+            continue                                 # 'my rabbit' is not Carla's rabbit
         o = overlap(ctx, q, c)
         verb_hit = q.verb and q.verb in {b for w in re.findall(r"[a-z']+", c.raw) for b in bases(w)}
         if o <= 0 and not (verb_hit and named and c.mentions & named):
@@ -1462,7 +1480,24 @@ def op_which_of(ctx, q):
                         return f'{pair[k][0].upper() + pair[k][1:]}.'
     return None
 
-OPERATIONS = (op_which_of, op_budget, op_changed, op_remaining, op_category_count, op_relative, op_weekday, op_available, op_eliminate, op_rate, op_ordinal, op_superlative, op_same, op_count, op_sum, op_time, op_rule, op_same_day, op_yesno_compare)
+
+def op_one_other(ctx, q):
+    """'I carry two keys. One opens the office, the other opens the studio.' -> 'What does the second key open?'."""
+    m = re.search(r"\bthe (first|second|other|1st|2nd) (\w+)", q.low)
+    if not m:
+        return None
+    k = 0 if m.group(1) in ('first', '1st') else 1
+    for c in ctx.clauses:
+        pair = re.search(r"\b(?:one|the first(?: one)?) (\w+) (?:the |a |my )?([\w ]+?),? (?:and |while |but )?the (?:other|second)(?: one)? (\w+) (?:the |a |my )?([\w ]+?)[.!]?$", c.raw)
+        if pair:
+            verb = lemma(pair.group(1))
+            if q.verb and q.verb not in (verb, lemma(pair.group(3))) and not (synonyms(q.verb) & {verb}):
+                continue
+            answer = pair.group(2) if k == 0 else pair.group(4)
+            return answer[0].upper() + answer[1:] + '.'
+    return None
+
+OPERATIONS = (op_one_other, op_which_of, op_budget, op_changed, op_remaining, op_category_count, op_relative, op_weekday, op_available, op_eliminate, op_rate, op_ordinal, op_superlative, op_same, op_count, op_sum, op_time, op_rule, op_same_day, op_yesno_compare)
 
 
 # ---------------------------------------------------------------- entry point
@@ -1493,7 +1528,7 @@ def about_conversation(ctx, q):
         return False                                 # names are handled with greetings (memory.py)
     if q.subjects - {'user'}:
         return True
-    if re.search(r"\b(?:my|our|me|us)\b|\b(?:did|do|does|am|was|have|has|will|can|could|would|should|are|were|had) (?:i|we)\b|^(?:i|we)\b", q.low):
+    if re.search(r"\b(?:my|our|me|us)\b|\b(?:did|do|does|am|was|have|has|will|can|could|would|should|are|were|had) (?:i|we)\b|\b(?:i|we|mine|ours)\b", q.low):
         return True
     if re.search(r"\b(?:those|these|them|the two|the three|the latter|the former|the first one|the second one|the other one|"
                  r"that one|this one|of them|which one)\b", q.low):
@@ -1524,8 +1559,6 @@ def answer(messages):
     present = {a for a in q.anchors if a in ctx.vocabulary or any(matches(ctx, a, c.lemmas) for c in ctx.clauses)}
     if q.anchors and not present and not personal(ctx, q):
         return None                                  # about something never discussed here: a general question
-    if not about_conversation(ctx, q):
-        return None                                  # a general question ('Where do penguins live?') for other routes
     out = lambda text, confidence: dict(response=text, route='chat/context-reasoning', confidence=confidence, sources=[], details=DETAILS)
     for op in OPERATIONS:
         try:
@@ -1536,6 +1569,8 @@ def answer(messages):
             answer_ = out(result, 0.7)
             answer_['operation'] = op.__name__
             return answer_
+    if not about_conversation(ctx, q):
+        return None                                  # a general question ('Where do penguins live?') for other routes
     if q.expect == 'yesno':
         return None if not personal(ctx, q) else out(f"I'm not sure: you didn't mention anything that settles that ({describe(q)}).", 0.3)
     decision = decide(ctx, q, retrieve(ctx, q))
@@ -1562,7 +1597,7 @@ def answer(messages):
         result = out(f'{text}.{note}', min(0.95, decision['score'] / 6))
         result['update'] = updated
         return result
-    if personal(ctx, q):
+    if personal(ctx, q) or about_conversation(ctx, q) and RECALL.match(q.low) and not ADVICE.search(q.low):
         result = out(f"I don't know: you didn't mention {describe(q)} in this chat.", 0.2)
         # evidence for abstaining: the thing asked about was talked about, and no clause about it holds the asked value
         result['abstain'] = bool(q.anchors) and any(q.anchors <= c.lemmas for c in ctx.clauses)

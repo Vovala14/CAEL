@@ -88,7 +88,10 @@ NAME_STOP = {'The', 'My', 'We', 'They', 'It', 'He', 'She', 'I', 'Its', 'Their', 
              'Tonight', 'Yesterday', 'Later', 'Earlier', 'Soon', 'Maybe', 'Perhaps', 'Honestly', 'Sadly', 'Luckily', 'Hopefully',
              'Apparently', 'Personally', 'Usually', 'Sometimes', 'Never', 'Always', 'Often', 'Instead', 'Otherwise', 'Meanwhile',
              'Recently', 'Lately', 'Again', 'Already', 'Unfortunately', 'Fortunately', 'Obviously', 'Basically', 'Literally', 'Guess',
-             'Big', 'Good', 'Great', 'Hmm', 'Oh', 'Wow', 'Cross', 'Forget', 'Ticked', 'Just', 'Write', 'Buy'}
+             'Big', 'Good', 'Great', 'Hmm', 'Oh', 'Wow', 'Cross', 'Forget', 'Ticked', 'Just', 'Write', 'Buy', 'Back', 'During',
+             'After', 'Before', 'Since', 'Over', 'Once', 'Lol', 'Btw', 'Random', 'Funny', 'Speaking', 'Apparently', 'Ugh', 'Wow',
+             'Yay', 'Hey', 'Meh', 'Ooh', 'Aw', 'Ah', 'Phew', 'Whoa', 'Huh', 'Yikes', 'Gosh', 'Nope', 'Yep', 'Sure', 'Thanks', 'Cheers',
+             'Seriously', 'Weirdly', 'Strangely', 'Sadly', 'Happily', 'Tonight', 'Yesterday'}
 NAME = r"[A-Z][a-z]+(?:-[A-Z][a-z]+)?"
 TAIL = r"(?: (?:last|this|next) \w+| a while ago| \w+ \w+ ago| \w+ ago| recently| just now| now| these days| at the moment| currently|"        r" for (?:a|the|\d+|\w+) \w+| by the way| anymore| any more| as well| too)*"
 
@@ -842,20 +845,32 @@ class Reader:
         handled = False
         for sentence in sentences(low):
             sentence = re.sub(r'^(?:also|update|okay|ok|so|change of plans|actually)[,:]?\s+', '', sentence)
-            m = re.search(r"\b(?:skip|drop|remove|cancel|forget about|forget|no need to|decided not to|will not|do not need to|not going to|"
-                          r"cross out|scrap|strike|delete|leave out|never mind|take out)\s+(?:the step\s+)?(?:\"([^\"]+)\"|'([^']+)'|([a-z][a-z ']+?)\.?$)", sentence)
+            m = re.search(r"\b(?:skip|skipping|drop|dropping|remove|removing|cancel|forget about|forget|no need to|decided not to|will not|do not need to|not going to|"
+                          r"cross out|scrap|strike|delete|leave out|leaving out|never mind|take out)\s+(?:the step\s+(?:where (?:i|we) |of )?)?(?:\"([^\"]+)\"|'([^']+)'|([a-z][a-z ']+?)(?:,|\.?$))", sentence)
             if m:
                 step = self.match_step(m.group(1) or m.group(2) or m.group(3))
                 if step and step not in plan['skipped']:
                     plan['skipped'].append(step)
                     handled = True
                     continue
-            m = re.search(r"\b(?:add(?: a step)?|one more step|another step|also need to|include)[:\s]+[\"']?([a-z][a-z ']+?)[\"']?"
-                          r"(?:\s+(?:at the end|to the list|to the plan|as well|too))?\.?$", sentence)
+            m = re.search(r"\b(?:add(?: a step)?|one more step|another step|also need to|include)\b[^:]*:\s*[\"']?([a-z][a-z ']+?)[\"']?\.?$", sentence) \
+                or re.search(r"\b(?:add(?: a step)?|one more step|another step|also need to|include)[:\s]+[\"']?([a-z][a-z ']+?)[\"']?"
+                             r"(?:\s+(?:at the end|to the list|to the plan|as well|too))?\.?$", sentence)
             if m and not self.match_step(m.group(1)):
                 plan['added'].append(m.group(1).strip())
                 handled = True
                 continue
+            m = re.search(r"\b(?:do|move|put|swap)\b.*?(?:the step where (?:i|we) |the step to |step )?([a-z][a-z ']+?) (before|after|ahead of) "
+                          r"(?:the (?:one|step) where (?:i|we) |the step to |step )?([a-z][a-z ']+?)\.?$", sentence)
+            if m:
+                first, second = self.match_step(m.group(1)), self.match_step(m.group(3))
+                if first and second and first != second:
+                    order = plan.setdefault('order', plan['steps'] + plan['added'])
+                    order.remove(first)
+                    at = order.index(second) + (0 if m.group(2) in ('before', 'ahead of') else 1)
+                    order.insert(at, first)
+                    handled = True
+                    continue
             m = re.search(r"\b(?:finished|completed|done with|did|done:|have done)\s+the first (\w+) steps?", sentence) \
                 or re.search(r"\bthe first (\w+) steps? (?:are|is) (?:done|finished|complete)", sentence)
             if m:
@@ -865,7 +880,7 @@ class Reader:
                         plan['done'].append(step)
                 handled = True
                 continue
-            if re.search(r"\bfinished the first step\b|\bfirst step is done\b", sentence):
+            if re.search(r"\b(?:finished|completed|done with|did|done)\s+(?:with\s+)?the first step\b|\bfirst step is (?:done|finished|complete)\b", sentence):
                 plan['done'].append(plan['steps'][0]) if plan['steps'][0] not in plan['done'] else None
                 handled = True
                 continue
@@ -1063,15 +1078,30 @@ def reply(messages):
     question = expand(messages[-1]['content']).strip()
     if not QUESTION.search(question):
         return None
-    reader = read_history(history)
-    if not reader.store.data and not reader.store.plan:
-        return None
-    for handler in (plan_answer, money_answer, relation_answer, name_answer, colour_answer, trip_answer, visit_answer,
-                    location_answer, person_answer, event_answer):
-        result = handler(reader, question)
+    if any(m.get('role') == 'user' and re.match(r'(?i)^\s*(?:facts|premises|given|suppose|scenario)\s*:',
+                                                 m.get('content', '')) for m in history):
+        return None                                    # an explicit "Facts:" scenario belongs to reasoning_chat
+    general = None
+    if on('planning'):
+        planned = read_history(history)
+        result = plan_answer(planned, question) if planned.store.plan else None
         if result:
             return answer(result)
-    return None
+    if on('reasoner'):
+        from . import context_reasoner                 # 0.3.6: general clause records, reasoning and abstention
+        general = context_reasoner.answer(messages)
+        if general and (general.get('operation') or general.get('conflict')):
+            return general                             # an answer combined from several statements beats a single-fact match
+    reader = read_history(history)
+    if reader.store.data or reader.store.plan:
+        for handler in (plan_answer, money_answer, relation_answer, name_answer, colour_answer, trip_answer, visit_answer,
+                        location_answer, person_answer, event_answer):
+            result = handler(reader, question)
+            if result:
+                if general and (general.get('abstain') or general.get('update')):
+                    return general                     # never-answered topic, or a change the older handlers do not track
+                return answer(result)
+    return general
 
 
 def plan_answer(reader, q):
@@ -1079,15 +1109,29 @@ def plan_answer(reader, q):
     low = q.lower()
     if not plan or not on('planning'):
         return None
-    remaining = [s for s in plan['steps'] + plan['added'] if s not in plan['done'] and s not in plan['skipped']]
+    order = [s for s in plan.get('order', plan['steps'] + plan['added']) if s not in plan['skipped']]
+    for s in plan['added']:
+        if s not in order:
+            order.append(s)
+    remaining = [s for s in order if s not in plan['done']]
     notes = []
     if plan['done']:
         notes.append('Done: ' + ', '.join(plan['done']) + '.')
     if plan['skipped']:
         notes.append('Skipped: ' + ', '.join(plan['skipped']) + '.')
+    nth = re.search(r'\b(first|second|third|fourth|fifth|sixth|last|final) (?:step|task|thing)\b', low)
+    if nth and re.search(r'\bwhat|\bwhich', low):
+        k = {'first': 0, 'second': 1, 'third': 2, 'fourth': 3, 'fifth': 4, 'sixth': 5, 'last': -1, 'final': -1}[nth.group(1)]
+        if -len(order) <= k < len(order):
+            return f"The {nth.group(1)} step is: {order[k]}."
+    if re.search(r'\bhow many (?:steps|tasks|things)\b', low):
+        n = len(remaining)
+        return f"{n} step{'s' if n != 1 else ''} left" + (': ' + '; '.join(remaining) if remaining else '') + '. ' + ' '.join(notes)
+    if re.search(r'\b(?:project|plan|list)\b[^?]*\bfor\??$|\bwhat (?:is|was) (?:the|this|my) (?:whole )?(?:project|plan|goal|list)(?: again)?\??$', low):
+        return f"Your goal is to {plan['goal']}."
     if re.search(r'\b(?:my|our) (?:goal|aim|objective)\b|\b(?:am i|are we|was i|were we) trying to (?:do|get done|achieve|finish)\b|\bthe (?:plan|list) (?:is )?(?:for|about)\??$|\bwhat (?:is|was) the plan\??$', low):
         return f"Your goal is to {plan['goal']}."
-    if re.search(r'\bnext (?:step|task|thing to do)\b|\b(?:should|do|must|can) (?:i|we) do (?:next|now)\b|\bcomes? (?:next|after)\b|^what now\b|\bmy next\b|\bwhat(?: is|\'s) next\b|\bnext on\b|\bafter that\b', low):
+    if re.search(r'\bnext (?:step|task|thing to do|thing)\b|\b(?:should|do|must|can) (?:i|we) do (?:next|now)\b|\bcomes? (?:next|after)\b|^what now\b|\bmy next\b|\bwhat(?: is|\'s) next\b|\bnext on\b|\bafter that\b', low):
         if not remaining:
             return 'Every step is done. ' + ' '.join(notes)
         return f'Next step: {remaining[0]}. ' + ' '.join(notes)
@@ -1131,7 +1175,8 @@ def relation_answer(reader, q):
         or re.search(r"\bwho my ((?:best )?[a-z]+) is\b", q.lower())
     if not m or m.group(1) not in RELATIONS:
         return None
-    if re.search(r"\b(?:do|does|job|live|work|eat|like|food|old|age|born)\b", q.lower().split(m.group(1))[-1]):
+    rest = q.lower().split(m.group(1), 1)[-1].strip(" ?.!")
+    if rest and not re.fullmatch(r"(?:'s )?(?:name|called|named)?\s*(?:again)?", rest):
         return None
     rows = facts_about(reader.store, {'user'}, m.group(1))
     v = verdict(reader.store, rows)
@@ -1154,7 +1199,9 @@ def name_answer(reader, q):
         m = re.search(r"\b(?:our|my|the) ([a-z]+)(?:'s)?\b", low)
         if not m or m.group(1) in ('name', 'names'):
             return None
-        keys = {'my ' + m.group(1)} | {k for k in store.strings if k.endswith("'s " + m.group(1))}
+        keys = {'my ' + m.group(1)}
+        if not re.search(r'\b(?:my|our|i|we)\b', low):     # "the dog" may be anyone's; "my dog" is only the user's
+            keys |= {k for k in store.strings if k.endswith("'s " + m.group(1))}
     rows = [r for r in store.records() if store.text(r[1]) in keys and store.text(r[2]) == 'name']
     v = verdict(store, rows)
     if not v:

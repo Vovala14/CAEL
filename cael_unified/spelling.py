@@ -18,6 +18,7 @@ from pathlib import Path
 import re
 import sqlite3
 
+from . import compact
 from .bundle import ROOT
 
 COUNTS = ROOT / 'models' / 'cael-spelling-v1'
@@ -133,14 +134,27 @@ def load_counts(name):
         return {}
 
 
+def cache_dir(sig):
+    """Where compact tables built from these inputs live: next to the model, else in the user's cache folder."""
+    bases = (COUNTS / 'cache', Path.home() / '.cache' / 'cael' / 'spelling')
+    for base in bases:
+        if (base / sig / 'done').exists():
+            return base / sig
+    return next((base / sig for base in bases if compact.writable(base)), bases[-1] / sig)
+
+
 @lru_cache(maxsize=1)
 def pairs():
-    return load_counts('pairs.json.gz')
+    """Two-word counts ('black hole' -> n) as a memory-mapped hash table (was a 1.4M-entry dict, ~110 MB)."""
+    folder = cache_dir(compact.signature('pairs', COUNTS / 'pairs.json.gz'))
+    if not (folder / 'done').exists():
+        compact.Counts.build(load_counts('pairs.json.gz')).save(folder, 'pairs')
+        (folder / 'done').write_text('', encoding='utf-8')
+    return compact.Counts.load(folder, 'pairs')
 
 
-@lru_cache(maxsize=1)
-def lexicon():
-    """(frequency of every known word, set of words known to the dictionaries)."""
+def build_lexicon():
+    """(frequency of every known word, set of words known to the dictionaries) as plain Python objects."""
     counts = dict(load_counts('words.json.gz'))
     known = set()
     # Spoken-English word frequencies (OpenSubtitles via hermitdave/FrequencyWords, CC BY-SA 4.0), shipped with the
@@ -154,11 +168,7 @@ def lexicon():
             break
         except OSError:
             continue
-    try:
-        active = json.loads((ROOT / 'research/active_models.json').read_text(encoding='utf-8'))
-        folder = Path(active['language']['path']).parent
-    except Exception:
-        folder = ROOT / 'models/cael-language-0.3.2-math-python'
+    folder = language_folder()
     try:
         import numpy as np
         words = json.loads((folder / 'vocab.json').read_text(encoding='utf-8'))
@@ -191,20 +201,48 @@ def lexicon():
     return counts, known
 
 
+def language_folder():
+    try:
+        active = json.loads((ROOT / 'research/active_models.json').read_text(encoding='utf-8'))
+        return Path(active['language']['path']).parent
+    except Exception:
+        return ROOT / 'models/cael-language-0.3.2-math-python'
+
+
+def lexicon_folder():
+    lm = language_folder()
+    sig = compact.signature('lexicon-v1', COUNTS / 'words.json.gz', ROOT / 'models/cael-dictionary-wn30/frequent.txt',
+                            ROOT / 'data/spell/en_50k.txt', lm / 'vocab.json', lm / 'global.npy',
+                            ROOT / 'models/cael-dictionary-wn30/dictionary.sqlite', sorted(OWN), sorted(FUNCTION), sorted(MISSPELLED))
+    folder = cache_dir(sig)
+    if not (folder / 'done').exists():
+        counts, known = build_lexicon()
+        compact.Counts.build(counts).save(folder, 'counts')
+        compact.Counts.build(known).save(folder, 'known')
+        # SymSpell-style index: every word (seen 3+ times) under each single-letter deletion of it
+        words = sorted(w for w, n in counts.items() if 3 <= len(w) <= 18 and n >= 3)
+        del counts, known
+        compact.Groups.build(((w[:i] + w[i + 1:] if i < len(w) else w, wid) for wid, w in enumerate(words) for i in range(len(w) + 1)),
+                             words).save(folder, 'deletes')
+        (folder / 'done').write_text('', encoding='utf-8')
+    return folder
+
+
+@lru_cache(maxsize=1)
+def lexicon():
+    """(frequency of every known word, set of words known to the dictionaries), memory-mapped (was ~50 MB of objects)."""
+    folder = lexicon_folder()
+    return compact.Counts.load(folder, 'counts'), compact.Counts.load(folder, 'known')
+
+
 def vocabulary():
     return lexicon()[0]
 
 
 @lru_cache(maxsize=1)
 def deletes_index():
-    """SymSpell-style index: every word (seen 3+ times) under each single-letter deletion of it."""
-    index = {}
-    for w, n in vocabulary().items():
-        if 3 <= len(w) <= 18 and n >= 3:
-            for i in range(len(w)):
-                index.setdefault(w[:i] + w[i + 1:], []).append(w)
-            index.setdefault(w, []).append(w)
-    return index
+    """SymSpell-style index: every word (seen 3+ times) under each single-letter deletion of it (was ~350 MB of lists)."""
+    return compact.Groups.load(lexicon_folder(), 'deletes')
 
 
 def damerau(a, b, limit=2):

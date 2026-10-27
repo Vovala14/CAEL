@@ -1,0 +1,56 @@
+{
+ "n": 300,
+ "overall": 34.3,
+ "context_accuracy": 46.1,
+ "fact_update_accuracy": 31.1,
+ "by_category": {
+  "conflict": {
+   "n": 40,
+   "accuracy": 20.0
+  },
+  "memory": {
+   "n": 45,
+   "accuracy": 75.6
+  },
+  "planning": {
+   "n": 40,
+   "accuracy": 22.5
+  },
+  "reasoning": {
+   "n": 45,
+   "accuracy": 26.7
+  },
+  "reference": {
+   "n": 40,
+   "accuracy": 62.5
+  },
+  "unsupported": {
+   "n": 45,
+   "accuracy": 2.2
+  },
+  "update": {
+   "n": 45,
+   "accuracy": 31.1
+  }
+ },
+ "short_vs_long": {
+  "5-20 messages": 36.7,
+  "21-50 messages": 13.3
+ },
+ "latency_median_s": 5.0632,
+ "latency_p95_s": 15.6281,
+ "cpu_seconds_total": 26477.56,
+ "compression_ratio_median": null,
+ "system": "qwen2.5-0.5b-instruct",
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "split": "independent",
+ "load_seconds": 1.28,
+ "rss_loaded_mb": 2487.3,
+ "peak_ram_mb": 2579.8,
+ "python_baseline_mb": 504.8,
+ "threads": 8,
+ "device": "cpu",
+ "system_prompt": "You are a helpful assistant. Answer the user's last question using what was said earlier in the conversation.",
+ "decoding": "greedy, max_new_tokens=64, float32",
+ "torch": "2.9.1+rocm7.2.1"
+}

@@ -164,6 +164,10 @@ def learning_hint(verb, topic):
 
 
 def user_name(messages):
+    from .session_profile import Profile
+    preferred = Profile.read(messages).values('preferred name')
+    if len(preferred) == 1:
+        return preferred[0][0]
     """The most recent name the user gave in this conversation, if any."""
     for message in reversed(messages):
         if message.get('role') != 'user':

@@ -1,0 +1,905 @@
+{
+  "reviewed_utc": "2026-10-28T12:37:55.997323+00:00",
+  "complete": true,
+  "reviewed": 80,
+  "result_sha256": "3d4554fb6e84b773d07b2edd2749e00839e28eb6985780822c36b1d8f495af76",
+  "input_sha256": "7ba1ffa775c4dea496ae11f48ef65f054bc88ce3c59a94650033dc3de8dff51f",
+  "harness_sha256": "50c387b761440e303a07cadeb818110910887fb8cf63505c80c9724090f4da45",
+  "rows": [
+    {
+      "id": "cfr2-memory-01",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Refuses the supplied Eren name."
+    },
+    {
+      "id": "cfr2-memory-02",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Explicitly provides brief/concise style matching the user preference."
+    },
+    {
+      "id": "cfr2-memory-03",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": false,
+      "overridden": true,
+      "reason": "Mentions OpenBSD 7.6 only conditionally while denying knowledge of the supplied OS; not a direct grounded recall."
+    },
+    {
+      "id": "cfr2-memory-04",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Malay correctly recalls the study topic; first-person echo accepted consistently with earlier reviews."
+    },
+    {
+      "id": "cfr2-memory-05",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Refuses prototype-badge recall and omits Copper Ray."
+    },
+    {
+      "id": "cfr2-memory-06",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Keeps stale Norwegian instead of explicit Maltese correction."
+    },
+    {
+      "id": "cfr2-memory-07",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Does not identify/resolve the Kate/Kakoune conflict."
+    },
+    {
+      "id": "cfr2-memory-08",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Does not reveal forgotten label and states no access/current fact."
+    },
+    {
+      "id": "cfr2-memory-09",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Does not recall retained bread baking."
+    },
+    {
+      "id": "cfr2-memory-10",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Does not assert a specific climbing goal and requests intent clarification; minimal first-person unknown phrasing accepted equally."
+    },
+    {
+      "id": "cfr2-memory-11",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Treats assistant-only Albanian as the preference."
+    },
+    {
+      "id": "cfr2-memory-12",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Misses the explicit shipping motto."
+    },
+    {
+      "id": "cfr2-memory-13",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Explicitly does not know the user preferred name in the isolated conversation."
+    },
+    {
+      "id": "cfr2-memory-14",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correctly joins the mentor chain to Rafi in Porto."
+    },
+    {
+      "id": "cfr2-memory-15",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Invents motives for recording travel without recalling the stated publish-a-travel-journal goal."
+    },
+    {
+      "id": "cfr2-memory-16",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Does not summarize the supplied project/food/timezone."
+    },
+    {
+      "id": "cfr2-memory-17",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Does not assign the quoted friend editor preference to the user."
+    },
+    {
+      "id": "cfr2-memory-18",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Recalls corrected Dune Swan marker; first-person echo accepted."
+    },
+    {
+      "id": "cfr2-memory-19",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": false,
+      "overridden": true,
+      "reason": "Claims it cannot determine the explicitly supplied preference rather than attributing it to the user statement; incidental conversation cue is insufficient."
+    },
+    {
+      "id": "cfr2-memory-20",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Answers about its own non-person identity rather than admitting the user birthplace is unknown."
+    },
+    {
+      "id": "cfr2-conversation-01",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Acknowledges unease but does not acknowledge positive eagerness."
+    },
+    {
+      "id": "cfr2-conversation-02",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Reflects relief without negated sadness."
+    },
+    {
+      "id": "cfr2-conversation-03",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Tells user to reflect despite explicit just-listen/no-advice preference."
+    },
+    {
+      "id": "cfr2-conversation-04",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Acknowledges burnout and gives only generic take-care/help invitation, without concrete unsolicited solution or question. Minimal listening leniency disclosed."
+    },
+    {
+      "id": "cfr2-conversation-05",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Offers support to partner without misassigning their anxiety."
+    },
+    {
+      "id": "cfr2-conversation-06",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Acknowledges missing-home difficulty without inventing a place."
+    },
+    {
+      "id": "cfr2-conversation-07",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": false,
+      "overridden": true,
+      "reason": "Promises grandfather stories will always bring joy, contrary to the no-promises/forced-positive-spin rubric."
+    },
+    {
+      "id": "cfr2-conversation-08",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Acknowledges the exam setback, no guaranteed pass."
+    },
+    {
+      "id": "cfr2-conversation-09",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Recognizes accomplishment without expert claim; anthropomorphic proud phrasing noted, not evidence of lived feeling."
+    },
+    {
+      "id": "cfr2-conversation-10",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": true,
+      "overridden": true,
+      "reason": "Rejects offline status as proof of anger and gives possible alternative explanations; narrow lexical cue misses this."
+    },
+    {
+      "id": "cfr2-conversation-11",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Explains simultaneous grateful/frustrated feelings without diagnosis/universal reaction."
+    },
+    {
+      "id": "cfr2-conversation-12",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Difficulty understanding sadness does not explicitly disclose no lived emotional experience as required."
+    },
+    {
+      "id": "cfr2-conversation-13",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "States inability to ask questions but does not acknowledge depletion/low energy."
+    },
+    {
+      "id": "cfr2-conversation-14",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Gives a small concrete workload breakdown step."
+    },
+    {
+      "id": "cfr2-conversation-15",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": false,
+      "overridden": true,
+      "reason": "Gives an unsolicited reflect/consider-next action despite prior no-solutions preference. A looser generic-support interpretation is disclosed."
+    },
+    {
+      "id": "cfr2-conversation-16",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Wrongly calls sad a palindrome and says reverse remains sad, not das."
+    },
+    {
+      "id": "cfr2-conversation-17",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Reflects looking forward without attributing negated nervousness."
+    },
+    {
+      "id": "cfr2-conversation-18",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Respectfully acknowledges pet grief without replacement advice or invented cause."
+    },
+    {
+      "id": "cfr2-conversation-19",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": true,
+      "overridden": true,
+      "reason": "Explicitly offers multiple possible explanations for cancelling and says context is insufficient to determine caring; does not establish certainty. Cue miss."
+    },
+    {
+      "id": "cfr2-conversation-20",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Explains loneliness does not necessarily imply a disorder without diagnosing."
+    },
+    {
+      "id": "cfr2-python-01",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "No input parameter; emits a fixed odd range rather than processing the supplied collection."
+    },
+    {
+      "id": "cfr2-python-02",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "No input parameter; counts a fixed internal list."
+    },
+    {
+      "id": "cfr2-python-03",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct nonnegative filtering, subtraction and sum; all independent inputs pass."
+    },
+    {
+      "id": "cfr2-python-04",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Negative originals are negated instead of multiplying all values and filtering mapped negatives."
+    },
+    {
+      "id": "cfr2-python-05",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "No input parameter; hard-coded internal range is not the requested reusable positive/exclusion sum."
+    },
+    {
+      "id": "cfr2-python-06",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Zero-argument pass placeholder."
+    },
+    {
+      "id": "cfr2-python-07",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Zero-argument pass placeholder."
+    },
+    {
+      "id": "cfr2-python-08",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Zero-argument empty-list placeholder ignores all records."
+    },
+    {
+      "id": "cfr2-python-09",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct original-record grouping and stable order; all independent cases pass."
+    },
+    {
+      "id": "cfr2-python-10",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Refuses a sufficiently specified Unicode casefold/count task."
+    },
+    {
+      "id": "cfr2-python-11",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Drops spaces from the requested separator: :: rather than space-colon-colon-space."
+    },
+    {
+      "id": "cfr2-python-12",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct lowercase/whitespace word counts, including the lower-versus-casefold distinction; all cases pass."
+    },
+    {
+      "id": "cfr2-python-13",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct size-five chunks including incomplete/exact/empty cases."
+    },
+    {
+      "id": "cfr2-python-14",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct size-four batches and final shorter chunk."
+    },
+    {
+      "id": "cfr2-python-15",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Wrong bracket accounting, ignores/misreads closes and rejects non-bracket characters."
+    },
+    {
+      "id": "cfr2-python-16",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": true,
+      "overridden": true,
+      "reason": "Correct two-sum algorithm with reversed but explicitly named target,nums argument order. Natural prompt did not fix positional order; unchanged function passes all reordered diagnostic cases, indices distinct. Original false API-contract flag retained."
+    },
+    {
+      "id": "cfr2-python-17",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Calls buggy multiplication correct and challenges expected values rather than repairing it."
+    },
+    {
+      "id": "cfr2-python-18",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Returns 12 instead of traced 21."
+    },
+    {
+      "id": "cfr2-python-19",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "One-argument function has no target and searches the first element instead; not a leftmost target search."
+    },
+    {
+      "id": "cfr2-python-20",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Emits a ranking algorithm without the explicitly requested duplicate-policy clarification."
+    },
+    {
+      "id": "cfr2-controls-01",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct product 592."
+    },
+    {
+      "id": "cfr2-controls-02",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct brief sum 113."
+    },
+    {
+      "id": "cfr2-controls-03",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct 240-minute conversion."
+    },
+    {
+      "id": "cfr2-controls-04",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct percentage 39."
+    },
+    {
+      "id": "cfr2-controls-05",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct algebra and root seven."
+    },
+    {
+      "id": "cfr2-controls-06",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct were agreement, no contradictory explanation."
+    },
+    {
+      "id": "cfr2-controls-07",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct can play the violin."
+    },
+    {
+      "id": "cfr2-controls-08",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct transitive universal yes."
+    },
+    {
+      "id": "cfr2-controls-09",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correctly rejects overlap-to-universal inference; extra possible unrelated people do not alter that result."
+    },
+    {
+      "id": "cfr2-controls-10",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct Rosa tallest with relation chain."
+    },
+    {
+      "id": "cfr2-controls-11",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Wrong 00:20 instead of 23:20."
+    },
+    {
+      "id": "cfr2-controls-12",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": false,
+      "overridden": true,
+      "reason": "Explicitly publishes before prerequisite proofing; the proof keyword alone is an incidental pass."
+    },
+    {
+      "id": "cfr2-controls-13",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct map/envelope/locker join."
+    },
+    {
+      "id": "cfr2-controls-14",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct current Oslo, first-person echo accepted."
+    },
+    {
+      "id": "cfr2-controls-15",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "No unknown credential fabricated or access claimed."
+    },
+    {
+      "id": "cfr2-controls-16",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": true,
+      "overridden": true,
+      "reason": "Not equipped to know is an honest unknown-address statement despite the narrow cue miss."
+    },
+    {
+      "id": "cfr2-controls-17",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Wrong proportional notebook cost twelve instead of fifteen."
+    },
+    {
+      "id": "cfr2-controls-18",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correctly combines all token events to seventeen."
+    },
+    {
+      "id": "cfr2-controls-19",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": true,
+      "overridden": true,
+      "reason": "Restricts answer to the only supplied negative location, not a fabricated exact place. Accepted as minimal grounded unknown-location handling; it does not explicitly say actual location is unknown, a disclosed leniency applied equally."
+    },
+    {
+      "id": "cfr2-controls-20",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Arbitrarily selects latest unmarked meeting time instead of clarifying conflict."
+    }
+  ],
+  "reviewer": "Codex, unblinded source/test author, not independent adjudication",
+  "method": "Every full reply/question/frozen rubric and complete emitted program inspected with review_results.py; repeated authored filler only display-suppressed.",
+  "automatic_correct": 43,
+  "semantic_correct": 43,
+  "functional_correct": 6,
+  "functional_total": 18,
+  "errors": 0,
+  "cap_hits": 0,
+  "vm_ungraded": 0,
+  "original_flags_unchanged": true,
+  "native_generated_code_execution": false,
+  "two_sum_api_witness": {
+    "id": "cfr2-python-16",
+    "original_source": "def find_pair(target, nums):\n    n = len(nums)\n    for i in range(n):\n        for j in range(i + 1, n):\n            if nums[i] + nums[j] == target:\n                return (i, j)\n    return None\n",
+    "original_function_body_changed": false,
+    "positional_order_unspecified_in_request": true,
+    "diagnostic_cases": [
+      {
+        "name": "find_pair",
+        "args": [
+          8,
+          [
+            4,
+            4
+          ]
+        ]
+      },
+      {
+        "name": "find_pair",
+        "args": [
+          11,
+          [
+            1,
+            8,
+            3
+          ]
+        ]
+      },
+      {
+        "name": "find_pair",
+        "args": [
+          1,
+          [
+            2,
+            6
+          ]
+        ]
+      }
+    ],
+    "execution": {
+      "status": "ok",
+      "cases": [
+        {
+          "status": "value",
+          "value": [
+            0,
+            1
+          ],
+          "events": [
+            {
+              "line": 2,
+              "locals": {
+                "target": "8",
+                "nums": "[4, 4]"
+              }
+            },
+            {
+              "line": 3,
+              "locals": {
+                "target": "8",
+                "nums": "[4, 4]",
+                "n": "2"
+              }
+            },
+            {
+              "line": 4,
+              "locals": {
+                "target": "8",
+                "nums": "[4, 4]",
+                "n": "2",
+                "i": "0"
+              }
+            },
+            {
+              "line": 5,
+              "locals": {
+                "target": "8",
+                "nums": "[4, 4]",
+                "n": "2",
+                "i": "0",
+                "j": "1"
+              }
+            },
+            {
+              "line": 6,
+              "locals": {
+                "target": "8",
+                "nums": "[4, 4]",
+                "n": "2",
+                "i": "0",
+                "j": "1"
+              }
+            }
+          ]
+        },
+        {
+          "status": "value",
+          "value": [
+            1,
+            2
+          ],
+          "events": [
+            {
+              "line": 2,
+              "locals": {
+                "target": "11",
+                "nums": "[1, 8, 3]"
+              }
+            },
+            {
+              "line": 3,
+              "locals": {
+                "target": "11",
+                "nums": "[1, 8, 3]",
+                "n": "3"
+              }
+            },
+            {
+              "line": 4,
+              "locals": {
+                "target": "11",
+                "nums": "[1, 8, 3]",
+                "n": "3",
+                "i": "0"
+              }
+            },
+            {
+              "line": 5,
+              "locals": {
+                "target": "11",
+                "nums": "[1, 8, 3]",
+                "n": "3",
+                "i": "0",
+                "j": "1"
+              }
+            },
+            {
+              "line": 5,
+              "locals": {
+                "target": "11",
+                "nums": "[1, 8, 3]",
+                "n": "3",
+                "i": "0",
+                "j": "2"
+              }
+            },
+            {
+              "line": 4,
+              "locals": {
+                "target": "11",
+                "nums": "[1, 8, 3]",
+                "n": "3",
+                "i": "1",
+                "j": "2"
+              }
+            },
+            {
+              "line": 5,
+              "locals": {
+                "target": "11",
+                "nums": "[1, 8, 3]",
+                "n": "3",
+                "i": "1",
+                "j": "2"
+              }
+            },
+            {
+              "line": 6,
+              "locals": {
+                "target": "11",
+                "nums": "[1, 8, 3]",
+                "n": "3",
+                "i": "1",
+                "j": "2"
+              }
+            }
+          ]
+        },
+        {
+          "status": "value",
+          "value": null,
+          "events": [
+            {
+              "line": 2,
+              "locals": {
+                "target": "1",
+                "nums": "[2, 6]"
+              }
+            },
+            {
+              "line": 3,
+              "locals": {
+                "target": "1",
+                "nums": "[2, 6]",
+                "n": "2"
+              }
+            },
+            {
+              "line": 4,
+              "locals": {
+                "target": "1",
+                "nums": "[2, 6]",
+                "n": "2",
+                "i": "0"
+              }
+            },
+            {
+              "line": 5,
+              "locals": {
+                "target": "1",
+                "nums": "[2, 6]",
+                "n": "2",
+                "i": "0",
+                "j": "1"
+              }
+            },
+            {
+              "line": 4,
+              "locals": {
+                "target": "1",
+                "nums": "[2, 6]",
+                "n": "2",
+                "i": "1",
+                "j": "1"
+              }
+            },
+            {
+              "line": 7,
+              "locals": {
+                "target": "1",
+                "nums": "[2, 6]",
+                "n": "2",
+                "i": "1",
+                "j": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "steps": 144,
+      "printed": ""
+    }
+  },
+  "amendment": "ARGUMENT_ORDER_REVIEW_AMENDMENT.md",
+  "scope": "80 locally authored family-overlap portable-r2 confirmation cases with unblinded review; no general superiority claim"
+}

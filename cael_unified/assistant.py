@@ -210,6 +210,9 @@ class Assistant:
         if not isinstance(last,dict) or last.get('role')!='user' or not isinstance(last.get('content'),str):
             return None
         text=last['content']
+        from .codegen.natural_program import interested as natural_program_input
+        if natural_program_input(text,messages):
+            return None
         if len(text)>600 or choice_problem(text) or re.search(r'```|^\s*(?:def|class|import|from)\s+\w|\w\([^)]*\)\s*[:=]?\s*$',text,re.M):
             return None
         from . import spelling
@@ -229,9 +232,11 @@ class Assistant:
             raw_route=route_request(messages[-1]['content'],mode)
             from .writing_chat import protect_input as writing_input
             from .codegen.python_tasks import protect_input as tool_input
+            from .codegen.natural_program import interested as natural_program_input
             if raw_route not in ('image','emoji') and not choice_problem(messages[-1]['content']) and not picture_follow_up(messages) \
                     and not (mode in ('auto','chat') and (writing_input(messages[-1]['content'],messages)
-                        or tool_input(messages[-1]['content'],messages))):
+                        or tool_input(messages[-1]['content'],messages)
+                        or natural_program_input(messages[-1]['content'],messages))):
                 messages,changes=repair_messages(messages)
         answer=self._respond(messages,n=n,seed=seed,mode=mode)
         # Last resort for factual questions CAEL could not answer: search the web, read the pages and quote the most
@@ -321,6 +326,10 @@ class Assistant:
         if plan_context is None:
             plan_context=self._plan_context=threading.local()
         if mode in ('auto','chat') and not multiple_choice:
+            from . import session_profile
+            answer=session_profile.reply(messages)
+            if answer is not None:
+                return answer
             # Sudoku: solve a pasted grid, give a new puzzle (up to the hardest), a hint, or check a filled grid (sudoku.py).
             from . import sudoku
             answer=sudoku.reply(text,messages)
@@ -336,6 +345,9 @@ class Assistant:
             # commands. Execute only pure, bounded compiler-produced tools.
             from .codegen.python_tasks import reply as task_reply,structured_request
             answer=task_reply(text,messages)
+            if answer is not None:return answer
+            from .codegen.natural_program import reply as natural_program_reply
+            answer=natural_program_reply(text,messages)
             if answer is not None:return answer
             if structured_request(text):
                 from .codegen.task_tools import reply as build_tool
@@ -494,7 +506,8 @@ class Assistant:
                 return answer
             # Word questions (meanings, synonyms, forms, spelling) from the offline dictionary, before any web lookup.
             from .helper_math import reply as exact_math_reply
-            answer = exact_math_reply(text)
+            from .math_format import reply as formatted_math_reply
+            answer = formatted_math_reply(text) or exact_math_reply(text)
             if answer is not None:
                 return answer
             from . import dictionary, grammar
@@ -516,6 +529,10 @@ class Assistant:
             if answer is not None:
                 return answer
             # Everyday statements, tips, opinions, fun facts (chat_extra.py).
+            from . import emotional_chat
+            answer = emotional_chat.reply(messages, seed)
+            if answer is not None:
+                return answer
             from . import chat_extra
             answer = chat_extra.reply(text, messages, seed)
             if answer is not None:

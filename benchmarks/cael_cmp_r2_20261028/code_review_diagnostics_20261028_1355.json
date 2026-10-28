@@ -1,0 +1,689 @@
+{
+  "created_utc": "2026-10-28T13:57:19.174363+00:00",
+  "reason": "Post-hoc full-reply inspection found word splitting rather than line splitting; independently authored multiword-line witnesses applied equally.",
+  "frozen_primary_grader_changed": false,
+  "generated_code_executed_natively": false,
+  "qwen35_snapshot_receipt": "review_history/qwen35_snapshot_20261028_135516/receipt.json",
+  "joined_lines": {
+    "candidate": {
+      "original_ok": true,
+      "source_sha256": "9844b0a9f512fc1559a4fb767ab400fcd113c7537d646ce6637dd0ab6282272a",
+      "calls": [
+        {
+          "name": "joined_lines",
+          "args": [
+            "a b\n c d"
+          ]
+        },
+        {
+          "name": "joined_lines",
+          "args": [
+            " \n spaced inside \n\n more words "
+          ]
+        }
+      ],
+      "expected": [
+        "a b :: c d",
+        "spaced inside :: more words"
+      ],
+      "execution": {
+        "status": "ok",
+        "cases": [
+          {
+            "status": "value",
+            "value": "a b :: c d",
+            "events": [
+              {
+                "line": 26,
+                "locals": {
+                  "data": "'a b\\n c d'"
+                }
+              },
+              {
+                "line": 2,
+                "locals": {
+                  "value": "'a b\\n c d'",
+                  "depth": "0",
+                  "count": "None"
+                }
+              },
+              {
+                "line": 2,
+                "locals": {
+                  "value": "'a b\\n c d'",
+                  "depth": "0",
+                  "count": "None"
+                }
+              },
+              {
+                "line": 3,
+                "locals": {
+                  "value": "'a b\\n c d'",
+                  "depth": "0",
+                  "count": "[0]"
+                }
+              },
+              {
+                "line": 4,
+                "locals": {
+                  "value": "'a b\\n c d'",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 5,
+                "locals": {
+                  "value": "'a b\\n c d'",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 6,
+                "locals": {
+                  "value": "'a b\\n c d'",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 7,
+                "locals": {
+                  "value": "'a b\\n c d'",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 10,
+                "locals": {
+                  "value": "'a b\\n c d'",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 11,
+                "locals": {
+                  "value": "'a b\\n c d'",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 12,
+                "locals": {
+                  "value": "'a b\\n c d'",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 27,
+                "locals": {
+                  "data": "'a b\\n c d'",
+                  "values": "'a b\\n c d'"
+                }
+              },
+              {
+                "line": 28,
+                "locals": {
+                  "data": "'a b\\n c d'",
+                  "values": "'a b\\n c d'"
+                }
+              },
+              {
+                "line": 29,
+                "locals": {
+                  "data": "'a b\\n c d'",
+                  "values": "['a b', ' c d']"
+                }
+              },
+              {
+                "line": 2,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "None"
+                }
+              },
+              {
+                "line": 2,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "None"
+                }
+              },
+              {
+                "line": 3,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "[0]"
+                }
+              },
+              {
+                "line": 4,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 5,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 6,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 7,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 10,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 13,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 14,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 15,
+                "locals": {
+                  "value": "['a b', ' c d']",
+                  "depth": "0",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 2,
+                "locals": {
+                  "value": "'a b'",
+                  "depth": "1",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 3,
+                "locals": {
+                  "value": "'a b'",
+                  "depth": "1",
+                  "count": "[1]"
+                }
+              },
+              {
+                "line": 4,
+                "locals": {
+                  "value": "'a b'",
+                  "depth": "1",
+                  "count": "[2]"
+                }
+              },
+              {
+                "line": 5,
+                "locals": {
+                  "value": "'a b'",
+                  "depth": "1",
+                  "count": "[2]"
+                }
+              },
+              {
+                "line": 6,
+                "locals": {
+                  "value": "'a b'",
+                  "depth": "1",
+                  "count": "[2]"
+                }
+              },
+              {
+                "line": 7,
+                "locals": {
+                  "value": "'a b'",
+                  "depth": "1",
+                  "count": "[2]"
+                }
+              },
+              {
+                "line": 10,
+                "locals": {
+                  "value": "'a b'",
+                  "depth": "1",
+                  "count": "[2]"
+                }
+              },
+              {
+                "line": 11,
+                "locals": {
+                  "value": "'a b'",
+                  "depth": "1",
+                  "count": "[2]"
+                }
+              },
+              {
+                "line": 12,
+                "locals": {
+                  "value": "'a b'",
+                  "depth": "1",
+                  "count": "[2]"
+                }
+              },
+              {
+                "line": 2,
+                "locals": {
+                  "value": "' c d'",
+                  "depth": "1",
+                  "count": "[2]"
+                }
+              },
+              {
+                "line": 3,
+                "locals": {
+                  "value": "' c d'",
+                  "depth": "1",
+                  "count": "[2]"
+                }
+              },
+              {
+                "line": 4,
+                "locals": {
+                  "value": "' c d'",
+                  "depth": "1",
+                  "count": "[3]"
+                }
+              },
+              {
+                "line": 5,
+                "locals": {
+                  "value": "' c d'",
+                  "depth": "1",
+                  "count": "[3]"
+                }
+              }
+            ]
+          },
+          {
+            "status": "value",
+            "value": "spaced inside :: more words",
+            "events": []
+          }
+        ],
+        "steps": 1624,
+        "printed": ""
+      },
+      "correct": true
+    },
+    "qwen3": {
+      "original_ok": false,
+      "source_sha256": "aafcaab9279a7adb90d0ccd5e85e8a9b47a407cb33c9777d83ad4edda3c9c448",
+      "calls": [
+        {
+          "name": "joined_lines",
+          "args": [
+            "a b\n c d"
+          ]
+        },
+        {
+          "name": "joined_lines",
+          "args": [
+            " \n spaced inside \n\n more words "
+          ]
+        }
+      ],
+      "expected": [
+        "a b :: c d",
+        "spaced inside :: more words"
+      ],
+      "execution": {
+        "status": "ok",
+        "cases": [
+          {
+            "status": "value",
+            "value": "a b::c d",
+            "events": [
+              {
+                "line": 3,
+                "locals": {
+                  "text": "'a b\\n c d'"
+                }
+              },
+              {
+                "line": 6,
+                "locals": {
+                  "text": "'a b\\n c d'",
+                  "lines": "['a b', ' c d']"
+                }
+              },
+              {
+                "line": 9,
+                "locals": {
+                  "text": "'a b\\n c d'",
+                  "lines": "['a b', ' c d']",
+                  "cleaned_lines": "['a b', 'c d']"
+                }
+              }
+            ]
+          },
+          {
+            "status": "value",
+            "value": "spaced inside::more words",
+            "events": [
+              {
+                "line": 3,
+                "locals": {
+                  "text": "' \\n spaced inside \\n\\n more words '"
+                }
+              },
+              {
+                "line": 6,
+                "locals": {
+                  "text": "' \\n spaced inside \\n\\n more words '",
+                  "lines": "[' ', ' spaced inside ', '', ' more words ']"
+                }
+              },
+              {
+                "line": 9,
+                "locals": {
+                  "text": "' \\n spaced inside \\n\\n more words '",
+                  "lines": "[' ', ' spaced inside ', '', ' more words ']",
+                  "cleaned_lines": "['spaced inside', 'more words']"
+                }
+              }
+            ]
+          }
+        ],
+        "steps": 91,
+        "printed": ""
+      },
+      "correct": false
+    },
+    "qwen35": {
+      "original_ok": true,
+      "source_sha256": "644f6a53c99b4231520fdef3efecab2b313ef2a7cc0f770785764011cb76dd01",
+      "calls": [
+        {
+          "name": "joined_lines",
+          "args": [
+            "a b\n c d"
+          ]
+        },
+        {
+          "name": "joined_lines",
+          "args": [
+            " \n spaced inside \n\n more words "
+          ]
+        }
+      ],
+      "expected": [
+        "a b :: c d",
+        "spaced inside :: more words"
+      ],
+      "execution": {
+        "status": "ok",
+        "cases": [
+          {
+            "status": "value",
+            "value": "a :: b :: c :: d",
+            "events": [
+              {
+                "line": 2,
+                "locals": {
+                  "text": "'a b\\n c d'"
+                }
+              },
+              {
+                "line": 14,
+                "locals": {
+                  "text": "'a b\\n c d'"
+                }
+              },
+              {
+                "line": 18,
+                "locals": {
+                  "text": "'a b\\n c d'"
+                }
+              },
+              {
+                "line": 21,
+                "locals": {
+                  "text": "'a b\\n c d'",
+                  "lines": "['a', 'b', 'c', 'd']"
+                }
+              },
+              {
+                "line": 24,
+                "locals": {
+                  "text": "'a b\\n c d'",
+                  "lines": "['a', 'b', 'c', 'd']",
+                  "processed_lines": "['a', 'b', 'c', 'd']"
+                }
+              }
+            ]
+          },
+          {
+            "status": "value",
+            "value": "spaced :: inside :: more :: words",
+            "events": [
+              {
+                "line": 2,
+                "locals": {
+                  "text": "' \\n spaced inside \\n\\n more words '"
+                }
+              },
+              {
+                "line": 14,
+                "locals": {
+                  "text": "' \\n spaced inside \\n\\n more words '"
+                }
+              },
+              {
+                "line": 18,
+                "locals": {
+                  "text": "' \\n spaced inside \\n\\n more words '"
+                }
+              },
+              {
+                "line": 21,
+                "locals": {
+                  "text": "' \\n spaced inside \\n\\n more words '",
+                  "lines": "['spaced', 'inside', 'more', 'words']"
+                }
+              },
+              {
+                "line": 24,
+                "locals": {
+                  "text": "' \\n spaced inside \\n\\n more words '",
+                  "lines": "['spaced', 'inside', 'more', 'words']",
+                  "processed_lines": "['spaced', 'inside', 'more', 'words']"
+                }
+              }
+            ]
+          }
+        ],
+        "steps": 97,
+        "printed": ""
+      },
+      "correct": false
+    }
+  },
+  "tripled_odds": {
+    "original_ok": null,
+    "original_vm_status": "vm_ungraded",
+    "source_sha256": "5656e4546b1fa5f200b7bd4ad4d18ffcf7f021371ac3667a616c7e7295dac711",
+    "bounded_attempt": {
+      "status": "ok",
+      "cases": [
+        {
+          "status": "unsupported",
+          "message": "Attribute outside pure-data allowlist",
+          "events": [
+            {
+              "line": 2,
+              "locals": {
+                "n": "[-5, 2, 3, 3, 0]"
+              }
+            },
+            {
+              "line": 12,
+              "locals": {
+                "n": "[-5, 2, 3, 3, 0]"
+              }
+            },
+            {
+              "line": 16,
+              "locals": {
+                "n": "[-5, 2, 3, 3, 0]"
+              }
+            },
+            {
+              "line": 19,
+              "locals": {
+                "n": "[-5, 2, 3, 3, 0]",
+                "result": "[-15, 9, 9]"
+              }
+            }
+          ]
+        }
+      ],
+      "steps": 57,
+      "printed": ""
+    },
+    "inspection": "Unchanged program checks list input, filters x % 2 == 1 (also correct for negative Python integers), triples each selected value and sorts reverse=True. List.sort is outside this VM coverage. Manual semantic traces for the four sealed inputs are [], [9,9,-15], [], [27,-3], matching every expected result; no native execution.",
+    "semantic_correct": true
+  },
+  "nested_ok": {
+    "original_ok": null,
+    "original_vm_status": "vm_ungraded",
+    "source_sha256": "83369448a6460283c2ac0c4defc3dfa11bdd857935c880fecc0622410be3331f",
+    "bounded_attempt": {
+      "status": "ok",
+      "cases": [
+        {
+          "status": "value",
+          "value": false,
+          "events": [
+            {
+              "line": 2,
+              "locals": {
+                "bracket_string": "'()'"
+              }
+            },
+            {
+              "line": 15,
+              "locals": {
+                "bracket_string": "'()'"
+              }
+            },
+            {
+              "line": 18,
+              "locals": {
+                "bracket_string": "'()'",
+                "stack": "[]"
+              }
+            },
+            {
+              "line": 20,
+              "locals": {
+                "bracket_string": "'()'",
+                "stack": "[]",
+                "char": "'('"
+              }
+            },
+            {
+              "line": 24,
+              "locals": {
+                "bracket_string": "'()'",
+                "stack": "[]",
+                "char": "'('"
+              }
+            },
+            {
+              "line": 25,
+              "locals": {
+                "bracket_string": "'()'",
+                "stack": "[]",
+                "char": "'('"
+              }
+            },
+            {
+              "line": 20,
+              "locals": {
+                "bracket_string": "'()'",
+                "stack": "['(']",
+                "char": "')'"
+              }
+            },
+            {
+              "line": 24,
+              "locals": {
+                "bracket_string": "'()'",
+                "stack": "['(']",
+                "char": "')'"
+              }
+            },
+            {
+              "line": 27,
+              "locals": {
+                "bracket_string": "'()'",
+                "stack": "['(']",
+                "char": "')'"
+              }
+            },
+            {
+              "line": 29,
+              "locals": {
+                "bracket_string": "'()'",
+                "stack": "['(']",
+                "char": "')'"
+              }
+            },
+            {
+              "line": 32,
+              "locals": {
+                "bracket_string": "'()'",
+                "stack": "['(']",
+                "char": "')'"
+              }
+            }
+          ]
+        }
+      ],
+      "steps": 55,
+      "printed": ""
+    },
+    "inspection": "Independently wrong regardless of VM coverage: after opening ( the stack top is (, which cannot equal closing ), so the valid string () returns False. The explicit validation raises for letters and curly brackets, violating ignore-other-characters and all-three-bracket requirements.",
+    "semantic_correct": false
+  }
+}

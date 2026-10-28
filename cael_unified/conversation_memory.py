@@ -845,6 +845,28 @@ class Reader:
         handled = False
         for sentence in sentences(low):
             sentence = re.sub(r'^(?:also|update|okay|ok|so|change of plans|actually)[,:]?\s+', '', sentence)
+            # Preconditions are explicit facts about tasks, not merely their display order.
+            # Match complete task labels; a shared noun alone must not bind the wrong step.
+            dependency = re.fullmatch(r"(.+?) (?:requires|depends on|can only happen after|can only start after) (.+?)\.?", sentence)
+            if dependency:
+                def exact_step(value):
+                    value = re.sub(r'^(?:the )?(?:step|task)(?: to)?\s+', '', value.strip(' .\"\''))
+                    matches = [s for s in plan['steps'] + plan['added'] if s == value]
+                    return matches[0] if len(matches) == 1 else None
+                step, prerequisite = map(exact_step, dependency.groups())
+                if step and prerequisite:
+                    requirements = plan.setdefault('dependencies', {}).setdefault(step, [])
+                    if prerequisite not in requirements:
+                        requirements.append(prerequisite)
+                    handled = True
+                    continue
+            reopened = re.fullmatch(r"(?:reopen|mark as (?:unfinished|not done)|undo completion of)\s*:?\s*(.+?)\.?", sentence)
+            if reopened:
+                label = reopened[1].strip(' .\"\'')
+                if label in plan['steps'] + plan['added']:
+                    plan['done'] = [s for s in plan['done'] if s != label]
+                    handled = True
+                    continue
             m = re.search(r"\b(?:skip|skipping|drop|dropping|remove|removing|cancel|forget about|forget|no need to|decided not to|will not|do not need to|not going to|"
                           r"cross out|scrap|strike|delete|leave out|leaving out|never mind|take out)\s+(?:the step\s+(?:where (?:i|we) |of )?)?(?:\"([^\"]+)\"|'([^']+)'|([a-z][a-z ']+?)(?:,|\.?$))", sentence)
             if m:
@@ -1081,6 +1103,11 @@ def reply(messages):
     if any(m.get('role') == 'user' and re.match(r'(?i)^\s*(?:facts|premises|given|suppose|scenario)\s*:',
                                                  m.get('content', '')) for m in history):
         return None                                    # an explicit "Facts:" scenario belongs to reasoning_chat
+    if on('graph'):
+        from . import conversation_graph
+        joined = conversation_graph.reply(messages)
+        if joined is not None:
+            return joined
     general = None
     if on('planning'):
         planned = read_history(history)
@@ -1114,11 +1141,19 @@ def plan_answer(reader, q):
         if s not in order:
             order.append(s)
     remaining = [s for s in order if s not in plan['done']]
+    dependencies = plan.get('dependencies', {})
+    blocked = {s: [p for p in dependencies.get(s, []) if p not in plan['done']] for s in remaining}
+    blocked = {s: prerequisites for s, prerequisites in blocked.items() if prerequisites}
+    ready = [s for s in remaining if s not in blocked]
     notes = []
     if plan['done']:
         notes.append('Done: ' + ', '.join(plan['done']) + '.')
     if plan['skipped']:
         notes.append('Skipped: ' + ', '.join(plan['skipped']) + '.')
+    if blocked:
+        notes.append('Blocked: ' + '; '.join(s + ' needs ' + ', '.join(p) for s, p in blocked.items()) + '.')
+    if dependencies and re.search(r'\b(?:which|what) (?:steps|tasks) (?:are|can i) (?:ready|start)|\bwhat can (?:i|we) start\b', low):
+        return ('Ready tasks: ' + '; '.join(ready) + '. ' if ready else 'No task is ready. ') + ' '.join(notes)
     nth = re.search(r'\b(first|second|third|fourth|fifth|sixth|last|final) (?:step|task|thing)\b', low)
     if nth and re.search(r'\bwhat|\bwhich', low):
         k = {'first': 0, 'second': 1, 'third': 2, 'fourth': 3, 'fifth': 4, 'sixth': 5, 'last': -1, 'final': -1}[nth.group(1)]
@@ -1134,7 +1169,9 @@ def plan_answer(reader, q):
     if re.search(r'\bnext (?:step|task|thing to do|thing)\b|\b(?:should|do|must|can) (?:i|we) do (?:next|now)\b|\bcomes? (?:next|after)\b|^what now\b|\bmy next\b|\bwhat(?: is|\'s) next\b|\bnext on\b|\bafter that\b', low):
         if not remaining:
             return 'Every step is done. ' + ' '.join(notes)
-        return f'Next step: {remaining[0]}. ' + ' '.join(notes)
+        if not ready:
+            return 'No task is ready: the remaining steps have unmet prerequisites. Please clarify the dependencies. ' + ' '.join(notes)
+        return f'Next step: {ready[0]}. ' + ' '.join(notes)
     if re.search(r'\b(?:left|remain\w*|still need|still have|to do|outstanding|pending|still open|open on|unfinished|not done|undone)\b', low):
         if not remaining:
             return 'Nothing is left: every step is done. ' + ' '.join(notes)

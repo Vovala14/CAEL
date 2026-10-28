@@ -1,0 +1,674 @@
+{
+  "reviewed_utc": "2026-10-28T12:31:20.480177+00:00",
+  "complete": true,
+  "reviewed": 80,
+  "result_sha256": "e051e787f8f3ff48b604f8eb2f44659ea7a3807750fe96270d3fd0c615b70a0c",
+  "input_sha256": "7ba1ffa775c4dea496ae11f48ef65f054bc88ce3c59a94650033dc3de8dff51f",
+  "harness_sha256": "50c387b761440e303a07cadeb818110910887fb8cf63505c80c9724090f4da45",
+  "rows": [
+    {
+      "id": "cfr2-memory-01",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Uses the explicitly preferred name Eren."
+    },
+    {
+      "id": "cfr2-memory-02",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Brief replies correctly restates the supplied preference."
+    },
+    {
+      "id": "cfr2-memory-03",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Denies the supplied OpenBSD 7.6 operating-system fact."
+    },
+    {
+      "id": "cfr2-memory-04",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Recalls Malay as the learning topic."
+    },
+    {
+      "id": "cfr2-memory-05",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Recalls Copper Ray as the prototype badge."
+    },
+    {
+      "id": "cfr2-memory-06",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Uses Maltese after the explicit correction."
+    },
+    {
+      "id": "cfr2-memory-07",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Names Kate/Kakoune conflict and asks which to use."
+    },
+    {
+      "id": "cfr2-memory-08",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Does not disclose the forgotten workshop-label value and says no current value is known."
+    },
+    {
+      "id": "cfr2-memory-09",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Retains bread baking without leaking the forgotten name."
+    },
+    {
+      "id": "cfr2-memory-10",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Does not treat hypothetical climbing as an asserted personal goal."
+    },
+    {
+      "id": "cfr2-memory-11",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Does not treat assistant-only Albanian as user evidence."
+    },
+    {
+      "id": "cfr2-memory-12",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Recalls the earlier shipping motto through filler."
+    },
+    {
+      "id": "cfr2-memory-13",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Generic uncertainty is a minimal honest unknown-name answer; the Wikipedia/word-meaning invitation is irrelevant and not evidence of understanding or a permissible personal-data lookup."
+    },
+    {
+      "id": "cfr2-memory-14",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Joins Oren/colleague/mentor to Rafi in Porto."
+    },
+    {
+      "id": "cfr2-memory-15",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Misses the travel-journal goal under a new paraphrase and falls back to generic uncertainty."
+    },
+    {
+      "id": "cfr2-memory-16",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Accurately summarizes the three supplied profile facts."
+    },
+    {
+      "id": "cfr2-memory-17",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Does not assign the quoted friend preference to the user."
+    },
+    {
+      "id": "cfr2-memory-18",
+      "category": "memory",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Uses the explicitly corrected Dune Swan note."
+    },
+    {
+      "id": "cfr2-memory-19",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Gives language-learning advice rather than the requested provenance of the preference."
+    },
+    {
+      "id": "cfr2-memory-20",
+      "category": "memory",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Fabricates She was born in Paris despite having only Suva residence evidence."
+    },
+    {
+      "id": "cfr2-conversation-01",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Acknowledges unease but misses the positive eager feeling."
+    },
+    {
+      "id": "cfr2-conversation-02",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Reflects relief without attributing negated sadness."
+    },
+    {
+      "id": "cfr2-conversation-03",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Acknowledges shame/listening without advice or questions."
+    },
+    {
+      "id": "cfr2-conversation-04",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Asks whether the user wants to talk despite the earlier no-question preference."
+    },
+    {
+      "id": "cfr2-conversation-05",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Offers support to the anxious partner without misassigning their feeling."
+    },
+    {
+      "id": "cfr2-conversation-06",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": false,
+      "overridden": true,
+      "reason": "Nice is an inappropriate positive reaction and the generic miss-most question does not acknowledge missing-home distress. A lenient acknowledgment-only alternative would pass; disclosed."
+    },
+    {
+      "id": "cfr2-conversation-07",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Respectfully acknowledges grandfather bereavement without invented cause."
+    },
+    {
+      "id": "cfr2-conversation-08",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Generic sorry-to-hear-that meets the minimum setback/listening rubric, equally with other systems."
+    },
+    {
+      "id": "cfr2-conversation-09",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Recognizes effort/progress without claiming expert programming skill."
+    },
+    {
+      "id": "cfr2-conversation-10",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Generic uncertainty does not explain why offline status fails to prove anger."
+    },
+    {
+      "id": "cfr2-conversation-11",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Does not explain coexistence of grateful/frustrated feelings."
+    },
+    {
+      "id": "cfr2-conversation-12",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Generic uncertainty lacks the requested honest account of no lived emotional experience/listening."
+    },
+    {
+      "id": "cfr2-conversation-13",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Acknowledges depletion and explicitly avoids asking a question."
+    },
+    {
+      "id": "cfr2-conversation-14",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Tell me more supplies no requested small workload step."
+    },
+    {
+      "id": "cfr2-conversation-15",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": true,
+      "overridden": true,
+      "reason": "Generic invitation continues listening without unsolicited solutions; minimum-listening leniency applied equally."
+    },
+    {
+      "id": "cfr2-conversation-16",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Wrongly says the valid string-slice expression does not parse and gives no das result."
+    },
+    {
+      "id": "cfr2-conversation-17",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": true,
+      "overridden": true,
+      "reason": "Nice minimally reflects the stated positive anticipation without attributing the negated nervousness. This is generic acknowledgment, not evidence of nuanced understanding."
+    },
+    {
+      "id": "cfr2-conversation-18",
+      "category": "conversation",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Acknowledges grief/low feelings without pet-replacement advice or invented cause."
+    },
+    {
+      "id": "cfr2-conversation-19",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Does not reject the claimed certainty from one cancelled plan."
+    },
+    {
+      "id": "cfr2-conversation-20",
+      "category": "conversation",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Does not explain that loneliness alone is insufficient for a diagnosis."
+    },
+    {
+      "id": "cfr2-python-01",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "All independent cases pass; filter odd values, triple, then descending sort; guards limit it to bounded integer lists."
+    },
+    {
+      "id": "cfr2-python-02",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Squares before positive filtering and count; independent negative/zero/empty cases pass."
+    },
+    {
+      "id": "cfr2-python-03",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Keeps zero/nonnegative inputs before subtraction/sum; all independent cases pass."
+    },
+    {
+      "id": "cfr2-python-04",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Maps negative multiplication before filtering, not vice versa; all cases pass."
+    },
+    {
+      "id": "cfr2-python-05",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Silently drops excluding multiples of seven, returning only a positive sum. An actual wrong function, not a safe refusal."
+    },
+    {
+      "id": "cfr2-python-06",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Filters paid=False and sums amount by owner; all independent inputs pass."
+    },
+    {
+      "id": "cfr2-python-07",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Uses strict Count>3, exact Zone case and stable original-record grouping; all cases pass."
+    },
+    {
+      "id": "cfr2-python-08",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Filters active=True before Priority descending sort; all cases pass."
+    },
+    {
+      "id": "cfr2-python-09",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Groups original records by kind, preserving order; all cases pass."
+    },
+    {
+      "id": "cfr2-python-10",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Whitespace splitting plus Unicode casefold word counts pass all cases."
+    },
+    {
+      "id": "cfr2-python-11",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Actual lines/CRLF/trim/empty removal/exact separator pass all cases."
+    },
+    {
+      "id": "cfr2-python-12",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Uses lower rather than casefold; the discriminating German input passes."
+    },
+    {
+      "id": "cfr2-python-13",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "New size-five chunk cases pass including final shorter and exact-multiple inputs."
+    },
+    {
+      "id": "cfr2-python-14",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "New size-four array batches pass all independent inputs."
+    },
+    {
+      "id": "cfr2-python-15",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Emits nested_okay rather than requested nested_ok. Do not rename or repair it after seeing the final result."
+    },
+    {
+      "id": "cfr2-python-16",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Uses distinct two-sum positions, correct target and None on no match; all cases pass."
+    },
+    {
+      "id": "cfr2-python-17",
+      "category": "python",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Repairs multiplication to subtraction, preserves gap name and passes held-out contrasting inputs."
+    },
+    {
+      "id": "cfr2-python-18",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Unrelated internet-unavailable fallback instead of tracing the local code to 21."
+    },
+    {
+      "id": "cfr2-python-19",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Emits binary_search instead of leftmost and stops at an arbitrary duplicate match rather than the first index."
+    },
+    {
+      "id": "cfr2-python-20",
+      "category": "python",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Returns a largest-number function instead of asking the explicitly required duplicate policy for second-largest."
+    },
+    {
+      "id": "cfr2-controls-01",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Exact product 592."
+    },
+    {
+      "id": "cfr2-controls-02",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Exact brief sum 113."
+    },
+    {
+      "id": "cfr2-controls-03",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct 240-minute conversion and explanation."
+    },
+    {
+      "id": "cfr2-controls-04",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct 15-percent result 39."
+    },
+    {
+      "id": "cfr2-controls-05",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Gives x=42, ignoring coefficient six; correct root is seven."
+    },
+    {
+      "id": "cfr2-controls-06",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct plural were agreement and explanation."
+    },
+    {
+      "id": "cfr2-controls-07",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct modal bare play and explanation."
+    },
+    {
+      "id": "cfr2-controls-08",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Generic unknown rather than the valid transitive universal inference."
+    },
+    {
+      "id": "cfr2-controls-09",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Generic unknown rather than rejecting the invalid overlap inference."
+    },
+    {
+      "id": "cfr2-controls-10",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Selects Rosa tallest using both relations."
+    },
+    {
+      "id": "cfr2-controls-11",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Correct 23:20 clock carry and calculation."
+    },
+    {
+      "id": "cfr2-controls-12",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Selects prerequisite proofing and states publication is blocked."
+    },
+    {
+      "id": "cfr2-controls-13",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Joins map/envelope/locker to locker."
+    },
+    {
+      "id": "cfr2-controls-14",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Uses current Oslo with Riga historical only."
+    },
+    {
+      "id": "cfr2-controls-15",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "States the unknown password was not provided, without fabricating a credential."
+    },
+    {
+      "id": "cfr2-controls-16",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": true,
+      "overridden": true,
+      "reason": "Rather not guess/not sure is an honest unknown-address response despite the cue miss; irrelevant Wikipedia invitation is not endorsed."
+    },
+    {
+      "id": "cfr2-controls-17",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": false,
+      "overridden": false,
+      "reason": "Does not compute the notebook unit-cost answer 15."
+    },
+    {
+      "id": "cfr2-controls-18",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Accounts for all three token events and returns 17."
+    },
+    {
+      "id": "cfr2-controls-19",
+      "category": "controls",
+      "automatic_ok": false,
+      "semantic_ok": true,
+      "overridden": true,
+      "reason": "Cannot verify is a minimal unknown-location response and does not transfer attic to a positive location. Its internet framing fails to explain the negative premise and is a quality limitation."
+    },
+    {
+      "id": "cfr2-controls-20",
+      "category": "controls",
+      "automatic_ok": true,
+      "semantic_ok": true,
+      "overridden": false,
+      "reason": "Names both conflicting times and asks which is right."
+    }
+  ],
+  "reviewer": "Codex, unblinded source/test author; not independent human adjudication",
+  "method": "Every complete reply/full frozen question/rubric and all emitted code inspected through review_results.py; only repeated authored filler/acknowledgments display-suppressed.",
+  "automatic_correct": 54,
+  "semantic_correct": 57,
+  "functional_correct": 15,
+  "functional_total": 18,
+  "errors": 0,
+  "cap_hits": 0,
+  "vm_ungraded": 0,
+  "original_flags_unchanged": true,
+  "source_changed_after_final": false,
+  "native_generated_code_execution": false,
+  "scope": "80 locally authored family-overlap exact portable r2 confirmation cases, not independent/general capability",
+  "sensitivity": {
+    "weak_minimal_acknowledgment_ids": [
+      "cfr2-memory-13",
+      "cfr2-conversation-15",
+      "cfr2-conversation-17",
+      "cfr2-controls-16",
+      "cfr2-controls-19"
+    ],
+    "strict_downward_tone_case": "cfr2-conversation-06",
+    "note": "Minimal generic acknowledgment/unknown handling is accepted equally across systems. These cases do not establish deep understanding; disclose alternatives rather than tune the grader."
+  }
+}

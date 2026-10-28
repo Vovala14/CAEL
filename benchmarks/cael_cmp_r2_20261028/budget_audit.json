@@ -1,0 +1,574 @@
+{
+  "created_utc": "2026-10-28T12:27:01.617706+00:00",
+  "cap": 1024,
+  "scope": "Separate process, tokenizer counting only; excluded from CAEL reply latency/peak RAM",
+  "engines": {
+    "candidate": {
+      "result_sha256": "e051e787f8f3ff48b604f8eb2f44659ea7a3807750fe96270d3fd0c615b70a0c",
+      "counts": [
+        {
+          "id": "cfr2-memory-01",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 7,
+            "Qwen/Qwen3.5-0.8B": 7
+          }
+        },
+        {
+          "id": "cfr2-memory-02",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 5,
+            "Qwen/Qwen3.5-0.8B": 5
+          }
+        },
+        {
+          "id": "cfr2-memory-03",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 20,
+            "Qwen/Qwen3.5-0.8B": 20
+          }
+        },
+        {
+          "id": "cfr2-memory-04",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 5,
+            "Qwen/Qwen3.5-0.8B": 5
+          }
+        },
+        {
+          "id": "cfr2-memory-05",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 7,
+            "Qwen/Qwen3.5-0.8B": 7
+          }
+        },
+        {
+          "id": "cfr2-memory-06",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 8,
+            "Qwen/Qwen3.5-0.8B": 7
+          }
+        },
+        {
+          "id": "cfr2-memory-07",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 19,
+            "Qwen/Qwen3.5-0.8B": 19
+          }
+        },
+        {
+          "id": "cfr2-memory-08",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 20,
+            "Qwen/Qwen3.5-0.8B": 20
+          }
+        },
+        {
+          "id": "cfr2-memory-09",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 6,
+            "Qwen/Qwen3.5-0.8B": 6
+          }
+        },
+        {
+          "id": "cfr2-memory-10",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 19,
+            "Qwen/Qwen3.5-0.8B": 19
+          }
+        },
+        {
+          "id": "cfr2-memory-11",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 20,
+            "Qwen/Qwen3.5-0.8B": 20
+          }
+        },
+        {
+          "id": "cfr2-memory-12",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 9,
+            "Qwen/Qwen3.5-0.8B": 9
+          }
+        },
+        {
+          "id": "cfr2-memory-13",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 50,
+            "Qwen/Qwen3.5-0.8B": 50
+          }
+        },
+        {
+          "id": "cfr2-memory-14",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 6,
+            "Qwen/Qwen3.5-0.8B": 6
+          }
+        },
+        {
+          "id": "cfr2-memory-15",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 46,
+            "Qwen/Qwen3.5-0.8B": 46
+          }
+        },
+        {
+          "id": "cfr2-memory-16",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 23,
+            "Qwen/Qwen3.5-0.8B": 25
+          }
+        },
+        {
+          "id": "cfr2-memory-17",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 19,
+            "Qwen/Qwen3.5-0.8B": 19
+          }
+        },
+        {
+          "id": "cfr2-memory-18",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 8,
+            "Qwen/Qwen3.5-0.8B": 8
+          }
+        },
+        {
+          "id": "cfr2-memory-19",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 85,
+            "Qwen/Qwen3.5-0.8B": 86
+          }
+        },
+        {
+          "id": "cfr2-memory-20",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 5,
+            "Qwen/Qwen3.5-0.8B": 5
+          }
+        },
+        {
+          "id": "cfr2-conversation-01",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 22,
+            "Qwen/Qwen3.5-0.8B": 22
+          }
+        },
+        {
+          "id": "cfr2-conversation-02",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 21,
+            "Qwen/Qwen3.5-0.8B": 21
+          }
+        },
+        {
+          "id": "cfr2-conversation-03",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 33,
+            "Qwen/Qwen3.5-0.8B": 33
+          }
+        },
+        {
+          "id": "cfr2-conversation-04",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 13,
+            "Qwen/Qwen3.5-0.8B": 13
+          }
+        },
+        {
+          "id": "cfr2-conversation-05",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 51,
+            "Qwen/Qwen3.5-0.8B": 51
+          }
+        },
+        {
+          "id": "cfr2-conversation-06",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 8,
+            "Qwen/Qwen3.5-0.8B": 8
+          }
+        },
+        {
+          "id": "cfr2-conversation-07",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 21,
+            "Qwen/Qwen3.5-0.8B": 21
+          }
+        },
+        {
+          "id": "cfr2-conversation-08",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 14,
+            "Qwen/Qwen3.5-0.8B": 14
+          }
+        },
+        {
+          "id": "cfr2-conversation-09",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 29,
+            "Qwen/Qwen3.5-0.8B": 29
+          }
+        },
+        {
+          "id": "cfr2-conversation-10",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 50,
+            "Qwen/Qwen3.5-0.8B": 50
+          }
+        },
+        {
+          "id": "cfr2-conversation-11",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 50,
+            "Qwen/Qwen3.5-0.8B": 50
+          }
+        },
+        {
+          "id": "cfr2-conversation-12",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 46,
+            "Qwen/Qwen3.5-0.8B": 46
+          }
+        },
+        {
+          "id": "cfr2-conversation-13",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 35,
+            "Qwen/Qwen3.5-0.8B": 35
+          }
+        },
+        {
+          "id": "cfr2-conversation-14",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 6,
+            "Qwen/Qwen3.5-0.8B": 6
+          }
+        },
+        {
+          "id": "cfr2-conversation-15",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 11,
+            "Qwen/Qwen3.5-0.8B": 11
+          }
+        },
+        {
+          "id": "cfr2-conversation-16",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 21,
+            "Qwen/Qwen3.5-0.8B": 21
+          }
+        },
+        {
+          "id": "cfr2-conversation-17",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 8,
+            "Qwen/Qwen3.5-0.8B": 8
+          }
+        },
+        {
+          "id": "cfr2-conversation-18",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 28,
+            "Qwen/Qwen3.5-0.8B": 28
+          }
+        },
+        {
+          "id": "cfr2-conversation-19",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 46,
+            "Qwen/Qwen3.5-0.8B": 46
+          }
+        },
+        {
+          "id": "cfr2-conversation-20",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 46,
+            "Qwen/Qwen3.5-0.8B": 46
+          }
+        },
+        {
+          "id": "cfr2-python-01",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 310,
+            "Qwen/Qwen3.5-0.8B": 330
+          }
+        },
+        {
+          "id": "cfr2-python-02",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 278,
+            "Qwen/Qwen3.5-0.8B": 297
+          }
+        },
+        {
+          "id": "cfr2-python-03",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 281,
+            "Qwen/Qwen3.5-0.8B": 300
+          }
+        },
+        {
+          "id": "cfr2-python-04",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 280,
+            "Qwen/Qwen3.5-0.8B": 299
+          }
+        },
+        {
+          "id": "cfr2-python-05",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 58,
+            "Qwen/Qwen3.5-0.8B": 62
+          }
+        },
+        {
+          "id": "cfr2-python-06",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 474,
+            "Qwen/Qwen3.5-0.8B": 505
+          }
+        },
+        {
+          "id": "cfr2-python-07",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 468,
+            "Qwen/Qwen3.5-0.8B": 499
+          }
+        },
+        {
+          "id": "cfr2-python-08",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 451,
+            "Qwen/Qwen3.5-0.8B": 479
+          }
+        },
+        {
+          "id": "cfr2-python-09",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 431,
+            "Qwen/Qwen3.5-0.8B": 460
+          }
+        },
+        {
+          "id": "cfr2-python-10",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 448,
+            "Qwen/Qwen3.5-0.8B": 478
+          }
+        },
+        {
+          "id": "cfr2-python-11",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 446,
+            "Qwen/Qwen3.5-0.8B": 476
+          }
+        },
+        {
+          "id": "cfr2-python-12",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 445,
+            "Qwen/Qwen3.5-0.8B": 475
+          }
+        },
+        {
+          "id": "cfr2-python-13",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 78,
+            "Qwen/Qwen3.5-0.8B": 82
+          }
+        },
+        {
+          "id": "cfr2-python-14",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 78,
+            "Qwen/Qwen3.5-0.8B": 82
+          }
+        },
+        {
+          "id": "cfr2-python-15",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 87,
+            "Qwen/Qwen3.5-0.8B": 95
+          }
+        },
+        {
+          "id": "cfr2-python-16",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 79,
+            "Qwen/Qwen3.5-0.8B": 84
+          }
+        },
+        {
+          "id": "cfr2-python-17",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 119,
+            "Qwen/Qwen3.5-0.8B": 126
+          }
+        },
+        {
+          "id": "cfr2-python-18",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 22,
+            "Qwen/Qwen3.5-0.8B": 22
+          }
+        },
+        {
+          "id": "cfr2-python-19",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 153,
+            "Qwen/Qwen3.5-0.8B": 160
+          }
+        },
+        {
+          "id": "cfr2-python-20",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 52,
+            "Qwen/Qwen3.5-0.8B": 56
+          }
+        },
+        {
+          "id": "cfr2-controls-01",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 11,
+            "Qwen/Qwen3.5-0.8B": 11
+          }
+        },
+        {
+          "id": "cfr2-controls-02",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 11,
+            "Qwen/Qwen3.5-0.8B": 11
+          }
+        },
+        {
+          "id": "cfr2-controls-03",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 36,
+            "Qwen/Qwen3.5-0.8B": 39
+          }
+        },
+        {
+          "id": "cfr2-controls-04",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 19,
+            "Qwen/Qwen3.5-0.8B": 19
+          }
+        },
+        {
+          "id": "cfr2-controls-05",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 21,
+            "Qwen/Qwen3.5-0.8B": 21
+          }
+        },
+        {
+          "id": "cfr2-controls-06",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 37,
+            "Qwen/Qwen3.5-0.8B": 39
+          }
+        },
+        {
+          "id": "cfr2-controls-07",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 40,
+            "Qwen/Qwen3.5-0.8B": 42
+          }
+        },
+        {
+          "id": "cfr2-controls-08",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 50,
+            "Qwen/Qwen3.5-0.8B": 50
+          }
+        },
+        {
+          "id": "cfr2-controls-09",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 50,
+            "Qwen/Qwen3.5-0.8B": 50
+          }
+        },
+        {
+          "id": "cfr2-controls-10",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 26,
+            "Qwen/Qwen3.5-0.8B": 28
+          }
+        },
+        {
+          "id": "cfr2-controls-11",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 37,
+            "Qwen/Qwen3.5-0.8B": 38
+          }
+        },
+        {
+          "id": "cfr2-controls-12",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 20,
+            "Qwen/Qwen3.5-0.8B": 20
+          }
+        },
+        {
+          "id": "cfr2-controls-13",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 7,
+            "Qwen/Qwen3.5-0.8B": 7
+          }
+        },
+        {
+          "id": "cfr2-controls-14",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 10,
+            "Qwen/Qwen3.5-0.8B": 10
+          }
+        },
+        {
+          "id": "cfr2-controls-15",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 14,
+            "Qwen/Qwen3.5-0.8B": 14
+          }
+        },
+        {
+          "id": "cfr2-controls-16",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 46,
+            "Qwen/Qwen3.5-0.8B": 46
+          }
+        },
+        {
+          "id": "cfr2-controls-17",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 50,
+            "Qwen/Qwen3.5-0.8B": 50
+          }
+        },
+        {
+          "id": "cfr2-controls-18",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 7,
+            "Qwen/Qwen3.5-0.8B": 7
+          }
+        },
+        {
+          "id": "cfr2-controls-19",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 22,
+            "Qwen/Qwen3.5-0.8B": 22
+          }
+        },
+        {
+          "id": "cfr2-controls-20",
+          "counts": {
+            "Qwen/Qwen3-0.6B": 26,
+            "Qwen/Qwen3.5-0.8B": 26
+          }
+        }
+      ],
+      "over_budget": [],
+      "max_tokens": 505
+    }
+  }
+}

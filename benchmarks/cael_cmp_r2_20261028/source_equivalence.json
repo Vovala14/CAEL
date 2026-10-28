@@ -1,0 +1,863 @@
+{
+  "candidate": "cael-session-affect-python-r2-20261028",
+  "files": [
+    {
+      "path": "cael_unified/__init__.py",
+      "frozen_sha256": "be32a0949128765e89058c6d8de2f1b0c1b83373dd3eaf291462b960e5831d13",
+      "release_lf_sha256": "50d873fc79d08941ff42e50cfe5c45d22e4a6cb8536c7909574d717ad857bebd",
+      "proof": "Version/docstring/supported-version constants only; all other AST identical"
+    },
+    {
+      "path": "cael_unified/__main__.py",
+      "frozen_sha256": "56792b6c970c8e2bf0a38b54a5db8bc26a630a40f24c8ab050039fb03f7e0827",
+      "release_lf_sha256": "56792b6c970c8e2bf0a38b54a5db8bc26a630a40f24c8ab050039fb03f7e0827",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/acronyms.py",
+      "frozen_sha256": "1b03067a2b67130812aa818008f879115baf89f62d9494aa1a9f2ed8fa8007ba",
+      "release_lf_sha256": "1b03067a2b67130812aa818008f879115baf89f62d9494aa1a9f2ed8fa8007ba",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/advice_text.py",
+      "frozen_sha256": "0c91f2b3101a79a6025edf2573bfb90d60893d8cf21386d3b73ea03a901338fe",
+      "release_lf_sha256": "0c91f2b3101a79a6025edf2573bfb90d60893d8cf21386d3b73ea03a901338fe",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/answer_finder.py",
+      "frozen_sha256": "459dd6cdd5f717ec9333c59e83bce3dd3429ed91fc75b2fc666c79d230d6e1ce",
+      "release_lf_sha256": "459dd6cdd5f717ec9333c59e83bce3dd3429ed91fc75b2fc666c79d230d6e1ce",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/assistant.py",
+      "frozen_sha256": "2032b12790247ac9921d3f11797f70caca135bb33d5a8bcdcebf796e5de19e18",
+      "release_lf_sha256": "d02ff7f61461cae3e61305bd1d30e302d9e4d151a9156849c9804b7164bb06bb",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/bundle.py",
+      "frozen_sha256": "8d81b25c6d38ac4c43b2b6f9fb2d142e2db1481466828bd047d9d0d7dbeed25f",
+      "release_lf_sha256": "eb637e93418d6b804dfc5495be21faa0f3b53254cbd167274d6c5a97411e47cf",
+      "proof": "Version/docstring/supported-version constants only; all other AST identical"
+    },
+    {
+      "path": "cael_unified/calibrate_knowledge.py",
+      "frozen_sha256": "9eb241f8310121fee28a410ae2f796e9334848d6c4b7a99016f36cdd906d770a",
+      "release_lf_sha256": "9eb241f8310121fee28a410ae2f796e9334848d6c4b7a99016f36cdd906d770a",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/chat_corpus.py",
+      "frozen_sha256": "6f9b1b0a032e4049e274b36f3dd42f33093806ff95ca75cfe582bf2d850fb1e7",
+      "release_lf_sha256": "6f9b1b0a032e4049e274b36f3dd42f33093806ff95ca75cfe582bf2d850fb1e7",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/chat_extra.py",
+      "frozen_sha256": "d657e1014bb8e85c72c68e278730eca74ffdae990d9916ae907a5f5d3e445abc",
+      "release_lf_sha256": "186128408c439696b2d524b600f4d4a7207aeb6f9e2189295ac3e996858198c3",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/choice.py",
+      "frozen_sha256": "a1dbd951d2c446ac03a13abd625fd88952c22f1240f8aa977ca22b04e644d277",
+      "release_lf_sha256": "a1dbd951d2c446ac03a13abd625fd88952c22f1240f8aa977ca22b04e644d277",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/choice_helpers.py",
+      "frozen_sha256": "9467cf52189d0e4682f202e4f635d4b32bc4e1c3e0dae7a00255c99def0eb9a9",
+      "release_lf_sha256": "9467cf52189d0e4682f202e4f635d4b32bc4e1c3e0dae7a00255c99def0eb9a9",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/__init__.py",
+      "frozen_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "release_lf_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/chat.py",
+      "frozen_sha256": "02f834e1abcbea5028705a90d7d29b9fa83c85288c8c438a8d7b3c0d42990440",
+      "release_lf_sha256": "02f834e1abcbea5028705a90d7d29b9fa83c85288c8c438a8d7b3c0d42990440",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/code_review.py",
+      "frozen_sha256": "5c589796f062e05400cf5c3901ea868760f35294e2e3542ca2623d049fc3edcd",
+      "release_lf_sha256": "5c589796f062e05400cf5c3901ea868760f35294e2e3542ca2623d049fc3edcd",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/contracts.py",
+      "frozen_sha256": "699460a396582975a3b88405fbf47bc17096f7e719965fbf2135f7d9892d2a23",
+      "release_lf_sha256": "699460a396582975a3b88405fbf47bc17096f7e719965fbf2135f7d9892d2a23",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/data_tools.py",
+      "frozen_sha256": "fdddf366f13772ccad6705b544f8486b4753fa82ad2b78e3ad333fcf3a201f7f",
+      "release_lf_sha256": "fdddf366f13772ccad6705b544f8486b4753fa82ad2b78e3ad333fcf3a201f7f",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/explain.py",
+      "frozen_sha256": "aad968720af106ca99cb9eb99dda33602ed5a6b1aa75233e8264d739fa9c19cf",
+      "release_lf_sha256": "93e7778ce6ef29f69f84acdf6d7f3bbd5fad092ae9f79c34e0874de1ca059bd1",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/natural_program.py",
+      "frozen_sha256": "cea669d1378157bc9cecfd40b5365c4430bf9145e1529e6273d5d249951a3e00",
+      "release_lf_sha256": "cea669d1378157bc9cecfd40b5365c4430bf9145e1529e6273d5d249951a3e00",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/object_model.py",
+      "frozen_sha256": "525079fafdb310a8897a5f00ce5bd9083a8dc1cd17f9d16a8c33dbd5fa4d5981",
+      "release_lf_sha256": "525079fafdb310a8897a5f00ce5bd9083a8dc1cd17f9d16a8c33dbd5fa4d5981",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/python_tasks.py",
+      "frozen_sha256": "5ad0ee5ab43bd8ffd8e0170ad9fa736afb9275c54716a49f648908dfca0ffb18",
+      "release_lf_sha256": "5ad0ee5ab43bd8ffd8e0170ad9fa736afb9275c54716a49f648908dfca0ffb18",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/python_vm.py",
+      "frozen_sha256": "1d1d784e7a676ee03c513c734d89458861c40fa23eb1387d1fec58c644c584b9",
+      "release_lf_sha256": "20b332f13aae6200470cd2ce87d54bd7af784af3d4af1070014ff2a6b7486d2e",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/recurrence.py",
+      "frozen_sha256": "a83e78018618864cf7eaba3bbd353a3c7c3a0a9736c2f1a3beec4652069ba428",
+      "release_lf_sha256": "84cb1b89392dd04fdcf5f593bfd6c9a032ac5bc13e7a93e0d572cc2b290de830",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/specs.py",
+      "frozen_sha256": "d01d7ac34343c5606525cd0f9d23740e268bf0555ee2eebd77e7f310eb007872",
+      "release_lf_sha256": "d01d7ac34343c5606525cd0f9d23740e268bf0555ee2eebd77e7f310eb007872",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/state_plan.py",
+      "frozen_sha256": "b26d0ad96597b29a21aede715431ba5c26bb44713bd6dff901ef6dca3251c404",
+      "release_lf_sha256": "b26d0ad96597b29a21aede715431ba5c26bb44713bd6dff901ef6dca3251c404",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/state_search.py",
+      "frozen_sha256": "dfcf6fccfe709d393bb7dcdc2aa78fd3428b7a0bacfd2d0b635b0e65c2615964",
+      "release_lf_sha256": "dfcf6fccfe709d393bb7dcdc2aa78fd3428b7a0bacfd2d0b635b0e65c2615964",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/synth.py",
+      "frozen_sha256": "2d1415f44e1388e184f162eae133d1da5d69ce622fe891e5d16417f550af4c54",
+      "release_lf_sha256": "f99440aeea782a4f029e418327f2e76c4ed19a0080da8ae6903151fd6942f1e8",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/task_tools.py",
+      "frozen_sha256": "78a170e6a0d0017834c28059a494f045441b01994a77e3a55f4d024d666d6190",
+      "release_lf_sha256": "78a170e6a0d0017834c28059a494f045441b01994a77e3a55f4d024d666d6190",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/tool_contract.py",
+      "frozen_sha256": "2e53be07a4a044af736dbaed59fdaa00e1aa80ee728286586287d46a61373bc4",
+      "release_lf_sha256": "2e53be07a4a044af736dbaed59fdaa00e1aa80ee728286586287d46a61373bc4",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/tool_search.py",
+      "frozen_sha256": "71fa5eb62b0cc28cd9527fa0dc5c383b0d38d0e16ed612a0b71ee83187332cd8",
+      "release_lf_sha256": "71fa5eb62b0cc28cd9527fa0dc5c383b0d38d0e16ed612a0b71ee83187332cd8",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/toolmaker.py",
+      "frozen_sha256": "12709502ab1abb88549ab4aa36bf3d4b1dd05faae383f622346e0e4819592405",
+      "release_lf_sha256": "12709502ab1abb88549ab4aa36bf3d4b1dd05faae383f622346e0e4819592405",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/trace.py",
+      "frozen_sha256": "c02b92489a4414228459d761514fa3ce76166499b6a75a78531a5e6887e3b735",
+      "release_lf_sha256": "c02b92489a4414228459d761514fa3ce76166499b6a75a78531a5e6887e3b735",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/train.py",
+      "frozen_sha256": "4d0998ec5ad752f945e6bee25e70a21f4e60520edb747c5e9d2310ec8e75c5c3",
+      "release_lf_sha256": "902fbdcd4eb1dc0569f8460a9f5233b6b476bc5cb926a13e0eaf65dfa3065d33",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/codegen/workbench.py",
+      "frozen_sha256": "c6e27c5ea4afdeecdf51b7cb6586193d2a4bcbf8f9a8a56fac16c041f5bcd65d",
+      "release_lf_sha256": "c6e27c5ea4afdeecdf51b7cb6586193d2a4bcbf8f9a8a56fac16c041f5bcd65d",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/collect_knowledge.py",
+      "frozen_sha256": "faaf9703ee8c38f058facb04243c25610edff84b0cc458fdcd69da65530acf94",
+      "release_lf_sha256": "faaf9703ee8c38f058facb04243c25610edff84b0cc458fdcd69da65530acf94",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/collect_reasoning.py",
+      "frozen_sha256": "1fac2934b5ab6e7c541d7c786ee850811aad5ef639c20be0e9bca17671fe09d5",
+      "release_lf_sha256": "1fac2934b5ab6e7c541d7c786ee850811aad5ef639c20be0e9bca17671fe09d5",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/compact.py",
+      "frozen_sha256": "93f2e9f502bb89a0430de2a9050ddc8305da97c87b99e72faabaa10b030c46a7",
+      "release_lf_sha256": "56cd77fe7e2a1d7e1a12a0f73e7ea66075d13e63926a87340d0971e6701c53aa",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/completions.py",
+      "frozen_sha256": "9caed9b93c48d1674d9a3da0b8d66ae817aa05492d920b7ca6363a4369cc1e51",
+      "release_lf_sha256": "9caed9b93c48d1674d9a3da0b8d66ae817aa05492d920b7ca6363a4369cc1e51",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/compose_text.py",
+      "frozen_sha256": "0b78f4a3f7f273397f9aa90c51522993eb64ee550433cd64bfee9607a60a8f04",
+      "release_lf_sha256": "cc4752d7094dbb3d4e0fe1b5307703caea4c08efdfd89bb43b7a856a7e505247",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/context_reasoner.py",
+      "frozen_sha256": "7924ccd49d6c0f8f72610f4d86ba0ed2454c089fa96d5b18fc95472d793dde5a",
+      "release_lf_sha256": "b1de01dacc5fc1cb09324e3220b7a643ace670ead563b11569ea9f007f6095e2",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/conversation_graph.py",
+      "frozen_sha256": "fa18bc004b2b5682a37ff32bf5ca24b9f62e43e8898737a90c8c63ac0bb31b37",
+      "release_lf_sha256": "fa18bc004b2b5682a37ff32bf5ca24b9f62e43e8898737a90c8c63ac0bb31b37",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/conversation_memory.py",
+      "frozen_sha256": "2591b2b1762b52b5541b1a27a712fb81683daa94e88346a055d3d2bd63624a25",
+      "release_lf_sha256": "9e3a905b1be17e8996189f4ec7f0ca05b7f3135781a27aa6802ad28d0616a15c",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/count_language.py",
+      "frozen_sha256": "a0c22561623a65a425ee0bd14a50d3aa784f6da2de499ada9158f3ff6d03bd87",
+      "release_lf_sha256": "a0c22561623a65a425ee0bd14a50d3aa784f6da2de499ada9158f3ff6d03bd87",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/count_syntax.py",
+      "frozen_sha256": "e9bd2391cd75292672608010bd8718db0db336aeb23e5b0ea4d15a167d7a0df4",
+      "release_lf_sha256": "e9bd2391cd75292672608010bd8718db0db336aeb23e5b0ea4d15a167d7a0df4",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/dictionary.py",
+      "frozen_sha256": "5f837477e7b325c24cc784f118aae6cc2a00a04b561291ed155d565c5dd7e48b",
+      "release_lf_sha256": "5f837477e7b325c24cc784f118aae6cc2a00a04b561291ed155d565c5dd7e48b",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/emoji.py",
+      "frozen_sha256": "bff4af6aca7d765a43a32d0b956f99bb4f0819265f52c953bd8002b405c437e3",
+      "release_lf_sha256": "bff4af6aca7d765a43a32d0b956f99bb4f0819265f52c953bd8002b405c437e3",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/emotional_chat.py",
+      "frozen_sha256": "94cd8378f79ed6c0392cf60797047a6af9a09cd019e9a813ffe4916efe5297d2",
+      "release_lf_sha256": "94cd8378f79ed6c0392cf60797047a6af9a09cd019e9a813ffe4916efe5297d2",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/entity_binding.py",
+      "frozen_sha256": "be61c887e555f4f67c0ca4774d895a61090e0973dec4d09860a1553a152687a5",
+      "release_lf_sha256": "be61c887e555f4f67c0ca4774d895a61090e0973dec4d09860a1553a152687a5",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/evaluate_reasoning.py",
+      "frozen_sha256": "d545bead464b05a66e7d9eab2dc8c0a68d35a798d06ecb073455ec29b3d77b46",
+      "release_lf_sha256": "d545bead464b05a66e7d9eab2dc8c0a68d35a798d06ecb073455ec29b3d77b46",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/event_choice.py",
+      "frozen_sha256": "4bc56c86be50b67be249b2ca67f1006ea2713859ab0c372d4570a5843e866ada",
+      "release_lf_sha256": "4bc56c86be50b67be249b2ca67f1006ea2713859ab0c372d4570a5843e866ada",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/event_choice_r2.py",
+      "frozen_sha256": "bb01eb01145f8746d947dab263f4455fa21abc496cd802b278842d2924b61a9a",
+      "release_lf_sha256": "bb01eb01145f8746d947dab263f4455fa21abc496cd802b278842d2924b61a9a",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/event_compat.py",
+      "frozen_sha256": "c591d18284f4486f475fbe34590e610219e635a817bc672126b40757ad01c419",
+      "release_lf_sha256": "c591d18284f4486f475fbe34590e610219e635a817bc672126b40757ad01c419",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/event_parser.py",
+      "frozen_sha256": "e55df14247da0c3988547bfe72de47fea36737db676ebcfa585b0da4ae2e344b",
+      "release_lf_sha256": "e55df14247da0c3988547bfe72de47fea36737db676ebcfa585b0da4ae2e344b",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/event_parser_r2.py",
+      "frozen_sha256": "9cff212fb30a15c9bf8a5af387581fb3ce52423974c1799d6cf6f5f7572cf07f",
+      "release_lf_sha256": "9cff212fb30a15c9bf8a5af387581fb3ce52423974c1799d6cf6f5f7572cf07f",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/everyday.py",
+      "frozen_sha256": "78317e6bf018f6a14c152c7b61ae1cf53e1b573c69f04f364b153ade2a008fb4",
+      "release_lf_sha256": "e8b01caa33ccb863515a98e66121277d2d4ccdc1f476d7bca4eb079126dff941",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/everyday_reasoning.py",
+      "frozen_sha256": "014d3e4ae28d981f9befddc5fc4e5e4c4ccd349fed9dd021a72ed5598056e4f7",
+      "release_lf_sha256": "b5a5adb6fd6812f60a9ed0d0b28d759bf68b7a0c45538225c73763f9f3d1f777",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/explain.py",
+      "frozen_sha256": "0eca3ea646ec3605101a912d628b28e3f859af802d0713b34abd9ebb44cd7fc5",
+      "release_lf_sha256": "0eca3ea646ec3605101a912d628b28e3f859af802d0713b34abd9ebb44cd7fc5",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/facts.py",
+      "frozen_sha256": "bd6706996d488ad33157c6c4ec6e74b4925b2b4430ec01f2c02db9d74823394c",
+      "release_lf_sha256": "c1b4b42a6ad4074a23e85f9df22a5e9f4b774c56c18db102b131e5b7c90fcb90",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/factual_context.py",
+      "frozen_sha256": "39ff2b25626a920e88d7517c65c29524ebf4cfae64c25011fcbc5d0d60489446",
+      "release_lf_sha256": "39ff2b25626a920e88d7517c65c29524ebf4cfae64c25011fcbc5d0d60489446",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/free_story.py",
+      "frozen_sha256": "12c6fabffed06ab5a38ef7bab41b1c72553767b93c404856d4c431f800e8c378",
+      "release_lf_sha256": "12c6fabffed06ab5a38ef7bab41b1c72553767b93c404856d4c431f800e8c378",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/grammar.py",
+      "frozen_sha256": "44a25752e9832e9ff192404ca86e917ad9ebc1730e033caf07062f6d72c4d03b",
+      "release_lf_sha256": "44a25752e9832e9ff192404ca86e917ad9ebc1730e033caf07062f6d72c4d03b",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/helper.py",
+      "frozen_sha256": "26a523177ad898d8f2ff1299e88e49c46c54c9a32d4f8946ff6be1ff0ddbb480",
+      "release_lf_sha256": "26a523177ad898d8f2ff1299e88e49c46c54c9a32d4f8946ff6be1ff0ddbb480",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/helper_chat.py",
+      "frozen_sha256": "3c5ba38c36a9b4d972fc71079c36c60dfe729e304fc433ac46b9fb2955ca0da2",
+      "release_lf_sha256": "3c5ba38c36a9b4d972fc71079c36c60dfe729e304fc433ac46b9fb2955ca0da2",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/helper_groups.py",
+      "frozen_sha256": "44705b2333b55819059b07730f16ff7aae528d6d95fcd4e444678abb82294d52",
+      "release_lf_sha256": "44705b2333b55819059b07730f16ff7aae528d6d95fcd4e444678abb82294d52",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/helper_math.py",
+      "frozen_sha256": "6a0c233666d8391a0dcc18650e789bc5fbad0d93e406807c57be45828c93220b",
+      "release_lf_sha256": "6a0c233666d8391a0dcc18650e789bc5fbad0d93e406807c57be45828c93220b",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/helper_math_frames.py",
+      "frozen_sha256": "83e933816ad585911aedf5f4eb677cb0c458edebea4a22f9559d76d6e7bdc0c1",
+      "release_lf_sha256": "83e933816ad585911aedf5f4eb677cb0c458edebea4a22f9559d76d6e7bdc0c1",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/helper_quantities.py",
+      "frozen_sha256": "7a971c823e898188a4dce3461fe8f7224c3d90d5288194b4582a6459d552d3fd",
+      "release_lf_sha256": "7a971c823e898188a4dce3461fe8f7224c3d90d5288194b4582a6459d552d3fd",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/helper_rates.py",
+      "frozen_sha256": "d04cf541a4ae00c61a8fcd4e2f181394bb625b9595a23b92765d8bc9ceb2354c",
+      "release_lf_sha256": "d04cf541a4ae00c61a8fcd4e2f181394bb625b9595a23b92765d8bc9ceb2354c",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/image_prompt.py",
+      "frozen_sha256": "d206b7e8a52ad7e9f3c994f9528ccf6b21d84284cce64b5b5212897cdc1f6b0c",
+      "release_lf_sha256": "d206b7e8a52ad7e9f3c994f9528ccf6b21d84284cce64b5b5212897cdc1f6b0c",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/knowledge.py",
+      "frozen_sha256": "95672fddeab680608ebb3dab25c41bb069ffa54ff704574aabfc57e60e1ec382",
+      "release_lf_sha256": "95672fddeab680608ebb3dab25c41bb069ffa54ff704574aabfc57e60e1ec382",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/knowledge_html.py",
+      "frozen_sha256": "f580333f5320f81ab850a355e260d5ecf491abb0848bbad9e2d250cebd69f9a8",
+      "release_lf_sha256": "1542ed9bf622967cb5ab5068b78104b65c1709b0156d4bfc686fac745230f656",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/knowledge_query.py",
+      "frozen_sha256": "bdd860c902b5d72d219affb03eda45e0d00a840ed241e757c635ecca806e9f99",
+      "release_lf_sha256": "bdd860c902b5d72d219affb03eda45e0d00a840ed241e757c635ecca806e9f99",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/knowledge_time.py",
+      "frozen_sha256": "02fe62105ea0c415f940e442db75c7b58d1cd3d422329dc50516de23640c4b3d",
+      "release_lf_sha256": "02fe62105ea0c415f940e442db75c7b58d1cd3d422329dc50516de23640c4b3d",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/legacy_chat/__init__.py",
+      "frozen_sha256": "2d85177ce87e9f1b29ed329f9e8527d2ada60225577d918898b9b543ad73c031",
+      "release_lf_sha256": "2d85177ce87e9f1b29ed329f9e8527d2ada60225577d918898b9b543ad73c031",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/legacy_chat/cael_v4.py",
+      "frozen_sha256": "9c62e105ecf69e29a70bbdc64f67805a2f0c3ef86a12923dc2a9218c76bf4df1",
+      "release_lf_sha256": "9c62e105ecf69e29a70bbdc64f67805a2f0c3ef86a12923dc2a9218c76bf4df1",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/legacy_chat/reply_skeleton_ca.py",
+      "frozen_sha256": "32bd8e8d552a8632299c68228d11b77d7c96fa7b86e7555afed65d3ff2134b1a",
+      "release_lf_sha256": "32bd8e8d552a8632299c68228d11b77d7c96fa7b86e7555afed65d3ff2134b1a",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/legacy_chat/reply_skeleton_ca_v2.py",
+      "frozen_sha256": "a2162f905577b6b104dee36e8a66df84e65310663e4d5fcda4faba260c789438",
+      "release_lf_sha256": "a2162f905577b6b104dee36e8a66df84e65310663e4d5fcda4faba260c789438",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/licensing.py",
+      "frozen_sha256": "aa5d448aafc7e7b2aa04c89cee88327fdc5cda2cc968f2ec96e2a52c0f724033",
+      "release_lf_sha256": "aa5d448aafc7e7b2aa04c89cee88327fdc5cda2cc968f2ec96e2a52c0f724033",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/life_advice.py",
+      "frozen_sha256": "f12d9f8759f569fb1a0c8b1bbd2fc79f04771ed41bbe1a778c6363e156f68353",
+      "release_lf_sha256": "f12d9f8759f569fb1a0c8b1bbd2fc79f04771ed41bbe1a778c6363e156f68353",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/life_knowledge.py",
+      "frozen_sha256": "a72f6d9519ab8d210ba9e372f3b2ab9d5c7f7e99d07d79a3f68f25e7744a6f77",
+      "release_lf_sha256": "a72f6d9519ab8d210ba9e372f3b2ab9d5c7f7e99d07d79a3f68f25e7744a6f77",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/local_tools/__init__.py",
+      "frozen_sha256": "fa239b77e746cfc43b2af273b74ce3321b8700d04fc70123c065bdeb5dfbc4ff",
+      "release_lf_sha256": "fa239b77e746cfc43b2af273b74ce3321b8700d04fc70123c065bdeb5dfbc4ff",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/local_tools/__main__.py",
+      "frozen_sha256": "966e3158faf2fcf04b3cdd43e1cb5c77135035b9ed7a1cbbd24391f43b0ce546",
+      "release_lf_sha256": "966e3158faf2fcf04b3cdd43e1cb5c77135035b9ed7a1cbbd24391f43b0ce546",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/local_tools/chat.py",
+      "frozen_sha256": "6e85c21c6317bf8f596d6917b6669bbbaf482d93972a2678ca9fc052c44950f0",
+      "release_lf_sha256": "6e85c21c6317bf8f596d6917b6669bbbaf482d93972a2678ca9fc052c44950f0",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/local_tools/media.py",
+      "frozen_sha256": "03727aff2a2343a554560272e057eff8287a13fb53658d4a5fe57972fff725d4",
+      "release_lf_sha256": "03727aff2a2343a554560272e057eff8287a13fb53658d4a5fe57972fff725d4",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/local_tools/pdf_tools.py",
+      "frozen_sha256": "d6337c9296188e003dd3a2f1365060e6b2c065779ae2e78dac4aaf189b1e6b82",
+      "release_lf_sha256": "d6337c9296188e003dd3a2f1365060e6b2c065779ae2e78dac4aaf189b1e6b82",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/local_tools/plans.py",
+      "frozen_sha256": "e838a6525bf81882606552df839214d9ae062daaac1871821c4a023e5310f099",
+      "release_lf_sha256": "e838a6525bf81882606552df839214d9ae062daaac1871821c4a023e5310f099",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/local_tools/process.py",
+      "frozen_sha256": "9b77739351e9467c0166c1d1ab76591a28dc5020e33625c1bf25b5bb13195eae",
+      "release_lf_sha256": "9b77739351e9467c0166c1d1ab76591a28dc5020e33625c1bf25b5bb13195eae",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/local_tools/review.py",
+      "frozen_sha256": "e381ea0285c3ef77276f869971ba505bf7b178bc110bac37dd87d9a842eb901a",
+      "release_lf_sha256": "e381ea0285c3ef77276f869971ba505bf7b178bc110bac37dd87d9a842eb901a",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/local_tools/worker.py",
+      "frozen_sha256": "240a916561dbf8b81135120d4a71c1996fc306c6e70cbe23b0127c4e02c28c6c",
+      "release_lf_sha256": "240a916561dbf8b81135120d4a71c1996fc306c6e70cbe23b0127c4e02c28c6c",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/local_tools/workspace.py",
+      "frozen_sha256": "5c444ce740def10aa51576931f9a79d4543bcffed092573952fcce0822b8031b",
+      "release_lf_sha256": "5c444ce740def10aa51576931f9a79d4543bcffed092573952fcce0822b8031b",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/ltm.py",
+      "frozen_sha256": "7db9fa7b5d772316941ac91a94807efd650dff2069350356ba7fa297bfaac13a",
+      "release_lf_sha256": "7db9fa7b5d772316941ac91a94807efd650dff2069350356ba7fa297bfaac13a",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/math_format.py",
+      "frozen_sha256": "83b71b2a336330ca3f002a7975b31038f687fe996a7b5ca547671bf1d59dcbf0",
+      "release_lf_sha256": "83b71b2a336330ca3f002a7975b31038f687fe996a7b5ca547671bf1d59dcbf0",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/memory.py",
+      "frozen_sha256": "f93ed4d646051f8b326e94d76546c6c2a5553a45b1e5e1b3cec5be2d32d6858d",
+      "release_lf_sha256": "f93ed4d646051f8b326e94d76546c6c2a5553a45b1e5e1b3cec5be2d32d6858d",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/network.py",
+      "frozen_sha256": "8d435da8e9e34fa6f07aff178471fa8476a57c78de5042f3ea06e16803c9f065",
+      "release_lf_sha256": "8d435da8e9e34fa6f07aff178471fa8476a57c78de5042f3ea06e16803c9f065",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/news_policy.py",
+      "frozen_sha256": "d99cbecf8dfd432f0aef3ec701ea6f59e13241306e8206e19358af655154e003",
+      "release_lf_sha256": "d99cbecf8dfd432f0aef3ec701ea6f59e13241306e8206e19358af655154e003",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/news_relevance.py",
+      "frozen_sha256": "e80cda4eaf6456fbd2155c3c5e252b357f34861ba4ae06aaa5e43a5f8e2ed536",
+      "release_lf_sha256": "e80cda4eaf6456fbd2155c3c5e252b357f34861ba4ae06aaa5e43a5f8e2ed536",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/news_time.py",
+      "frozen_sha256": "3b1e9d8f5ff14c93f22a2f89b08bd80f1d069d09254fe500319ad713f6a83f38",
+      "release_lf_sha256": "3b1e9d8f5ff14c93f22a2f89b08bd80f1d069d09254fe500319ad713f6a83f38",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/orchestrator.py",
+      "frozen_sha256": "45b4c7592f449379df2f289477a4afc6ae6c6f976e62f5394c8482f82743867d",
+      "release_lf_sha256": "45b4c7592f449379df2f289477a4afc6ae6c6f976e62f5394c8482f82743867d",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/phrases.py",
+      "frozen_sha256": "0efc167bfe7e44b3527ad476b80e0df812cc1ae2870736e2d9e559f3044c22b8",
+      "release_lf_sha256": "08ec0aad0e04ffadc1967dd3bd94e934dece88aa93f9935c93879b34fff49d5f",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/promptgen.py",
+      "frozen_sha256": "df9e049445c980202f343b372ff310be9e013e60666a41bf8dcd459d8d4a098f",
+      "release_lf_sha256": "539aaa0707404aa980a9a8f0dcf1fb9ab2caaa30a977f04820a68ccad636d946",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/public_worker.py",
+      "frozen_sha256": "aa3f444a0b52329243415eff12490939ce654199a1213761d4479b6154019bec",
+      "release_lf_sha256": "aa3f444a0b52329243415eff12490939ce654199a1213761d4479b6154019bec",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/python_help.py",
+      "frozen_sha256": "3764c2ead4752f6844ccf8b431baf34f6b5f768bdddda82e8de38be9960e181a",
+      "release_lf_sha256": "9d112157232ca3726310881b81c5555fe6b74dd1e2dc342a101c33ce982f2459",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/quantities.py",
+      "frozen_sha256": "b25606d7b7eeadcee5adebafee4046c8fe0ed314f42eb7cdf3316d0a78f823a7",
+      "release_lf_sha256": "b25606d7b7eeadcee5adebafee4046c8fe0ed314f42eb7cdf3316d0a78f823a7",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning.py",
+      "frozen_sha256": "05ee3090b24b5208520d9dcf75752c32f568c778503172a5f3d238bbcddfd380",
+      "release_lf_sha256": "05ee3090b24b5208520d9dcf75752c32f568c778503172a5f3d238bbcddfd380",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning_babi.py",
+      "frozen_sha256": "99b1cfe0a58277afc7a5fe3bf9d0d6cfbcca2642cca1b701978bf274d63f4b86",
+      "release_lf_sha256": "99b1cfe0a58277afc7a5fe3bf9d0d6cfbcca2642cca1b701978bf274d63f4b86",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning_chat.py",
+      "frozen_sha256": "3020a988f044488445c498eb381845b53f5f21cce243e4692ee6375090d55331",
+      "release_lf_sha256": "3020a988f044488445c498eb381845b53f5f21cce243e4692ee6375090d55331",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning_compose.py",
+      "frozen_sha256": "3089345151a178d09e51d673ece8575eaff72774bf5eb353d0241427982098b8",
+      "release_lf_sha256": "3089345151a178d09e51d673ece8575eaff72774bf5eb353d0241427982098b8",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning_data.py",
+      "frozen_sha256": "217be686f432f65099cb4aa3bd06efb7f9ac85f7a81f40404a6da39c26e5014e",
+      "release_lf_sha256": "217be686f432f65099cb4aa3bd06efb7f9ac85f7a81f40404a6da39c26e5014e",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning_extra.py",
+      "frozen_sha256": "ab192a7f4aa32b5ec465fd009de3d39c43cf08246b4376f9beca9f6f2ae791d0",
+      "release_lf_sha256": "fbb6423194c47e2b58f5165608ad98142774fbb71eae8d6a317834cbaa27e78a",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning_logic.py",
+      "frozen_sha256": "1f4ec0b7b133ff5c060abd4d072f7ad1bf2fa0386012b3ee30986f6ab8fc148f",
+      "release_lf_sha256": "1f4ec0b7b133ff5c060abd4d072f7ad1bf2fa0386012b3ee30986f6ab8fc148f",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning_order.py",
+      "frozen_sha256": "0ec8a286637d6f9fc5e1b99fe44c6120ac1adf257d32c1972ef24a68f4acec06",
+      "release_lf_sha256": "abfc1c7a865898f379ae80c9a3cbcca9d6b18a96428ed51ae63872e69ea9023a",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning_relations.py",
+      "frozen_sha256": "a4affc8f2a4f5f956ef2905237c948a0983f2236ba8dccf44d9f101253325d0e",
+      "release_lf_sha256": "a4affc8f2a4f5f956ef2905237c948a0983f2236ba8dccf44d9f101253325d0e",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning_sat.py",
+      "frozen_sha256": "c33b6d84821b4ac5244d7fe79d48c2ee48da375610cdd1b736a7ee2cd4902d3f",
+      "release_lf_sha256": "c33b6d84821b4ac5244d7fe79d48c2ee48da375610cdd1b736a7ee2cd4902d3f",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/reasoning_world.py",
+      "frozen_sha256": "c0e230c1ba367b96732d566ee40296a68579348ce28777df5e6aed7b6c9de03a",
+      "release_lf_sha256": "c0e230c1ba367b96732d566ee40296a68579348ce28777df5e6aed7b6c9de03a",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/request_policy.py",
+      "frozen_sha256": "af06debe5a40ae03b494e240cfdb4e7e5ad3761f21f5bfd4871a7ff2bcecfa07",
+      "release_lf_sha256": "af06debe5a40ae03b494e240cfdb4e7e5ad3761f21f5bfd4871a7ff2bcecfa07",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/rules.py",
+      "frozen_sha256": "751eb562d07a42c65baa30714ed704636276d7e291cd3ef3730c99f08d2fcbbc",
+      "release_lf_sha256": "751eb562d07a42c65baa30714ed704636276d7e291cd3ef3730c99f08d2fcbbc",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/session_profile.py",
+      "frozen_sha256": "7d9ca097b09264587351d382d860eb80470f82d6c009802c649773d476cccbdc",
+      "release_lf_sha256": "7d9ca097b09264587351d382d860eb80470f82d6c009802c649773d476cccbdc",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/share.py",
+      "frozen_sha256": "a5fa37b7675bd3bed52b635befaaa2fc2fe8ea60860348d02745e16b1820f468",
+      "release_lf_sha256": "a5fa37b7675bd3bed52b635befaaa2fc2fe8ea60860348d02745e16b1820f468",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/smalltalk.py",
+      "frozen_sha256": "c10699bd1956bad069968a62d88985708ba53655510482487b38cae3ca865466",
+      "release_lf_sha256": "c10699bd1956bad069968a62d88985708ba53655510482487b38cae3ca865466",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/social_chat.py",
+      "frozen_sha256": "843bada8d57129ea5e9946f82751a05839f452ceff39b3588a429a0b6cb44c52",
+      "release_lf_sha256": "843bada8d57129ea5e9946f82751a05839f452ceff39b3588a429a0b6cb44c52",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/social_reasoning.py",
+      "frozen_sha256": "13654c05ffd611558b6577d0a7acb63e56c7e0dad532dc56a1099936408041a3",
+      "release_lf_sha256": "13654c05ffd611558b6577d0a7acb63e56c7e0dad532dc56a1099936408041a3",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/source_quality.py",
+      "frozen_sha256": "3e48392051918edd489756c32cf62193c70535bcb0b8afaa5d0607db77133953",
+      "release_lf_sha256": "3e48392051918edd489756c32cf62193c70535bcb0b8afaa5d0607db77133953",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/spelling.py",
+      "frozen_sha256": "155da3787e029f6010c785df897f3bddfff97a0b2f094a30afb6380cfdf657d6",
+      "release_lf_sha256": "743664fe79b3a068a1b8ae6393bc35d5915f7c1eeaf82bf512fecd92cdb42489",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/sudoku.py",
+      "frozen_sha256": "02d2fb2817927791e4d5a5728a5f4ba45f8b39538b2d99284f2d3970fcf5d314",
+      "release_lf_sha256": "e7a52814ed1b481c076be5a8dd7c5e832aa5f1c6774b10abb23bb07502de18e5",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/symbolic_choice.py",
+      "frozen_sha256": "70e6570850ca868553a080b921a448a533303c7569a50c81a801e6bb5aa273b5",
+      "release_lf_sha256": "70e6570850ca868553a080b921a448a533303c7569a50c81a801e6bb5aa273b5",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/text_repair.py",
+      "frozen_sha256": "a81cb41a6cc184e9d6f83e44d4fcc23b00a81018dc930b482c45f946411e18e9",
+      "release_lf_sha256": "a81cb41a6cc184e9d6f83e44d4fcc23b00a81018dc930b482c45f946411e18e9",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/thinking.py",
+      "frozen_sha256": "d785feeacd765372ccb89c64f53911e84b2653c2db16b186d27a3b6949cffee9",
+      "release_lf_sha256": "d785feeacd765372ccb89c64f53911e84b2653c2db16b186d27a3b6949cffee9",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/train_knowledge.py",
+      "frozen_sha256": "5f42b45330f29f9dddabd83330466b70805859f49838701f2da9cf43f36ae2d2",
+      "release_lf_sha256": "5f42b45330f29f9dddabd83330466b70805859f49838701f2da9cf43f36ae2d2",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/train_knowledge_query.py",
+      "frozen_sha256": "db0bcb14a690d9c6c1f31ec972c2d3a865f285edd32d352c2e5ce35459d8fc1c",
+      "release_lf_sha256": "db0bcb14a690d9c6c1f31ec972c2d3a865f285edd32d352c2e5ce35459d8fc1c",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/train_news_policy.py",
+      "frozen_sha256": "98aae9bd40285a426042bf5a53f091003f18ba0cff36faca79948e094003d138",
+      "release_lf_sha256": "98aae9bd40285a426042bf5a53f091003f18ba0cff36faca79948e094003d138",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/train_news_relevance.py",
+      "frozen_sha256": "b272d5a0c8cc3f631bc268c4059f7ad55c42ae8e3a70a692cfc8bc7a49d6ba89",
+      "release_lf_sha256": "b272d5a0c8cc3f631bc268c4059f7ad55c42ae8e3a70a692cfc8bc7a49d6ba89",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/train_reasoning.py",
+      "frozen_sha256": "744502dbab6cc3333bc206230279c90e9efac9b7180144699a26a7fcce1df5ca",
+      "release_lf_sha256": "744502dbab6cc3333bc206230279c90e9efac9b7180144699a26a7fcce1df5ca",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/train_request_policy.py",
+      "frozen_sha256": "ee314644fab8eea5a5cdc803d510f15b33d4c9731dfee7d25458a556de18bf6b",
+      "release_lf_sha256": "ee314644fab8eea5a5cdc803d510f15b33d4c9731dfee7d25458a556de18bf6b",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/train_social.py",
+      "frozen_sha256": "8dc7c73949a75b8a4846dbb413856da51dd31903ff0ca05c2ca81f2bd108722f",
+      "release_lf_sha256": "8dc7c73949a75b8a4846dbb413856da51dd31903ff0ca05c2ca81f2bd108722f",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/train_story_surfaces.py",
+      "frozen_sha256": "3f6ce382f18e0d6055a45f5db01f05454f2bda9c943b417a7d9c4db8361b8a77",
+      "release_lf_sha256": "3f6ce382f18e0d6055a45f5db01f05454f2bda9c943b417a7d9c4db8361b8a77",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/verify.py",
+      "frozen_sha256": "93a24505fb3f887f43b94ae4a28d0c978756e75c22b054292be8df76f97175cc",
+      "release_lf_sha256": "93a24505fb3f887f43b94ae4a28d0c978756e75c22b054292be8df76f97175cc",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/vynly.py",
+      "frozen_sha256": "73c5865ce5c1bc7cafef02a9a86bd51a6e5c332fafb7bafaea1c3f2c66551951",
+      "release_lf_sha256": "037b8a2eac787a928742e58930875898b812fb0b719aa54d12734a2bd2504e6c",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/web.py",
+      "frozen_sha256": "14c34c069e4684dcbd314046eb86372717dbd8cd82b7a958191f406b15345161",
+      "release_lf_sha256": "14c34c069e4684dcbd314046eb86372717dbd8cd82b7a958191f406b15345161",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/web_search.py",
+      "frozen_sha256": "2039d78c8e65a5345a359ce5f057c53c9f6cc516575cdecdda94b1a1288a9ffb",
+      "release_lf_sha256": "2039d78c8e65a5345a359ce5f057c53c9f6cc516575cdecdda94b1a1288a9ffb",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/wordmath.py",
+      "frozen_sha256": "870114abeb5a0ec596d7b55dfc30e9ca26777ba6e1065cb07cbd650599b56bd3",
+      "release_lf_sha256": "870114abeb5a0ec596d7b55dfc30e9ca26777ba6e1065cb07cbd650599b56bd3",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/world_facts.py",
+      "frozen_sha256": "272151c93971b45feabb33e018469280f03a6ed9962e9361f8ac1648d034253a",
+      "release_lf_sha256": "272151c93971b45feabb33e018469280f03a6ed9962e9361f8ac1648d034253a",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    },
+    {
+      "path": "cael_unified/writing_chat.py",
+      "frozen_sha256": "fef88a1e57c329b2482779dcc2cadda2791bfe7c7beb8c3905c5423aabee551c",
+      "release_lf_sha256": "fef88a1e57c329b2482779dcc2cadda2791bfe7c7beb8c3905c5423aabee551c",
+      "proof": "Identical bytes after declared LF source-archive normalization"
+    }
+  ],
+  "source_files": 142,
+  "version_only_files": [
+    "cael_unified/__init__.py",
+    "cael_unified/bundle.py"
+  ],
+  "line_endings": "Git-declared LF; 23 original modules had CRLF. No capability edits."
+}

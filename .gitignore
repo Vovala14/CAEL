@@ -35,7 +35,6 @@ local_tools/cael_training/.venv/
 # 0.2.2: weights ship in the release bundle, never in git (only the small published story model is tracked).
 models/*
 !models/cael-story-0.1/
-!models/cael-image-portrait-64-i16/
 # Local experiments, caches and launch state (private queries, tunnel URLs, backups).
 data/
 cael_chat_ca/

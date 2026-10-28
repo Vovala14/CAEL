@@ -7,7 +7,7 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-VERSION = '0.3.6'
+VERSION = '0.3.7'
 
 
 def tracked_files():
@@ -30,6 +30,8 @@ def public_paths():
     paths = sorted(p for p in tracked_files() if p.is_file() and p.name != 'SHA256SUMS.json')
     for path in paths:
         relative = path.relative_to(ROOT)
+        if relative.as_posix().startswith(('models/cael-image-', 'models/cael-general-')):
+            raise ValueError('Picture/portrait model path excluded from this release')
         if any(part in ('research', 'outputs', '.git', '.venv', 'chat_worker', 'data') for part in relative.parts):
             raise ValueError('Private or local-only path in source archive')
         if path.suffix.lower() in ('.pt', '.safetensors', '.sqlite', '.duckdb', '.cael') or path.name in ('chat_backend.json', 'relay_key.txt', 'ui_token.txt', 'session.key'):

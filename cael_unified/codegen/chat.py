@@ -123,6 +123,9 @@ EXPLAIN_DETAILS = ('Read from the Python syntax tree (ast) and, for short pure e
 
 
 def reply(text, seed=0, messages=None):
+    from .natural_program import reply as natural_reply
+    natural = natural_reply(text,messages)
+    if natural is not None:return natural
     from .python_tasks import reply as python_task_reply
     completed=python_task_reply(text,messages)
     if completed is not None:return completed

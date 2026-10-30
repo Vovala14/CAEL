@@ -4,14 +4,16 @@ from unittest.mock import Mock, patch
 
 from cael_unified import __version__
 from cael_unified.assistant import Assistant
-from cael_unified.bundle import VERSION
+from cael_unified.bundle import BUNDLE_VERSION, DEFAULT_BUNDLE, VERSION
 
 
 def test_release_version_agrees():
     import json
     from cael_unified.bundle import ROOT
     configured = json.loads((ROOT / 'bundle_config.json').read_text(encoding='utf-8'))['version']
-    assert VERSION == __version__ == configured
+    # 0.3.8 is code-only: the code version is 0.3.8, the pinned model bundle stays the published 0.3.7 one.
+    assert VERSION == __version__ == '0.3.8'
+    assert configured == BUNDLE_VERSION and DEFAULT_BUNDLE.name == f'cael-{BUNDLE_VERSION}.cael'
 
 
 def test_picture_follow_up_cannot_load_weights_in_no_images_profile():

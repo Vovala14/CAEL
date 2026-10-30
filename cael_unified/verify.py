@@ -90,32 +90,49 @@ def check_arithmetic(request, answer):
 
 
 def check_equation(request, answer):
-    solved = re.match(r'([a-z]) = (' + NUMBER + r')', answer['response'])
+    solved = re.findall(r'\b([a-z]) = (' + NUMBER + r')', answer['response'].split('\n', 1)[0])
     if not solved:
         raise Unchecked('no single solution stated')
-    name, value = solved[1], exact(solved[2])
-    equation = re.search(r'([\d\s' + name + r'+*/().\-]+=[\d\s' + name + r'+*/().\-]+)', request.lower())
-    if not equation:
-        raise Unchecked('equation not found in the request')
-    text = re.sub(r'(\d|\))\s*(?=' + name + r'\b)', r'\1*', equation[1])
+    text = request.lower().strip().rstrip(' ?.').replace('−', '-').replace('×', '*').replace('÷', '/')
+    text = re.sub(r'^(?:please\s+|(?:can|could|would) you\s+(?:please\s+)?)', '', text)
+    text = re.sub(r'^(?:solve(?:\s+(?:the\s+)?(?:equations?|system))?(?:\s+for\s+[a-z](?:\s*(?:and|,)\s*[a-z])?)?\s*:?\s*|find\s+[a-z]\s+(?:in\s+)?)', '', text)
+    if not re.fullmatch(r'[\d\sa-z+*/().,^=;\-]+', text) or any(w != 'and' for w in re.findall(r'[a-z]{2,}', text)):
+        raise Unchecked('the complete original equation is outside the checker grammar')
+    text = text.replace('^', '**')
+    text = re.sub(r'(\d|\))\s*(?=[a-z]\b)', r'\1*', text)
+    text = re.sub(r'\b([a-z])\s*(?=\()', r'\1*', text)
     text = re.sub(r'(\d|\))\s*(?=\()', r'\1*', text)
+    parts = re.split(r'\s*;\s*|\s*,\s*|\s+and\s+', text)
+    if len(parts) > 2 or any(p.count('=') != 1 for p in parts):
+        raise Unchecked('equation count')
+    from itertools import product
+    values = {}
+    for name, value in solved:
+        values.setdefault(name, []).append(exact(value))
+    if len(values) > 2 or len(solved) > 4:
+        raise Unchecked('solution count')
+    checks = 0
     try:
-        left, right = [evaluate(ast.parse(side.strip(), mode='eval'), {name: value}, side.strip()) for side in text.split('=')]
-    except (SyntaxError, ZeroDivisionError):
+        for chosen in product(*values.values()):
+            names = dict(zip(values, chosen))
+            for equation in parts:
+                sides = [side.strip() for side in equation.split('=')]
+                trees = [ast.parse(side, mode='eval') for side in sides]
+                if sum(sum(1 for _ in ast.walk(t)) for t in trees) > 180:
+                    raise Unchecked('equation AST limit')
+                left, right = [evaluate(tree, names, source=side) for tree, side in zip(trees, sides)]
+                if left != right:
+                    return dict(status='failed', check='a stated solution does not satisfy the complete original equation')
+                checks += 1
+    except SyntaxError:
         raise Unchecked('equation does not parse')
-    if left == right:
-        return dict(status='verified', check=f'substituted {name} = {show(value)} back: both sides equal {show(left)}')
-    return dict(status='failed', check=f'with {name} = {show(value)} the sides are {show(left)} and {show(right)}')
+    except ZeroDivisionError:
+        return dict(status='failed', check='a stated solution makes the original equation undefined')
+    return dict(status='verified', check=f'checked {checks} exact substitutions in the complete original equation(s)')
 
 
 def sandbox_function(code):
-    name = re.search(r'^def (\w+)\(', code, re.M)
-    if not name:
-        raise Unchecked('no function')
-    builtins = __builtins__ if isinstance(__builtins__, dict) else vars(__builtins__)
-    scope = {'math': math, '__builtins__': {k: builtins[k] for k in SAFE_BUILTINS}}
-    exec(code.replace('import math\n', ''), scope)
-    return name[1], scope[name[1]]
+    raise Unchecked('Native generated-code execution is disabled; use the bounded AST interpreter')
 
 
 def check_code(request, answer):
@@ -131,42 +148,50 @@ def check_code(request, answer):
         return dict(status='verified', check='the repaired code parses')
     if not re.search(r'^def \w+\(', code, re.M):
         raise Unchecked('not a function')
-    name, function = sandbox_function(code)
+    name = re.search(r'^def (\w+)\(', code, re.M)[1]
     tests = []
     for block in blocks[1:]:
-        for line in block.splitlines():
-            call = re.match(r'assert (' + re.escape(name) + r'\(.*\)) == (.+)$', line.strip())
-            if call:
-                tests.append((call[1], call[2]))
+        try:
+            tree = ast.parse(block)
+        except SyntaxError:
+            continue
+        for statement in tree.body:
+            if not isinstance(statement, ast.Assert) or not isinstance(statement.test, ast.Compare):
+                continue
+            test = statement.test
+            if len(test.ops) != 1 or not isinstance(test.ops[0], ast.Eq) or not isinstance(test.left, ast.Call):
+                continue
+            call = test.left
+            if not isinstance(call.func, ast.Name) or call.func.id != name or any(k.arg is None for k in call.keywords):
+                continue
+            try:
+                args = [ast.literal_eval(a) for a in call.args]
+                kwargs = {k.arg: ast.literal_eval(k.value) for k in call.keywords}
+                expected = ast.literal_eval(test.comparators[0])
+            except (ValueError, TypeError, SyntaxError):
+                continue
+            tests.append((dict(name=name, args=args, kwargs=kwargs), expected))
     from .codegen.chat import examples
     given_name, cases = examples(request)
-    passed = failed = 0
-    problems = []
-    builtins = __builtins__ if isinstance(__builtins__, dict) else vars(__builtins__)
-    for call, expected in tests:
-        try:
-            ok = eval(call, {name: function, '__builtins__': {k: builtins[k] for k in SAFE_BUILTINS}}) == ast.literal_eval(expected)
-        except Exception:
-            ok = False
-        passed += ok
-        failed += not ok
-        if not ok:
-            problems.append(f'{call} != {expected}')
     if given_name == name:
         for args, expected in cases:
-            try:
-                ok = function(*args) == expected
-            except Exception:
-                ok = False
-            passed += ok
-            failed += not ok
-            if not ok:
-                problems.append(f'{name}{args!r} != {expected!r}')
-    if not passed and not failed:
+            tests.append((dict(name=name, args=args), expected))
+    if not tests:
         raise Unchecked('no tests to run')
+    if len(tests) > 100:
+        raise Unchecked('test count exceeds the bounded checker budget')
+    from .codegen.python_vm import run_cases
+    result = run_cases(code, [call for call, _ in tests])
+    if result['status'] in ('unsupported', 'limit') or any(r['status'] in ('unsupported', 'limit') for r in result.get('cases', [])):
+        raise Unchecked('bounded interpreter does not cover this program or exceeded its budget')
+    if result['status'] != 'ok':
+        return dict(status='failed', check='the bounded interpreter could not load the function')
+    passed = sum(row['status'] == 'value' and row.get('value') == expected
+                 for row, (_, expected) in zip(result['cases'], tests))
+    failed = len(tests) - passed
     if failed:
-        return dict(status='failed', check=f'{failed} of {passed + failed} tests fail: ' + '; '.join(problems[:3]))
-    return dict(status='verified', check=f'ran the function on {passed} test{"s" if passed != 1 else ""}; all pass')
+        return dict(status='failed', check=f'{failed} of {len(tests)} bounded interpreter tests fail')
+    return dict(status='verified', check=f'interpreted {passed} tests with the bounded AST VM; all pass')
 
 
 def check_logic(request, answer):

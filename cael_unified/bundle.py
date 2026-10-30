@@ -8,9 +8,11 @@ import urllib.request
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = '0.3.7'
-SUPPORTED = {'0.2.1', '0.2.2', '0.2.3', '0.2.4', '0.2.5', '0.2.6', '0.2.7', '0.2.8', '0.2.9', '0.3', '0.3.1', '0.3.2', '0.3.3', '0.3.4', '0.3.5', '0.3.6', '0.3.7'}
-DEFAULT_BUNDLE = ROOT / 'models' / f'cael-{VERSION}.cael'
+VERSION = '0.3.8'
+# 0.3.8 is a code-only release: it loads the unchanged published 0.3.7 model bundle.
+BUNDLE_VERSION = '0.3.7'
+SUPPORTED = {'0.2.1', '0.2.2', '0.2.3', '0.2.4', '0.2.5', '0.2.6', '0.2.7', '0.2.8', '0.2.9', '0.3', '0.3.1', '0.3.2', '0.3.3', '0.3.4', '0.3.5', '0.3.6', '0.3.7', '0.3.8'}
+DEFAULT_BUNDLE = ROOT / 'models' / f'cael-{BUNDLE_VERSION}.cael'
 INSTALLED = 'models/'   # bundle members under models/ are installed into the checkout, not the cache
 REQUIRED = {'chat/knowledge.json.gz',
             'story/model.json', 'emoji/model.pt', 'emoji/references.pt', 'emoji/learned.pt',

@@ -348,6 +348,7 @@ class Machine:
                     instance=receiver.receiver if isinstance(receiver.receiver,InstanceValue) else None
                     return self.descriptor(base.namespace[name],instance,cls)
             raise AttributeError("No super attribute '"+name+"'")
+        if receiver is dict and name=='fromkeys':return BUILTINS['<dict.fromkeys>']
         if name in METHODS.get(type(receiver),set()):return DataMethod(receiver,name)
         self.fail('Attribute outside pure-data allowlist')
 
@@ -599,6 +600,17 @@ def PRINT(*args,**kwargs):
 
 
 BUILTINS['print']=PRINT
+
+
+def DICT_FROMKEYS(iterable,value=None):
+    """dict.fromkeys over pure data only, materialised under the same 1000-item collection limit."""
+    if type(iterable) not in (list,tuple,str,range,set,dict):raise TypeError('fromkeys needs a list, tuple, str, range, set or dict')
+    if len(iterable)>1000:raise Limit('Collection size limit')
+    return dict.fromkeys(iterable,value)
+
+
+# Not a Python identifier, so source code cannot name it; reachable only as dict.fromkeys.
+BUILTINS['<dict.fromkeys>']=DICT_FROMKEYS
 
 
 def run_script(source,steps=4000):

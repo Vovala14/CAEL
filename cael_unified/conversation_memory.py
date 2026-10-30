@@ -1353,7 +1353,7 @@ def person_answer(reader, q):
         rel = re.search(r"\bmy ((?:best )?[a-z]+)\b", low)
         if rel and rel.group(1) in RELATIONS:
             subject = 'my ' + rel.group(1)
-        elif re.search(r'\b(?:do i|am i|did i|my)\b', low):
+        elif re.search(r'\b(?:do i|am i|did i|was i|were i|have i|my)\b', low):
             subject = 'I'
     if subject is None:
         return None
@@ -1368,6 +1368,17 @@ def person_answer(reader, q):
             continue
         rows = facts_about(store, keys, attribute)
         if not rows:
+            # Knowing a named person's residence/job does not establish a
+            # different personal attribute. Keep the answer tied to this chat.
+            if attribute in ('home', 'born', 'age', 'job', 'food') and any(
+                    facts_about(store, keys, known) for known in ('home', 'born', 'age', 'job', 'food')):
+                who = title(reader.subject_key(subject)) if subject != 'I' else 'you'
+                attribute_name = dict(home='current home', born='birthplace', age='age', job='job', food='food preference')[attribute]
+                if who.startswith(('Your ', 'My ')):
+                    who = 'your ' + who.split(' ', 1)[1]
+                owner = 'your' if subject == 'I' else who+"'s"
+                about = 'you' if subject == 'I' else 'them'
+                return 'You have not told me '+owner+' '+attribute_name+' in this chat. I cannot infer it from a different fact about '+about+'.'
             continue
         v = verdict(store, rows, ask_past=past and attribute in ('home', 'job', 'food'))
         who = title(reader.subject_key(subject)) if subject != 'I' else 'You'

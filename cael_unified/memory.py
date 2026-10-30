@@ -74,6 +74,10 @@ def facts(messages):
             if match:
                 found['attributes']['home'] = place(cased(match[1], original))
                 continue
+            match = re.fullmatch(r'i was born (?:and raised )?in ' + VALUE + END, c)
+            if match:
+                found['attributes']['birthplace'] = place(cased(match[1], original))
+                continue
             match = re.fullmatch(r'i am (?:originally )?from ' + VALUE, c)
             if match:
                 found['attributes']['origin'] = place(cased(match[1], original))
@@ -112,7 +116,7 @@ def listing(items):
 def summary(known):
     parts = []
     attributes = known['attributes']
-    labels = dict(home='you live in {}', origin='you are from {}', age='you are {} years old', job='you are {}')
+    labels = dict(home='you live in {}', origin='you are from {}', birthplace='you were born in {}', age='you are {} years old', job='you are {}')
     for key, value in attributes.items():
         if key in labels:
             job = value if key != 'job' else ('an ' if value[0] in 'aeiou' else 'a ') + value
@@ -160,8 +164,15 @@ def recall(messages, name=None):
         return answer(f'You have sent {len(users)} messages before this one in this chat.')
     if re.fullmatch(r'where do i live|where am i living|what (?:city|country|town) do i live in', t):
         return answer(f"You live in {attributes['home']}.") if 'home' in attributes else unknown('where you live')
-    if re.fullmatch(r'where am i from|where do i come from|where was i born', t):
-        return answer(f"You are from {attributes['origin']}.") if 'origin' in attributes else unknown("where you're from")
+    if re.fullmatch(r'where was i born|what (?:city|country|town|place) was i born in|in what (?:city|country|town) was i born|what is my (?:birthplace|place of birth|hometown)', t):
+        # Birthplace is only what the user said about being born; where they live or are "from" does not establish it.
+        if 'birthplace' in attributes:
+            return answer(f"You were born in {attributes['birthplace']}.")
+        return unknown('where you were born')
+    if re.fullmatch(r'where am i from|where do i come from', t):
+        if 'origin' in attributes:
+            return answer(f"You are from {attributes['origin']}.")
+        return answer(f"You told me you were born in {attributes['birthplace']}.") if 'birthplace' in attributes else unknown("where you're from")
     if re.fullmatch(r'how old am i|what is my age', t):
         return answer(f"You are {attributes['age']} years old.") if 'age' in attributes else unknown('your age')
     if re.fullmatch(r'what (?:do i do(?: for (?:a )?(?:living|work))?|is my job|is my profession|is my work)', t):

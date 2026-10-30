@@ -123,6 +123,10 @@ EXPLAIN_DETAILS = ('Read from the Python syntax tree (ast) and, for short pure e
 
 
 def reply(text, seed=0, messages=None):
+    from .signature_contract import reply as signature_reply
+    signature = signature_reply(text)
+    if signature is not None:
+        return signature
     from .natural_program import reply as natural_reply
     natural = natural_reply(text,messages)
     if natural is not None:return natural
@@ -213,7 +217,7 @@ def reply(text, seed=0, messages=None):
         if rule is not None:
             ltm.memory().used(rule['name'])
             return out(f'```python\n{rule["code"]}```\nThis is a {rules.LEARNED_MARK.format(rule["name"])} from an earlier '
-                       f'conversation. It passed {rule["checks"]} checks when I learned it (confidence {ltm.confidence(rule):.0%}).',
+                       f'explicit learning session. It passed {rule["checks"]} checks when I learned it (confidence {ltm.confidence(rule):.0%}).',
                        'learned-rule')
         return out(HELP, 'needs-examples', 'CAEL writes code by searching for a program that fits examples; it does not guess code from a description alone.')
     if len({len(c[0]) for c in cases}) != 1:
@@ -241,7 +245,10 @@ def reply(text, seed=0, messages=None):
             note = (f'It returns the expected result for all {len(cases)} of your examples. I also re-derived it '
                     f'{learned["tried"]} times with one example hidden, and each time it predicted the hidden one correctly.')
             if learned['stored']:
-                note += f' I have saved it as a {rules.LEARNED_MARK.format(name)}, so you can ask me to `run {name} on ...` later.'
+                if learned.get('storage_scope') == 'request':
+                    note += ' This inferred rule is limited to the current request; it will not affect an unrelated request.'
+                else:
+                    note += f' It is available as {rules.LEARNED_MARK.format(name)} within this explicit learning session.'
         elif learned:
             note += (f' When I hid one of your examples and searched again, the result did not predict the hidden example '
                      f'({learned["held_out"]} of {learned["tried"]}), so I will not save it as a rule. More examples would help.')

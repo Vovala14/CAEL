@@ -98,7 +98,7 @@ def picture_follow_up(messages):
 
 
 class Assistant:
-    def __init__(self, bundle=None, output_root=None, language_checkpoint=None):
+    def __init__(self, bundle=None, output_root=None, language_checkpoint=None, learning_memory=None):
         self.root, self.manifest = open_bundle(bundle)
         self.output_root = Path(output_root or ROOT / 'outputs' / 'unified').resolve()
         self.output_root.mkdir(parents=True, exist_ok=True)
@@ -112,6 +112,7 @@ class Assistant:
         self._facts = FactLookup()
         self._lock = threading.RLock()
         self._plan_context = threading.local()
+        self._learning_memory = learning_memory
 
     def picture_in_chat(self, text, messages, seed):
         """Chat mode cannot draw, so hand over a ready image prompt and say where to use it."""
@@ -168,6 +169,30 @@ class Assistant:
             return self._language.score_endings(context,endings)
 
     def respond(self, messages, n=2, seed=None, mode='auto'):
+        from . import ltm
+        with ltm.request_memory(getattr(self, '_learning_memory', None)):
+            answer = self._respond_request(messages, n=n, seed=seed, mode=mode)
+        if mode in ('auto', 'chat') and isinstance(messages, list):
+            # A stated "no questions" request holds on every conversational route (emotional_chat.enforce, 0.3.8).
+            from . import emotional_chat
+            answer = emotional_chat.enforce(messages, answer)
+        return answer
+
+    def _respond_request(self, messages, n=2, seed=None, mode='auto'):
+        # Presentation is a separate contract, not an extra fact/choice/event.
+        # Only a complete standalone style instruction can be removed; the
+        # remaining task is passed unchanged to the existing unified routes.
+        if (mode in ('auto', 'chat') and isinstance(messages, list) and messages and len(messages) <= MAX_MESSAGES
+                and all(isinstance(m, dict) and m.get('role') in ('user', 'assistant', 'system') and isinstance(m.get('content'), str) for m in messages)
+                and sum(len(m['content']) for m in messages) <= MAX_CHARACTERS and messages[-1].get('role') == 'user'
+                and type(n) is int and 1 <= n <= 8 and (seed is None or type(seed) is int and 0 <= seed < 2**31)):
+            from . import output_contract
+            contract = output_contract.read(messages[-1].get('content'))
+            if contract and contract['kind'] == 'conflict':
+                return dict(route='chat/format-clarify', response='The output instructions conflict. Should I return a number, a choice letter, or a labelled answer?', sources=[])
+            if contract and contract['body'] != messages[-1].get('content'):
+                body = messages[:-1]+[dict(messages[-1], content=contract['body'])]
+                return output_contract.apply(self.respond(body, n=n, seed=seed, mode=mode), contract)
         # Misspellings and chat shorthand ("whats the captial of australia", "r u smart") are read as the corrected
         # message (spelling.py). If that still gets no answer, the original wording is tried too.
         fixed=self.spell_checked(messages,mode)
@@ -210,6 +235,21 @@ class Assistant:
         if not isinstance(last,dict) or last.get('role')!='user' or not isinstance(last.get('content'),str):
             return None
         text=last['content']
+        from .semantic_quantities import interested as semantic_quantity_input
+        if semantic_quantity_input(text):
+            return None
+        from .checked_tasks import interested as checked_task_input
+        if checked_task_input(text):
+            return None
+        from .quantity_graph import interested as quantity_graph_input
+        if quantity_graph_input(text):
+            return None
+        from .task_context import read as task_context
+        if task_context(text) is not None:
+            return None
+        from .codegen.request_contract import protected as code_name_input
+        if code_name_input(text):
+            return None
         from .codegen.natural_program import interested as natural_program_input
         if natural_program_input(text,messages):
             return None
@@ -233,9 +273,11 @@ class Assistant:
             from .writing_chat import protect_input as writing_input
             from .codegen.python_tasks import protect_input as tool_input
             from .codegen.natural_program import interested as natural_program_input
+            from .codegen.request_contract import protected as code_name_input
             if raw_route not in ('image','emoji') and not choice_problem(messages[-1]['content']) and not picture_follow_up(messages) \
                     and not (mode in ('auto','chat') and (writing_input(messages[-1]['content'],messages)
                         or tool_input(messages[-1]['content'],messages)
+                        or code_name_input(messages[-1]['content'])
                         or natural_program_input(messages[-1]['content'],messages))):
                 messages,changes=repair_messages(messages)
         answer=self._respond(messages,n=n,seed=seed,mode=mode)
@@ -304,6 +346,42 @@ class Assistant:
             answer=dict(answer,input_corrections=changes,details=answer.get('details','')+'\n'+note)
         return answer
 
+    def _context_choice(self, context, endings):
+        """The same existing solvers/counts, before an unrelated topic route."""
+        from .quantity_graph import choice_reply as quantity_choice
+        quantified=quantity_choice(context,endings)
+        if quantified is not None:
+            return dict(quantified,context_owned=True)
+        if self._reasoning is None:
+            from .reasoning import Reasoner
+            self._reasoning = Reasoner()
+        from .choice_helpers import reply as helper_choice_reply
+        answer = helper_choice_reply(context, endings, self._reasoning)
+        if answer is not None:
+            return dict(answer, context_owned=True)
+        if len(endings) <= 4:
+            from .symbolic_choice import reply as symbolic_choice_reply
+            answer = symbolic_choice_reply(context, endings, self._reasoning)
+            if answer is not None:
+                return dict(answer, context_owned=True)
+        scores = self.score_endings(context, endings)
+        if scores is None:
+            return dict(route='chat/choice-unsupported', response='I cannot establish which option is correct from this question.', sources=[], context_owned=True)
+        chooser = self.choice_settings() if len(endings) <= 4 else None
+        if chooser:
+            from .choice import Evidence, arc_evidence, choose
+            if getattr(self, '_evidence', None) is None:
+                self._evidence = Evidence()
+                self._arc_evidence = arc_evidence() if chooser.get('arc_weight') else None
+            best, how = choose(context, endings, scores, self._evidence, chooser['weight'], chooser['short_limit'],
+                               extra=[(self._arc_evidence, chooser.get('arc_weight', 0.0))])
+            detail = 'Existing conditional counts plus local evidence/exact helper controller; '+str(how['route'])+'. This is not general proof or a live web lookup.'
+        else:
+            best = max(range(len(scores)), key=lambda i: scores[i]['sum_lnp']/max(1, scores[i]['tokens']))
+            detail = 'Existing non-neural conditional counts, normalized by option length. Statistical choice, not a verified answer; the A-D evidence controller is not used for additional labels.'
+        return dict(route='chat/choice-count', response=f'{"ABCDEFGH"[best]}. {endings[best]}', choice=best,
+                    sources=[], details=detail, continuation_scores=scores, context_owned=True)
+
     def _respond(self, messages, n=2, seed=None, mode='auto'):
         if not isinstance(messages, list) or not messages or not all(isinstance(m, dict) and m.get('role') in ('user', 'assistant', 'system') and isinstance(m.get('content'), str) for m in messages):
             raise ValueError('Invalid message format')
@@ -319,6 +397,49 @@ class Assistant:
         text = messages[-1]['content'].strip()
         if not text:
             raise ValueError('Request is empty')
+        if mode in ('auto', 'chat'):
+            from .semantic_quantities import reply as semantic_quantity_reply
+            numerical = semantic_quantity_reply(text)
+            if numerical is not None:
+                return numerical
+            from .checked_tasks import reply as checked_task_reply
+            checked = checked_task_reply(text)
+            if checked is not None:
+                return checked
+            # A declarative Python stub is one function contract, before a
+            # docstring's "then" or incidental nouns select unrelated routes.
+            from .codegen.signature_contract import reply as signature_reply
+            signature = signature_reply(text)
+            if signature is not None:
+                return signature
+            # The established inventory helper answers first when it is exact: it keeps its worked steps and the
+            # multi-turn "Add:" conversation state. The graph covers the problems it cannot solve.
+            from .helper_quantities import reply as inventory_reply
+            established = inventory_reply(text, messages)
+            if established and (established.get('helper_reasoning') or {}).get('value') is not None:
+                return established
+            from .quantity_graph import routed_reply as quantity_graph_reply
+            quantity_answer = quantity_graph_reply(text)
+            if quantity_answer is not None:
+                return quantity_answer
+            from .task_context import read as task_context
+            declared = task_context(text)
+            if declared:
+                if declared['kind'] == 'invalid':
+                    return dict(route='chat/context-clarify', response=declared['message'], sources=[])
+                if declared['kind'] == 'choice':
+                    with self._lock:
+                        return self._context_choice(declared['context'], declared['options'])
+                if declared['kind'] == 'premises':
+                    with self._lock:
+                        if self._reasoning is None:
+                            from .reasoning import Reasoner
+                            self._reasoning = Reasoner()
+                        answer = self._reasoning.respond(declared['context'], messages)
+                    if answer is not None:
+                        return dict(answer, context_owned=True)
+                    return dict(route='chat/reasoning-unsupported', response='I could not establish an answer from the complete supplied premises. Please clarify the facts or question.',
+                                details='The complete declared scenario stayed in the local reasoning path; no premise was dropped or sent to an unrelated site/image/grammar route.', sources=[], context_owned=True)
         # A question with lettered A-D options is a multiple-choice question: its "then" is not a list of steps to plan,
         # and words like "post" or "followers" in its story do not make it a vynly.co help question.
         multiple_choice=mode in ('auto','chat') and choice_problem(text) is not None
@@ -326,6 +447,14 @@ class Assistant:
         if plan_context is None:
             plan_context=self._plan_context=threading.local()
         if mode in ('auto','chat') and not multiple_choice:
+            from .codegen.request_contract import guard as contract_guard, explanation as code_explanation
+            answer = code_explanation(text) or contract_guard(text)
+            if answer is not None:
+                return answer
+            from .precise_math import reply as precise_math_reply
+            answer = precise_math_reply(text)
+            if answer is not None:
+                return answer
             from . import session_profile
             answer=session_profile.reply(messages)
             if answer is not None:
@@ -424,6 +553,10 @@ class Assistant:
             # Everyday reasoning (word problems, days, sequences, where things are, family relations) and everyday
             # Python (tested functions for common tasks, Python basics): everyday_reasoning.py, python_help.py.
             if not multiple_choice:
+                from .codegen.request_contract import named_reply
+                answer = named_reply(text)
+                if answer is not None:
+                    return answer
                 from . import everyday_reasoning, python_help
                 answer = python_help.reply(text) or everyday_reasoning.reply(text)
                 if answer is not None:
@@ -548,6 +681,12 @@ class Assistant:
                 from .reasoning import Reasoner
                 self._reasoning = Reasoner()
             answer = self._reasoning.respond(text,messages)
+            if answer is not None:
+                return answer
+            # A question about the user's own (or their people's) personal facts that no recall route answered: say it was
+            # not told, never let retrieval, encyclopedic lookup or the legacy model supply a stranger's fact (0.3.8).
+            from . import personal_facts
+            answer = personal_facts.abstain(text)
             if answer is not None:
                 return answer
             if text.lower().startswith(('who ', 'where ', 'what does ', 'what is ')):

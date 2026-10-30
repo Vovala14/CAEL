@@ -86,16 +86,15 @@ def learn(name, cases, description='', costs=None, store=True):
     if store and validated:
         stored = ltm.memory().add_rule(name, params, text, description, len(cases) + passed, cases)
     return dict(code=text, checks=len(cases) + passed, held_out=passed, tried=tried, validated=validated,
-                stored=bool(stored), hypotheses=len(ranked))
+                stored=bool(stored), storage_scope=ltm.memory().lifetime if stored else None, hypotheses=len(ranked))
 
 
 def run_rule(rule, args):
-    scope = {'math': __import__('math'), '__builtins__': {k: __builtins__[k] if isinstance(__builtins__, dict) else getattr(__builtins__, k)
-                                                       for k in ('len', 'sum', 'min', 'max', 'sorted', 'list', 'dict', 'set', 'tuple',
-                                                                 'str', 'int', 'float', 'abs', 'round', 'range', 'all', 'any', 'zip',
-                                                                 'enumerate', 'reversed', 'bool')}}
-    exec(rule['code'].replace('import math\n', ''), scope)
-    return scope[rule['name']](*args)
+    from .codegen.python_vm import run_cases
+    result = run_cases(rule['code'], [dict(name=rule['name'], args=list(args))])
+    if result['status'] != 'ok' or len(result.get('cases', [])) != 1 or result['cases'][0]['status'] != 'value':
+        raise ValueError('The learned rule is outside the bounded interpreter or failed its call')
+    return result['cases'][0]['value']
 
 
 # Sequences --------------------------------------------------------------------------------------
@@ -200,7 +199,9 @@ def list_reply():
         lines.append('\n**How often my engines\' answers passed independent checks:**')
         lines += [f'- {name}: {stats.get("verified", 0)} passed, {stats.get("failed", 0)} failed, '
                   f'{stats.get("corrected", 0)} corrected ({conf:.0%})' for name, stats, conf in rated[:10]]
-    lines.append('\nI keep only rules and counters across conversations, never the text people type.')
+    scope = ltm.memory().lifetime
+    lines.append('\nThese rules and counters belong to '+
+                 ('this request only.' if scope == 'request' else 'the explicitly supplied learning session.'))
     return dict(route='chat/rules-memory', response='\n'.join(lines), sources=[], details=DETAILS)
 
 

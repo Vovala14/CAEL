@@ -114,8 +114,21 @@ def same(value, expected):
     return value == expected
 
 
+class VMRefused(Exception):
+    pass
+
+
 def run(expr, params, args):
-    return eval(expr, {'math': math, **dict(zip(params, args))})
+    """Evaluate a generated expression only inside the bounded AST VM (python_vm), never with native eval.
+    Expressions the VM cannot run (for example module attributes such as math.*) are refused."""
+    from .python_vm import run_cases
+    source = 'def _cael_expr(' + ', '.join(params) + '):\n    return ' + expr + '\n'
+    result = run_cases(source, [dict(name='_cael_expr', args=list(args))])
+    cases = result.get('cases') or []
+    if result.get('status') != 'ok' or not cases or cases[0].get('status') != 'value':
+        detail = cases[0] if cases else result
+        raise VMRefused(f"{detail.get('status')}: {detail.get('error', '')} {detail.get('message', '')}".strip())
+    return cases[0]['value']
 
 
 def rename(expr, found, params):

@@ -153,9 +153,14 @@ def reply(text, messages=(), open_ended_only=True):
     if re.search(r'(?i)\b(?:it|this|that|they|them|its|these|those)\b', text) and len(content(text)) <= 2:
         return None              # "Explain how it works": a follow-up about the conversation's topic, not a new request
     previous = next((m['content'] for m in reversed(list(messages)[:-1]) if m.get('role') == 'assistant'), '') if messages else ''
+    from . import personal_facts
+    if personal_facts.personal_question(text):
+        return None              # the user's own personal facts come only from what they said, never from a stored reply
     score, row = best_match(text, previous)
     if row is None:
         return None
+    if personal_facts.foreign_person(text, row[1]):
+        return None              # a reply written about someone else ("She was born in Paris") is not about the user
     name, licence = SOURCES.get(row[4], (row[4], ''))
     asked = {stem(w) for w in content(text)}
     stored = {stem(w) for w in content(row[1])}

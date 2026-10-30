@@ -32,7 +32,7 @@ def chosen(options, value, family, proof):
         return None
     index=matches[0]
     return dict(route='chat/choice-helper-'+family, choice=index,
-        response=f'{"ABCD"[index]}. {options[index]}', sources=[], reasoning=proof,
+        response=f'{"ABCDEFGH"[index]}. {options[index]}', sources=[], reasoning=proof,
         details='Matched exactly one option to the existing bounded '+family+
                 ' engine. Fully parsed explicit input; no internet or neural model.')
 
@@ -44,6 +44,9 @@ def arithmetic(context, options):
     text=re.sub(r'(?i)^(?:using|with) (?:standard|ordinary|exact) arithmetic,\s*','',text)
     text=re.sub(r'(?i)\.\s*(?:what is the (?:result|answer|value)|give the result)\?\s*$','',text)
     text=re.sub(r'(?i)^evaluate\s+','Calculate ',text).rstrip(' .?')
+    text=re.sub(r'(?i)^which (?:number|value) (?:is|equals)\s+', 'What is ', text)
+    text=re.sub(r'(?i)\b([+-]?\d{1,6})\s+(squared|cubed)\b',
+                lambda m:'('+m[1]+')**'+('2' if m[2].lower()=='squared' else '3'),text)
     result=calculate(text)
     if not result or result.get('route')!='helper/arithmetic' or not result.get('exact'):
         return None
@@ -62,7 +65,7 @@ def arithmetic(context, options):
         return None
     index=matches[0]
     return dict(route='chat/choice-helper-arithmetic', choice=index,
-        response=f'{"ABCD"[index]}. {options[index]}', sources=[],
+        response=f'{"ABCDEFGH"[index]}. {options[index]}', sources=[],
         verification=verified, reasoning=dict(family='arithmetic',derivation=result['response'],internet_used=False),
         details=result['response']+'\n'+verified['check']+'\nExact rational option matching; no language-score override without a unique checked result.')
 
@@ -138,10 +141,13 @@ def relative_order(context, options):
 
 
 def reply(context, options, reasoner=None):
-    if not isinstance(context,str) or not 0<len(context)<=12000 or not 2<=len(options)<=4:
+    if not isinstance(context,str) or not 0<len(context)<=12000 or not 2<=len(options)<=8:
         return None
     if not all(isinstance(option,str) and 0<len(option)<=500 for option in options):
         return None
+    # Only a declared structural heading, not a premise, can precede the
+    # complete scenario. Keep all subsequent clauses for the exact engines.
+    context=re.sub(r'(?i)^\s*(?:facts|premises|scenario|context)\s*:\s*','',context,count=1)
     answer=arithmetic(context,options)
     if answer:
         return answer
@@ -157,24 +163,24 @@ def reply(context, options, reasoner=None):
         if classified:
             index,proof=classified
             return dict(route='chat/choice-helper-logic',choice=index,
-                response=f'{"ABCD"[index]}. {options[index]}',sources=[],reasoning=proof,
+                response=f'{"ABCDEFGH"[index]}. {options[index]}',sources=[],reasoning=proof,
                 details='Existing open-world proof/case engines classified the complete quoted proposition. No absent fact was treated as false.',
                 symbol_bindings=mapping)
         ordered=relative_order(normalized,choices)
         if ordered:
             result=chosen(choices,ordered['answer'],'ordering',dict(ordered,family='ordering',internet_used=False))
             if result:
-                result.update(response=f'{"ABCD"[result["choice"]]}. {options[result["choice"]]}',symbol_bindings=mapping)
+                result.update(response=f'{"ABCDEFGH"[result["choice"]]}. {options[result["choice"]]}',symbol_bindings=mapping)
                 return result
         # Chronology annotations state the semantics already used by WorldCA;
         # unknown headers/premises are never deleted to force a parse.
         state=re.sub(r'(?i)^(?:Events are listed from earliest to latest\.|Events in chronological order:|Chronological events:)\s*','',normalized)
         if state==normalized and not mapping:
             return None  # Existing natural-name bridge runs next, unchanged.
-        result=state_or_proof(state,choices,reasoner)
+        result=state_or_proof(state,choices,reasoner) if len(choices)<=4 else None
         if result:
             result.update(route='chat/choice-helper-'+result['reasoning']['family'],
-                response=f'{"ABCD"[result["choice"]]}. {options[result["choice"]]}',symbol_bindings=mapping)
+                response=f'{"ABCDEFGH"[result["choice"]]}. {options[result["choice"]]}',symbol_bindings=mapping)
             return result
     except Unparsed:
         return None

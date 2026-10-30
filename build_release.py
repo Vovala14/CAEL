@@ -7,7 +7,8 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-VERSION = '0.3.7'
+VERSION = '0.3.8'
+BUNDLE_VERSION = '0.3.7'   # code-only release; the model bundle is unchanged
 
 
 def tracked_files():
@@ -66,7 +67,7 @@ def main(out, bundle, no_images=False):
                 if profile.get('profile') != 'no-images':
                     raise ValueError('Expected a no-images bundle')
                 required_members(profile)
-        sums[f'models/cael-{VERSION}.cael'] = config['sha256']
+        sums[f'models/cael-{BUNDLE_VERSION}.cael'] = config['sha256']
     # Use the model's checksum-pinned configuration, including its release URL when published.
     replacements = {}
     if no_images:
@@ -81,14 +82,14 @@ def main(out, bundle, no_images=False):
             archive.writestr(info, replacements.get(path.relative_to(ROOT).as_posix(), source_bytes(path)))
         archive.writestr(f'CAEL-{VERSION}/SHA256SUMS.json', sums_bytes)
         if bundle:
-            archive.write(bundle, f'CAEL-{VERSION}/models/cael-{VERSION}.cael', compress_type=zipfile.ZIP_STORED)
+            archive.write(bundle, f'CAEL-{VERSION}/models/cael-{BUNDLE_VERSION}.cael', compress_type=zipfile.ZIP_STORED)
     print(json.dumps(dict(archive=str(out), sha256=digest(out), bytes=out.stat().st_size, source_files=len(paths)), indent=2))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, default=ROOT / 'dist' / f'CAEL-{VERSION}.zip')
-    parser.add_argument('--bundle', type=Path, default=ROOT / 'dist' / f'cael-{VERSION}.cael')
+    parser.add_argument('--bundle', type=Path, default=ROOT / 'dist' / f'cael-{BUNDLE_VERSION}.cael')
     parser.add_argument('--source-only', action='store_true')
     parser.add_argument('--no-images', action='store_true', help='Package a local no-images model profile and its configuration')
     args = parser.parse_args()

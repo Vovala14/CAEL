@@ -1,4 +1,9 @@
-"""Long-term memory: what CAEL learns across sessions, never what people type.
+"""Explicitly scoped rule/counter memory.
+
+Unified anonymous requests use an ephemeral request-local store and do not read
+or write PATH. A caller may explicitly supply a volatile session Memory, or opt
+into a persistent Memory with a separately authorized path. Conversation facts
+continue to come from the messages; they are not inferred as a session ID.
 
 Stored (state/ltm.json, outside the release bundle and git):
 * rules     - functions CAEL learned from examples and validated on held-out cases: name, parameters, code,
@@ -6,12 +11,14 @@ Stored (state/ltm.json, outside the release bundle and git):
 * engines   - per engine route: answers given, verified, failed verification, corrected, marked wrong.
 * failures  - per engine route and reason: a count only.
 
-Not stored: message text, names, example values that are not plain numbers, or anything that identifies a
-person. The conversation-memory promise ("nothing is stored after the window closes") stays true for what
-people say; only CAEL's own learned rules and counters persist.
+The legacy low-level memory() API outside a request retains its explicit/default
+file behavior for tools. Ordinary Assistant.respond calls bind request_memory
+before any learning code, including nested plans and format handling.
 """
 import json
 import os
+from contextlib import contextmanager
+from contextvars import ContextVar
 from pathlib import Path
 import re
 import threading
@@ -43,11 +50,12 @@ def words(text):
 
 
 class Memory:
-    def __init__(self, path=None):
-        self.path = Path(path or PATH)
+    def __init__(self, path=None, *, persistent=True, lifetime='session'):
+        self.path = Path(path or PATH) if persistent else None
+        self.lifetime = 'persistent' if persistent else lifetime
         self.lock = threading.Lock()
         self.data = dict(version=1, rules={}, engines={}, failures={})
-        if self.path.exists():
+        if self.path is not None and self.path.exists():
             try:
                 loaded = json.loads(self.path.read_text(encoding='utf-8'))
                 if loaded.get('version') == 1:
@@ -58,6 +66,8 @@ class Memory:
     def save(self):
         """Write atomically. Another process may hold the file for a moment (Windows refuses the rename then);
         retry briefly, and if it still fails keep the data in memory: a reply must never fail over a counter."""
+        if self.path is None:
+            return False
         try:
             self.path.parent.mkdir(parents=True, exist_ok=True)
             temp = self.path.with_name(f'{self.path.stem}.{os.getpid()}.{threading.get_ident()}.tmp')
@@ -120,20 +130,15 @@ class Memory:
         return found if found and confidence(found) >= MIN_CONFIDENCE else None
 
     def find_rule(self, text):
-        """The learned rule a request names or best describes, or None."""
+        """Reuse only an explicitly requested named rule, never fuzzy intent."""
         lower = text.lower()
         for name, rule in self.data['rules'].items():
-            if re.search(r'\b' + re.escape(name.lower()) + r'\b', lower) and confidence(rule) >= MIN_CONFIDENCE:
+            asked = re.search(r'\b(?:reuse|use|show|run|apply|call)\s+'
+                              r'(?:(?:the|saved|learned|rule|function|code|named)\s+)*`?'
+                              + re.escape(name.lower()) + r'`?(?!\w)', lower)
+            if asked and confidence(rule) >= MIN_CONFIDENCE:
                 return rule
-        asked = set(words(text))
-        best, score = None, 0.0
-        for rule in self.data['rules'].values():
-            if confidence(rule) < MIN_CONFIDENCE or not rule['words']:
-                continue
-            overlap = len(asked & set(rule['words'])) / len(set(rule['words']))
-            if overlap > score:
-                best, score = rule, overlap
-        return best if score >= 0.75 else None
+        return None
 
     def rule_feedback(self, name, good):
         with self.lock:
@@ -175,10 +180,36 @@ def route_family(route):
 
 
 _memory = None
+_request_memory = ContextVar('cael_request_learning_memory', default=None)
+
+
+@contextmanager
+def request_memory(selected=None):
+    """Anonymous requests never load a process-global or on-disk rule store.
+
+    Recursive calls share the current request. A caller may intentionally pass
+    its own Memory object for a session; context variables isolate threads/tasks.
+    No scope identifier is inferred from potentially identical user text.
+    """
+    if selected is not None and not isinstance(selected, Memory):
+        raise TypeError('learning_memory must be an explicit Memory object')
+    current = _request_memory.get()
+    if current is not None and (selected is None or selected is current):
+        yield current
+        return
+    chosen = selected if selected is not None else Memory(persistent=False, lifetime='request')
+    token = _request_memory.set(chosen)
+    try:
+        yield chosen
+    finally:
+        _request_memory.reset(token)
 
 
 def memory():
     global _memory
+    selected = _request_memory.get()
+    if selected is not None:
+        return selected
     if _memory is None or _memory.path != Path(os.environ.get('CAEL_LTM') or PATH):
         _memory = Memory()
     return _memory

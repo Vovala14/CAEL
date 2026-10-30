@@ -64,7 +64,77 @@ SELF_FRAME = re.compile(r"(?i)^(?:(?:honestly|lately|today|right now|sometimes)[
 
 
 def normalize(text):
-    return text.replace('’', "'").replace('—', ', ').replace('–', '-').strip()
+    text = text.replace('’', "'").replace('—', ', ').replace('–', '-').strip()
+    # "burned out" and "burned-out" are the same feeling word (John6666 forum report, 0.3.8).
+    return re.sub(r"(?i)\b(burn(?:ed|t)|worn|fed|left|stressed|freaked|tired|maxed|wiped|stretched)\s+(out|up|thin)\b",
+                  lambda m: m[1]+'-'+m[2] if (m[1]+'-'+m[2]).lower() in WORDS else m[0], text)
+
+
+# ---- Conversation constraints (0.3.8) ------------------------------------------------------------
+# A request such as "Please do not give me advice or ask questions" is read clause by clause: a
+# negator scopes over everything after it in its clause, so it distributes over coordinated objects
+# ("advice or questions", "advise me, quiz me or ask me anything"). "but", "however", "instead",
+# "though" and sentence punctuation close the scope. A positive request only counts outside a
+# negated scope, so "do not give me advice" never reads as "give me advice".
+NEGATOR = re.compile(r"(?i)\b(?:(?:please )?(?:do not|don't|dont)(?! (?:know|think|understand|remember|feel|mind|matter|worry|care|get)\b)|"
+                     r"(?:does not|doesn't) (?:have|need) to|"
+                     r"(?:no|nor|never|without|stop|quit|avoid|skip|spare me(?: the)?|hold off(?: on)?|refrain from)"
+                     r"(?= (?:more |further |any |the |unsolicited |giving |asking |offering |telling |suggesting |trying |with |me )*"
+                     r"(?:advi[cs]\w*|questions?|ask\w*|tips?|suggest\w*|solutions?|solv\w*|fix\w*|lectur\w*|quiz\w*|recommend\w*|tell\w* me what|follow[- ]ups?|prob\w*|help\w*))|"
+                     r"not (?:looking|here|asking) for|not after|not interested in|no need (?:for|to)|rather you didn't|rather not)\b")
+SCOPE_BREAK = re.compile(r"(?i)[.;!?\n]|\b(?:but|however|instead|though|although|except|rather than)\b|\b(?:and|so|because) (?=i\b)|"
+                         r",(?!\s*(?:or|and|nor|no|any|advice|questions?|tips|suggestions|solutions|ask\w*|quiz\w*|lectur\w*|fix\w*|solv\w*|recommend\w*|tell me|advise\w*|try\w*)\b)")
+ADVICE_OBJECT = re.compile(r"(?i)\b(?:advice|advise|advising|suggest\w*|tips?|solutions?|solv\w*|fix(?:ing|es)?|recommend\w*|"
+                           r"tell(?:ing)? me what (?:to|i should) do|lectur\w*|problem[- ]solving|coping strateg\w+|strateg\w+|"
+                           r"(?:try|trying) to help|steps? to take|next steps?|what (?:to|i should) do)\b")
+QUESTION_OBJECT = re.compile(r"(?i)\b(?:questions?|ask(?:s|ed|ing)?|quiz\w*|interrogat\w*|follow[- ]ups?|prob(?:e|ing)|pry\w*)\b")
+ADVICE_REQUEST = re.compile(r"(?i)\b(?:what (?:can|should|could) i do|what do i do|how (?:can|do|should) i (?:cope|handle|deal|manage|fix|get through)|"
+                            r"(?:give|offer|share|have|got)(?: me)?(?: some| any| a few)? (?:advice|tips|suggestions|ideas)|"
+                            r"(?:i (?:want|need|would like|'d like)|looking for|any|some) (?:some )?(?:advice|tips|suggestions)|"
+                            r"advice,? please|tell me what (?:to|i should) do|help me (?:cope|handle|deal|figure)|"
+                            r"what would you (?:do|suggest|recommend)|(?:do|can|could) you (?:suggest|recommend|advise))\b")
+QUESTIONS_OK = re.compile(r"(?i)\b(?:(?:you can|you may|feel free to|it's (?:ok|okay|fine) to|go ahead and) ask(?: me)?(?: questions| anything)?|"
+                          r"questions are (?:ok|okay|fine|welcome)|ask me anything)\b")
+LISTEN_ONLY = re.compile(r"(?i)\b(?:just (?:listen|needed to say it|want(?:ed)? to vent|need(?:ed)? to vent|want(?:ed)? to be heard|need(?:ed)? to talk)|"
+                         r"(?:only|simply) listen|(?:need|want) (?:you|someone) to (?:just )?listen|hear me out|let me vent|"
+                         r"(?:i )?(?:just )?(?:need|want) to (?:vent|rant))\b")
+
+
+TOPICS = {'burnout': 'overwhelmed', 'overwhelm': 'overwhelmed', 'stress': 'overwhelmed', 'anxiety': 'anxious', 'worry': 'anxious',
+          'worries': 'anxious', 'nerves': 'anxious', 'sadness': 'sad', 'grief': 'sad', 'heartbreak': 'sad', 'loneliness': 'lonely',
+          'isolation': 'lonely', 'anger': 'angry', 'frustration': 'angry', 'shame': 'embarrassed', 'guilt': 'embarrassed',
+          'exhaustion': 'tired', 'fatigue': 'tired', 'tiredness': 'tired'}
+TOPIC = re.compile(r"(?i)\b(?:on|about|for|with|dealing with|handle|handling|cope with|coping with|manage|managing)\s+(?:my\s+|the\s+|this\s+)?("
+                   + '|'.join(TOPICS) + r")\b")
+
+
+def _segments(text):
+    return [part for part in SCOPE_BREAK.split(normalize(text)) if part and part.strip()]
+
+
+def constraints(text):
+    """{'no_advice', 'no_questions', 'wants_advice', 'questions_ok', 'listen'} flags stated in one message."""
+    found = dict(no_advice=False, no_questions=False, wants_advice=False, questions_ok=False, listen=False)
+    for segment in _segments(text):                 # in order: a later clause overrides an earlier one
+        negated = NEGATOR.search(segment)
+        cut = negated.start() if negated else len(segment)
+        before, scoped = segment[:cut], segment[cut:]
+        if negated and ADVICE_OBJECT.search(scoped):
+            found.update(no_advice=True, wants_advice=False, listen=True)
+        if negated and QUESTION_OBJECT.search(scoped):
+            found.update(no_questions=True, questions_ok=False)
+        if ADVICE_REQUEST.search(before):
+            found.update(wants_advice=True, no_advice=False, listen=False)
+        if QUESTIONS_OK.search(before):
+            found.update(questions_ok=True, no_questions=False)
+        if LISTEN_ONLY.search(segment) and not found['wants_advice']:
+            found['listen'] = True
+    return found
+
+
+def wants_advice(text):
+    """A positive advice request that is not inside a negated scope."""
+    return constraints(text)['wants_advice']
 
 
 def emotions(text):
@@ -97,21 +167,49 @@ def emotions(text):
     return results[:4]
 
 
-def preferences(messages, current):
+def preferences(messages, current=None):
+    """(listen, questions_allowed) from this conversation; a later explicit request overrides an earlier one."""
     listen, questions = False, True
     for message in messages[-30:]:
         if message.get('role') != 'user':
             continue
-        text = normalize(message['content'])
-        if LISTEN.search(text):
+        stated = constraints(message.get('content', ''))
+        if stated['listen']:
             listen = True
-        if NO_QUESTIONS.search(text):
-            questions = False
-        if ADVICE.search(text):
+        if stated['wants_advice']:
             listen = False
-        if re.search(r'(?i)\b(?:you can ask questions|questions are okay)\b', text):
+        if stated['no_questions']:
+            questions = False
+        if stated['questions_ok']:
             questions = True
     return listen, questions
+
+
+def drop_questions(response):
+    """The response without its own question sentences (used when the user asked for no questions)."""
+    if '?' not in response or '```' in response:
+        return response
+    sentences = re.split(r'(?<=[.!?])\s+', response.strip())
+    kept = [s for s in sentences if not s.rstrip(' )"\'').endswith('?')]
+    text = ' '.join(kept).strip()
+    return text if text else 'I am here, and I am listening.'
+
+
+def enforce(messages, answer):
+    """Honour a stated no-questions request on every conversational route, not only this one."""
+    if not isinstance(answer, dict) or not isinstance(answer.get('response'), str) or '?' not in answer['response']:
+        return answer
+    route = answer.get('route', '')
+    if not route.startswith('chat/') or route in ('chat/format-clarify',):
+        return answer
+    if not isinstance(messages, list) or not all(isinstance(m, dict) for m in messages):
+        return answer
+    if preferences(messages)[1]:
+        return answer
+    fixed = drop_questions(answer['response'])
+    if fixed == answer['response']:
+        return answer
+    return dict(answer, response=fixed, constraint='no-questions')
 
 
 def reply(messages, seed=0):
@@ -134,10 +232,25 @@ def reply(messages, seed=0):
                    ', and ask whether they want someone to listen or help thinking through a next step. '+
                    'For example: "I am here to listen. What would feel helpful right now?" Avoid assuming you know exactly how they feel.',
                    'support-other', emotional_terms=[word])
-    if re.search(r'(?i)[.;!?]\s*(?:what|who|where|when|how|why|write|calculate|compute|solve|generate)\b', text) and not ADVICE.search(text):
+    asked_advice = wants_advice(text)
+    if re.search(r'(?i)[.;!?]\s*(?:what|who|where|when|how|why|write|calculate|compute|solve|generate)\b', text) and not asked_advice:
         return None
     found = emotions(text)
-    if not found and (LISTEN.search(text) or NO_QUESTIONS.search(text)):
+    stated = constraints(text)
+    if not found and asked_advice and len(text) <= 200:
+        # "I changed my mind, can you give me some advice?" after a stated feeling: advice about that feeling.
+        for previous in reversed(messages[-7:-1]):
+            if previous.get('role') == 'user':
+                earlier = emotions(previous['content'])
+                if earlier:
+                    category = earlier[-1][1]
+                    return out('Since you asked: '+GROUPS[category][3], 'reflection', emotional_terms=[w for w, _ in earlier])
+                break
+        topic = TOPIC.search(text)
+        if topic:                                    # "Please give me some advice on burnout."
+            category = next(c for word, c in TOPICS.items() if topic[1].lower().startswith(word))
+            return out('Since you asked: '+GROUPS[category][3], 'reflection', emotional_terms=[topic[1].lower()])
+    if not found and (stated['listen'] or stated['no_questions'] or LISTEN.search(text) or NO_QUESTIONS.search(text)):
         for previous in reversed(messages[-7:-1]):
             if previous.get('role') == 'user':
                 found = emotions(previous['content'])
@@ -147,7 +260,7 @@ def reply(messages, seed=0):
                        'listening', emotional_terms=[w for w, _ in found])
     if not found:
         return None
-    if QUESTION.search(text) and not ADVICE.search(text):
+    if QUESTION.search(text) and not asked_advice:
         return None
     listen, questions = preferences(messages, text)
     rng = random.Random(str(seed)+':'+text)
@@ -163,7 +276,7 @@ def reply(messages, seed=0):
         lead = 'You mentioned feeling '+named+'. '+rng.choice(GROUPS[categories[0]][1])
     if listen:
         tail = 'You do not need to solve it right now or share more than you want to. I can listen.'
-    elif ADVICE.search(text):
+    elif asked_advice:
         tail = GROUPS[categories[-1]][3]
     elif questions:
         tail = GROUPS[categories[-1]][2]
@@ -172,4 +285,7 @@ def reply(messages, seed=0):
             tail = 'Would it help to stay with that feeling, or think through a next step?'
     else:
         tail = 'You can take your time with this; there is no need to answer a question.'
-    return out(lead+' '+tail, 'reflection', emotional_terms=words)
+    response = lead+' '+tail
+    if not questions and '?' in response:          # backstop: a stated no-questions request always wins
+        response = lead+' You can take your time with this; there is no need to answer a question.'
+    return out(response, 'reflection', emotional_terms=words)

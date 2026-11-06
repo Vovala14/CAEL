@@ -1,0 +1,226 @@
+{
+  "training_complete": true,
+  "model_path": "C:\\Users\\vlavrik\\PycharmProjects\\CAEL\\models\\cael-language-0.3.2-math-python\\model.json",
+  "model_sha256": "b2e27bb7c5c6e720e0cfdc7e8d58cdb71b5a3462ba7553b238778b193b6d6b45",
+  "training": {
+    "training_by_source": {
+      "GSM8K numeric choices": 6713,
+      "GSM8K human solution": 6713,
+      "MBPP": 366,
+      "Authored Python output": 2000,
+      "Authored arithmetic": 2000,
+      "Cosmos QA": 25241,
+      "WinoGrande": 40394,
+      "CommonsenseQA": 9735,
+      "Social IQa": 33374,
+      "Authored": 1077,
+      "ATOMIC": 89933
+    },
+    "development_by_source": {
+      "GSM8K numeric choices": 200,
+      "MBPP reference matching": 90,
+      "Authored arithmetic": 100,
+      "Authored Python output": 100
+    },
+    "confirmation_by_source": {
+      "GSM8K numeric choices": 128,
+      "MBPP reference matching": 128,
+      "Authored Python output": 128,
+      "Authored arithmetic": 128
+    },
+    "train_rows": 217546,
+    "development_rows": 490,
+    "confirmation_rows": 512,
+    "regression_rows": 160,
+    "exclusions": {
+      "mbpp_heldout_input_or_code": 8
+    },
+    "mbpp_parse_exclusions": {
+      "prompt_only": 10
+    },
+    "raw_gsm_train": 7473,
+    "raw_gsm_test": 1319,
+    "mbpp_eligible_partitions": {
+      "train": 374,
+      "development": 90,
+      "test": 500
+    },
+    "exact_heldout_training_overlap": 0,
+    "near_guard": "Normalized entity/word/number skeleton equality, not semantic deduplication.",
+    "authored_python_verified_by_execution": true,
+    "downloaded_code_executed": false,
+    "benchmark_metric": "Derived choice diagnostics; not GSM8K free response or MBPP pass@1."
+  },
+  "control": {
+    "by_source": {
+      "Authored Python output": {
+        "n": 128,
+        "correct": 34,
+        "accuracy": 0.265625,
+        "chance": 0.25,
+        "top_score_ties": 126
+      },
+      "Authored arithmetic": {
+        "n": 128,
+        "correct": 31,
+        "accuracy": 0.2421875,
+        "chance": 0.25,
+        "top_score_ties": 127
+      },
+      "GSM8K numeric choices": {
+        "n": 128,
+        "correct": 23,
+        "accuracy": 0.1796875,
+        "chance": 0.25,
+        "top_score_ties": 120
+      },
+      "MBPP reference matching": {
+        "n": 128,
+        "correct": 35,
+        "accuracy": 0.2734375,
+        "chance": 0.25,
+        "top_score_ties": 2
+      }
+    },
+    "macro_accuracy": 0.240234375
+  },
+  "candidate": {
+    "by_source": {
+      "Authored Python output": {
+        "n": 128,
+        "correct": 43,
+        "accuracy": 0.3359375,
+        "chance": 0.25,
+        "top_score_ties": 0
+      },
+      "Authored arithmetic": {
+        "n": 128,
+        "correct": 40,
+        "accuracy": 0.3125,
+        "chance": 0.25,
+        "top_score_ties": 0
+      },
+      "GSM8K numeric choices": {
+        "n": 128,
+        "correct": 74,
+        "accuracy": 0.578125,
+        "chance": 0.25,
+        "top_score_ties": 6
+      },
+      "MBPP reference matching": {
+        "n": 128,
+        "correct": 56,
+        "accuracy": 0.4375,
+        "chance": 0.25,
+        "top_score_ties": 0
+      }
+    },
+    "macro_accuracy": 0.416015625
+  },
+  "accuracy_deltas": {
+    "Authored Python output": 0.0703125,
+    "Authored arithmetic": 0.0703125,
+    "GSM8K numeric choices": 0.3984375,
+    "MBPP reference matching": 0.1640625
+  },
+  "regression_gate_passed": true,
+  "selected_development": {
+    "settings": {
+      "neighbours": 96,
+      "recall_power": 3,
+      "recall_weight": 0.9,
+      "association_strength": 1.0,
+      "prefix_weight": 0.0
+    },
+    "development": {
+      "by_source": {
+        "Authored Python output": {
+          "n": 100,
+          "correct": 35,
+          "accuracy": 0.35,
+          "chance": 0.25,
+          "top_score_ties": 0
+        },
+        "Authored arithmetic": {
+          "n": 100,
+          "correct": 38,
+          "accuracy": 0.38,
+          "chance": 0.25,
+          "top_score_ties": 1
+        },
+        "GSM8K numeric choices": {
+          "n": 200,
+          "correct": 113,
+          "accuracy": 0.565,
+          "chance": 0.25,
+          "top_score_ties": 9
+        },
+        "MBPP reference matching": {
+          "n": 90,
+          "correct": 41,
+          "accuracy": 0.45555555555555555,
+          "chance": 0.25,
+          "top_score_ties": 0
+        }
+      },
+      "macro_accuracy": 0.43763888888888886
+    },
+    "regression": {
+      "by_source": {
+        "CommonsenseQA": {
+          "n": 40,
+          "correct": 6,
+          "accuracy": 0.15,
+          "chance": 0.2,
+          "top_score_ties": 0
+        },
+        "Cosmos QA": {
+          "n": 40,
+          "correct": 11,
+          "accuracy": 0.275,
+          "chance": 0.25,
+          "top_score_ties": 0
+        },
+        "Social IQa": {
+          "n": 40,
+          "correct": 16,
+          "accuracy": 0.4,
+          "chance": 0.3333333333333333,
+          "top_score_ties": 0
+        },
+        "WinoGrande": {
+          "n": 40,
+          "correct": 21,
+          "accuracy": 0.525,
+          "chance": 0.5,
+          "top_score_ties": 0
+        }
+      },
+      "macro_accuracy": 0.3375
+    }
+  },
+  "architecture_unchanged": true,
+  "neural_networks": false,
+  "transformers": false,
+  "deployed": false,
+  "downloaded_code_executed": false,
+  "private_photos_viewed": false,
+  "confirmation_checks": {
+    "control": {
+      "native_max_error": 0.0,
+      "output_oov_occurrences": 21082,
+      "oov_types": 810,
+      "runtime_checks": 8
+    },
+    "candidate": {
+      "native_max_error": 0.0,
+      "output_oov_occurrences": 752,
+      "oov_types": 238,
+      "runtime_checks": 8
+    },
+    "unified_api_max_error": 0.0
+  },
+  "elapsed_seconds": 96.73399999999856,
+  "automatic_reruns": false,
+  "limitations": "Derived 4-way choices only. Not free-response GSM8K, MBPP pass@1, or reliable working-code generation."
+}

@@ -1,0 +1,46 @@
+{
+  "family": "CAEL observer-state hybrid",
+  "neural_parameters": 0,
+  "updates": {
+    "1": 1,
+    "0": 0
+  },
+  "update_counts": {
+    "1": {
+      "1": 9992
+    },
+    "0": {
+      "0": 10008
+    }
+  },
+  "move_words": [
+    "hid",
+    "moved",
+    "placed",
+    "put",
+    "relocated"
+  ],
+  "vocabulary_counts": {
+    "placed": {
+      "move": 3961
+    },
+    "relocated": {
+      "move": 4035
+    },
+    "hid": {
+      "move": 3993
+    },
+    "put": {
+      "move": 3998
+    },
+    "moved": {
+      "move": 4013
+    }
+  },
+  "training_examples": 20000,
+  "training_sha256": "b1e1d1f237c866bf1d55849fc7f06e07a2fe6c77b0822aae614768dee810cf4c",
+  "authored_schema": true,
+  "authored_surface_parser": true,
+  "benchmark_training_examples": 0,
+  "limitation": "One shared room, explicit observation/absence and first-order location beliefs. No inferred unmentioned observation or recursive mental states."
+}

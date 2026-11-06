@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "source": "PrOntoQA-OOD",
+      "url": "https://github.com/asaparov/prontoqa",
+      "licence": "Apache-2.0",
+      "licence_url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "attribution": "Abulhair Saparov and PrOntoQA contributors"
+    },
+    {
+      "source": "bAbI",
+      "url": "https://huggingface.co/datasets/facebook/babi_qa",
+      "licence": "CC BY 3.0",
+      "licence_url": "https://creativecommons.org/licenses/by/3.0/",
+      "attribution": "Jason Weston and Facebook/Meta bAbI contributors"
+    }
+  ],
+  "archives": {
+    "prontoqa.zip": "0becba04e1e1eb80593709c6a3db2a46badd5587a29587ffaeb68ed5068c9de9",
+    "babi.tar.gz": "84f5296ab9a1ad0dc9464e08c491d65cd08830fca3acae9ab86f75e0fb81573c"
+  },
+  "babi_download": "https://s3.amazonaws.com/text-datasets/babi_tasks_1-20_v1-2.tar.gz",
+  "babi_mirror_documentation": "https://github.com/keras-team/keras/blob/2.2.4/examples/babi_memnn.py",
+  "modifications": "Training text converted into count-based event lexicons, grammatical categories and local transition tables; no dataset examples stored in the runtime model."
+}

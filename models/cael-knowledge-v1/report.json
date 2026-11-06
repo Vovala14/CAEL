@@ -1,0 +1,30 @@
+{
+  "documents": 10025,
+  "passages": 349568,
+  "snapshot": "2026-10-16T15:25:33.318359+00:00",
+  "licence": "CC BY-SA 4.0",
+  "source": "Wikipedia contributors",
+  "private_data": false,
+  "pilot": false,
+  "training_examples": 49783,
+  "development": {
+    "correct": 6378,
+    "total": 6383,
+    "accuracy": 0.99922
+  },
+  "confirmation": {
+    "correct": 6480,
+    "total": 6481,
+    "accuracy": 0.99985
+  },
+  "topic_splits": {
+    "train": 7960,
+    "development": 1027,
+    "confirmation": 1038
+  },
+  "seconds": 43.06,
+  "model_sha256": "67d6cfc619156651eb1b6269c1925bc065a99a713d36dfb60579e1dba866d948",
+  "limitation": "Lexical/extractive memory is not unrestricted reasoning. Weak section-heading labels do not establish answer correctness. Development probes informed rule calibration; this is not independent answer-quality confirmation. Development probes informed rule calibration; this is not independent answer-quality confirmation.",
+  "ranker_sha256": "39225a66f0e681313eb22d4581242cf4165880940a6de72bb1d0db7f81ab9677",
+  "calibration": "Development rules require topic-proximate causal evidence and reject damaged/incomplete excerpts; mechanism labels include mechanics/drivetrain headings."
+}

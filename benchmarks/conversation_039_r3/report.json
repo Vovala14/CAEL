@@ -1,0 +1,190 @@
+{
+  "at": "2026-11-06T22:18:19.493706+00:00",
+  "status": "completed_bounded_gap_upgrade",
+  "candidate_version": "0.3.9-conversation-r3-candidate",
+  "source_freeze_sha256": "6b66428369ec45953472820e6039f7f7137e5e856b2874eda2ab6651e853119f",
+  "architecture": "Non-neural symbolic/count/automaton, typed visible references, finite complete-clause readers and existing bounded AST VM",
+  "counts": {
+    "development": {
+      "before": {
+        "P": {
+          "accepted": 8,
+          "total": 32
+        },
+        "B": {
+          "accepted": 14,
+          "total": 20
+        },
+        "whole_conversations": {
+          "accepted": 3,
+          "total": 21
+        },
+        "whole_positive_conversations": {
+          "accepted": 1,
+          "total": 17
+        }
+      },
+      "candidate": {
+        "P": {
+          "accepted": 29,
+          "total": 32
+        },
+        "B": {
+          "accepted": 20,
+          "total": 20
+        },
+        "whole_conversations": {
+          "accepted": 18,
+          "total": 21
+        },
+        "whole_positive_conversations": {
+          "accepted": 14,
+          "total": 17
+        }
+      }
+    },
+    "transfer": {
+      "before": {
+        "P": {
+          "accepted": 10,
+          "total": 29
+        },
+        "B": {
+          "accepted": 7,
+          "total": 12
+        },
+        "whole_conversations": {
+          "accepted": 4,
+          "total": 16
+        },
+        "whole_positive_conversations": {
+          "accepted": 2,
+          "total": 14
+        }
+      },
+      "candidate": {
+        "P": {
+          "accepted": 22,
+          "total": 29
+        },
+        "B": {
+          "accepted": 12,
+          "total": 12
+        },
+        "whole_conversations": {
+          "accepted": 11,
+          "total": 16
+        },
+        "whole_positive_conversations": {
+          "accepted": 9,
+          "total": 14
+        }
+      }
+    }
+  },
+  "formal_full_replies_reviewed": 186,
+  "all_saved_actual_jsonl_replies": 238,
+  "all_saved_attempts": [
+    {
+      "folder": "development_before_1",
+      "actual_replies": 52,
+      "errors": 0,
+      "raw_sha256": "278836297eef191eb2e4f6e12efcb5270255ad70ed90ae2d8407eacbbaad2db3",
+      "receipt_sha256": "351987455298298e3aff5b85990cdc18b8906da71393a8ed96a6550d12ee7cf7"
+    },
+    {
+      "folder": "development_candidate_1",
+      "actual_replies": 52,
+      "errors": 0,
+      "raw_sha256": "b1f5ef7b9c3039d4eab196d368258690c3ff28f5b24cd4464303fc0cd24bd323",
+      "receipt_sha256": "3725cf012662b5bb8e0f646f055ed67f9c81c0abecb62336c440d4263e2ff75f"
+    },
+    {
+      "folder": "development_candidate_2",
+      "actual_replies": 52,
+      "errors": 0,
+      "raw_sha256": "8d180d9ace44081877e8dd165c9fee9a8f80c448602349d851f6ac05dabaf04c",
+      "receipt_sha256": "60811aabe481f96d6725afede71e29e0a2d68279016aa2f01cf7a29215b8812d"
+    },
+    {
+      "folder": "transfer_before_1",
+      "actual_replies": 41,
+      "errors": 0,
+      "raw_sha256": "2d9b3fd76c8d203c6ffa16c7a573f7d3ec4602b3c2f0aeec46f28a013a615d3b",
+      "receipt_sha256": "c63056b7034f15c8571f887977aba27c6f3520781ecdccfc3c03352f676d6a81"
+    },
+    {
+      "folder": "transfer_candidate_1",
+      "actual_replies": 41,
+      "errors": 0,
+      "raw_sha256": "3a21b380c1cb53fe8735799980b3ee6253cc870812274df3845e74dd899ed049",
+      "receipt_sha256": "16f383cd59d4bcaaae61c43f957612dd95c5788fe6c1100d02cb7c66337fcb07"
+    }
+  ],
+  "interactive_smoke_replies": 4,
+  "integrity_checks": 3619,
+  "integrity_is_not_capability_testing": true,
+  "checks": {
+    "inherited": 332,
+    "subtests": 18,
+    "focused": 124,
+    "inherited_focused": 90,
+    "new_focused": 34
+  },
+  "learned_parameter_updates": 0,
+  "inherited_act_count_model_unchanged": true,
+  "public_resources_unchanged": 114,
+  "dependency_files_unchanged": 251,
+  "protected_solvers_weights_CA_kernels_unchanged": true,
+  "modified_inherited_source": [
+    "cael_unified/conversation_context.py",
+    "cael_unified/dialogue.py",
+    "cael_unified/dialogue_state.py",
+    "cael_unified/session_profile.py",
+    "cael_unified/verify.py",
+    "cael_unified/__init__.py"
+  ],
+  "added_modules": [
+    "cael_unified/choice_context.py",
+    "cael_unified/grounded_compare.py",
+    "cael_unified/request_reference.py",
+    "cael_unified/turn_instructions.py",
+    "cael_unified/codegen/literal_cases.py"
+  ],
+  "source_after_transfer_unchanged": true,
+  "trained_on_transfer": false,
+  "neural_or_external_model_used": false,
+  "deployed": false,
+  "published": false,
+  "runtime_requirements": {
+    "python": "C:\\Python314\\python.exe",
+    "read_only_legacy_library": "C:\\Users\\vlavrik\\PycharmProjects\\CAEL_038_wt",
+    "standalone_package": false,
+    "policy_adapter_required": true
+  },
+  "limitations": [
+    "Adaptive same-author unblinded family/implementation overlap; exact-string guards do not make the result an independent benchmark.",
+    "Fresh first-instead choice repeats old selection; dictionary example/empty/switch follow-ups still lose some recognized initial phrasings.",
+    "No practical example for a general biological comparison, and no full two-definition corroboration on follow-up.",
+    "Compiler/interpreter development comparison remains incomplete without disambiguation/source coverage. Definitions are narrow source excerpts, not general understanding or proof.",
+    "Supported forget/provenance query improved, but not a whole-runtime privacy/security/session-erasure certification.",
+    "Authored offline public-page fixtures are not live internet accuracy. Public/pretraining exposure and local snapshots remain.",
+    "Cached-bundle shared-host development runs; no new process peak RAM, optimized latency or release-size claim.",
+    "No Qwen comparison or general-neural parity result; live Vynly and published releases untouched."
+  ],
+  "next_directions": [
+    "One shared recognized-workflow descriptor for initial guide AND all follow-ups; remove duplicated topic grammar.",
+    "Whole selection-command coverage with discourse markers, and explicit clarification for unparsed requested switches instead of reusing a stale choice.",
+    "Source-aware example and multi-definition recheck composition, with full coverage and qualified source scope."
+  ],
+  "artifact_sha256": {
+    "FREEZE.json": "6b66428369ec45953472820e6039f7f7137e5e856b2874eda2ab6651e853119f",
+    "audit_complete.json": "862954cce957ba0e6201cd29d6c7f92909f95887f7b94abf53e2374a22a03b8b",
+    "development_semantic_review.json": "dde4eb2bf68be014db3c7952634714fa0266f604451d67639dca0cc6514fb870",
+    "transfer_semantic_review.json": "3afc611a634c92794cab54789096b861c8ef178d498eec91e331c57d0e3c9638",
+    "sensitivities.json": "3f0b8fa5714f49a11bc9c329ce8e9622d5ca039127ccf5f156d80cb08ae06f9a",
+    "SENSITIVITIES.md": "8244a98d9698c616573f7ce1577cbbecded650811cdef3f51863162ceab3fe6e",
+    "REVIEW_SCOPE_NOTE.md": "6df3af5128c224bce03c61125f57874d0de14d1e70a6fc2eb5e2731d5a6c0aa5",
+    "code_review_diagnostics.json": "f7a400365521c9857eabfc7915ad9c2211855b0e0c6f0d726f173c9f849874d9"
+  }
+}

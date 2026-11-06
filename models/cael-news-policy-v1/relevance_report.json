@@ -1,0 +1,29 @@
+{
+  "training_examples": 3669,
+  "categories": [
+    "Armed conflicts and attacks",
+    "Arts and culture",
+    "Business and economy",
+    "Disasters and accidents",
+    "Health and environment",
+    "Law and crime",
+    "Politics and elections",
+    "Science and technology",
+    "Sports"
+  ],
+  "source_license": "CC BY-SA 4.0",
+  "splits": {
+    "development": {
+      "correct": 478,
+      "total": 641,
+      "accuracy": 0.7457
+    },
+    "confirmation": {
+      "correct": 194,
+      "total": 266,
+      "accuracy": 0.7293
+    }
+  },
+  "limitation": "Wikipedia section labels and chronological evaluation; not independent labels or a guarantee of headline truth",
+  "model_sha256": "b3848e6b7d00fb67150534b628f032ad3ff51768e26a518b61711c1f31078e0e"
+}

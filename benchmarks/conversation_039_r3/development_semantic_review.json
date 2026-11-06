@@ -1,0 +1,2684 @@
+{
+  "scope": "All104 full development replies/history/code inspected. Same-author adaptive unblinded development, not independent transfer or benchmark accuracy.",
+  "suite_sha256": "ce2eaaf989756d26b4235b932f0de861e000593c3921178e75d71e4532033f52",
+  "engines": {
+    "before": {
+      "raw_sha256": "278836297eef191eb2e4f6e12efcb5270255ad70ed90ae2d8407eacbbaad2db3",
+      "receipt_sha256": "351987455298298e3aff5b85990cdc18b8906da71393a8ed96a6550d12ee7cf7",
+      "judgments": [
+        {
+          "case": "dev3-00",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Correct exact503.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "64 * 8 - 9 = 503",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n64 * 8 = 512\n64 * 8 - 9 = 503\nIndependent check (verified): re-evaluated 64 * 8 - 9 independently: 503.",
+            "helper_reasoning": {
+              "expression": "64 * 8 - 9",
+              "steps": [
+                "64 * 8 = 512",
+                "64 * 8 - 9 = 503"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 64 * 8 - 9 independently: 503"
+            }
+          },
+          "error": null,
+          "record_sha256": "008519377c87e83103c81486420ae4b91b28e5ccec7125d94e6b53e07c1d61c9"
+        },
+        {
+          "case": "dev3-00",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Must actually recalculate the original task, not ask which claim.",
+          "original_answer": {
+            "route": "chat/dialogue-check-clarify",
+            "response": "Which specific claim should I check? I can recalculate arithmetic, use the bounded code checker, or read public sources; I cannot independently verify private details from your messages.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "7ceb00fc2504066a9207347a2a9c8fcad1896d2db2101e6de88be79f98088e98"
+        },
+        {
+          "case": "dev3-00",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "Bare503 required after the real recheck.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I change?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "b95239818885dbe61744bc6efadf9c72d363eda0b8743f430fa236cdd0835ebd"
+        },
+        {
+          "case": "dev3-01",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Exact11; trailing9. is a valid numeric literal in the inherited expression, not a changed value.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "(73 + 26) / 9. = 11",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n73 + 26 = 99\n(73 + 26) / 9.0 = 11\nIndependent check (verified): re-evaluated (73 + 26) / 9. independently: 11.",
+            "helper_reasoning": {
+              "expression": "(73 + 26) / 9.",
+              "steps": [
+                "73 + 26 = 99",
+                "(73 + 26) / 9.0 = 11"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated (73 + 26) / 9. independently: 11"
+            }
+          },
+          "error": null,
+          "record_sha256": "acd98a9a341ef004db77cc5bebb9d547291e98b3ae606900c6843fa98fae99a6"
+        },
+        {
+          "case": "dev3-01",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Recompute original request despite short-instruction classification.",
+          "original_answer": {
+            "route": "chat/dialogue-check-clarify",
+            "response": "Which specific claim should I check? I can recalculate arithmetic, use the bounded code checker, or read public sources; I cannot independently verify private details from your messages.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "7059ffbd6dc3170d6d8b7659147a4f31a631118f69148b89b2fc58af5f15be50"
+        },
+        {
+          "case": "dev3-01",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "Bare11, no unrelated smalltalk.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "e6fc729195204a94213c55ae440ffbdcc1daf635edd967cbdbe2b33631b0dbbe"
+        },
+        {
+          "case": "dev3-02",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Existing local snapshot says10July1856; source not newly verified.",
+          "original_answer": {
+            "response": "Tesla was born into a family of ethnic Serbs on 10 July 1856 in the village of Smiljan, then part of the Military Frontier of the Austrian Empire and now part of Croatia.",
+            "route": "chat/local-knowledge",
+            "sources": [
+              {
+                "source": "Wikipedia — Nikola Tesla",
+                "title": "Nikola Tesla",
+                "url": "https://en.wikipedia.org/w/index.php?oldid=1380393557",
+                "licence": "CC BY-SA 4.0",
+                "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+              }
+            ],
+            "details": "Local reference: Nikola Tesla / Childhood. Retrieved 2026-10-16T15:23:38.260899+00:00; revision 1380393557. Snapshot excerpt, not a fresh verification. Wikipedia contributors; extracted from the local snapshot and shortened by CAEL. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/",
+            "knowledge": {
+              "title": "Nikola Tesla",
+              "heading": "Childhood",
+              "internet_used": false,
+              "exact_subject": true
+            },
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "a14e1c82ff7c46aadcfe877f369e74c4644ed6ba55870534cddb6136040dc99c"
+        },
+        {
+          "case": "dev3-02",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Only anchored birth year1856; no incidental/citation-year extraction.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "74c19fb6617344ee940b36f93d7d9d76474624d93623a691602d548b024f3e59"
+        },
+        {
+          "case": "dev3-03",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Explicit augment signature, keyword-only levy/default and both supplied calls correct.",
+          "original_answer": {
+            "response": "```python\ndef augment(quantity, *, levy=9):\n    \"\"\"Return quantity * 4 + levy.\n>>> augment(8)\n41\n>>> augment(quantity=6, levy=2)\n26\"\"\"\n    return quantity * 4 + levy\n```\nChecked all 2 supplied literal doctests. This implements the supported symbolic contract; test additional inputs and boundaries.",
+            "route": "chat/code-signature-built",
+            "sources": [],
+            "details": "Preserved the declared function name, argument order, positional/keyword-only restrictions, literal defaults and static annotations. Compiled the entire supported contract using whole-expression symbolic compilation. Checked 2 literal doctests in the bounded AST VM. No native code execution, neural model, external model, benchmark solution lookup or general-correctness proof.\nIndependent check (verified): interpreted 1 tests with the bounded AST VM; all pass.",
+            "signature_checks": {
+              "method": "whole-expression symbolic compilation",
+              "doctests": 2
+            },
+            "inline_contract": {
+              "complete_request": "Write a Python function augment(quantity, *, levy=9) that returns quantity * 4 + levy. Examples: augment(8) == 41; augment(quantity=6, levy=2) == 26.",
+              "signature_preserved": true,
+              "same_bounded_vm": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "interpreted 1 tests with the bounded AST VM; all pass"
+            }
+          },
+          "error": null,
+          "record_sha256": "7a16e9f327ac4b773e3662110caaff9d1e8566f686bcb2df8b5f43c0c9e630d3"
+        },
+        {
+          "case": "dev3-03",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Before rechecks only1positional example, so full2-example check fails. Candidate checks both in unchanged AST VM.",
+          "original_answer": {
+            "route": "chat/dialogue-code-recheck",
+            "response": "I checked the visible code with the bounded interpreter: interpreted 1 tests with the bounded AST VM; all pass. This checks those cases, not every possible input.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "interpreted 1 tests with the bounded AST VM; all pass"
+            }
+          },
+          "error": null,
+          "record_sha256": "408e81492b253f8a72f7a05aaa2d0dec5d0f5349b849552832e71aafeff399b2"
+        },
+        {
+          "case": "dev3-03",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Minimal request for examples before is safe but loses the append/log requirement; focused variant removes it. Candidate owns complete new requirement, no file execution or unsupported success claim.",
+          "original_answer": {
+            "response": "I can write small Python functions when you give me examples to check against. Describe the function and add two or three examples, one per line, for example:\n\nWrite a python function that counts vowels.\ncount_vowels(\"hello\") == 2\ncount_vowels(\"sky\") == 0\ncount_vowels(\"aeiou\") == 5",
+            "route": "chat/code-needs-examples",
+            "sources": [],
+            "details": "CAEL writes code by searching for a program that fits examples; it does not guess code from a description alone.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no code"
+            }
+          },
+          "error": null,
+          "record_sha256": "32c69023f89d678cd9798418954b517ff813e20df445bf5b37f5cb56a7abe769"
+        },
+        {
+          "case": "dev3-04",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a carved whistle or a glass token or a copper badge. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "f3a698bcfa3efd5512e3ca752172a98390a16839690a6f371afec8c536209e6e"
+        },
+        {
+          "case": "dev3-04",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Word-number third must select copper badge; repeated initial criterion fails.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a carved whistle or a glass token or a copper badge. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "8f8734bad683de4d943b6aefb1f550fa2dc774a7e8a3732707d1ee2ff92cb4ab"
+        },
+        {
+          "case": "dev3-04",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "Literal glass-token selection must replace previous selection.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "6e6cf1710f4eeb842d1cda1bcc781ec8fc65e7e7f0d4dca425df9ea5f8049657"
+        },
+        {
+          "case": "dev3-05",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a woven screen or a folded screen. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "98398c88842f4215ad85a5c655e9782d51885955f30956457e25f87a982f04b0"
+        },
+        {
+          "case": "dev3-05",
+          "turn": 1,
+          "category": "B",
+          "accepted": false,
+          "reason": "Actual conditional price request needs both comparable prices before selection.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "5c244640ed0eed5629074c204854d859d1c2d12d1b705e01eea4e5cadbc8e4ec"
+        },
+        {
+          "case": "dev3-05",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "41>=25dollars selects folded screen via explicit otherwise; no invented market price.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "864b41c86c1b84ce3871b5004cad57daa95ee9f08e249892d6d0df8c8b2e080d"
+        },
+        {
+          "case": "dev3-06",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a reed sculpture or a wire sculpture. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "71d0b843dd62f441320edc04bec4f67588a031ee10262cd605e3112b376512b3"
+        },
+        {
+          "case": "dev3-06",
+          "turn": 1,
+          "category": "B",
+          "accepted": false,
+          "reason": "Missing prices must be the clarification, not unrelated enjoyment/ease criteria.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a reed sculpture or a wire sculpture. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "0d2f2e8ff3cacd255ff0b2612e884ec7d7152cdb8e0046eda5817bf0ef6c67c0"
+        },
+        {
+          "case": "dev3-06",
+          "turn": 2,
+          "category": "B",
+          "accepted": false,
+          "reason": "Mixed currencies must remain unresolved; no exchange rate assumed.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "3ede690b8f9faa03d3ec9183adbd3cd60f1e96f49a607506e96cf9ab702a99e4"
+        },
+        {
+          "case": "dev3-06",
+          "turn": 3,
+          "category": "P",
+          "accepted": false,
+          "reason": "Later unconditional wire selection supersedes the conditional instruction.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a reed sculpture or a wire sculpture. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "b3330b326f79480c08a05733ac1b43f1a58225e541aef6a78cfe73fdbd3f9c16"
+        },
+        {
+          "case": "dev3-07",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a birch shelf or an ash shelf. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "d0db604929cc769c5e2ef7bb140353b538c9cc40274b3418473f9ff3fc542a58"
+        },
+        {
+          "case": "dev3-07",
+          "turn": 1,
+          "category": "B",
+          "accepted": false,
+          "reason": "Missing prices block unless evaluation.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "ce39e7d627767d63d1268661950f966c948db90ac8a5a74679c8d1ac2eaf356d"
+        },
+        {
+          "case": "dev3-07",
+          "turn": 2,
+          "category": "B",
+          "accepted": false,
+          "reason": "Condition true blocks birch; no stated fallback, so clarify rather than choose ash automatically.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "a9cd4e9d5398d33868076547c38eebfe8c7fdd3874081591f478f69789988e86"
+        },
+        {
+          "case": "dev3-08",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "A complete checked items guide required; generic cannot-code fails positive task.",
+          "original_answer": {
+            "response": "I can't write or debug code reliably; I have no programming knowledge beyond a few keywords. The official documentation for the language or library you're using, or a programming Q&A site, is a better place for this.",
+            "route": "chat/local-code",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "f882bf1b0864c409d5e84b60c56ef2fb4b152fd47040085228ef5a43b64ec978"
+        },
+        {
+          "case": "dev3-08",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Use actual moss12/reed15 input and matching output, bounded VM only.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "a0122e7245157d34776f6aca6fd3c1ffb4fc0ad4fdb4a5b25e264e8d254d6dc7"
+        },
+        {
+          "case": "dev3-08",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "Empty mapping produces no pairs/output, rather than claiming the user never mentioned it.",
+          "original_answer": {
+            "response": "I don't know: you didn't mention happens empty dictionary python in this chat.",
+            "route": "chat/context-reasoning",
+            "confidence": 0.2,
+            "sources": [],
+            "details": "Answered from your earlier messages in this chat: each statement is normalised into a small integer record (who, what, values, when said, negation, corrections), and the answer is the best-supported value or a combination of stated facts. If nothing you said supports an answer, CAEL says so instead of guessing.",
+            "abstain": false,
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "b476072089b423408090e00ee800fa65aebbb203581edcf639298e2206eecebd"
+        },
+        {
+          "case": "dev3-09",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Keys-only guide, no values printed.",
+          "original_answer": {
+            "response": "I can't write or debug code reliably; I have no programming knowledge beyond a few keywords. The official documentation for the language or library you're using, or a programming Q&A site, is a better place for this.",
+            "route": "chat/local-code",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "b965061035b5addc6d2800ed85c0cf1f55a7caa4acc58dfb41d976d2a65f5f92"
+        },
+        {
+          "case": "dev3-09",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Actual cove/dune keys only, complete preserved literals.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "a2196f2cc01b52bf84960d40ed2fea0a31de72ec247ff65bd409f53839836ae8"
+        },
+        {
+          "case": "dev3-10",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Before shows items-printing code and only mentions values() in a final sentence: primary full-workflow fails; text-only-instruction sensitivity credits that limited hint. Candidate supplies actual values-only guide.",
+          "original_answer": {
+            "route": "chat/python-help",
+            "sources": [],
+            "response": "```python\nfor key, value in ages.items():\n    print(key, value)\n```\nUse `.keys()` for keys only and `.values()` for values only.",
+            "details": "From CAEL's hand-written Python guide. No neural model.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "47daf7b921611975d55ae201c6e2e6bc64ab2147ac237f20cd98eceba9d7026f"
+        },
+        {
+          "case": "dev3-10",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Actual18/23 values only, not extra keys or generic clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "68d1149ff8274607d6fdd2d3d28ae23fd2ec39be974566aaa170a9feb1ee6e9f"
+        },
+        {
+          "case": "dev3-11",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Omitting filter is wrong; refusing a positive filtered workflow is also not correct ability. Neither implements this task.",
+          "original_answer": {
+            "route": "chat/python-help",
+            "sources": [],
+            "response": "```python\nfor key, value in ages.items():\n    print(key, value)\n```\nUse `.keys()` for keys only and `.values()` for values only.",
+            "details": "From CAEL's hand-written Python guide. No neural model.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "64a8592dde241c2f209b38e47339c3d91893c63eea934231ea5c00e431857910"
+        },
+        {
+          "case": "dev3-11",
+          "turn": 1,
+          "category": "B",
+          "accepted": true,
+          "reason": "Minimal clarification emits no unfiltered program, safe boundary credit equally. Focused variant removes both for failing to name the particular odd-value condition.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "0aefe7e36182585db02eb52ac3bddffddaeae625a84e4b0886714f116e412949"
+        },
+        {
+          "case": "dev3-12",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Actual user language preference acknowledged.",
+          "original_answer": {
+            "response": "Got it, your preferred language is Icelandic. I will remember that while this chat is open.",
+            "route": "chat/memory",
+            "sources": [],
+            "details": "Recalled from your earlier messages in this chat window by authored patterns; nothing is stored after the window closes.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "4f4177703e324455eb8b4273197bab3d97fb1a6f6b360d33d120b35cfe025a43"
+        },
+        {
+          "case": "dev3-12",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Evidence must cite actual visible user statement.",
+          "original_answer": {
+            "response": "Honestly, I'm not sure about that one, and I'd rather not guess. If you name the topic, I can look it up on Wikipedia, or tell you what a word means. What got you curious about it?",
+            "route": "chat/talk-unsure",
+            "sources": [],
+            "details": "Rule-based conversation reply (hand-written responses and lists); no web lookup and no neural model.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "0cb1d9a6f0e8c00c46a019bf0f9c6a0ae8d5fad5799633a12af301365c7972e7"
+        },
+        {
+          "case": "dev3-12",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Private assertion cannot become independently verified; no public query of it.",
+          "original_answer": {
+            "route": "chat/dialogue-private-check",
+            "response": "I can recall what you told me here, but I cannot independently confirm private facts. A statement in this chat is user-supplied evidence, not an external verification.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "unverifiable",
+              "check": "Private user details are not sent to search."
+            }
+          },
+          "error": null,
+          "record_sha256": "9042f33a090b505b7215c2bd69e95a7bc10f7321f944df25d1d9f20a632ea221"
+        },
+        {
+          "case": "dev3-13",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Actual editor assertion acknowledged.",
+          "original_answer": {
+            "response": "Got it, your preferred editor is VSCodium. I will remember that while this chat is open.",
+            "route": "chat/memory",
+            "sources": [],
+            "details": "Recalled from your earlier messages in this chat window by authored patterns; nothing is stored after the window closes.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "2d1b74ff572202a8453c0f6ada912e5c326f20aec283a38b125019effeea988b"
+        },
+        {
+          "case": "dev3-13",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Quote actual user evidence, not generic uncertainty.",
+          "original_answer": {
+            "response": "Good question! I don't know that for sure, and I don't want to make something up. If you name the topic, I can look it up on Wikipedia, or tell you what a word means. What got you curious about it?",
+            "route": "chat/talk-unsure",
+            "sources": [],
+            "details": "Rule-based conversation reply (hand-written responses and lists); no web lookup and no neural model.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "8aea06057912e007e520f318093513b787c0b2da546ec29a9330e162278ac768"
+        },
+        {
+          "case": "dev3-13",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Forget is applied to the profile, original transcript stays visible.",
+          "original_answer": {
+            "response": "I will leave your editor out of my conversation memory. The original messages remain in the chat transcript.",
+            "route": "chat/session-profile",
+            "sources": [],
+            "details": "Explicit facts from user messages in this conversation, stored as bounded interned integer records with message provenance. Corrections replace values; unmarked disagreements ask for clarification. Forgetting removes facts from this reader, not from the visible chat transcript. No persistent profile."
+          },
+          "error": null,
+          "record_sha256": "59f1b4b75486b9a454c8acb7f21a201468b6ea4922051bd2a3e6bac1cc8fe120"
+        },
+        {
+          "case": "dev3-13",
+          "turn": 3,
+          "category": "B",
+          "accepted": true,
+          "reason": "No forgotten editor value is returned. Old vague unknown has minimal boundary credit; focused variant removes it.",
+          "original_answer": {
+            "response": "I don't know: you didn't mention evidence editor in this chat.",
+            "route": "chat/context-reasoning",
+            "confidence": 0.2,
+            "sources": [],
+            "details": "Answered from your earlier messages in this chat: each statement is normalised into a small integer record (who, what, values, when said, negation, corrections), and the answer is the best-supported value or a combination of stated facts. If nothing you said supports an answer, CAEL says so instead of guessing.",
+            "abstain": true,
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "0cfaa8ca91ba731cbd917fca3292c94c90160b85908bade573a30f7655b6e40f"
+        },
+        {
+          "case": "dev3-14",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Minimal source-linked contrast: diffusion as broad net movement versus solvent crossing a selectively permeable membrane. Source truncation and empty pronunciation artifact preserved. Strict complete-explanation variant removes candidate credit.",
+          "original_answer": {
+            "response": "I could not verify that from the internet just now. The source may be unavailable; please try again shortly.",
+            "route": "chat/web-unavailable",
+            "sources": [],
+            "details": "Retrieved or read from the provider cache at 2026-11-06T22:05:12+00:00.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "5c52ca13ef76210e73e84b450b16f7a4c7a88eb60cb5ef3e0d9806c788dc49b8"
+        },
+        {
+          "case": "dev3-14",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "No practical example of the distinction supplied; clarification is not completion.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "1034e590b3143cee750b0a4d3231cebd94510e830e37fbc75ed3d37d294ba940"
+        },
+        {
+          "case": "dev3-15",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Interpreter is missing/ambiguous without a computing field; no complete sourced comparison supplied. Both fail the predeclared positive task, not silently recategorized as boundary.",
+          "original_answer": {
+            "response": "I could not verify that from the internet just now. The source may be unavailable; please try again shortly.",
+            "route": "chat/web-unavailable",
+            "sources": [],
+            "details": "Retrieved or read from the provider cache at 2026-11-06T22:05:13+00:00.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "791e14f411f6a6c5f73fc289eff7044f38d14862df09b20e4beaf2d8ace5a1de"
+        },
+        {
+          "case": "dev3-16",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Literal unmodified fictional names must be looked up in actually read authored pages. New pair quotes both paper-pressing/clay-shaping definitions with source scope. Not trained facts or live knowledge accuracy.",
+          "original_answer": {
+            "response": "I could not verify that from the internet just now. The source may be unavailable; please try again shortly.",
+            "route": "chat/web-unavailable",
+            "sources": [],
+            "details": "Retrieved or read from the provider cache at 2026-11-06T22:05:13+00:00.\nSpelling interpretation: 'talmera' → 'camera'; 'volrun' → 'varun'.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            },
+            "understood_as": "Explain the difference between camera and varun.",
+            "input_corrections": [
+              {
+                "original": "talmera",
+                "replacement": "camera"
+              },
+              {
+                "original": "volrun",
+                "replacement": "varun"
+              }
+            ]
+          },
+          "error": null,
+          "record_sha256": "2ba92e67f7ce37e92bb402679473964bb9d7210319c227c20f3ac0b7a28beabe"
+        },
+        {
+          "case": "dev3-17",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Only one definition available. Honest noncompletion is safe; new reply specifically preserves talmera and says brenvek missing. Old spelling-replaced lookup is not focused coverage evidence.",
+          "original_answer": {
+            "response": "I could not verify that from the internet just now. The source may be unavailable; please try again shortly.",
+            "route": "chat/web-unavailable",
+            "sources": [],
+            "details": "Retrieved or read from the provider cache at 2026-11-06T22:05:13+00:00.\nSpelling interpretation: 'talmera' → 'camera'.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            },
+            "understood_as": "Compare camera and brenvek.",
+            "input_corrections": [
+              {
+                "original": "talmera",
+                "replacement": "camera"
+              }
+            ]
+          },
+          "error": null,
+          "record_sha256": "a5d9e209dc6b794c2b9387ac37ac19979aec16dfd6ee6ad2523a7c1237eca6c8"
+        },
+        {
+          "case": "dev3-18",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Exact399.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "57 * 7. = 399",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n57 * 7.0 = 399\nIndependent check (verified): re-evaluated 57 * 7. independently: 399.",
+            "helper_reasoning": {
+              "expression": "57 * 7.",
+              "steps": [
+                "57 * 7.0 = 399"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 57 * 7. independently: 399"
+            }
+          },
+          "error": null,
+          "record_sha256": "651c87c1585c4576126f22d4e8bc9fd8148a92eea2bd8dc7430296dc87b22f5c"
+        },
+        {
+          "case": "dev3-18",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "New personal fact acknowledged.",
+          "original_answer": {
+            "response": "Got it, your preferred editor is Fleet. I will remember that while this chat is open.",
+            "route": "chat/memory",
+            "sources": [],
+            "details": "Recalled from your earlier messages in this chat window by authored patterns; nothing is stored after the window closes.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "b353ec642376e2bab368ac2fea69237c3dda9ffa5d33a115bccf331781ecf56d"
+        },
+        {
+          "case": "dev3-18",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "New user fact blocks old arithmetic. Clarifying which claim is safe; neither sends the private assertion to public search.",
+          "original_answer": {
+            "route": "chat/dialogue-check-clarify",
+            "response": "Which specific claim should I check? I can recalculate arithmetic, use the bounded code checker, or read public sources; I cannot independently verify private details from your messages.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "6551a7e47ef811f699a23a62209e9507ebc52037415e6e52d2d66192b8005593"
+        },
+        {
+          "case": "dev3-19",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Explicit listening/no-question boundary acknowledged.",
+          "original_answer": {
+            "route": "chat/dialogue-listening-preference",
+            "response": "Understood. I can listen without giving advice or asking questions.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "850375207ec4102c6b3f3f20949286741f1afe43867246d8ef1d2b5b0f5bad20"
+        },
+        {
+          "case": "dev3-19",
+          "turn": 1,
+          "category": "B",
+          "accepted": true,
+          "reason": "Reflect actual bicycle-bell activity, with no invented emotion/cause/plan.",
+          "original_answer": {
+            "route": "chat/dialogue-event-reflection",
+            "response": "You enjoyed getting the old bicycle bell to ring again. I can stay with what you wanted to share.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "user_evidence": {
+              "message": 2,
+              "statement": "I enjoyed getting the old bicycle bell to ring again."
+            }
+          },
+          "error": null,
+          "record_sha256": "95d8581aab12863ca15573c70a688e577e27dc78f358278bf49d47f6b882a587"
+        },
+        {
+          "case": "dev3-20",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a courtyard mural or a hallway mural. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "129121d428f0484181963950107fc06d45246bbfec1f777807141fec7d242623"
+        },
+        {
+          "case": "dev3-20",
+          "turn": 1,
+          "category": "B",
+          "accepted": false,
+          "reason": "Unspecified extra fee prevents full price parsing/comparison; no partial27-euro certification.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "1be4c514423376ce8303a6412a42800c9bf569eace0959a26740277c6e0219bb"
+        }
+      ],
+      "counts": {
+        "P": {
+          "accepted": 8,
+          "total": 32
+        },
+        "B": {
+          "accepted": 14,
+          "total": 20
+        },
+        "whole_conversations": {
+          "accepted": 3,
+          "total": 21
+        }
+      }
+    },
+    "candidate": {
+      "raw_sha256": "8d180d9ace44081877e8dd165c9fee9a8f80c448602349d851f6ac05dabaf04c",
+      "receipt_sha256": "60811aabe481f96d6725afede71e29e0a2d68279016aa2f01cf7a29215b8812d",
+      "judgments": [
+        {
+          "case": "dev3-00",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Correct exact503.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "64 * 8 - 9 = 503",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n64 * 8 = 512\n64 * 8 - 9 = 503\nIndependent check (verified): re-evaluated 64 * 8 - 9 independently: 503.",
+            "helper_reasoning": {
+              "expression": "64 * 8 - 9",
+              "steps": [
+                "64 * 8 = 512",
+                "64 * 8 - 9 = 503"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 64 * 8 - 9 independently: 503"
+            }
+          },
+          "error": null,
+          "record_sha256": "b452b19068745b40af9ff47678b4b081b899994381ea6d83a2d16572545e9652"
+        },
+        {
+          "case": "dev3-00",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Must actually recalculate the original task, not ask which claim.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "64 * 8 - 9 = 503\n\nI recalculated this with the independent exact arithmetic checker.",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n64 * 8 = 512\n64 * 8 - 9 = 503",
+            "helper_reasoning": {
+              "expression": "64 * 8 - 9",
+              "steps": [
+                "64 * 8 = 512",
+                "64 * 8 - 9 = 503"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 64 * 8 - 9 independently: 503"
+            },
+            "dialogue": {
+              "act": "recheck",
+              "original_request": "Would you compute 64 * 8 - 9?",
+              "source_message": 0
+            }
+          },
+          "error": null,
+          "record_sha256": "d6bae566705e7daa2917bade625b4f1a38acd271882350c637a762f6ecf155f9"
+        },
+        {
+          "case": "dev3-00",
+          "turn": 2,
+          "category": "P",
+          "accepted": true,
+          "reason": "Bare503 required after the real recheck.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "503",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n64 * 8 = 512\n64 * 8 - 9 = 503",
+            "helper_reasoning": {
+              "expression": "64 * 8 - 9",
+              "steps": [
+                "64 * 8 = 512",
+                "64 * 8 - 9 = 503"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 64 * 8 - 9 independently: 503"
+            },
+            "dialogue": {
+              "act": "number",
+              "original_request": "Would you compute 64 * 8 - 9?",
+              "source_message": 0
+            }
+          },
+          "error": null,
+          "record_sha256": "b47838b9f28b3193c336fd661c10a70d0ccfd67a3878941b99d8b69a3e427557"
+        },
+        {
+          "case": "dev3-01",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Exact11; trailing9. is a valid numeric literal in the inherited expression, not a changed value.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "(73 + 26) / 9. = 11",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n73 + 26 = 99\n(73 + 26) / 9.0 = 11\nIndependent check (verified): re-evaluated (73 + 26) / 9. independently: 11.",
+            "helper_reasoning": {
+              "expression": "(73 + 26) / 9.",
+              "steps": [
+                "73 + 26 = 99",
+                "(73 + 26) / 9.0 = 11"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated (73 + 26) / 9. independently: 11"
+            }
+          },
+          "error": null,
+          "record_sha256": "589902c755752566b1d0b16537f1c50d7a92ae3fcc5089ae99334a74ab3e32cd"
+        },
+        {
+          "case": "dev3-01",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Recompute original request despite short-instruction classification.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "(73 + 26) / 9. = 11\n\nI recalculated this with the independent exact arithmetic checker.",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n73 + 26 = 99\n(73 + 26) / 9.0 = 11",
+            "helper_reasoning": {
+              "expression": "(73 + 26) / 9.",
+              "steps": [
+                "73 + 26 = 99",
+                "(73 + 26) / 9.0 = 11"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated (73 + 26) / 9. independently: 11"
+            },
+            "dialogue": {
+              "act": "recheck",
+              "original_request": "Please calculate (73 + 26) / 9.",
+              "source_message": 0
+            }
+          },
+          "error": null,
+          "record_sha256": "ee226fcdcca83d5c12950b79fad932463cd6fcc04f72cffa58263d1083534be5"
+        },
+        {
+          "case": "dev3-01",
+          "turn": 2,
+          "category": "P",
+          "accepted": true,
+          "reason": "Bare11, no unrelated smalltalk.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "11",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n73 + 26 = 99\n(73 + 26) / 9.0 = 11",
+            "helper_reasoning": {
+              "expression": "(73 + 26) / 9.",
+              "steps": [
+                "73 + 26 = 99",
+                "(73 + 26) / 9.0 = 11"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated (73 + 26) / 9. independently: 11"
+            },
+            "dialogue": {
+              "act": "number",
+              "original_request": "Please calculate (73 + 26) / 9.",
+              "source_message": 0
+            }
+          },
+          "error": null,
+          "record_sha256": "9e30d60e5df0ab215cfef60ce55176c3f5f40955c24ded2a767d8e98edc7442a"
+        },
+        {
+          "case": "dev3-02",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Existing local snapshot says10July1856; source not newly verified.",
+          "original_answer": {
+            "response": "Tesla was born into a family of ethnic Serbs on 10 July 1856 in the village of Smiljan, then part of the Military Frontier of the Austrian Empire and now part of Croatia.",
+            "route": "chat/local-knowledge",
+            "sources": [
+              {
+                "source": "Wikipedia — Nikola Tesla",
+                "title": "Nikola Tesla",
+                "url": "https://en.wikipedia.org/w/index.php?oldid=1380393557",
+                "licence": "CC BY-SA 4.0",
+                "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+              }
+            ],
+            "details": "Local reference: Nikola Tesla / Childhood. Retrieved 2026-10-16T15:23:38.260899+00:00; revision 1380393557. Snapshot excerpt, not a fresh verification. Wikipedia contributors; extracted from the local snapshot and shortened by CAEL. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/",
+            "knowledge": {
+              "title": "Nikola Tesla",
+              "heading": "Childhood",
+              "internet_used": false,
+              "exact_subject": true
+            },
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "f847dde41c72aeb570cae6069ea50fae3951ec06a6e57dab61cc416c3d24fff9"
+        },
+        {
+          "case": "dev3-02",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Only anchored birth year1856; no incidental/citation-year extraction.",
+          "original_answer": {
+            "route": "chat/dialogue-year-projection",
+            "response": "1856",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "unchecked",
+              "check": "One anchored year projected from the preceding visible answer; no new factual verification."
+            },
+            "original_request": "When was Nikola Tesla born?",
+            "visible_answer": "Tesla was born into a family of ethnic Serbs on 10 July 1856 in the village of Smiljan, then part of the Military Frontier of the Austrian Empire and now part of Croatia."
+          },
+          "error": null,
+          "record_sha256": "77b43219b380b32342e90e27bd95ae224a5c2d53a1aab481017b9b17c8bcfb6b"
+        },
+        {
+          "case": "dev3-03",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Explicit augment signature, keyword-only levy/default and both supplied calls correct.",
+          "original_answer": {
+            "response": "```python\ndef augment(quantity, *, levy=9):\n    \"\"\"Return quantity * 4 + levy.\n>>> augment(8)\n41\n>>> augment(quantity=6, levy=2)\n26\"\"\"\n    return quantity * 4 + levy\n```\nChecked all 2 supplied literal doctests. This implements the supported symbolic contract; test additional inputs and boundaries.",
+            "route": "chat/code-signature-built",
+            "sources": [],
+            "details": "Preserved the declared function name, argument order, positional/keyword-only restrictions, literal defaults and static annotations. Compiled the entire supported contract using whole-expression symbolic compilation. Checked 2 literal doctests in the bounded AST VM. No native code execution, neural model, external model, benchmark solution lookup or general-correctness proof.\nIndependent check (verified): interpreted 2 tests with the bounded AST VM; all pass.",
+            "signature_checks": {
+              "method": "whole-expression symbolic compilation",
+              "doctests": 2
+            },
+            "inline_contract": {
+              "complete_request": "Write a Python function augment(quantity, *, levy=9) that returns quantity * 4 + levy. Examples: augment(8) == 41; augment(quantity=6, levy=2) == 26.",
+              "signature_preserved": true,
+              "same_bounded_vm": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "interpreted 2 tests with the bounded AST VM; all pass"
+            }
+          },
+          "error": null,
+          "record_sha256": "57e653b573a2187d1895adebb89535f71a7d560c5e1ee56d52f7d9a87f5fd4e8"
+        },
+        {
+          "case": "dev3-03",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Before rechecks only1positional example, so full2-example check fails. Candidate checks both in unchanged AST VM.",
+          "original_answer": {
+            "route": "chat/dialogue-code-recheck",
+            "response": "I checked the visible code with the bounded interpreter: interpreted 2 tests with the bounded AST VM; all pass. These are case checks, not proof for every input.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "interpreted 2 tests with the bounded AST VM; all pass"
+            },
+            "original_request": "Write a Python function augment(quantity, *, levy=9) that returns quantity * 4 + levy. Examples: augment(8) == 41; augment(quantity=6, levy=2) == 26."
+          },
+          "error": null,
+          "record_sha256": "76cbd57c60ed5dc70dd60e6c22e054cd08be9db19e0df1d165d958d7654f044c"
+        },
+        {
+          "case": "dev3-03",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Minimal request for examples before is safe but loses the append/log requirement; focused variant removes it. Candidate owns complete new requirement, no file execution or unsupported success claim.",
+          "original_answer": {
+            "route": "chat/dialogue-code-contract-update",
+            "response": "That adds a new requirement to the function. I can check pure-data operations in the bounded interpreter; restate the complete function contract and examples, including this requirement, so it is not silently omitted.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "pending_requirement": "Also make the function append a message to a log file.",
+            "original_request": "Write a Python function augment(quantity, *, levy=9) that returns quantity * 4 + levy. Examples: augment(8) == 41; augment(quantity=6, levy=2) == 26."
+          },
+          "error": null,
+          "record_sha256": "4fc869ecb9399fa0ea2656077a5c141e9d5998d111a00f6210624c7dc3acdef0"
+        },
+        {
+          "case": "dev3-04",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a carved whistle or a glass token or a copper badge. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "f4b46ff2631d722b159422cb62ed994b9d7be17062319f11fa0aa7cba1405863"
+        },
+        {
+          "case": "dev3-04",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Word-number third must select copper badge; repeated initial criterion fails.",
+          "original_answer": {
+            "route": "chat/dialogue-selected-option",
+            "response": "For a copper badge, write down who it is for and one possible time.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "62223c269a4f413973a47a076bab5773a6519201b0d37fa71225cbe799e9ad94"
+        },
+        {
+          "case": "dev3-04",
+          "turn": 2,
+          "category": "P",
+          "accepted": true,
+          "reason": "Literal glass-token selection must replace previous selection.",
+          "original_answer": {
+            "route": "chat/dialogue-selected-option",
+            "response": "For a glass token, write down who it is for and one possible time.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "f070043869323a3f5dc23117bc407eb64bb46e72cec79a8098ca8e262d5bfe31"
+        },
+        {
+          "case": "dev3-05",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a woven screen or a folded screen. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "0cd5b4e315c336c360e2252fc52492f566f5dcfdc21c0ef07ef5a631c09f6099"
+        },
+        {
+          "case": "dev3-05",
+          "turn": 1,
+          "category": "B",
+          "accepted": true,
+          "reason": "Actual conditional price request needs both comparable prices before selection.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-condition-clarify",
+            "response": "Your choice depends on this condition: it is cheaper than option two; otherwise use option two. Give the prices and currencies for both compared options before I choose.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "b07701ef8a2223e25dc1d674563ea48150c9ec192e379b02ef72735fda269ed2"
+        },
+        {
+          "case": "dev3-05",
+          "turn": 2,
+          "category": "P",
+          "accepted": true,
+          "reason": "41>=25dollars selects folded screen via explicit otherwise; no invented market price.",
+          "original_answer": {
+            "route": "chat/dialogue-selected-option",
+            "response": "Using your stated prices, 41 dollar >= 25 dollar. Let’s use a folded screen. For a folded screen, write down who it is for and one possible time. Then check whether that time works before arranging the details.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "1267e770e03915eaaeefb5999efdb9be3cafa99925b47c667ec65e3496e169ca"
+        },
+        {
+          "case": "dev3-06",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a reed sculpture or a wire sculpture. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "4833d6075bd78917a647a3d80696265f11ad20f8e332943186abd8838f816ddc"
+        },
+        {
+          "case": "dev3-06",
+          "turn": 1,
+          "category": "B",
+          "accepted": true,
+          "reason": "Missing prices must be the clarification, not unrelated enjoyment/ease criteria.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-condition-clarify",
+            "response": "Your choice depends on this condition: it is cheaper than option two; otherwise choose option two. Give the prices and currencies for both compared options before I choose.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "98fe8455f34efc5fe554796ef66bc13675873975516b49dfedfe161f98640280"
+        },
+        {
+          "case": "dev3-06",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Mixed currencies must remain unresolved; no exchange rate assumed.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-condition-clarify",
+            "response": "The stated prices use different currencies. I need comparable amounts in the same currency; I have not assumed an exchange rate.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "6e9edc54e42f20268a23f4b58ac3cc4e8025226098df52c2cf2635af05d20303"
+        },
+        {
+          "case": "dev3-06",
+          "turn": 3,
+          "category": "P",
+          "accepted": true,
+          "reason": "Later unconditional wire selection supersedes the conditional instruction.",
+          "original_answer": {
+            "route": "chat/dialogue-selected-option",
+            "response": "For a wire sculpture, write down who it is for and one possible time.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "e6096446eff05424cc823c274a420a0d27f8fd759725d8b9d7ad37393a4d759a"
+        },
+        {
+          "case": "dev3-07",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a birch shelf or an ash shelf. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "4927902adf4f3bd0625191d4b5ad0bedaa1eb31ff36ad27a38de4365d47c4fe0"
+        },
+        {
+          "case": "dev3-07",
+          "turn": 1,
+          "category": "B",
+          "accepted": true,
+          "reason": "Missing prices block unless evaluation.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-condition-clarify",
+            "response": "Your choice depends on this condition: option two is cheaper. Give the prices and currencies for both compared options before I choose.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "86c55ea61e3b78bc07a2eda4f92dc5c5ffec1ac1d56d0fd3a440b16b57de1df7"
+        },
+        {
+          "case": "dev3-07",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Condition true blocks birch; no stated fallback, so clarify rather than choose ash automatically.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-condition-clarify",
+            "response": "The condition blocks the requested option (24 pound < 38 pound). You have not specified an alternative; which option should I use?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "57e1235d9e52553db11dfee2d6cb0b29931e8ce53638e9ba3dbdc5c135816975"
+        },
+        {
+          "case": "dev3-08",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "A complete checked items guide required; generic cannot-code fails positive task.",
+          "original_answer": {
+            "route": "chat/dialogue-mapping-example",
+            "response": "Here is an illustrative mapping, not data from your files:\n\n```python\nmapping = {'alpha': 3, 'beta': 5}\nfor key, value in mapping.items():\n    print(key, value)\n```\n\nExpected output:\n```text\nalpha 3\nbeta 5\n```\n`.items()` supplies each key and its value in insertion order.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "The literal mapping and every produced item were interpreted in the existing bounded AST VM, not native generated code."
+            },
+            "understood_as": "loop over a Python dictionary"
+          },
+          "error": null,
+          "record_sha256": "3e20638ef4df87c6d211f2efde7b594a93ac706011a5135980b316bb3ada3837"
+        },
+        {
+          "case": "dev3-08",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Use actual moss12/reed15 input and matching output, bounded VM only.",
+          "original_answer": {
+            "route": "chat/dialogue-mapping-example",
+            "response": "```python\nmapping = {'moss': 12, 'reed': 15}\nfor key, value in mapping.items():\n    print(key, value)\n```\n\nExpected output:\n```text\nmoss 12\nreed 15\n```\n`.items()` supplies each key and its value in insertion order.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "The literal mapping and every produced item were interpreted in the existing bounded AST VM, not native generated code."
+            },
+            "understood_as": "loop over a Python dictionary"
+          },
+          "error": null,
+          "record_sha256": "568efe3690c39851dd32b3f3d8f485f338cedb1627091a552798148daeb766a5"
+        },
+        {
+          "case": "dev3-08",
+          "turn": 2,
+          "category": "P",
+          "accepted": true,
+          "reason": "Empty mapping produces no pairs/output, rather than claiming the user never mentioned it.",
+          "original_answer": {
+            "route": "chat/dialogue-mapping-example",
+            "response": "```python\nmapping = {}\nfor key, value in mapping.items():\n    print(key, value)\n```\n\nNo output: the empty dictionary has no items to iterate over.\n`.items()` supplies each key and its value in insertion order.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "The literal mapping and every produced item were interpreted in the existing bounded AST VM, not native generated code."
+            },
+            "understood_as": "loop over a Python dictionary"
+          },
+          "error": null,
+          "record_sha256": "d180f21d9c445ccc16c7b78cf1fb8913f16ebe805eeaed1424431021155ee0eb"
+        },
+        {
+          "case": "dev3-09",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Keys-only guide, no values printed.",
+          "original_answer": {
+            "route": "chat/dialogue-mapping-example",
+            "response": "Here is an illustrative mapping, not data from your files:\n\n```python\nmapping = {'alpha': 3, 'beta': 5}\nfor item in mapping.keys():\n    print(item)\n```\n\nExpected output:\n```text\nalpha\nbeta\n```\n`.keys()` supplies each key in insertion order.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "The literal mapping and every produced item were interpreted in the existing bounded AST VM, not native generated code."
+            },
+            "understood_as": "loop through only dictionary keys in Python"
+          },
+          "error": null,
+          "record_sha256": "9edabfe2d8a46e47fc7973f070a12defd3ea18ed4b2afc2bcaa4bf30df736eae"
+        },
+        {
+          "case": "dev3-09",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Actual cove/dune keys only, complete preserved literals.",
+          "original_answer": {
+            "route": "chat/dialogue-mapping-example",
+            "response": "```python\nmapping = {'cove': 18, 'dune': 23}\nfor item in mapping.keys():\n    print(item)\n```\n\nExpected output:\n```text\ncove\ndune\n```\n`.keys()` supplies each key in insertion order.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "The literal mapping and every produced item were interpreted in the existing bounded AST VM, not native generated code."
+            },
+            "understood_as": "loop through only dictionary keys in Python"
+          },
+          "error": null,
+          "record_sha256": "095cca60960b471ed9ad96693cc02d7401b8c2cb93259ebf30b7e458a32c2371"
+        },
+        {
+          "case": "dev3-10",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Before shows items-printing code and only mentions values() in a final sentence: primary full-workflow fails; text-only-instruction sensitivity credits that limited hint. Candidate supplies actual values-only guide.",
+          "original_answer": {
+            "route": "chat/dialogue-mapping-example",
+            "response": "Here is an illustrative mapping, not data from your files:\n\n```python\nmapping = {'alpha': 3, 'beta': 5}\nfor item in mapping.values():\n    print(item)\n```\n\nExpected output:\n```text\n3\n5\n```\n`.values()` supplies each value in insertion order.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "The literal mapping and every produced item were interpreted in the existing bounded AST VM, not native generated code."
+            },
+            "understood_as": "iterate through dictionary values in Python"
+          },
+          "error": null,
+          "record_sha256": "57f883c5f0cd393aac006b32c34ad6a999dcd92fda10865cc122ed20a427d5e4"
+        },
+        {
+          "case": "dev3-10",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Actual18/23 values only, not extra keys or generic clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-mapping-example",
+            "response": "```python\nmapping = {'cove': 18, 'dune': 23}\nfor item in mapping.values():\n    print(item)\n```\n\nExpected output:\n```text\n18\n23\n```\n`.values()` supplies each value in insertion order.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "The literal mapping and every produced item were interpreted in the existing bounded AST VM, not native generated code."
+            },
+            "understood_as": "iterate through dictionary values in Python"
+          },
+          "error": null,
+          "record_sha256": "7ecd92d6609d9dbf7d49453b51a7ac26e2badee29eaf427a37b66b983664812f"
+        },
+        {
+          "case": "dev3-11",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Omitting filter is wrong; refusing a positive filtered workflow is also not correct ability. Neither implements this task.",
+          "original_answer": {
+            "route": "chat/dialogue-mapping-clarify",
+            "response": "I cannot compile that whole dictionary workflow yet. I can show keys, values, or key/value pairs, but I have not applied the extra filter or constraint. State the complete rule and examples so it is not dropped.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "unsupported_workflow": "loop through a dictionary and skip odd values in Python"
+          },
+          "error": null,
+          "record_sha256": "3c2cca94f8731d42422256ea959d6071cc4643f6ec706808a2400a37f7373992"
+        },
+        {
+          "case": "dev3-11",
+          "turn": 1,
+          "category": "B",
+          "accepted": true,
+          "reason": "Minimal clarification emits no unfiltered program, safe boundary credit equally. Focused variant removes both for failing to name the particular odd-value condition.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "66e89fd8678ffb941e976a91b7b46cdf84590361b8aa2d13df26498412027d6c"
+        },
+        {
+          "case": "dev3-12",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Actual user language preference acknowledged.",
+          "original_answer": {
+            "response": "Got it, your preferred language is Icelandic. I will remember that while this chat is open.",
+            "route": "chat/memory",
+            "sources": [],
+            "details": "Recalled from your earlier messages in this chat window by authored patterns; nothing is stored after the window closes.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "7f90cdc530a957f689f29dda4278c0d20216d65cf289a7b4ef53510eb2f1ed46"
+        },
+        {
+          "case": "dev3-12",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Evidence must cite actual visible user statement.",
+          "original_answer": {
+            "response": "I know your preferred language from what you told me in this chat:\nMessage 1: \"My preferred language is Icelandic.\"",
+            "route": "chat/session-profile",
+            "sources": [],
+            "details": "Explicit facts from user messages in this conversation, stored as bounded interned integer records with message provenance. Corrections replace values; unmarked disagreements ask for clarification. Forgetting removes facts from this reader, not from the visible chat transcript. No persistent profile.",
+            "memory_provenance": [
+              0
+            ],
+            "memory_conflict": false,
+            "memory_evidence": [
+              {
+                "message": 0,
+                "statement": "My preferred language is Icelandic."
+              }
+            ]
+          },
+          "error": null,
+          "record_sha256": "5933d104f3a14e98131ea43d9eeedb03964ecbb41ea3e444b2b5e4314d73c2dd"
+        },
+        {
+          "case": "dev3-12",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Private assertion cannot become independently verified; no public query of it.",
+          "original_answer": {
+            "route": "chat/dialogue-private-check",
+            "response": "I can recall what you told me here, but I cannot independently confirm private facts. A statement in this chat is user-supplied evidence, not an external verification.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "unverifiable",
+              "check": "Private user details are not sent to search."
+            }
+          },
+          "error": null,
+          "record_sha256": "777014a0afbf8125a5d5791a876cf309b0516798c57a6199d6b79ba547edf64c"
+        },
+        {
+          "case": "dev3-13",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Actual editor assertion acknowledged.",
+          "original_answer": {
+            "response": "Got it, your preferred editor is VSCodium. I will remember that while this chat is open.",
+            "route": "chat/memory",
+            "sources": [],
+            "details": "Recalled from your earlier messages in this chat window by authored patterns; nothing is stored after the window closes.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "554a3fd67d57b04cd80a35f979b443db787dcdc32458a424b8e9135f38c561a4"
+        },
+        {
+          "case": "dev3-13",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Quote actual user evidence, not generic uncertainty.",
+          "original_answer": {
+            "response": "I know your editor from what you told me in this chat:\nMessage 1: \"My preferred editor is VSCodium.\"",
+            "route": "chat/session-profile",
+            "sources": [],
+            "details": "Explicit facts from user messages in this conversation, stored as bounded interned integer records with message provenance. Corrections replace values; unmarked disagreements ask for clarification. Forgetting removes facts from this reader, not from the visible chat transcript. No persistent profile.",
+            "memory_provenance": [
+              0
+            ],
+            "memory_conflict": false,
+            "memory_evidence": [
+              {
+                "message": 0,
+                "statement": "My preferred editor is VSCodium."
+              }
+            ]
+          },
+          "error": null,
+          "record_sha256": "cab79524621e072a9ca63572205d2c24a70922862f073b38d57ea2dc84ec1470"
+        },
+        {
+          "case": "dev3-13",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Forget is applied to the profile, original transcript stays visible.",
+          "original_answer": {
+            "response": "I will leave your editor out of my conversation memory. The original messages remain in the chat transcript.",
+            "route": "chat/session-profile",
+            "sources": [],
+            "details": "Explicit facts from user messages in this conversation, stored as bounded interned integer records with message provenance. Corrections replace values; unmarked disagreements ask for clarification. Forgetting removes facts from this reader, not from the visible chat transcript. No persistent profile."
+          },
+          "error": null,
+          "record_sha256": "5fc53cb098995428074af5680b74ab2f0d66b1d8e8d51e9860eb83989bdf3103"
+        },
+        {
+          "case": "dev3-13",
+          "turn": 3,
+          "category": "B",
+          "accepted": true,
+          "reason": "No forgotten editor value is returned. Old vague unknown has minimal boundary credit; focused variant removes it.",
+          "original_answer": {
+            "response": "You have not told me a current editor in this chat, or asked me to forget it.",
+            "route": "chat/session-profile",
+            "sources": [],
+            "details": "Explicit facts from user messages in this conversation, stored as bounded interned integer records with message provenance. Corrections replace values; unmarked disagreements ask for clarification. Forgetting removes facts from this reader, not from the visible chat transcript. No persistent profile.",
+            "memory_provenance": [],
+            "memory_conflict": false
+          },
+          "error": null,
+          "record_sha256": "b933fed54d3b19da697d68ca02b770604116d553ce5fd9d5fa674e60b2d8bfeb"
+        },
+        {
+          "case": "dev3-14",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Minimal source-linked contrast: diffusion as broad net movement versus solvent crossing a selectively permeable membrane. Source truncation and empty pronunciation artifact preserved. Strict complete-explanation variant removes candidate credit.",
+          "original_answer": {
+            "route": "chat/dialogue-comparison-definitions",
+            "response": "**diffusion**\n> Diffusion is the net movement of anything (for example, atoms, ions, molecules, energy) generally from a region of higher concentration to a region of lower …\n\n[Definition source](https://en.wikipedia.org/w/index.php?oldid=1376558677)\n\n**osmosis**\n> Osmosis (, ) is the spontaneous net movement of solvent molecules through a selectively permeable membrane from a region of high water potential …\n\n[Definition source](https://en.wikipedia.org/w/index.php?oldid=1356544354)\n\nThese are the two retrieved definitions side by side; I have not independently verified a broader comparison.",
+            "sources": [
+              {
+                "source": "Wikipedia — Diffusion",
+                "title": "Diffusion",
+                "url": "https://en.wikipedia.org/w/index.php?oldid=1376558677",
+                "licence": "CC BY-SA 4.0",
+                "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+              },
+              {
+                "source": "Wikipedia — Osmosis",
+                "title": "Osmosis",
+                "url": "https://en.wikipedia.org/w/index.php?oldid=1356544354",
+                "licence": "CC BY-SA 4.0",
+                "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+              }
+            ],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "definition_attempts": [
+              {
+                "query": "What is diffusion?",
+                "answer": {
+                  "response": "Diffusion is the net movement of anything (for example, atoms, ions, molecules, energy) generally from a region of higher concentration to a region of lower concentration. Diffusion is driven by a gradient in Gibbs free energy or chemical potential.",
+                  "route": "chat/local-knowledge",
+                  "sources": [
+                    {
+                      "source": "Wikipedia — Diffusion",
+                      "title": "Diffusion",
+                      "url": "https://en.wikipedia.org/w/index.php?oldid=1376558677",
+                      "licence": "CC BY-SA 4.0",
+                      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                      "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+                    }
+                  ],
+                  "details": "Local reference: Diffusion / Introduction. Retrieved 2026-10-16T15:12:03.076627+00:00; revision 1376558677. Snapshot excerpt, not a fresh verification. Wikipedia contributors; extracted from the local snapshot and shortened by CAEL. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/",
+                  "knowledge": {
+                    "title": "Diffusion",
+                    "heading": "Introduction",
+                    "internet_used": false,
+                    "exact_subject": true
+                  },
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "no independent check for this kind of answer"
+                  }
+                },
+                "accepted_definition": true
+              },
+              {
+                "query": "What is osmosis?",
+                "answer": {
+                  "response": "Osmosis (, ) is the spontaneous net movement of solvent molecules through a selectively permeable membrane from a region of high water potential (region of lower solute concentration) to a region of low water potential (region of higher solute concentration), in the direction that tends to equalize the solute concentrations on the two sides.",
+                  "route": "chat/local-knowledge",
+                  "sources": [
+                    {
+                      "source": "Wikipedia — Osmosis",
+                      "title": "Osmosis",
+                      "url": "https://en.wikipedia.org/w/index.php?oldid=1356544354",
+                      "licence": "CC BY-SA 4.0",
+                      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                      "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+                    }
+                  ],
+                  "details": "Local reference: Osmosis / Introduction. Retrieved 2026-10-16T15:19:23.352060+00:00; revision 1356544354. Snapshot excerpt, not a fresh verification. Wikipedia contributors; extracted from the local snapshot and shortened by CAEL. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/",
+                  "knowledge": {
+                    "title": "Osmosis",
+                    "heading": "Introduction",
+                    "internet_used": false,
+                    "exact_subject": true
+                  },
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "no independent check for this kind of answer"
+                  }
+                },
+                "accepted_definition": true
+              }
+            ],
+            "verification": {
+              "status": "unchecked",
+              "check": "Source-linked definition composition, not a general comparison or truth proof."
+            }
+          },
+          "error": null,
+          "record_sha256": "1d5b73d1523b7698e3e33f1c5e4b0e168244bfc16578546b5296c20ccc94e93f"
+        },
+        {
+          "case": "dev3-14",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "No practical example of the distinction supplied; clarification is not completion.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "7a66ca0de6a4c1c57cab3d211165bc05e052e831e02be85241f21392d67176d2"
+        },
+        {
+          "case": "dev3-15",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Interpreter is missing/ambiguous without a computing field; no complete sourced comparison supplied. Both fail the predeclared positive task, not silently recategorized as boundary.",
+          "original_answer": {
+            "route": "chat/dialogue-comparison-unavailable",
+            "response": "I could not obtain a source-linked definition for interpreter. I cannot reliably complete that comparison yet. Give me public source links or definitions for both terms.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "definition_attempts": [
+              {
+                "query": "What is compiler?",
+                "answer": {
+                  "response": "In computing, a compiler is software that translates computer code written in one programming language (the source language) into another language (the target language). The name \"compiler\" is primarily used for programs that translate source code from a high-level programming language to a low-level programming language (e.g., assembly language, object code, or machine code) to create an executable program.",
+                  "route": "chat/local-knowledge",
+                  "sources": [
+                    {
+                      "source": "Wikipedia — Compiler",
+                      "title": "Compiler",
+                      "url": "https://en.wikipedia.org/w/index.php?oldid=1373605841",
+                      "licence": "CC BY-SA 4.0",
+                      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                      "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+                    }
+                  ],
+                  "details": "Local reference: Compiler / Introduction. Retrieved 2026-10-16T15:09:36.819784+00:00; revision 1373605841. Snapshot excerpt, not a fresh verification. Wikipedia contributors; extracted from the local snapshot and shortened by CAEL. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/",
+                  "knowledge": {
+                    "title": "Compiler",
+                    "heading": "Introduction",
+                    "internet_used": false,
+                    "exact_subject": true
+                  },
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "no independent check for this kind of answer"
+                  }
+                },
+                "accepted_definition": true
+              },
+              {
+                "query": "What is interpreter?",
+                "answer": {
+                  "response": "I could not verify that from the internet just now. The source may be unavailable; please try again shortly.",
+                  "route": "chat/web-unavailable",
+                  "sources": [],
+                  "details": "Retrieved or read from the provider cache at 2026-11-06T22:07:01+00:00.",
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "no independent check for this kind of answer"
+                  }
+                },
+                "accepted_definition": false
+              }
+            ],
+            "available_definitions": [
+              "compiler"
+            ],
+            "verification": {
+              "status": "unchecked",
+              "check": "Incomplete definition coverage, no comparison claimed."
+            }
+          },
+          "error": null,
+          "record_sha256": "625cc4b83c337dbd74c7a5146e2a65245fb19b606ade0618bf810c0524001d8f"
+        },
+        {
+          "case": "dev3-16",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Literal unmodified fictional names must be looked up in actually read authored pages. New pair quotes both paper-pressing/clay-shaping definitions with source scope. Not trained facts or live knowledge accuracy.",
+          "original_answer": {
+            "route": "chat/dialogue-comparison-definitions",
+            "response": "**talmera**\n> A talmera is a fictional hand tool for pressing soft paper.\n\n[Definition source](https://source.example.org/tools)\n\n**volrun**\n> A volrun is a fictional wheel tool for shaping wet clay.\n\n[Definition source](https://source.example.org/tools)\n\nThese are the two retrieved definitions side by side; I have not independently verified a broader comparison.",
+            "sources": [
+              {
+                "source": "Fictional tool reference",
+                "url": "https://source.example.org/tools",
+                "licence": "Short source excerpt; see publisher terms",
+                "licence_url": "https://source.example.org/tools",
+                "attribution": "example.org"
+              },
+              {
+                "source": "Fictional tool reference",
+                "url": "https://source.example.org/tools",
+                "licence": "Short source excerpt; see publisher terms",
+                "licence_url": "https://source.example.org/tools",
+                "attribution": "example.org"
+              }
+            ],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "definition_attempts": [
+              {
+                "query": "What is talmera?",
+                "answer": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Fictional tool reference (source.example.org)](https://source.example.org/tools) [Fictional tool reference (manual.example.net)](https://manual.example.net/tools)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Public-source evidence state: insufficient. Read-page support is not an independent truth proof; conflicts and coverage limits are retained."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is taller?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:07:01.948777+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://source.example.org/tools",
+                        "requested_url": "https://source.example.org/tools",
+                        "title": "Fictional tool reference",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://manual.example.net/tools",
+                        "requested_url": "https://manual.example.net/tools",
+                        "title": "Fictional tool reference",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content.\nSpelling interpretation: 'talmera' → 'taller'.",
+                  "understood_as": "What is taller?",
+                  "input_corrections": [
+                    {
+                      "original": "talmera",
+                      "replacement": "taller"
+                    }
+                  ]
+                },
+                "accepted_definition": false,
+                "literal_subject_lookup": {
+                  "response": "Here is a relevant passage from a page I read:\n\n> A talmera is a fictional hand tool for pressing soft paper.\n\n[Fictional tool reference (source.example.org)](https://source.example.org/tools)\n\nThis is one source, not independent confirmation.",
+                  "route": "chat/web-evidence-single-source",
+                  "sources": [
+                    {
+                      "source": "Fictional tool reference",
+                      "url": "https://source.example.org/tools",
+                      "licence": "Short source excerpt; see publisher terms",
+                      "licence_url": "https://source.example.org/tools",
+                      "attribution": "example.org"
+                    }
+                  ],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Source passages are evidence support, not an independent proof of truth."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "single-source",
+                    "query": "What is talmera?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:07:01.949517+00:00"
+                  },
+                  "evidence": {
+                    "state": "single-source",
+                    "records": [
+                      {
+                        "url": "https://source.example.org/tools",
+                        "requested_url": "https://source.example.org/tools",
+                        "title": "Fictional tool reference",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": true,
+                        "excerpt": "A talmera is a fictional hand tool for pressing soft paper.",
+                        "key": null
+                      },
+                      {
+                        "url": "https://manual.example.net/tools",
+                        "requested_url": "https://manual.example.net/tools",
+                        "title": "Fictional tool reference",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true,
+                    "answer_key": null,
+                    "publishers_supporting": 1
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_literal_definition": true
+              },
+              {
+                "query": "What is volrun?",
+                "answer": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Fictional tool reference (source.example.org)](https://source.example.org/tools) [Fictional tool reference (manual.example.net)](https://manual.example.net/tools)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Public-source evidence state: insufficient. Read-page support is not an independent truth proof; conflicts and coverage limits are retained."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is varun?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:07:01.985703+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://source.example.org/tools",
+                        "requested_url": "https://source.example.org/tools",
+                        "title": "Fictional tool reference",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://manual.example.net/tools",
+                        "requested_url": "https://manual.example.net/tools",
+                        "title": "Fictional tool reference",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content.\nSpelling interpretation: 'volrun' → 'varun'.",
+                  "understood_as": "What is varun?",
+                  "input_corrections": [
+                    {
+                      "original": "volrun",
+                      "replacement": "varun"
+                    }
+                  ]
+                },
+                "accepted_definition": false,
+                "literal_subject_lookup": {
+                  "response": "Here is a relevant passage from a page I read:\n\n> A volrun is a fictional wheel tool for shaping wet clay.\n\n[Fictional tool reference (source.example.org)](https://source.example.org/tools)\n\nThis is one source, not independent confirmation.",
+                  "route": "chat/web-evidence-single-source",
+                  "sources": [
+                    {
+                      "source": "Fictional tool reference",
+                      "url": "https://source.example.org/tools",
+                      "licence": "Short source excerpt; see publisher terms",
+                      "licence_url": "https://source.example.org/tools",
+                      "attribution": "example.org"
+                    }
+                  ],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Source passages are evidence support, not an independent proof of truth."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "single-source",
+                    "query": "What is volrun?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:07:01.986302+00:00"
+                  },
+                  "evidence": {
+                    "state": "single-source",
+                    "records": [
+                      {
+                        "url": "https://source.example.org/tools",
+                        "requested_url": "https://source.example.org/tools",
+                        "title": "Fictional tool reference",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": true,
+                        "excerpt": "A volrun is a fictional wheel tool for shaping wet clay.",
+                        "key": null
+                      },
+                      {
+                        "url": "https://manual.example.net/tools",
+                        "requested_url": "https://manual.example.net/tools",
+                        "title": "Fictional tool reference",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true,
+                    "answer_key": null,
+                    "publishers_supporting": 1
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_literal_definition": true
+              }
+            ],
+            "verification": {
+              "status": "unchecked",
+              "check": "Source-linked definition composition, not a general comparison or truth proof."
+            }
+          },
+          "error": null,
+          "record_sha256": "dd0454e541fb4eb0f7275f2ef594b1f13c6b28260904214b0d4cc01442c2edd6"
+        },
+        {
+          "case": "dev3-17",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Only one definition available. Honest noncompletion is safe; new reply specifically preserves talmera and says brenvek missing. Old spelling-replaced lookup is not focused coverage evidence.",
+          "original_answer": {
+            "route": "chat/dialogue-comparison-unavailable",
+            "response": "I could not obtain a source-linked definition for brenvek. I cannot reliably complete that comparison yet. Give me public source links or definitions for both terms.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "definition_attempts": [
+              {
+                "query": "What is talmera?",
+                "answer": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Incomplete fictional reference (source.example.org)](https://source.example.org/partial) [Incomplete fictional reference (manual.example.net)](https://manual.example.net/partial)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Public-source evidence state: insufficient. Read-page support is not an independent truth proof; conflicts and coverage limits are retained."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is taller?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:07:02.131291+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://source.example.org/partial",
+                        "requested_url": "https://source.example.org/partial",
+                        "title": "Incomplete fictional reference",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://manual.example.net/partial",
+                        "requested_url": "https://manual.example.net/partial",
+                        "title": "Incomplete fictional reference",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content.\nSpelling interpretation: 'talmera' → 'taller'.",
+                  "understood_as": "What is taller?",
+                  "input_corrections": [
+                    {
+                      "original": "talmera",
+                      "replacement": "taller"
+                    }
+                  ]
+                },
+                "accepted_definition": false,
+                "literal_subject_lookup": {
+                  "response": "Here is a relevant passage from a page I read:\n\n> A talmera is a fictional hand tool for pressing soft paper.\n\n[Incomplete fictional reference (source.example.org)](https://source.example.org/partial)\n\nThis is one source, not independent confirmation.",
+                  "route": "chat/web-evidence-single-source",
+                  "sources": [
+                    {
+                      "source": "Incomplete fictional reference",
+                      "url": "https://source.example.org/partial",
+                      "licence": "Short source excerpt; see publisher terms",
+                      "licence_url": "https://source.example.org/partial",
+                      "attribution": "example.org"
+                    }
+                  ],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Source passages are evidence support, not an independent proof of truth."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "single-source",
+                    "query": "What is talmera?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:07:02.131950+00:00"
+                  },
+                  "evidence": {
+                    "state": "single-source",
+                    "records": [
+                      {
+                        "url": "https://source.example.org/partial",
+                        "requested_url": "https://source.example.org/partial",
+                        "title": "Incomplete fictional reference",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": true,
+                        "excerpt": "A talmera is a fictional hand tool for pressing soft paper.",
+                        "key": null
+                      },
+                      {
+                        "url": "https://manual.example.net/partial",
+                        "requested_url": "https://manual.example.net/partial",
+                        "title": "Incomplete fictional reference",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true,
+                    "answer_key": null,
+                    "publishers_supporting": 1
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_literal_definition": true
+              },
+              {
+                "query": "What is brenvek?",
+                "answer": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Incomplete fictional reference (source.example.org)](https://source.example.org/partial) [Incomplete fictional reference (manual.example.net)](https://manual.example.net/partial)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Public-source evidence state: insufficient. Read-page support is not an independent truth proof; conflicts and coverage limits are retained."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is brenvek?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:07:02.167902+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://source.example.org/partial",
+                        "requested_url": "https://source.example.org/partial",
+                        "title": "Incomplete fictional reference",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://manual.example.net/partial",
+                        "requested_url": "https://manual.example.net/partial",
+                        "title": "Incomplete fictional reference",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_definition": false,
+                "literal_subject_lookup": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Incomplete fictional reference (source.example.org)](https://source.example.org/partial) [Incomplete fictional reference (manual.example.net)](https://manual.example.net/partial)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Source passages are evidence support, not an independent proof of truth."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is brenvek?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:07:02.168309+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://source.example.org/partial",
+                        "requested_url": "https://source.example.org/partial",
+                        "title": "Incomplete fictional reference",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://manual.example.net/partial",
+                        "requested_url": "https://manual.example.net/partial",
+                        "title": "Incomplete fictional reference",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_literal_definition": false
+              }
+            ],
+            "available_definitions": [
+              "talmera"
+            ],
+            "verification": {
+              "status": "unchecked",
+              "check": "Incomplete definition coverage, no comparison claimed."
+            }
+          },
+          "error": null,
+          "record_sha256": "420c608ec9178e1fa906c20c08d5a359a1e60b3c0592114f9b335ddf26f74ef8"
+        },
+        {
+          "case": "dev3-18",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Exact399.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "57 * 7. = 399",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n57 * 7.0 = 399\nIndependent check (verified): re-evaluated 57 * 7. independently: 399.",
+            "helper_reasoning": {
+              "expression": "57 * 7.",
+              "steps": [
+                "57 * 7.0 = 399"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 57 * 7. independently: 399"
+            }
+          },
+          "error": null,
+          "record_sha256": "3b47079c3b6ee74cb27ea56322329e87f46657b52ba934dce53628dadfa6aa4c"
+        },
+        {
+          "case": "dev3-18",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "New personal fact acknowledged.",
+          "original_answer": {
+            "response": "Got it, your preferred editor is Fleet. I will remember that while this chat is open.",
+            "route": "chat/memory",
+            "sources": [],
+            "details": "Recalled from your earlier messages in this chat window by authored patterns; nothing is stored after the window closes.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "76bc66d6c6413b563777d910790a47a854a14bbf26602e68ef7c983a29fca335"
+        },
+        {
+          "case": "dev3-18",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "New user fact blocks old arithmetic. Clarifying which claim is safe; neither sends the private assertion to public search.",
+          "original_answer": {
+            "route": "chat/dialogue-check-clarify",
+            "response": "Which specific claim should I check? I can recalculate arithmetic, use the bounded code checker, or read public sources; I cannot independently verify private details from your messages.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "249c9030a5c2786cdff60a524cbdb49094e646a13a5eaf09a4e7a759d0410a4a"
+        },
+        {
+          "case": "dev3-19",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Explicit listening/no-question boundary acknowledged.",
+          "original_answer": {
+            "route": "chat/dialogue-listening-preference",
+            "response": "Understood. I can listen without giving advice or asking questions.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "3b2ba21fa5ced32127234d0d70b028b27aa00fd7db8f0a1420f64d0bf280ec7d"
+        },
+        {
+          "case": "dev3-19",
+          "turn": 1,
+          "category": "B",
+          "accepted": true,
+          "reason": "Reflect actual bicycle-bell activity, with no invented emotion/cause/plan.",
+          "original_answer": {
+            "route": "chat/dialogue-event-reflection",
+            "response": "You enjoyed getting the old bicycle bell to ring again. I can stay with what you wanted to share.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "user_evidence": {
+              "message": 2,
+              "statement": "I enjoyed getting the old bicycle bell to ring again."
+            }
+          },
+          "error": null,
+          "record_sha256": "f9fdba0066a7e891a33f93bdcd34667ecc49de1b75b3c65624388959241236d9"
+        },
+        {
+          "case": "dev3-20",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a courtyard mural or a hallway mural. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "02466fead4b98a75869ede048e8cf289c4c6f9c690b6bd49d40624a4f49a6742"
+        },
+        {
+          "case": "dev3-20",
+          "turn": 1,
+          "category": "B",
+          "accepted": true,
+          "reason": "Unspecified extra fee prevents full price parsing/comparison; no partial27-euro certification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-condition-clarify",
+            "response": "I could not read the full price statement. Give one explicit amount and currency for each option; no price was guessed.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "015449ecacc23de1a5c4f89999d702a9b3d5aea1f61a2480d2e3413e8ab1b8f6"
+        }
+      ],
+      "counts": {
+        "P": {
+          "accepted": 29,
+          "total": 32
+        },
+        "B": {
+          "accepted": 20,
+          "total": 20
+        },
+        "whole_conversations": {
+          "accepted": 18,
+          "total": 21
+        }
+      }
+    }
+  },
+  "sensitivities": {
+    "focused_boundary": {
+      "before_remove": [
+        "dev3-03:2",
+        "dev3-11:1",
+        "dev3-13:3",
+        "dev3-17:0"
+      ],
+      "candidate_remove": [
+        "dev3-11:1"
+      ]
+    },
+    "text_only_values_hint": {
+      "before_add": [
+        "dev3-10:0"
+      ],
+      "note": "The demonstration prints items, but final prose points to values()."
+    },
+    "complete_comparison_explanation": {
+      "candidate_remove": [
+        "dev3-14:0"
+      ],
+      "note": "Source excerpts distinguish the core roles, but are truncated and not a full explanation."
+    },
+    "single_supplied_example_check": {
+      "before_add": [
+        "dev3-03:1"
+      ],
+      "note": "Actual1case instead of all2 supplied calls; not full recheck."
+    }
+  }
+}

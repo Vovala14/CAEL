@@ -11,6 +11,10 @@ def protected(text):
 
 
 def guard(text):
+    from .predicate_contract import reply as predicate_reply
+    predicate = predicate_reply(text)
+    if predicate is not None:
+        return predicate
     if not REQUEST.search(text) or '```' in text or len(text) > 1800:
         return None
     # These constraints have no complete contract in the current description

@@ -1,0 +1,279 @@
+{
+  "training_examples": 752,
+  "correct": 24,
+  "total": 25,
+  "cases": [
+    {
+      "text": "will it rain in Cape Town tonight",
+      "expected": "weather",
+      "subject": "cape town",
+      "actual": {
+        "intent": "weather",
+        "subject": "cape town",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "Tel Aviv forecast please",
+      "expected": "weather",
+      "subject": "tel aviv",
+      "actual": {
+        "intent": "weather",
+        "subject": "tel aviv",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "what is the temperature in San Francisco tomorrow",
+      "expected": "weather",
+      "subject": "san francisco",
+      "actual": {
+        "intent": "weather",
+        "subject": "san francisco",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "is it snowing in Helsinki",
+      "expected": "weather",
+      "subject": "helsinki",
+      "actual": {
+        "intent": "weather",
+        "subject": "helsinki",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "weather for Mexico City right now",
+      "expected": "weather",
+      "subject": "mexico city",
+      "actual": {
+        "intent": "weather",
+        "subject": "mexico city",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "wind in Sydney today",
+      "expected": "weather",
+      "subject": "sydney",
+      "actual": {
+        "intent": "weather",
+        "subject": "sydney",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "show me recent hockey updates",
+      "expected": "sports",
+      "subject": "hockey",
+      "actual": {
+        "intent": "sports",
+        "subject": "hockey",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "rugby headlines please",
+      "expected": "sports",
+      "subject": "rugby",
+      "actual": {
+        "intent": "other",
+        "subject": "",
+        "learned": true
+      },
+      "correct": false
+    },
+    {
+      "text": "any cycling news today",
+      "expected": "sports",
+      "subject": "cycling",
+      "actual": {
+        "intent": "sports",
+        "subject": "cycling",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "latest Olympics updates briefly",
+      "expected": "sports",
+      "subject": "olympics",
+      "actual": {
+        "intent": "sports",
+        "subject": "olympics",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "what was the Chelsea score",
+      "expected": "live-sports",
+      "subject": "",
+      "actual": {
+        "intent": "live-sports",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "Liverpool fixtures tomorrow",
+      "expected": "live-sports",
+      "subject": "",
+      "actual": {
+        "intent": "live-sports",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "who won the Celtics game",
+      "expected": "live-sports",
+      "subject": "",
+      "actual": {
+        "intent": "live-sports",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "hockey league standings",
+      "expected": "live-sports",
+      "subject": "",
+      "actual": {
+        "intent": "live-sports",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "what is the capital of Norway",
+      "expected": "faq",
+      "subject": "",
+      "actual": {
+        "intent": "faq",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "when was Marie Curie born",
+      "expected": "faq",
+      "subject": "",
+      "actual": {
+        "intent": "faq",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "where is Lake Baikal",
+      "expected": "faq",
+      "subject": "",
+      "actual": {
+        "intent": "faq",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "what is an axolotl",
+      "expected": "faq",
+      "subject": "",
+      "actual": {
+        "intent": "faq",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "how many people live in Sweden",
+      "expected": "faq",
+      "subject": "",
+      "actual": {
+        "intent": "faq",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "write a hockey news article",
+      "expected": "other",
+      "subject": "",
+      "actual": {
+        "intent": "other",
+        "subject": ""
+      },
+      "correct": true
+    },
+    {
+      "text": "my weather settings",
+      "expected": "other",
+      "subject": "",
+      "actual": {
+        "intent": "other",
+        "subject": ""
+      },
+      "correct": true
+    },
+    {
+      "text": "draw rain",
+      "expected": "other",
+      "subject": "",
+      "actual": {
+        "intent": "other",
+        "subject": ""
+      },
+      "correct": true
+    },
+    {
+      "text": "what is the your model trained on",
+      "expected": "other",
+      "subject": "",
+      "actual": {
+        "intent": "other",
+        "subject": ""
+      },
+      "correct": true
+    },
+    {
+      "text": "hello",
+      "expected": "other",
+      "subject": "",
+      "actual": {
+        "intent": "other",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    },
+    {
+      "text": "2 + 7",
+      "expected": "other",
+      "subject": "",
+      "actual": {
+        "intent": "other",
+        "subject": "",
+        "learned": true
+      },
+      "correct": true
+    }
+  ],
+  "limitation": "Authored holdout paraphrases and unseen subjects; not independent user evaluation or fact accuracy"
+}

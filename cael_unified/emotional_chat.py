@@ -39,7 +39,7 @@ GROUPS = {
         ['That sounds draining.', 'It sounds as though you have very little energy left right now.'],
         'Has this been building up, or was today particularly demanding?',
         'If you can, make the next step smaller and give yourself a pause before taking on more.'),
-    'happy': ('happy glad delighted thrilled joyful elated excited enthusiastic cheerful hopeful optimistic ecstatic',
+    'happy': ('happy glad delighted thrilled joyful elated excited eager enthusiastic cheerful hopeful optimistic ecstatic',
         ['That sounds like a moment worth enjoying.', 'There is a lot of energy and happiness in what you described.'],
         'What part are you most looking forward to?',
         'You could take a moment to mark what went well, in whatever way feels right to you.'),

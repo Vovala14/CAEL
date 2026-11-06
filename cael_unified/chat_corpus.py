@@ -74,7 +74,17 @@ COMPATIBLE = {('how', 'list'), ('list', 'how'), ('explain', 'how'), ('how', 'exp
               ('list', 'write'), ('write', 'list'), ('other', 'how'), ('other', 'list'), ('other', 'explain')}
 
 
-def best_match(text, previous=''):
+TOPIC_STOP=set('explain explanation describe description work works working function functions code program programming python example examples simple simpler terms basic beginner give show illustrate demonstrate result response answer'.split())
+
+def topic_terms(text):
+    """Content must survive retrieval; scaffolding words cannot replace a topic.
+
+    This lexical guard only checks coverage. It does not prove the retrieved
+    answer is correct, nor that an omitted constraint is semantically harmless.
+    """
+    return {stem(w) for w in content(text) if w not in TOPIC_STOP}
+
+def best_match(text, previous='', required_terms=None):
     """(score, row) of the closest stored request, or (0, None)."""
     connection = db()
     words = content(text)
@@ -88,12 +98,19 @@ def best_match(text, previous=''):
     except sqlite3.OperationalError:
         return 0.0, None
     asked = {stem(w) for w in words}
+    required=topic_terms(text) if required_terms is None else set(required_terms)
     context = {stem(w) for w in content(previous)}
     best, best_score = None, 0.0
     wanted = kind(text)
     for row in rows:
         stored = {stem(w) for w in content(row[1])}
         if not stored:
+            continue
+        if required and not required<=stored:
+            continue  # generic function/work/explain overlap cannot replace the named concept
+        if any(re.search(r'(?i)\b'+word+r'\b',text) and not re.search(r'(?i)\b'+word+r'\b',row[1]) for word in ('without','unless','except','never','not')):
+            continue
+        if any(number not in re.findall(r'(?<!\w)\d+(?:\.\d+)?',row[1]) for number in re.findall(r'(?<!\w)\d+(?:\.\d+)?',text)):
             continue
         found_kind = kind(row[1])
         if found_kind != wanted and (wanted, found_kind) not in COMPATIBLE:

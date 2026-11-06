@@ -1,19 +1,7 @@
-"""Web search when CAEL does not know: search, read the pages, pick the sentences that answer, check agreement.
+"""Free public search plus bounded page reads and conservative extraction.
 
-Search providers, in this order, using whichever are available:
-  1. SearxNG                     when CAEL_SEARXNG_URL is set (comma-separated instance URLs; JSON format enabled)
-  2. ddgs metasearch             when the `ddgs` package is installed (no key, no quota: queries public search
-                                 engines' result pages the way SearxNG does)
-  3. DuckDuckGo Instant Answers  always (no key; topic summaries and links, not a full web index)
-  4. Wikipedia full-text search  always
-  5. Brave Search API            only when no full web index above answered and BRAVE_API_KEY is set (paid quota)
-Pages are read through Jina Reader (https://r.jina.ai/<url>, clean text, no key needed) or, if that fails, fetched
-directly with httpx (public addresses only, size and time limits) and reduced to text.
-
-The answer is never generated: CAEL scores the pages' sentences against the question (shared content words, plus
-the kind of answer asked for: a number, a year, a name), takes the best one and says how many different websites
-agree on its key answer. Web text is unchecked, so replies say so and link every source. Question text is sent
-to the search providers and Jina Reader. No neural model.
+DDGS uses explicitly named public search engines, never its encyclopedia-first
+auto mode. No paid API or remote reader. Source agreement is not proof.
 """
 from collections import OrderedDict
 from concurrent.futures import ThreadPoolExecutor
@@ -63,26 +51,14 @@ def cached(key, ttl, make):
 
 def client():
     import httpx
-    return httpx.Client(headers={'User-Agent': UA}, timeout=10, follow_redirects=False)
+    return httpx.Client(headers={'User-Agent': UA}, timeout=4, follow_redirects=False)
 
 
 # ---------------------------------------------------------------- search providers
 
-def brave(query):
-    key = os.environ.get('BRAVE_API_KEY', '').strip()
-    if not key:
-        return []
-    with client() as http:
-        r = http.get('https://api.search.brave.com/res/v1/web/search', params=dict(q=query, count=8),
-                     headers={'Accept': 'application/json', 'X-Subscription-Token': key})
-        r.raise_for_status()
-        return [Result(x.get('title', ''), x['url'], re.sub(r'<[^>]+>', '', x.get('description', '')), 'Brave Search')
-                for x in r.json().get('web', {}).get('results', []) if x.get('url', '').startswith('http')]
-
-
 def searxng(query):
     out = []
-    for base in [u.strip().rstrip('/') for u in os.environ.get('CAEL_SEARXNG_URL', '').split(',') if u.strip()]:
+    for base in [u.strip().rstrip('/') for u in os.environ.get('CAEL_SEARXNG_URL', '').split(',') if u.strip()][:1]:
         try:
             with client() as http:
                 r = http.get(base + '/search', params=dict(q=query, format='json', language='en'))
@@ -103,7 +79,7 @@ def metasearch(query):
         from ddgs import DDGS
     except ImportError:
         return []
-    hits = DDGS(timeout=10).text(query, region='us-en', safesearch='moderate', max_results=10) or []
+    hits = DDGS(timeout=4, verify=True).text(query, region='us-en', safesearch='moderate', max_results=8, backend='brave,duckduckgo,bing') or []
     return [Result(h.get('title', ''), h['href'], h.get('body', ''), 'ddgs metasearch')
             for h in hits if str(h.get('href', '')).startswith('http')][:8]
 
@@ -137,93 +113,65 @@ def wikipedia(query):
                    re.sub(r'<[^>]+>', '', html.unescape(h.get('snippet', ''))), 'Wikipedia') for h in hits]
 
 
-PROVIDERS = (('SearxNG', searxng), ('ddgs metasearch', metasearch), ('DuckDuckGo', duckduckgo), ('Wikipedia', wikipedia),
-             ('Brave Search', brave))
-# Providers that search the whole web (not only topic summaries or one encyclopedia).
-WEB_INDEXES = ('SearxNG', 'ddgs metasearch', 'Brave Search')
+PROVIDERS = (('SearxNG', searxng), ('ddgs metasearch', metasearch), ('DuckDuckGo', duckduckgo), ('Wikipedia', wikipedia))
+WEB_INDEXES = ('SearxNG', 'ddgs metasearch')
 
+def capabilities():
+    from importlib.util import find_spec
+    return {'full_web':bool(find_spec('ddgs') or os.environ.get('CAEL_SEARXNG_URL')),
+            'ddgs':bool(find_spec('ddgs')),'searxng_configured':bool(os.environ.get('CAEL_SEARXNG_URL')),
+            'paid_api':False,'remote_page_reader':False,'reader':'bounded public HTTP text'}
 
-def search(query):
-    def run():
-        results, used = [], []
-        for name, provider in PROVIDERS:
-            if name == 'Brave Search' and any(u in WEB_INDEXES for u in used):
-                continue                                 # the paid API only when the free web indexes failed
-            try:
-                found = provider(query)
-            except Exception:
-                found = []
-            if found:
-                used.append(name)
-            for r in found:
-                if r.url not in {x.url for x in results}:
-                    results.append(r)
-            if len(results) >= 8 and name in WEB_INDEXES:
-                break                                    # a full web index answered; no need for the topic APIs
-        return results, used
-    return cached(('search', query.lower()), 6 * 3600, run)
-
-
-# ---------------------------------------------------------------- reading pages
-
-class _Text(HTMLParser):
-    SKIP = {'script', 'style', 'nav', 'header', 'footer', 'aside', 'form', 'noscript', 'svg'}
-
-    def __init__(self):
-        super().__init__()
-        self.parts, self.skip = [], 0
-
-    def handle_starttag(self, tag, attrs):
-        if tag in self.SKIP:
-            self.skip += 1
-        elif tag in ('p', 'br', 'li', 'h1', 'h2', 'h3', 'tr', 'div'):
-            self.parts.append('\n')
-
-    def handle_endtag(self, tag):
-        if tag in self.SKIP and self.skip:
-            self.skip -= 1
-
-    def handle_data(self, data):
-        if not self.skip:
-            self.parts.append(data)
-
+def search(query,force=False,exclude_wikipedia=False):
+    from .web_evidence import public_query,excluded
+    if os.environ.get('CAEL_WEB_SEARCH','1')=='0' or not public_query(query):return [],[]
+    cache_key=('search',query.casefold(),exclude_wikipedia)
+    now=time.time()
+    with _LOCK:
+        hit=_CACHE.get(cache_key)
+        if not force and hit and now-hit[0]<900:return hit[1]
+        _RECENT[:]=[value for value in _RECENT if now-value<60]
+        if len(_RECENT)>=30:return [],['local rate limit reached']
+        _RECENT.append(now)
+    results=[];used=[];urls=set();available=capabilities()
+    for name,provider in PROVIDERS:
+        if name=='SearxNG' and not available['searxng_configured']:continue
+        if name=='ddgs metasearch' and not available['ddgs']:continue
+        if name=='Wikipedia' and exclude_wikipedia:continue
+        try:found=provider(query)
+        except Exception:used.append(name+': unavailable');continue
+        used.append(name+(': results' if found else ': no results'))
+        for r in found:
+            if r.url in urls or (exclude_wikipedia and excluded(r.url)):continue
+            urls.add(r.url);results.append(r)
+        if len(results)>=4 and name in WEB_INDEXES:break
+    # Empty/network failures are not cached as a six-hour negative answer.
+    if results:
+        with _LOCK:
+            _CACHE[cache_key]=(now,(results,used))
+            while len(_CACHE)>400:_CACHE.popitem(last=False)
+    return results,used
 
 def public_host(url):
-    """Direct fetches only go to public internet addresses (never this machine or a private network)."""
-    host = urlparse(url).hostname
-    if not host or urlparse(url).scheme not in ('http', 'https'):
-        return False
-    try:
-        addresses = {info[4][0] for info in socket.getaddrinfo(host, None)}
-    except OSError:
-        return False
-    return all(ipaddress.ip_address(a.split('%')[0]).is_global for a in addresses)
+    from .web_fetch import destination,Blocked
+    try:destination(url);return True
+    except (Blocked,ValueError):return False
 
+def read_page(url,force=False):
+    from .web_fetch import fetch
+    key=('page',url)
+    with _LOCK:
+        hit=_CACHE.get(key)
+        if not force and hit and time.time()-hit[0]<300:return dict(hit[1],cached=True)
+    value=fetch(url)
+    if value.get('status')=='read':
+        with _LOCK:
+            _CACHE[key]=(time.time(),value)
+            while len(_CACHE)>400:_CACHE.popitem(last=False)
+    return value
 
 def read(url):
-    """Clean page text: Jina Reader first, then a direct, guarded fetch."""
-    def run():
-        try:
-            with client() as http:
-                r = http.get('https://r.jina.ai/' + url, headers={'Accept': 'text/plain', 'X-Return-Format': 'text'}, timeout=15)
-                if r.status_code == 200 and len(r.text) > 300:
-                    return r.text[:200000]
-        except Exception:
-            pass
-        if not public_host(url):
-            return ''
-        try:
-            with client() as http:
-                r = http.get(url, timeout=10)
-                if r.status_code != 200 or 'html' not in r.headers.get('content-type', '') or len(r.content) > 3_000_000:
-                    return ''
-                parser = _Text()
-                parser.feed(r.text)
-                return re.sub(r'\n\s*\n+', '\n', ''.join(parser.parts))[:200000]
-        except Exception:
-            return ''
-    return cached(('read', url), 24 * 3600, run)
-
+    return read_page(url).get('text','')
 
 # ---------------------------------------------------------------- choosing the answer
 
@@ -404,7 +352,7 @@ def link(result):
     return f'[{label}]({result.url.replace(" ", "%20").replace(")", "%29")})'
 
 
-def best_sentences(question, pages, web_index=False):
+def best_sentences(question, pages, web_index=False, sentence_reader=None):
     q = terms(question)
     if not q:
         return []
@@ -431,7 +379,7 @@ def best_sentences(question, pages, web_index=False):
         on_topic = bool(subject_terms) and subject_terms <= title_terms
         exact = exact_page(result)                                          # "Berlin Wall", not "The Wall – Live in Berlin"
         mentions = 0
-        for _, s in sentences(text):
+        for _, s in (sentence_reader or sentences)(text):
             have = set(terms(s))
             # Position counts from the first sentence that names the subject (menus and captions come before it).
             if not subject_terms or subject_terms & have:
@@ -458,52 +406,11 @@ def best_sentences(question, pages, web_index=False):
 
 
 def script(query):
-    """The search, as a stand-alone Python script anyone can run (requires: pip install httpx)."""
-    return f'''import os
-import httpx
+    # Return a reproducible call to the installed reader; never execute a script.
+    return ('from cael_unified import web_search\n'
+            'answer = web_search.answer('+repr(query)+', force=True)\n'
+            'print(answer["response"] if answer else "No public question")\n')
 
-QUERY = {query!r}
-HEADERS = {{"User-Agent": "my-search-script/1.0"}}
-
-
-def search(query):
-    """ddgs (no key), then Brave (with BRAVE_API_KEY), a SearxNG instance (CAEL_SEARXNG_URL), DuckDuckGo Instant Answers."""
-    try:
-        from ddgs import DDGS
-        hits = DDGS().text(query, max_results=8)
-        if hits:
-            return [(h["title"], h["href"]) for h in hits]
-    except ImportError:
-        pass
-    if os.environ.get("BRAVE_API_KEY"):
-        r = httpx.get("https://api.search.brave.com/res/v1/web/search", params={{"q": query, "count": 8}},
-                      headers={{**HEADERS, "X-Subscription-Token": os.environ["BRAVE_API_KEY"]}}, timeout=10)
-        return [(x["title"], x["url"]) for x in r.json().get("web", {{}}).get("results", [])]
-    if os.environ.get("CAEL_SEARXNG_URL"):
-        r = httpx.get(os.environ["CAEL_SEARXNG_URL"].rstrip("/") + "/search", params={{"q": query, "format": "json"}},
-                      headers=HEADERS, timeout=10)
-        return [(x["title"], x["url"]) for x in r.json().get("results", [])[:8]]
-    r = httpx.get("https://api.duckduckgo.com/", params={{"q": query, "format": "json", "no_html": 1}}, headers=HEADERS, timeout=10)
-    data = r.json()
-    links = [(data.get("Heading", ""), data["AbstractURL"])] if data.get("AbstractURL") else []
-    return links + [(t["Text"], t["FirstURL"]) for t in data.get("RelatedTopics", []) if "FirstURL" in t][:5]
-
-
-def read(url):
-    """Jina Reader returns a page as clean text (free, no key)."""
-    return httpx.get("https://r.jina.ai/" + url, headers=HEADERS, timeout=20).text
-
-
-if __name__ == "__main__":
-    words = {{w for w in QUERY.lower().split() if len(w) > 3}}
-    for title, url in search(QUERY)[:3]:
-        text = read(url)
-        best = max(text.split(". "), key=lambda s: len(words & set(s.lower().split())), default="")
-        print(f"{{title}}\\n  {{url}}\\n  {{best.strip()[:300]}}\\n")
-'''
-
-
-# ---------------------------------------------------------------- entry points
 
 QUESTION = re.compile(r'(?i)^\s*(?:(?:in|on|at|by|from|for|during|since|until) (?:what|which|whom)|name|what|which|who|whom|whose|when|where|why|how|is|are|was|were|does|do|did|can|could|has|have|'
                       r'tell me about|search(?: the web| online)? for|look up|find out|google)\b')
@@ -538,95 +445,16 @@ def should_search(text):
     return len(terms(text)) >= 1
 
 
-def answer(text):
-    """Search the web for a question; None if nothing on the pages answers it."""
-    question = re.sub(r'(?i)^\s*(?:please\s+)?(?:can you\s+|could you\s+)?(?:search(?: the web| online)? for|look up|find out|google)\s+', '', text).strip()
-    query = re.sub(r'[?!.]+$', '', question)
-    with _LOCK:
-        now = time.time()
-        _RECENT[:] = [t for t in _RECENT if now - t < 60]
-        if len(_RECENT) >= 30:                           # be polite to the free services: at most 30 searches a minute
-            return None
-        _RECENT.append(now)
-    results, used = search(query)
-    subject = subject_of(question)
-    if subject:
-        try:                                                 # the subject's own encyclopedia page, looked up directly
-            own = [r for r in wikipedia(subject)[:2] if r.url not in {x.url for x in results}]
-        except Exception:
-            own = []
-        results = own + results
-    if not results:
-        return None
-    subject_terms = set(terms(subject))
-    def closeness(r):
-        title = set(terms(re.sub(r'\s*\(.*', '', r.title)))
-        if subject_terms and subject_terms <= title and title <= subject_terms | {'the'}:
-            return 0                                         # exactly the subject's page ("Sommelier")
-        return 1 if subject_terms and subject_terms <= title else 2   # then pages about it ("Sommelier knife")
-    results = sorted(results, key=closeness)
-    top = results[:4]
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        texts = list(pool.map(lambda r: read(r.url), top))
-    pages = [(r, t if t else r.snippet) for r, t in zip(top, texts)]       # a search snippet only when the page could not be read
-    web_index = any(p in used for p in WEB_INDEXES)
-    if web_index:
-        # A web index's own result descriptions often answer the question directly ("Argentina won ... on penalties");
-        # each counts for its own website.
-        pages += [(r, r.snippet if r.snippet.rstrip().endswith(('.', '!', '?')) else r.snippet.rstrip() + '.')
-                  for r in results[:8] if r.provider in WEB_INDEXES and len(r.snippet.split()) >= 6]
-    scored = best_sentences(question, pages, web_index)
-    # The sentence must say the asked thing, not only name the subject: "Scotland is a country ..." does not answer
-    # "What is the national animal of Scotland?". Answer-type words (year, city ...) need not appear.
-    scored = [x for x in scored if says_asked(question, x[1], subject_terms)]
-    if not scored or scored[0][0] < 1.6:
-        return None
-    best_score, best, source, key = scored[0]
-    # Agreement: different websites if a web index was used, otherwise different pages.
-    close = [x for x in scored[:15] if x[0] >= 0.6 * best_score]           # only near-best sentences may confirm
-    if key:
-        same = [r for s, _, r, k in close if k and k.lower() == key.lower()]
-    else:
-        # No extracted name/number/year: the first new word of the best sentence ("Diamond", "Iron", "Mars") is its
-        # answer, and other near-best sentences confirm it when they say the same word.
-        asked = set(terms(question))
-        new = [t for t in terms(best) if t not in asked]
-        head = new[0] if new else None
-        same = [source] + [r for _, sent, r, _ in close if r is not source and head and head in terms(sent)[:6]]
-    sites = {r.domain() for r in same}
-    agree = sorted(sites) if len(sites) > 1 else sorted({r.url for r in same})
-    links = []
-    for r in [source] + [r for _, _, r, k in scored[1:12] if r.domain() in agree and r is not source] + top:
-        if r.url not in [l.url for l in links]:
-            links.append(r)
-        if len(links) >= 3:
-            break
-    # Confirmed only when different websites agree; pages of one site (all Wikipedia) are not independent.
-    confident = len(sites) >= 2
-    # Where the data came from, as clickable links in the reply itself.
-    shown = [r for r in links if r.domain() in sites] if confident else [source]
-    cited = ', '.join(link(r) for r in shown[:3])
-    if confident:
-        lead = f'From a web search: **{key}**.' if key else 'From a web search:'
-        body = (f'{lead}\n\n> {best}\n\n{len(sites)} different websites agree on this.\n\n'
-                f'**Sources:** {cited}')
-    else:
-        lead = f'From one website: **{key}**.' if key else 'Here is what one website says:'
-        body = (f'{lead}\n\n> {best}\n\n'
-                f'**Source:** {cited}. Only this website said it, so I could not double-check it; please verify it there.')
-    sources = [dict(source=f'{r.title or r.domain()} ({r.domain()})', url=r.url, licence='see the website',
-                    licence_url=r.url, attribution=r.domain()) for r in links]
-    details = (f'Searched with {", ".join(used)}; read {len(top)} pages through Jina Reader or a direct fetch; picked the sentence that '
-               f'shares the most key words with the question and contains the kind of answer asked for. Web pages are not checked by CAEL. '
-               f'Your question was sent to the search services and Jina Reader. No neural model.\n\nThe same search as a Python script:\n'
-               f'```python\n{script(query)}```')
-    return dict(response=body, route='chat/web-search' + ('' if confident else '-unconfirmed'), sources=sources, details=details,
-                search=dict(providers=used, query=query, agreeing_sites=agree))
+RECENT = re.compile(r'(?i)\b(?:latest|most recent|newest|current(?:ly)?|right now|these days|this (?:year|month|week)|nowadays|today)\b')
+
+
+def answer(text,force=False,exclude_wikipedia=False):
+    from .web_evidence import answer as grounded
+    return grounded(text,force=force,exclude_wikipedia=exclude_wikipedia)
 
 
 ASK_SCRIPT = re.compile(r'(?i)^\s*(?:please\s+)?(?:write|create|make|give me|build)\s+(?:me\s+)?(?:a\s+)?(?:python\s+)?(?:script|program|code|function|tool)\s+'
                         r'(?:that|to|which)\s+(?:searches|search|looks up|look up|finds|find)\s+(?:the web|online|the internet|google|duckduckgo)?\s*(?:for\s+)?(.*?)\s*[?.!]*$')
-
 
 def script_reply(text):
     m = ASK_SCRIPT.match(text)
@@ -634,7 +462,6 @@ def script_reply(text):
         return None
     query = m[1].strip(' "\'') or 'your question'
     return dict(route='chat/code-web-search', sources=[],
-                response=f'```python\n{script(query)}```\nIt searches with the free `ddgs` library (no key), or Brave (if you set '
-                         f'`BRAVE_API_KEY`), a SearxNG instance (`CAEL_SEARXNG_URL`) or DuckDuckGo Instant Answers, reads the top pages as clean text with Jina Reader, '
-                         f'and prints the sentence from each page that best matches your words. Install with `pip install httpx ddgs`.',
+                response=f'```python\n{script(query)}```\nThis uses CAEL’s installed free search and bounded public-page reader. '
+                         'It reports source support and conflicts rather than treating snippets as verified answers. No paid API or remote page-reader service.',
                 details='A Python search script written from CAEL\'s search template. No neural model.')

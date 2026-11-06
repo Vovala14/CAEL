@@ -1,0 +1,144 @@
+{
+  "model_sha256": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4",
+  "babi": {
+    "1": {
+      "correct": 1000,
+      "answered": 1000,
+      "total": 1000
+    },
+    "2": {
+      "correct": 1000,
+      "answered": 1000,
+      "total": 1000
+    },
+    "3": {
+      "correct": 1000,
+      "answered": 1000,
+      "total": 1000
+    },
+    "5": {
+      "correct": 987,
+      "answered": 987,
+      "total": 1000
+    },
+    "6": {
+      "correct": 1000,
+      "answered": 1000,
+      "total": 1000
+    },
+    "7": {
+      "correct": 1000,
+      "answered": 1000,
+      "total": 1000
+    },
+    "8": {
+      "correct": 1000,
+      "answered": 1000,
+      "total": 1000
+    },
+    "9": {
+      "correct": 1000,
+      "answered": 1000,
+      "total": 1000
+    },
+    "10": {
+      "correct": 982,
+      "answered": 1000,
+      "total": 1000
+    },
+    "15": {
+      "correct": 1000,
+      "answered": 1000,
+      "total": 1000
+    },
+    "18": {
+      "correct": 1000,
+      "answered": 1000,
+      "total": 1000
+    },
+    "19": {
+      "correct": 1000,
+      "answered": 1000,
+      "total": 1000
+    }
+  },
+  "pronto": {
+    "Horn-style": {
+      "total": 5300,
+      "parsed": 5300,
+      "correct": 5300,
+      "direct_fact_correct": 200
+    },
+    "Other/OOD logic": {
+      "total": 2600,
+      "unsupported": 2107,
+      "parsed": 493,
+      "correct": 250,
+      "direct_fact_correct": 2
+    }
+  },
+  "pronto_direct_fact_ablation_correct": 202,
+  "pronto_multistep_correct": 5550,
+  "pronto_total": 7900,
+  "pronto_train_test_context_overlap": 0,
+  "ordering": {
+    "3": {
+      "correct": 300,
+      "total": 300
+    },
+    "5": {
+      "correct": 500,
+      "total": 500
+    },
+    "7": {
+      "correct": 700,
+      "total": 700
+    }
+  },
+  "failures": [
+    {
+      "task": 5,
+      "question": "What did Bill give to Mary?",
+      "expected": "football",
+      "actual": "unknown",
+      "context": "Mary journeyed to the kitchen. Mary went to the bedroom. Mary moved to the bathroom. Mary grabbed the football there. Mary moved to the garden. Mary dropped the football. Fred went back to the kitchen. Jeff went back to the office. Jeff went to the bathroom. Bill took the apple there. Mary picked up the milk there. Mary picked up the football there. Bill went back to the kitchen. Bill went back to the hallway. Fred journeyed to the office. Bill discarded the apple. Mary journeyed to the kitchen. Fred journeyed to the garden. Mary went to the hallway. Mary gave the football to Bill. Bill passed the football to Mary. Bill took the apple there. Bill gave the apple to Mary. Jeff travelled to the kitchen."
+    },
+    {
+      "task": 5,
+      "question": "What did Bill give to Mary?",
+      "expected": "apple",
+      "actual": "unknown",
+      "context": "Mary journeyed to the kitchen. Mary went to the bedroom. Mary moved to the bathroom. Mary grabbed the football there. Mary moved to the garden. Mary dropped the football. Fred went back to the kitchen. Jeff went back to the office. Jeff went to the bathroom. Bill took the apple there. Mary picked up the milk there. Mary picked up the football there. Bill went back to the kitchen. Bill went back to the hallway. Fred journeyed to the office. Bill discarded the apple. Mary journeyed to the kitchen. Fred journeyed to the garden. Mary went to the hallway. Mary gave the football to Bill. Bill passed the football to Mary. Bill took the apple there. Bill gave the apple to Mary. Jeff travelled to the kitchen. Bill journeyed to the office. Jeff went to the bathroom."
+    },
+    {
+      "task": 5,
+      "question": "What did Mary give to Fred?",
+      "expected": "milk",
+      "actual": "unknown",
+      "context": "Mary picked up the apple there. Fred travelled to the bedroom. Mary handed the apple to Fred. Mary took the milk there. Fred gave the apple to Mary. Mary gave the apple to Fred. Fred discarded the apple. Mary gave the milk to Fred. Fred went to the bathroom. Jeff travelled to the office."
+    },
+    {
+      "task": 10,
+      "question": "Is Bill in the school?",
+      "expected": "maybe",
+      "actual": "yes",
+      "context": "Bill is either in the school or the school. Mary is either in the office or the kitchen. Mary travelled to the cinema. Mary journeyed to the kitchen."
+    },
+    {
+      "task": 10,
+      "question": "Is Fred in the bedroom?",
+      "expected": "maybe",
+      "actual": "yes",
+      "context": "Julie moved to the kitchen. Fred is either in the bedroom or the bedroom. Bill went to the bedroom. Bill moved to the office."
+    },
+    {
+      "task": 10,
+      "question": "Is Bill in the bedroom?",
+      "expected": "maybe",
+      "actual": "yes",
+      "context": "Mary went back to the bedroom. Julie is in the park. Mary went to the park. Bill is either in the school or the cinema. Fred journeyed to the kitchen. Julie is either in the office or the cinema. Bill is either in the bedroom or the bedroom. Fred went back to the bedroom."
+    }
+  ],
+  "seconds": 4.27,
+  "limitations": "Synthetic bounded-language benchmarks, not general factual QA. bAbI uses case-insensitive exact matches (set matches for item lists). Solvers and grammar schema are authored; event lexicons and transition counts are trained. PrOntoQA proof targets are positive-only; negative/unknown controls require separate tests. BIG-bench ordering was evaluation-only, but its public task schema was inspected during implementation."
+}

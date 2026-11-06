@@ -1,0 +1,155 @@
+{
+  "at": "2026-11-06T22:16:20.323697+00:00",
+  "status": "complete",
+  "integrity_checks": 3619,
+  "capability_tests": false,
+  "formal_full_replies_reviewed": 186,
+  "counts": {
+    "development": {
+      "before": {
+        "P": {
+          "accepted": 8,
+          "total": 32
+        },
+        "B": {
+          "accepted": 14,
+          "total": 20
+        },
+        "whole_conversations": {
+          "accepted": 3,
+          "total": 21
+        },
+        "whole_positive_conversations": {
+          "accepted": 1,
+          "total": 17
+        }
+      },
+      "candidate": {
+        "P": {
+          "accepted": 29,
+          "total": 32
+        },
+        "B": {
+          "accepted": 20,
+          "total": 20
+        },
+        "whole_conversations": {
+          "accepted": 18,
+          "total": 21
+        },
+        "whole_positive_conversations": {
+          "accepted": 14,
+          "total": 17
+        }
+      }
+    },
+    "transfer": {
+      "before": {
+        "P": {
+          "accepted": 10,
+          "total": 29
+        },
+        "B": {
+          "accepted": 7,
+          "total": 12
+        },
+        "whole_conversations": {
+          "accepted": 4,
+          "total": 16
+        },
+        "whole_positive_conversations": {
+          "accepted": 2,
+          "total": 14
+        }
+      },
+      "candidate": {
+        "P": {
+          "accepted": 22,
+          "total": 29
+        },
+        "B": {
+          "accepted": 12,
+          "total": 12
+        },
+        "whole_conversations": {
+          "accepted": 11,
+          "total": 16
+        },
+        "whole_positive_conversations": {
+          "accepted": 9,
+          "total": 14
+        }
+      }
+    }
+  },
+  "all_saved_generation_attempts": [
+    {
+      "folder": "development_before_1",
+      "actual_replies": 52,
+      "errors": 0,
+      "raw_sha256": "278836297eef191eb2e4f6e12efcb5270255ad70ed90ae2d8407eacbbaad2db3",
+      "receipt_sha256": "351987455298298e3aff5b85990cdc18b8906da71393a8ed96a6550d12ee7cf7"
+    },
+    {
+      "folder": "development_candidate_1",
+      "actual_replies": 52,
+      "errors": 0,
+      "raw_sha256": "b1f5ef7b9c3039d4eab196d368258690c3ff28f5b24cd4464303fc0cd24bd323",
+      "receipt_sha256": "3725cf012662b5bb8e0f646f055ed67f9c81c0abecb62336c440d4263e2ff75f"
+    },
+    {
+      "folder": "development_candidate_2",
+      "actual_replies": 52,
+      "errors": 0,
+      "raw_sha256": "8d180d9ace44081877e8dd165c9fee9a8f80c448602349d851f6ac05dabaf04c",
+      "receipt_sha256": "60811aabe481f96d6725afede71e29e0a2d68279016aa2f01cf7a29215b8812d"
+    },
+    {
+      "folder": "transfer_before_1",
+      "actual_replies": 41,
+      "errors": 0,
+      "raw_sha256": "2d9b3fd76c8d203c6ffa16c7a573f7d3ec4602b3c2f0aeec46f28a013a615d3b",
+      "receipt_sha256": "c63056b7034f15c8571f887977aba27c6f3520781ecdccfc3c03352f676d6a81"
+    },
+    {
+      "folder": "transfer_candidate_1",
+      "actual_replies": 41,
+      "errors": 0,
+      "raw_sha256": "3a21b380c1cb53fe8735799980b3ee6253cc870812274df3845e74dd899ed049",
+      "receipt_sha256": "16f383cd59d4bcaaae61c43f957612dd95c5788fe6c1100d02cb7c66337fcb07"
+    }
+  ],
+  "source_after_transfer_unchanged": true,
+  "all114_public_resources_251_dependencies_protected_solvers_inherited_act_counts_weights_CA_kernels_unchanged": true,
+  "no_live_deployment_or_release": true,
+  "artifact_sha256": {
+    "FREEZE.json": "6b66428369ec45953472820e6039f7f7137e5e856b2874eda2ab6651e853119f",
+    "audit_complete.py": "b7fb29c80300ecf6a146206f4f72bbd3398ad3dff967ca1ce2961c44982b9496",
+    "code_review.py": "eeb1dbd182f09ea6fb245a5ab1f88af0b4a5ffb20aed8cc7257d5be735e5ca7f",
+    "code_review_diagnostics.json": "f7a400365521c9857eabfc7915ad9c2211855b0e0c6f0d726f173c9f849874d9",
+    "development_before_1/receipt.json": "351987455298298e3aff5b85990cdc18b8906da71393a8ed96a6550d12ee7cf7",
+    "development_before_1/replies.jsonl": "278836297eef191eb2e4f6e12efcb5270255ad70ed90ae2d8407eacbbaad2db3",
+    "development_candidate_2/receipt.json": "60811aabe481f96d6725afede71e29e0a2d68279016aa2f01cf7a29215b8812d",
+    "development_candidate_2/replies.jsonl": "8d180d9ace44081877e8dd165c9fee9a8f80c448602349d851f6ac05dabaf04c",
+    "development_cases.json": "ce2eaaf989756d26b4235b932f0de861e000593c3921178e75d71e4532033f52",
+    "development_manifest.json": "072e7cf3f530a67e7f6cb047818631d783b5da05ae63e11bd317f030fd114fc7",
+    "development_semantic_review.json": "dde4eb2bf68be014db3c7952634714fa0266f604451d67639dca0cc6514fb870",
+    "focused_final/checks.xml": "25968514f648bc5e12073d830dee802ea8284908718e2b6cbb2cce6fd6cab2d2",
+    "focused_final/receipt.json": "46cf276deefbd937ce838ab86b2799dd771d1350b3f0b46570739176900ac21d",
+    "freeze.py": "1a2072bf486b99125b250ad7066751d55e646f54d8a738ba9ffebc6366bc92e5",
+    "inherited_final/checks.xml": "51028f84796fd7e43cc6500318369edadcb3a056ab35a9e0e54a404b70deaa4c",
+    "inherited_final/receipt.json": "571ddcdb74c85805c51e8365e1440b4569ae2c5d1ce9912e30dbd2f2546e40d4",
+    "interactive_smoke.log": "892e98a13af961a700b6aac3a0333d2761de2403e47381ed01a443b87d599c8b",
+    "make_transfer.py": "be5a4429948c052a82b4bf89412d251047e36901e6dcb630447058bfd9461611",
+    "review_development.py": "be46ac07914baa42e1b6680bd80acdc425b40449194948c45718ccb9570eb793",
+    "review_transfer.py": "2c7e69eeb97e79f2d9fb06c0d5f3db705c863aa234100a440ba5fbd215e75229",
+    "transfer_before_1/receipt.json": "c63056b7034f15c8571f887977aba27c6f3520781ecdccfc3c03352f676d6a81",
+    "transfer_before_1/replies.jsonl": "2d9b3fd76c8d203c6ffa16c7a573f7d3ec4602b3c2f0aeec46f28a013a615d3b",
+    "transfer_candidate_1/receipt.json": "16f383cd59d4bcaaae61c43f957612dd95c5788fe6c1100d02cb7c66337fcb07",
+    "transfer_candidate_1/replies.jsonl": "3a21b380c1cb53fe8735799980b3ee6253cc870812274df3845e74dd899ed049",
+    "transfer_cases.json": "f33d3f6ee768cd02bd7c75909728318070fde0ae23585f391d9235f0fc84137b",
+    "transfer_manifest.json": "d088f3887da921f88373c5f08a30e151bc1cedfc9666920b1d205fe1efbf1642",
+    "transfer_semantic_review.json": "3afc611a634c92794cab54789096b861c8ef178d498eec91e331c57d0e3c9638"
+  },
+  "scope": "Hashes/IDs/full-review and source preservation. Not independent semantic gold labels, general security, live-path, standalone portability or neural-chatbot certification. Exact-string exclusion does not remove family or public-pretraining overlap."
+}

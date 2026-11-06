@@ -1,0 +1,103 @@
+{
+  "cards": {
+    "allenai/cosmos_qa": {
+      "revision": "28d9d5e2aae025e73e11177891a88dba51190013",
+      "path": "sources\\cosmos_qa\\README.md",
+      "sha256": "d4a59287c5685622d6c9425f9b4968ea8fbb38af938e39330a73bdd15c23c278"
+    },
+    "allenai/winogrande": {
+      "revision": "01e74176c63542e6b0bcb004dcdea22d94fb67b5",
+      "path": "sources\\winogrande\\README.md",
+      "sha256": "fd653689cc77706672b40cd040156ad57f4969656d25a14be645cffa8ef55176"
+    },
+    "tau/commonsense_qa": {
+      "revision": "94630fe30dad47192a8546eb75f094926d47e155",
+      "path": "sources\\commonsense_qa\\README.md",
+      "sha256": "172917e887dcc013fe0f0bd6aa8c810aea1e2be67d3bc7ff63e9b9d92075cc34"
+    }
+  },
+  "cosmos_git_revision": "b6eb99cca4e2a51dd28a9a6f562534872d851639",
+  "records": [
+    {
+      "path": "sources\\cosmos_train.csv",
+      "url": "https://raw.githubusercontent.com/wilburOne/cosmosqa/b6eb99cca4e2a51dd28a9a6f562534872d851639/data/train.csv",
+      "sha256": "d8d5ca1f9f6534b6530550718591af89372d976a8fc419360fab4158dee4d0b2"
+    },
+    {
+      "path": "sources\\cosmos_valid.csv",
+      "url": "https://raw.githubusercontent.com/wilburOne/cosmosqa/b6eb99cca4e2a51dd28a9a6f562534872d851639/data/valid.csv",
+      "sha256": "a6a94fc1463ca82bb10f98ef68ed535405e6f5c36e044ff8e136b5c19dea63f3"
+    },
+    {
+      "path": "sources\\WINOGRANDE_PUBLISHER_README.md",
+      "url": "https://raw.githubusercontent.com/allenai/winogrande/master/README.md",
+      "sha256": "6dc5ec952a9e5d6e553e2800c24b43b1fa8add70d998e60b76262e2195413efe"
+    },
+    {
+      "path": "sources\\winogrande_1.1.zip",
+      "url": "https://storage.googleapis.com/ai2-mosaic/public/winogrande/winogrande_1.1.zip",
+      "sha256": "3619ab104d8be2977b25c90ff420cb42d491707dcc75362a1e5d22bc082b7318"
+    },
+    {
+      "path": "sources\\wino_dev-labels.lst",
+      "archive_member": "winogrande_1.1/dev-labels.lst",
+      "sha256": "5ae1e30f52a50b880515685dcfae7d57649cce256d375947cdd02f687de7e6ba"
+    },
+    {
+      "path": "sources\\wino_README.md",
+      "archive_member": "winogrande_1.1/README.md",
+      "sha256": "04d299cbf5022a8ecd68d95a9a384ff037b6c53452376ab52ef6d0475231e79a"
+    },
+    {
+      "path": "sources\\wino_dev.jsonl",
+      "archive_member": "winogrande_1.1/dev.jsonl",
+      "sha256": "1aeac79cf46a3dcbe59a71ca7e5372a1490cde2b4ae2387dc56f00378104d2e8"
+    },
+    {
+      "path": "sources\\wino_train_xl.jsonl",
+      "archive_member": "winogrande_1.1/train_xl.jsonl",
+      "sha256": "5da4d7f6924348ace9e64fd0922d8a7a8e0e14f55cd08005ffb1a3a3d649e36f"
+    },
+    {
+      "path": "sources\\wino_train_xl-labels.lst",
+      "archive_member": "winogrande_1.1/train_xl-labels.lst",
+      "sha256": "158335fcbe30fc6ced1edef73339bf81bf8cc9101a9fd80dfc607c05fa6bc1a7"
+    },
+    {
+      "path": "sources\\commonsense_qa\\data\\train-00000-of-00001.parquet",
+      "repo": "tau/commonsense_qa",
+      "revision": "94630fe30dad47192a8546eb75f094926d47e155",
+      "sha256": "b0449767ed986bfc2ca52b1244a46ef12f732756727f3cb0a4ab69ac8b3d282b"
+    },
+    {
+      "path": "sources\\commonsense_qa\\data\\validation-00000-of-00001.parquet",
+      "repo": "tau/commonsense_qa",
+      "revision": "94630fe30dad47192a8546eb75f094926d47e155",
+      "sha256": "bdbd9bf9cc4d2349b24901038b2ab2f58e10e4e507ad2fd425dca55cd3cb6660"
+    },
+    {
+      "path": "sources\\COMMONSENSEQA_OWNER_LICENCE.json",
+      "url": "https://api.github.com/repos/jonathanherzig/commonsenseqa/issues/5/comments",
+      "sha256": "bd8fd18930a939f900c0f72e0c10efed2dcfbe2648423172451f7c3143eb8388"
+    }
+  ],
+  "licences": {
+    "Cosmos QA": "CC BY 4.0 (publisher card records permission from Yejin Choi)",
+    "WinoGrande": "CC BY 2.0 (dataset archive README; code Apache licence is separate)",
+    "CommonsenseQA": "MIT (publisher and original owner declaration)"
+  },
+  "excluded": {
+    "SciQ": "CC BY-NC 3.0; not downloaded or used",
+    "OpenBookQA": "Unclear dataset licence; not used"
+  },
+  "earlier_sources": "Social IQa CC BY 4.0; ATOMIC CC BY 4.0; original authored curriculum",
+  "no_neural_teacher": true,
+  "legal_files": {
+    "LICENSE-CC-BY-2.0.txt": "f892996eb4b6f2e54241432ed67b743772224e191ba3a0ae595eb4feca3df4c5",
+    "LICENSE-MIT.txt": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5"
+  },
+  "earlier_source_manifests": {
+    "research\\tom_027\\sources.json": "7f529363b84f96b5dd5b443654de3af9e7d306b4e7d2a114cd13abc8ed2553c4",
+    "research\\tom_029\\sources.json": "ae3bf9f75a4e1753dbd6872c380bdcce21a3df4d398ffc1827b7ca7f88a2461c"
+  }
+}

@@ -73,6 +73,17 @@ def rewrite(messages):
             possessive = pronoun in ('his', 'her', 'their', 'its') and not re.search(r'(?i)\b' + pronoun + r'\s*\?$', text)
             replacement = target + ("'s" if possessive else '')
             return re.sub(r'(?i)\b' + pronoun + r'\b', replacement, text, count=1)
+    # "What is its population?" right after "The capital of Japan is Tokyo.": "its" is the thing the answer named.
+    thing = re.search(r'(?i)\b(its|it)\b', text)
+    if thing and asked_before and re.match(r'(?i)^(?:when|where|how|what|who|which|is|was|does|did)\b', text) and len(text.split()) <= 9:
+        first = re.sub(r'[*_`]', '', answer.strip().split('\n')[0]).strip()
+        named = re.match(r"^(?:The\s+)?[\w' -]+?\s+(?:is|was)\s+(?:the\s+)?([A-Z][\w'.-]*(?:\s+(?:[A-Z][\w'.-]*|of|de|da|del))*)\.?$", first)
+        if named and len(first.split()) <= 14:
+            target = named[1].rstrip('.')
+            if thing[1].lower() == 'its':
+                return re.sub(r'(?i)\bits\s+([a-z]+(?:\s+[a-z]+)?)\s*(\?)?\s*$', lambda m: f'the {m[1]} of {target}{m[2] or ""}', text, count=1) \
+                    if re.search(r'(?i)\bits\s+[a-z]+(?:\s+[a-z]+)?\s*\??\s*$', text) else re.sub(r'(?i)\bits\b', target + "'s", text, count=1)
+            return re.sub(r'(?i)\bit\b', target, text, count=1)
     return None
 
 
@@ -149,6 +160,12 @@ OPINION = re.compile(r"(?i)^\s*what do you think (?:about|of)\s+(.+?)\s*\??\s*$|
 FUN = re.compile(r"(?i)\b(?:tell me (?:something|a fact) (?:interesting|cool|fun|surprising|random)|tell me something i (?:don't|do not) know|"
                  r"(?:a |any )?(?:fun|random|interesting|cool) fact|surprise me|tell me a fact)\b")
 DISAGREE = re.compile(r"(?i)^\s*(?:i\s+(?:don'?t|do not)\s+agree|i\s+disagree|that'?s not (?:true|right)|you'?re wrong|not true)(?:\s+with you)?\s*[.!]*\s*$")
+
+
+BORED = re.compile(r"(?i)^\s*(?:i'?m|i am|im|so|feeling|i feel)\s+(?:so\s+|really\s+|very\s+|kind of\s+)?bored\b")
+BORED_IDEAS = ["A few ideas: take a 15-minute walk somewhere you have not been, learn one card trick, cook something new with what is in the fridge, or start a tiny drawing a day. Want ideas for something indoors or outdoors?",
+               "Some ideas: try a short puzzle (sudoku or a crossword), pick a song and learn its lyrics, tidy one drawer, or write a six-word story. I can give you a puzzle or help with a story if you like.",
+               "Some ideas: a quick workout or stretch, a podcast on a topic you know nothing about, a new recipe, or making something on vynly.co with a prompt I help you write?"]
 
 
 def out(response, route):
@@ -368,6 +385,8 @@ def reply(text, messages=(), seed=0):
     social = social_reply(messages or [dict(role='user',content=text)],seed)
     if social is not None:
         return social
+    if BORED.search(text):
+        return out(rng.choice(BORED_IDEAS), 'bored')
     m = OTHERS_NEWS.search(text)
     if m:
         return out(f"That's wonderful news for your {m[1].lower()}! Please pass on my congratulations. Are you excited too?", 'good-news')

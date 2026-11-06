@@ -1,0 +1,47 @@
+{
+  "revisions": {
+    "openai/grade-school-math": "3101c7d5072418e28b9008a6636bde82a006892c",
+    "google-research/google-research": "3ef52111c1fabc301880818f5a547570e926a76b"
+  },
+  "files": [
+    {
+      "path": "sources\\gsm8k_train.jsonl",
+      "url": "https://raw.githubusercontent.com/openai/grade-school-math/3101c7d5072418e28b9008a6636bde82a006892c/grade_school_math/data/train.jsonl",
+      "sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465"
+    },
+    {
+      "path": "sources\\gsm8k_test.jsonl",
+      "url": "https://raw.githubusercontent.com/openai/grade-school-math/3101c7d5072418e28b9008a6636bde82a006892c/grade_school_math/data/test.jsonl",
+      "sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14"
+    },
+    {
+      "path": "sources\\GSM8K_LICENSE_MIT.txt",
+      "url": "https://raw.githubusercontent.com/openai/grade-school-math/3101c7d5072418e28b9008a6636bde82a006892c/LICENSE",
+      "sha256": "86bbb73e855821d7c401912fd4bf82e34313e6e3b6fd6f909f2b6cc9e209a53b"
+    },
+    {
+      "path": "sources\\GSM8K_README.md",
+      "url": "https://raw.githubusercontent.com/openai/grade-school-math/3101c7d5072418e28b9008a6636bde82a006892c/README.md",
+      "sha256": "27e1676d572f2289210170ff6dbb8c2ef7d9f6950c0f08c978ea8ee6b39dca29"
+    },
+    {
+      "path": "sources\\mbpp.jsonl",
+      "url": "https://raw.githubusercontent.com/google-research/google-research/3ef52111c1fabc301880818f5a547570e926a76b/mbpp/mbpp.jsonl",
+      "sha256": "ccf64ceae9c5403bf50a044cb6d505bfd2a2963ee58338ba268fd65beab92a9f"
+    },
+    {
+      "path": "sources\\MBPP_README.md",
+      "url": "https://raw.githubusercontent.com/google-research/google-research/3ef52111c1fabc301880818f5a547570e926a76b/mbpp/README.md",
+      "sha256": "02d63a4ffdad806c3c87b5ea2aa91e946f6eec0c2869643b09831650883f41be"
+    },
+    {
+      "path": "sources\\GOOGLE_RESEARCH_DATASET_LICENCE.md",
+      "url": "https://raw.githubusercontent.com/google-research/google-research/3ef52111c1fabc301880818f5a547570e926a76b/README.md",
+      "sha256": "1022d37738b52c672304dbe71038a4a1f0d2cac5de3c9178652873a5698a8674"
+    }
+  ],
+  "downloaded_at": "2026-10-17T08:50:51.349665+00:00",
+  "gsm8k_licence": "MIT, OpenAI 2021",
+  "mbpp_licence": "CC BY 4.0, Austin et al. 2021",
+  "no_socratic_or_model_generated_solutions": true
+}

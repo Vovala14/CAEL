@@ -144,6 +144,10 @@ class Reasoner:
         return result
 
     def respond(self,text,messages=None):
+        from .event_memory import reply as event_reply
+        updated=event_reply(messages or [dict(role='user',content=text)])
+        if updated is not None:
+            return updated
         from .reasoning_chat import respond
         return respond(self,text,messages)
 

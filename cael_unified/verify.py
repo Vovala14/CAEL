@@ -149,6 +149,14 @@ def check_code(request, answer):
     if not re.search(r'^def \w+\(', code, re.M):
         raise Unchecked('not a function')
     name = re.search(r'^def (\w+)\(', code, re.M)[1]
+    declared=re.search(r'(?i)\b(?:Python\s+)?function\s+([A-Za-z_]\w*)\s*\(([^()\n]{0,240})\)\s+(?:that\s+)?returns?\b',request)
+    if declared:
+        try:
+            wanted=ast.parse('def '+declared[1]+'('+declared[2]+'):\n    pass').body[0]
+            actual=next(n for n in ast.parse(code).body if isinstance(n,ast.FunctionDef) and n.name==name)
+        except (SyntaxError,StopIteration):raise Unchecked('the explicit requested signature could not be checked')
+        if name!=wanted.name or ast.dump(wanted.args)!=ast.dump(actual.args):
+            return dict(status='failed',check='the function changes the explicitly requested name, parameters, defaults or keyword rules; passing positional examples does not preserve that contract')
     tests = []
     for block in blocks[1:]:
         try:
@@ -171,11 +179,16 @@ def check_code(request, answer):
             except (ValueError, TypeError, SyntaxError):
                 continue
             tests.append((dict(name=name, args=args, kwargs=kwargs), expected))
-    from .codegen.chat import examples
-    given_name, cases = examples(request)
-    if given_name == name:
-        for args, expected in cases:
-            tests.append((dict(name=name, args=args), expected))
+    from .codegen.literal_cases import from_request,Unclear
+    try:complete=from_request(request,name)
+    except (Unclear,ValueError,TypeError,SyntaxError,RecursionError):raise Unchecked('the complete literal Examples section could not be parsed; no subset was certified')
+    if complete is not None:tests.extend(complete)
+    else:
+        from .codegen.chat import examples
+        given_name, cases = examples(request)
+        if given_name == name:
+            for args, expected in cases:
+                tests.append((dict(name=name, args=args), expected))
     if not tests:
         raise Unchecked('no tests to run')
     if len(tests) > 100:
@@ -186,7 +199,8 @@ def check_code(request, answer):
         raise Unchecked('bounded interpreter does not cover this program or exceeded its budget')
     if result['status'] != 'ok':
         return dict(status='failed', check='the bounded interpreter could not load the function')
-    passed = sum(row['status'] == 'value' and row.get('value') == expected
+    from .codegen.synth import matches
+    passed = sum(row['status'] == 'value' and matches([row.get('value')],[expected])
                  for row, (_, expected) in zip(result['cases'], tests))
     failed = len(tests) - passed
     if failed:
@@ -240,6 +254,9 @@ CHECKS = [('helper/arithmetic', check_arithmetic), ('helper/equation', check_equ
 
 def check(request, answer):
     """dict(status, check, correction?) for one answer."""
+    if 'evidence' in answer:
+        evidence=answer['evidence']
+        return dict(status='unchecked',check='Public-source evidence state: '+str(evidence.get('state'))+'. Read-page support is not an independent truth proof; conflicts and coverage limits are retained.')
     if 'python_tool' in answer:
         from .codegen.tool_contract import read
         try:read(answer['python_tool'])

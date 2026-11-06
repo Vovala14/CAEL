@@ -1,0 +1,70 @@
+{
+  "topic_holdout": {
+    "correct": 162,
+    "total": 162,
+    "failures": []
+  },
+  "template_confirmation": {
+    "correct": 61,
+    "total": 72,
+    "failures": [
+      {
+        "text": "give a definition of osmosis",
+        "kind": "definition",
+        "actual": "cause"
+      },
+      {
+        "text": "give a definition of earthquakes",
+        "kind": "definition",
+        "actual": "cause"
+      },
+      {
+        "text": "give a definition of Kyoto",
+        "kind": "definition",
+        "actual": "cause"
+      },
+      {
+        "text": "give a definition of the printing press",
+        "kind": "definition",
+        "actual": "cause"
+      },
+      {
+        "text": "give a definition of coral reefs",
+        "kind": "definition",
+        "actual": "cause"
+      },
+      {
+        "text": "what distinguishes osmosis from earthquakes",
+        "kind": "comparison",
+        "actual": "definition"
+      },
+      {
+        "text": "what distinguishes earthquakes from Kyoto",
+        "kind": "comparison",
+        "actual": "definition"
+      },
+      {
+        "text": "what distinguishes Kyoto from a steam engine",
+        "kind": "comparison",
+        "actual": "definition"
+      },
+      {
+        "text": "what distinguishes a steam engine from the printing press",
+        "kind": "comparison",
+        "actual": "definition"
+      },
+      {
+        "text": "what distinguishes the printing press from coral reefs",
+        "kind": "comparison",
+        "actual": "definition"
+      },
+      {
+        "text": "what distinguishes coral reefs from osmosis",
+        "kind": "comparison",
+        "actual": "definition"
+      }
+    ]
+  },
+  "training_examples": 972,
+  "limitation": "Authored paraphrases, not independent real-user comprehension tests"
+}

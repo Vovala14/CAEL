@@ -17,7 +17,7 @@ ALIASES = {
     'preferred name': ('preferred name', 'name to use', 'nickname'),
     'reply style': ('reply style', 'response style', 'answer style', 'reply length'),
     'preferred language': ('preferred language', 'language preference'),
-    'editor': ('preferred editor', 'editor', 'code editor'),
+    'editor': ('preferred editor', 'editor', 'code editor', 'editor preference'),
     'operating system': ('operating system', 'os'),
     'learning': ('learning', 'learning topic', 'study topic'),
     'goal': ('goal', 'current goal'),
@@ -81,7 +81,7 @@ def assertion(text):
         if not match:
             continue
         slot, value = (key(match[1]), match[2]) if slot is None else (slot, match[1])
-        if slot == 'operating system' and not re.fullmatch(r'(?i)(?:windows|linux|ubuntu|debian|fedora|macos|mac os|android|ios)(?: [\w. -]{1,30})?', value):
+        if slot == 'operating system' and not re.fullmatch(r'(?i)(?:windows|linux|ubuntu|debian|fedora|openbsd|freebsd|macos|mac os|android|ios)(?: [\w. -]{1,30})?', value):
             return None
         if re.search(r'(?i)\b(?:but|or|if|maybe|perhaps|unless)\b|["“”=]', value):
             return None
@@ -159,6 +159,11 @@ def question_key(text):
         'what should you call me': 'preferred name',
         'what am i learning': 'learning', 'what am i studying': 'learning',
         'what goal am i working toward': 'goal',
+        'what goal am i working towards': 'goal',
+        'what do i hope to achieve': 'goal',
+        'what am i trying to achieve': 'goal',
+        'what am i working toward': 'goal',
+        'what am i working towards': 'goal',
         'what is my project called': 'project',
         'which operating system do i use': 'operating system',
         'what operating system do i use': 'operating system',
@@ -171,6 +176,37 @@ def question_key(text):
     if match:
         return key(match[1])
     return None
+
+
+def provenance_key(text):
+    """A bounded question about the source of a profile fact, not a request for advice."""
+    match = re.fullmatch(r"(?:how do you know|how did you learn|where did you learn|where did i tell you|"
+                         r"what is your source for) my ([\w -]{1,64})", clean(text).lower())
+    if match:return key(match[1])
+    frames=[
+        r"what (?:is|was) (?:your |the )?(?:evidence|source|proof|basis)(?: for| of)?(?: (?:knowing|remembering|saying|claiming|recalling))? my ([\w -]{1,64})",
+        r"what (?:evidence|source|proof) do you have for (?:knowing |remembering |saying )?my ([\w -]{1,64})",
+        r"(?:how|where) did you (?:find out|learn|read|hear) (?:about )?my ([\w -]{1,64})",
+    ]
+    for frame in frames:
+        match=re.fullmatch(frame,clean(text).lower())
+        if match:return key(match[1])
+    return None
+
+
+def evidence(messages, name, values):
+    """Quote only matching user assertions, never unrelated content or erased values."""
+    rows = []
+    for value, index in values[:4]:
+        message = messages[index]
+        if message.get('role') != 'user':
+            continue
+        for sentence in re.split(r'(?<=[.!])\s+|;\s*', message.get('content', '')):
+            item = assertion(sentence)
+            if item and item[0] == name and item[2] != FORGET and item[1].casefold() == value.casefold():
+                rows.append(dict(message=index, statement=sentence.strip()))
+                break
+    return rows
 
 
 def reply(messages):
@@ -188,7 +224,8 @@ def reply(messages):
             return out('I will leave '+('those facts' if item[0]=='*' else 'your '+item[0])+
                        ' out of my conversation memory. The original messages remain in the chat transcript.')
         return out('I will remember your '+item[0]+': '+item[1]+', within this conversation.')
-    wanted = question_key(text)
+    attributed = provenance_key(text)
+    wanted = attributed if attributed is not None else question_key(text)
     summary = clean(text).lower() in {'what do you remember about me', 'what have i told you about myself'}
     if wanted is None and not summary:
         return None
@@ -212,6 +249,19 @@ def reply(messages):
         return 'You have not told me a current '+name+' in this chat, or asked me to forget it.'
     if wanted is not None:
         values = profile.values(wanted)
+        if attributed is not None and values:
+            quotes = evidence(messages, wanted, values)
+            if len(values) > 1:
+                lead = 'You gave conflicting values for your '+wanted+' in this chat. These are the source statements:'
+            else:
+                lead = 'I know your '+wanted+' from what you told me in this chat:'
+            lines = [f'Message {row["message"]+1}: "{row["statement"]}"' for row in quotes]
+            if len(values) > len(quotes):
+                lines.append('More conflicting statements are recorded; please clarify which value is current.')
+            if len(values) > 1:
+                lines.append('I cannot choose one as current without clarification.')
+            return out('\n'.join([lead]+lines), memory_provenance=[i for _, i in values],
+                       memory_conflict=len(values)>1, memory_evidence=quotes)
         return out(describe(wanted), memory_provenance=[i for _, i in values],
                    memory_conflict=len(values)>1)
     names = sorted(k for k in profile.keys if profile.values(k))

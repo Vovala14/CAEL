@@ -102,6 +102,10 @@ def show(value):
 
 def from_description(text, out):
     """A request with no examples: if it names an everyday task, search against that task's own test cases."""
+    from .request_contract import guard
+    contract = guard(text)
+    if contract is not None:
+        return contract
     task = specs.find(text)
     if task is None:
         return None
@@ -123,6 +127,13 @@ EXPLAIN_DETAILS = ('Read from the Python syntax tree (ast) and, for short pure e
 
 
 def reply(text, seed=0, messages=None):
+    from .request_contract import guard
+    contract = guard(text)
+    if contract is not None:
+        return contract
+    from .inline_contract import reply as inline_reply
+    inline=inline_reply(text)
+    if inline is not None:return inline
     from .signature_contract import reply as signature_reply
     signature = signature_reply(text)
     if signature is not None:

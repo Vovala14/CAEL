@@ -1,5 +1,5 @@
-"""One public interface for the CAEL 0.3.8 code with the 0.3.7 model bundle."""
-__version__ = '0.3.8'
+"""CAEL 0.3.9: non-neural conversation runtime with the unchanged 0.3.7 resource bundle."""
+__version__ = '0.3.9'
 
 
 def __getattr__(name):

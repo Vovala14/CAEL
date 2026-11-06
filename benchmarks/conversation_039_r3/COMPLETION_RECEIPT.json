@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-06T22:18:19.509694+00:00",
+  "status": "completed_bounded_gap_upgrade",
+  "formal_replies_fully_reviewed": 186,
+  "architecture_preserved": true,
+  "all_gaps_fixed": false,
+  "deployed": false,
+  "published": false,
+  "artifact_sha256": {
+    "REPORT.md": "af9f2535eef0ab4bfc5f4b37cd7819adbf35a1ec884f00fc44f080d87933f818",
+    "report.json": "fd978dceb07b127b803809557e3ba2a578131c2718821e4085ed81bb93ad25e7",
+    "STATUS.json": "52660d01999341a3c76ff284cd1cfb1c84750a32f4a50276e25d6e96e921e5ec",
+    "NEXT.md": "2456e501cf8624829a60adaec5531ff30dc841a3843781bcee408620c6398084",
+    "FREEZE.json": "6b66428369ec45953472820e6039f7f7137e5e856b2874eda2ab6651e853119f",
+    "audit_complete.json": "862954cce957ba0e6201cd29d6c7f92909f95887f7b94abf53e2374a22a03b8b",
+    "development_semantic_review.json": "dde4eb2bf68be014db3c7952634714fa0266f604451d67639dca0cc6514fb870",
+    "transfer_semantic_review.json": "3afc611a634c92794cab54789096b861c8ef178d498eec91e331c57d0e3c9638",
+    "transfer_manifest.json": "d088f3887da921f88373c5f08a30e151bc1cedfc9666920b1d205fe1efbf1642",
+    "SENSITIVITIES.md": "8244a98d9698c616573f7ce1577cbbecded650811cdef3f51863162ceab3fe6e",
+    "sensitivities.json": "3f0b8fa5714f49a11bc9c329ce8e9622d5ca039127ccf5f156d80cb08ae06f9a",
+    "REVIEW_SCOPE_NOTE.md": "6df3af5128c224bce03c61125f57874d0de14d1e70a6fc2eb5e2731d5a6c0aa5",
+    "code_review_diagnostics.json": "f7a400365521c9857eabfc7915ad9c2211855b0e0c6f0d726f173c9f849874d9",
+    "interactive_smoke.log": "892e98a13af961a700b6aac3a0333d2761de2403e47381ed01a443b87d599c8b",
+    "report.py": "4e112f3bac1b4c209bdbeea343dfd87d9bae6cb5a22f4acddde190fbd4a5fa99"
+  }
+}

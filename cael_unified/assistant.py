@@ -33,6 +33,8 @@ def unanswered(answer):
     """A reply that gives no answer: "tell me more", "not sure", or a not-found / clarify route."""
     if not isinstance(answer,dict):
         return False
+    if (answer.get('lookup') or {}).get('attempted'):
+        return False  # A completed lookup is not retried with spelling guesses.
     route=str(answer.get('route',''))
     return (route in WEB_FALLBACK_ROUTES or route in ('chat/complete-unknown','error')
             or bool(UNANSWERED.search(str(answer.get('response','')).strip())))
@@ -99,6 +101,8 @@ def picture_follow_up(messages):
 
 class Assistant:
     def __init__(self, bundle=None, output_root=None, language_checkpoint=None, learning_memory=None):
+        from .runtime_policy import install
+        install()
         self.root, self.manifest = open_bundle(bundle)
         self.output_root = Path(output_root or ROOT / 'outputs' / 'unified').resolve()
         self.output_root.mkdir(parents=True, exist_ok=True)
@@ -171,7 +175,15 @@ class Assistant:
     def respond(self, messages, n=2, seed=None, mode='auto'):
         from . import ltm
         with ltm.request_memory(getattr(self, '_learning_memory', None)):
-            answer = self._respond_request(messages, n=n, seed=seed, mode=mode)
+            # Questions about CAEL itself ("What's is CAEL?", "who are you?") get CAEL's own description before any
+            # spelling repair, fact route or web lookup can read "CAEL" as someone else (self_identity.py, 0.3.8 fix).
+            from . import self_identity
+            answer = self_identity.reply(messages) if mode in ('auto', 'chat') else None
+            if answer is None and mode in ('auto','chat') and type(n) is int and 1<=n<=8 and (seed is None or type(seed) is int and 0<=seed<2**31):
+                from .dialogue import reply as dialogue_reply
+                answer=dialogue_reply(messages,lambda history:self._respond_request(history,n=n,seed=seed,mode=mode))
+            if answer is None:
+                answer = self._respond_request(messages, n=n, seed=seed, mode=mode)
         if mode in ('auto', 'chat') and isinstance(messages, list):
             # A stated "no questions" request holds on every conversational route (emotional_chat.enforce, 0.3.8).
             from . import emotional_chat
@@ -193,6 +205,16 @@ class Assistant:
             if contract and contract['body'] != messages[-1].get('content'):
                 body = messages[:-1]+[dict(messages[-1], content=contract['body'])]
                 return output_contract.apply(self.respond(body, n=n, seed=seed, mode=mode), contract)
+        # Preserve open-vocabulary entities and complete event documents before
+        # spelling repair. This is the shared fitted conversation event model.
+        if (mode in ('auto','chat') and isinstance(messages,list) and messages and len(messages)<=MAX_MESSAGES
+                and all(isinstance(m,dict) and m.get('role') in ('user','assistant','system') and isinstance(m.get('content'),str) for m in messages)
+                and messages[-1]['role']=='user' and sum(len(m['content']) for m in messages)<=8_000_000
+                and type(n) is int and 1<=n<=8 and (seed is None or type(seed) is int and 0<=seed<2**31)):
+            from .event_memory import reply as event_reply
+            recalled=event_reply(messages)
+            if recalled is not None:
+                return recalled
         # Misspellings and chat shorthand ("whats the captial of australia", "r u smart") are read as the corrected
         # message (spelling.py). If that still gets no answer, the original wording is tried too.
         fixed=self.spell_checked(messages,mode)
@@ -286,21 +308,31 @@ class Assistant:
         if (mode in ('auto','chat') and isinstance(answer,dict) and os.environ.get('CAEL_WEB_SEARCH','1')!='0'
                 and isinstance(messages,list) and messages):
             from . import web_search
-            text=messages[-1].get('content','')
+            # The question as understood: a follow-up written out in full ("When was he born?" after "Who wrote
+            # Hamlet?" -> "When was William Shakespeare born?") or the spelling-corrected text (0.3.8 Q&A fix).
+            text=answer.get('understood_as') or messages[-1].get('content','')
             route=answer.get('route','')
+            # A follow-up whose "he"/"its" could not be resolved is not searched as it stands (it would match pages
+            # about the grammar of "when was he born").
+            unresolved=(not answer.get('understood_as') and sum(m.get('role')=='user' for m in messages)>1
+                        and bool(re.search(r"(?i)\b(?:he|she|him|his|her|its|they|them|their)\b",text)))
+            # "What is inflation in economics?": the field qualifier is not part of the article's subject.
+            field=re.match(r"(?i)^\s*(what(?:'s| is| are)\s+(?:an?\s+|the\s+)?[\w -]+?)\s+(?:in|within)\s+(?:economics|physics|chemistry|biology|"
+                           r"mathematics|maths|math|computing|computer science|programming|finance|medicine|law|philosophy|psychology|music|art|"
+                           r"geography|history|statistics|astronomy|grammar|linguistics|sociology|politics)\s*\??\s*$",text)
             # An encyclopedia article that is not about the question's subject ("The Silent Cartographer" for
             # "What does a cartographer do?") counts as not answered too.
             off_topic=False
             if (route.startswith('chat/web-wikipedia') or route=='chat/local-knowledge') and answer.get('sources'):
                 from urllib.parse import unquote
-                subject=set(web_search.terms(web_search.subject_of(text)))
+                subject=set(web_search.terms(web_search.subject_of(field[1]+'?' if field else text)))
                 link=answer['sources'][0].get('url','')
                 # Local snapshot answers name their article ("Doctor Who" for "What does a doctor do?").
                 named=answer['sources'][0].get('title') if route=='chat/local-knowledge' else None
                 if named:
                     link='/wiki/'+named.replace(' ','_')
                 title=set(web_search.terms(re.sub(r'\s*\(.*','',unquote(link.rsplit('/',1)[-1]).replace('_',' '))))
-                definition=bool(re.match(r"(?i)\s*(?:what|who)(?:'s| is| are| does| do)\s+(?:an?\s+|the\s+)?[\w\s-]+?(?:\s+do|\s+mean)?\s*\??$",text))
+                definition=bool(re.match(r"(?i)\s*(?:what|who)(?:'s| is| are| does| do)\s+(?:an?\s+|the\s+)?[\w\s-]+?(?:\s+do|\s+mean)?\s*\??$",field[1]+'?' if field else text))
                 off_topic=bool(subject) and bool(title) and '/wiki/' in link and (
                     not subject<=title or (definition and bool(title-subject-{'the'})))   # "Bikini barista" for "barista"
                 # A "List of ..." page is not an answer unless a list was asked for.
@@ -310,12 +342,33 @@ class Assistant:
             # electron?") is checked on the web; it is replaced only when different websites agree on an answer.
             weak_local=(route=='chat/local-knowledge' and web_search.should_search(text)
                         and not web_search.says_asked(text,answer.get('response','')))
-            if weak_local:
+            def typed(found):
+                # One website's sentence that does not even contain the asked kind of answer (no year for "when",
+                # no name for "who", no number for "how many") is not an answer.
+                if found is None or found.get('route')!='chat/web-search-unconfirmed' or (found.get('search') or {}).get('key'):
+                    return found
+                quoted=' '.join(re.findall(r'(?m)^>\s*(.+)$',found.get('response','')))
+                asked=set(web_search.terms(text))
+                kind=web_search.kind_of(text)
+                names=[n for n in re.findall(r"\b[A-Z][\w'-]+(?:\s+[A-Z][\w'-]+)+",quoted) if not set(web_search.terms(n))<=asked]
+                if ((kind=='year' and not re.search(r'\b(?:1\d{3}|20\d\d)\b',quoted)) or (kind=='number' and not re.search(r'\d',quoted))
+                        or (kind=='name' and not names)):
+                    return None
+                return found
+            # A "when" question answered by a local passage that gives no year in its opening is checked on the web.
+            if (route=='chat/local-knowledge' and web_search.kind_of(text)=='year'
+                    and not re.search(r'\b(?:1\d{3}|20\d\d)\b',answer.get('response','')[:220])):
+                found=web_search.answer(text) if web_search.should_search(text) else None
+                if found is not None and ((found.get('evidence') or {}).get('answer_key') or found.get('route')=='chat/web-search' or (found.get('search') or {}).get('key')):
+                    answer=found
+            elif unresolved:
+                pass
+            elif weak_local:
                 found=web_search.answer(text)
-                if found is not None and found.get('route')=='chat/web-search':
+                if found is not None and (found.get('route')=='chat/web-search' or (found.get('evidence') or {}).get('state') in ('supported','conflict')):
                     answer=found
             elif route in WEB_FALLBACK_ROUTES or off_topic or past_sports:
-                found=web_search.answer(text) if web_search.should_search(text) else None
+                found=typed(web_search.answer(text)) if web_search.should_search(text) else None
                 if found is not None:
                     answer=found
                 elif off_topic:
@@ -398,12 +451,27 @@ class Assistant:
         if not text:
             raise ValueError('Request is empty')
         if mode in ('auto', 'chat'):
+            def settled(found):
+                # A solver that cannot parse a clause asks for clarification; the everyday word-problem reasoner and
+                # the price/percent solver get a chance first (0.3.8 Q&A fix: "She gives 5 to Tom. Then she buys 8").
+                if found is None or not str(found.get('route', '')).endswith('-clarify'):
+                    return found
+                from . import everyday_reasoning, quantities
+                for other in (everyday_reasoning.reply, quantities.reply):
+                    try:
+                        solved = other(text)
+                    except Exception:
+                        solved = None
+                    if solved and solved.get('response') and not str(solved.get('route', '')).endswith(('-clarify', 'unsupported')):
+                        return dict(solved, details=(solved.get('details', '') + '\nAnother solver asked for clarification: '
+                                                     + found.get('response', '')[:200]).strip())
+                return found
             from .semantic_quantities import reply as semantic_quantity_reply
-            numerical = semantic_quantity_reply(text)
+            numerical = settled(semantic_quantity_reply(text))
             if numerical is not None:
                 return numerical
             from .checked_tasks import reply as checked_task_reply
-            checked = checked_task_reply(text)
+            checked = settled(checked_task_reply(text))
             if checked is not None:
                 return checked
             # A declarative Python stub is one function contract, before a
@@ -419,7 +487,7 @@ class Assistant:
             if established and (established.get('helper_reasoning') or {}).get('value') is not None:
                 return established
             from .quantity_graph import routed_reply as quantity_graph_reply
-            quantity_answer = quantity_graph_reply(text)
+            quantity_answer = settled(quantity_graph_reply(text))
             if quantity_answer is not None:
                 return quantity_answer
             from .task_context import read as task_context

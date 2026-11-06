@@ -1,0 +1,30 @@
+{
+ "places": {
+  "tired": {
+   "bedroom": 4808
+  },
+  "bored": {
+   "garden": 4766
+  },
+  "thirsty": {
+   "kitchen": 4923
+  },
+  "hungry": {
+   "kitchen": 4775
+  }
+ },
+ "objects": {
+  "tired": {
+   "pajamas": 2288
+  },
+  "bored": {
+   "football": 2217
+  },
+  "thirsty": {
+   "milk": 2299
+  },
+  "hungry": {
+   "apple": 2361
+  }
+ }
+}

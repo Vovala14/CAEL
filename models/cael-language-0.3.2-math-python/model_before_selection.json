@@ -1,0 +1,34 @@
+{
+  "format": "cael-conditional-count-v1",
+  "files": {
+    "answers.npz": "59c8eacf8999e68c4502979062c548a031b7340da84bb3f4b3813fe16a6dc072",
+    "association.npz": "1a10df1a9b67fd1d57aaf421f7d75ab69b3d7e376a93f1cf14df8f29a8b3f30f",
+    "contexts.npz": "8536811d364f134e8d4e3c27cff80645bd0f49a4e40354a6b51987c34ea129e6",
+    "global.npy": "12d8282fd9f05df5c5617eb7b656e2a5f789b3e99b8e94f58c8eac49114a6cb3",
+    "prefix.npz": "e8358c84a882ce62b3cfbd397dbcfbee05d5a142b831fe9d09a33a00cc7521db",
+    "retriever.joblib": "13bf2f5874710eea46a7a91faedb68032ded2f928f79cc0f5d4172efe0467afc",
+    "vocab.json": "09cf0efd2ebed518b908e17f6c7b1332fe83691bc327b16c6e3bc5991c6f534f"
+  },
+  "entity_binding": true,
+  "settings": {
+    "neighbours": 96,
+    "recall_power": 3,
+    "recall_weight": 0.9,
+    "prefix_weight": 0.0,
+    "association_strength": 1.0
+  },
+  "neural_parameters": 0,
+  "family": "CAEL unified existing conditional-count architecture",
+  "training": {
+    "rows": 217546,
+    "vocabulary": 22310,
+    "answer_min_count": 1,
+    "sources_sha256": "06ffbc9f027b5c45fbf808c9bc3d1d6f4eef29f608882b9d0255391f9eccc789",
+    "data_sha256": "3039abf7f845899e9f9adb249c4d5b9769a7bfa9692d101eba545d30cd2f1dfd",
+    "pass_number": 0,
+    "architecture_unchanged": true
+  },
+  "target_training_rows": 0,
+  "selection": "Pending fixed math/Python development grid; no confirmation selection.",
+  "limitations": "Native choice likelihood only; no free code decoder, executor, or general math solver added."
+}

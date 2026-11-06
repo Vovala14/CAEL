@@ -1092,6 +1092,10 @@ QUESTION = re.compile(r"^(?:what|where|when|who|which|how|do|does|did|is|are|can
 
 def reply(messages):
     """Answer a question about earlier messages from the structured record store, or None."""
+    from .event_memory import reply as event_reply
+    updated=event_reply(messages)
+    if updated is not None:
+        return updated
     if not messages or messages[-1].get('role') != 'user':
         return None
     history = messages[:-1]

@@ -1,0 +1,88 @@
+{
+  "passed": true,
+  "runtime_unchanged": true,
+  "native_unified_checks": [
+    {
+      "source": "Authored Python output",
+      "identity": "python:result = 36 // 12",
+      "max_error": 0.0
+    },
+    {
+      "source": "Authored Python output",
+      "identity": "python:result = -26 % 2",
+      "max_error": 0.0
+    },
+    {
+      "source": "Authored Python output",
+      "identity": "python:result = 48 // 6",
+      "max_error": 0.0
+    },
+    {
+      "source": "Authored Python output",
+      "identity": "python:result = 61 // 6",
+      "max_error": 0.0
+    },
+    {
+      "source": "Authored arithmetic",
+      "identity": "math:-4 + 1",
+      "max_error": 0.0
+    },
+    {
+      "source": "Authored arithmetic",
+      "identity": "math:-13 + 11",
+      "max_error": 0.0
+    },
+    {
+      "source": "Authored arithmetic",
+      "identity": "math:27 + 5 * 1",
+      "max_error": 0.0
+    },
+    {
+      "source": "Authored arithmetic",
+      "identity": "math:(-34 - 2) * 1",
+      "max_error": 0.0
+    },
+    {
+      "source": "GSM8K numeric choices",
+      "identity": "gsm:confirmation:0019309e83e7cf0e6e90506fed1044a3d7199e27fb5d772b061842afbd9a5dc4",
+      "max_error": 0.0
+    },
+    {
+      "source": "GSM8K numeric choices",
+      "identity": "gsm:confirmation:003c5304d9aeda0ff30e926faf27e7c05d3f50f4092b2f11e6230f8f386a342e",
+      "max_error": 0.0
+    },
+    {
+      "source": "GSM8K numeric choices",
+      "identity": "gsm:confirmation:00654999ca85285f19b8896f7ffaaf5981bf88701cf26a8e50650cf959fea3da",
+      "max_error": 0.0
+    },
+    {
+      "source": "GSM8K numeric choices",
+      "identity": "gsm:confirmation:00d8d602ce43bb4c99294d3258c6ac97d2ea978ea9a83131efa7e60725e2fe39",
+      "max_error": 0.0
+    },
+    {
+      "source": "MBPP reference matching",
+      "identity": "mbpp:200",
+      "max_error": 8.881784197001252e-16
+    },
+    {
+      "source": "MBPP reference matching",
+      "identity": "mbpp:416",
+      "max_error": 8.881784197001252e-16
+    },
+    {
+      "source": "MBPP reference matching",
+      "identity": "mbpp:57",
+      "max_error": 8.881784197001252e-16
+    },
+    {
+      "source": "MBPP reference matching",
+      "identity": "mbpp:71",
+      "max_error": 3.552713678800501e-15
+    }
+  ],
+  "model_sha256": "b2e27bb7c5c6e720e0cfdc7e8d58cdb71b5a3462ba7553b238778b193b6d6b45",
+  "downloaded_code_executed": false
+}

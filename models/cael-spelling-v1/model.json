@@ -1,0 +1,13 @@
+{
+  "format": "cael-spelling-counts-v1",
+  "files": {
+    "words.json.gz": "6b6fa2a593cab8365964e5bf4e6fef3c31f25001e04e36989d4e31b8462fc901",
+    "pairs.json.gz": "dc5ccdcceb5d2e8bab57b62f9c32a71663c3c889e3fb9c3aee0be33bedd0f545"
+  },
+  "words": 164894,
+  "pairs": 1388921,
+  "tokens": 43924703,
+  "source": "models/cael-knowledge-v1 passages + models/cael-chat-corpus-v1 pairs (x5)",
+  "licence": "CC BY-SA 4.0",
+  "neural_parameters": 0
+}

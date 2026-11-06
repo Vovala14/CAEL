@@ -1,0 +1,44 @@
+{
+  "kind": "Post-fit diagnostic only; no checkpoint selection or retraining.",
+  "model_sha256": "b2e27bb7c5c6e720e0cfdc7e8d58cdb71b5a3462ba7553b238778b193b6d6b45",
+  "answer_frequency_only": {
+    "by_source": {
+      "Authored Python output": {
+        "n": 128,
+        "correct": 40,
+        "accuracy": 0.3125,
+        "chance": 0.25,
+        "top_score_ties": 0
+      },
+      "Authored arithmetic": {
+        "n": 128,
+        "correct": 38,
+        "accuracy": 0.296875,
+        "chance": 0.25,
+        "top_score_ties": 1
+      },
+      "GSM8K numeric choices": {
+        "n": 128,
+        "correct": 81,
+        "accuracy": 0.6328125,
+        "chance": 0.25,
+        "top_score_ties": 6
+      },
+      "MBPP reference matching": {
+        "n": 128,
+        "correct": 38,
+        "accuracy": 0.296875,
+        "chance": 0.25,
+        "top_score_ties": 0
+      }
+    },
+    "macro_accuracy": 0.384765625
+  },
+  "full_model_minus_answer_frequency": {
+    "Authored Python output": 0.0234375,
+    "Authored arithmetic": 0.015625,
+    "GSM8K numeric choices": -0.0546875,
+    "MBPP reference matching": 0.140625
+  },
+  "caution": "Vocabulary coverage and answer priors can explain choice gains without math/program reasoning."
+}

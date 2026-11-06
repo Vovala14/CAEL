@@ -1,0 +1,89 @@
+{
+  "source_freeze_sha256": "6b66428369ec45953472820e6039f7f7137e5e856b2874eda2ab6651e853119f",
+  "primary_scores_unchanged": true,
+  "bindings": {
+    "development": {
+      "review_sha256": "dde4eb2bf68be014db3c7952634714fa0266f604451d67639dca0cc6514fb870",
+      "input_sha256": "ce2eaaf989756d26b4235b932f0de861e000593c3921178e75d71e4532033f52",
+      "raw_sha256": {
+        "before": "278836297eef191eb2e4f6e12efcb5270255ad70ed90ae2d8407eacbbaad2db3",
+        "candidate": "8d180d9ace44081877e8dd165c9fee9a8f80c448602349d851f6ac05dabaf04c"
+      }
+    },
+    "transfer": {
+      "review_sha256": "3afc611a634c92794cab54789096b861c8ef178d498eec91e331c57d0e3c9638",
+      "input_sha256": "f33d3f6ee768cd02bd7c75909728318070fde0ae23585f391d9235f0fc84137b",
+      "raw_sha256": {
+        "before": "2d9b3fd76c8d203c6ffa16c7a573f7d3ec4602b3c2f0aeec46f28a013a615d3b",
+        "candidate": "3a21b380c1cb53fe8735799980b3ee6253cc870812274df3845e74dd899ed049"
+      }
+    }
+  },
+  "scenarios": {
+    "development": {
+      "focused_boundary": {
+        "before_remove": [
+          "dev3-03:2",
+          "dev3-11:1",
+          "dev3-13:3",
+          "dev3-17:0"
+        ],
+        "candidate_remove": [
+          "dev3-11:1"
+        ]
+      },
+      "text_only_values_hint": {
+        "before_add": [
+          "dev3-10:0"
+        ],
+        "note": "The demonstration prints items, but final prose points to values()."
+      },
+      "complete_comparison_explanation": {
+        "candidate_remove": [
+          "dev3-14:0"
+        ],
+        "note": "Source excerpts distinguish the core roles, but are truncated and not a full explanation."
+      },
+      "single_supplied_example_check": {
+        "before_add": [
+          "dev3-03:1"
+        ],
+        "note": "Actual1case instead of all2 supplied calls; not full recheck."
+      }
+    },
+    "transfer": {
+      "focused_boundary": {
+        "before_remove": [
+          "transfer3-12:0",
+          "transfer3-13:0"
+        ],
+        "candidate_remove": [
+          "transfer3-13:0"
+        ]
+      },
+      "full_comparison_explanation": {
+        "candidate_remove": [
+          "transfer3-10:0"
+        ],
+        "note": "Retrieved definitions show core difference, not full reduction/ploidy explanation."
+      },
+      "any_relevant_comparison_passage": {
+        "before_add": [
+          "transfer3-10:0"
+        ],
+        "note": "MeiosisII passage is relevant, but not full requested distinction."
+      },
+      "strict_actual_politeness_change": {
+        "both_remove": [
+          "transfer3-15:0"
+        ]
+      },
+      "stale_selection": {
+        "candidate_still_wrong": [
+          "transfer3-03:2"
+        ],
+        "note": "No favorable reinterpretation: first-instead is explicit and response repeats the second."
+      }
+    }
+  }
+}

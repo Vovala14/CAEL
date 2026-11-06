@@ -1,0 +1,49 @@
+{
+  "training_by_source": {
+    "GSM8K numeric choices": 6713,
+    "GSM8K human solution": 6713,
+    "MBPP": 366,
+    "Authored Python output": 2000,
+    "Authored arithmetic": 2000,
+    "Cosmos QA": 25241,
+    "WinoGrande": 40394,
+    "CommonsenseQA": 9735,
+    "Social IQa": 33374,
+    "Authored": 1077,
+    "ATOMIC": 89933
+  },
+  "development_by_source": {
+    "GSM8K numeric choices": 200,
+    "MBPP reference matching": 90,
+    "Authored arithmetic": 100,
+    "Authored Python output": 100
+  },
+  "confirmation_by_source": {
+    "GSM8K numeric choices": 128,
+    "MBPP reference matching": 128,
+    "Authored Python output": 128,
+    "Authored arithmetic": 128
+  },
+  "train_rows": 217546,
+  "development_rows": 490,
+  "confirmation_rows": 512,
+  "regression_rows": 160,
+  "exclusions": {
+    "mbpp_heldout_input_or_code": 8
+  },
+  "mbpp_parse_exclusions": {
+    "prompt_only": 10
+  },
+  "raw_gsm_train": 7473,
+  "raw_gsm_test": 1319,
+  "mbpp_eligible_partitions": {
+    "train": 374,
+    "development": 90,
+    "test": 500
+  },
+  "exact_heldout_training_overlap": 0,
+  "near_guard": "Normalized entity/word/number skeleton equality, not semantic deduplication.",
+  "authored_python_verified_by_execution": true,
+  "downloaded_code_executed": false,
+  "benchmark_metric": "Derived choice diagnostics; not GSM8K free response or MBPP pass@1."
+}

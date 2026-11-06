@@ -1,6 +1,17 @@
 # Changelog
 
-## 0.3.8 (release candidate, not yet published)
+## 0.3.9 (2026-11-07)
+
+Conversation follow-ups, explicit state, exact task rechecks, guarded choices,
+complete literal positional/keyword examples, personal evidence attribution and
+bounded source-linked comparisons. The tested legacy checker adapter is included
+in the runtime entry point. No neural architecture or inherited resource-weight
+change. Resource bundle remains byte-identical 0.3.7. Authored fresh useful
+answers 10/29 -> 22/29 against the previous conversation development candidate;
+this is not a standard benchmark or Qwen win. All remaining failures retained.
+See RELEASE_0_3_9.md and the full reviewed evidence.
+
+## 0.3.8
 
 Code-only release. It loads the unchanged published `cael-0.3.7.cael` model bundle
 (same SHA-256 checksum); no weights or bundle files changed. AI-assisted.

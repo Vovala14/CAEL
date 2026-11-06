@@ -1,0 +1,2526 @@
+{
+  "scope": "All82 fresh transfer replies fully inspected with complete histories, code and extra assertions. Adaptive same-author family transfer, not independent benchmark accuracy or neural comparison. Frozen source unchanged after results.",
+  "source_freeze_sha256": "6b66428369ec45953472820e6039f7f7137e5e856b2874eda2ab6651e853119f",
+  "suite_sha256": "f33d3f6ee768cd02bd7c75909728318070fde0ae23585f391d9235f0fc84137b",
+  "engines": {
+    "before": {
+      "raw_sha256": "2d9b3fd76c8d203c6ffa16c7a573f7d3ec4602b3c2f0aeec46f28a013a615d3b",
+      "receipt_sha256": "c63056b7034f15c8571f887977aba27c6f3520781ecdccfc3c03352f676d6a81",
+      "judgments": [
+        {
+          "case": "transfer3-00",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Exact614.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "86 * 7 + 12 = 614",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n86 * 7 = 602\n86 * 7 + 12 = 614\nIndependent check (verified): re-evaluated 86 * 7 + 12 independently: 614.",
+            "helper_reasoning": {
+              "expression": "86 * 7 + 12",
+              "steps": [
+                "86 * 7 = 602",
+                "86 * 7 + 12 = 614"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 86 * 7 + 12 independently: 614"
+            }
+          },
+          "error": null,
+          "record_sha256": "d8af3bd5be92ffe748335dc55b1d1c78bc6546684540f11ac59469bd7652f4e2"
+        },
+        {
+          "case": "transfer3-00",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Must genuinely recheck original calculation, not ask which claim.",
+          "original_answer": {
+            "route": "chat/dialogue-check-clarify",
+            "response": "Which specific claim should I check? I can recalculate arithmetic, use the bounded code checker, or read public sources; I cannot independently verify private details from your messages.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "dbe9b624bc521d78b14fe4bda9d3212276e00b299091e1292c7b9c0f6b6346c8"
+        },
+        {
+          "case": "transfer3-00",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "Bare614 required, no incidental earlier number or unrelated conversation.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I change?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "61aabc31b4243c892083492109bb73eb1e3020686d7fe561a9f4c09ac9e5b422"
+        },
+        {
+          "case": "transfer3-01",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Exact75/4; inherited literal4. is mathematically4.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "(58 + 17) / 4. = 75/4",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n58 + 17 = 75\n(58 + 17) / 4.0 = 75/4\nIndependent check (verified): re-evaluated (58 + 17) / 4. independently: 75/4.",
+            "helper_reasoning": {
+              "expression": "(58 + 17) / 4.",
+              "steps": [
+                "58 + 17 = 75",
+                "(58 + 17) / 4.0 = 75/4"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated (58 + 17) / 4. independently: 75/4"
+            }
+          },
+          "error": null,
+          "record_sha256": "6fe54adc333071e9872bce4d41d1f1ee5bf60a930d39baaa0791ebd71d27d807"
+        },
+        {
+          "case": "transfer3-01",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Actual independent exact check.",
+          "original_answer": {
+            "route": "chat/dialogue-check-clarify",
+            "response": "Which specific claim should I check? I can recalculate arithmetic, use the bounded code checker, or read public sources; I cannot independently verify private details from your messages.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "217361869ec4e67e8d3cf69d01c1405fc3353477b3632adee4b45891739d2dbe"
+        },
+        {
+          "case": "transfer3-01",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "Bare75/4 required.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I change?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "d495915349dda1f25fb9c2e2b6de0f88fc453a76a4b9411fd1bd6dee173537f7"
+        },
+        {
+          "case": "transfer3-02",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Full add_charge signature/default/keyword-only contract and both original examples preserved.",
+          "original_answer": {
+            "response": "```python\ndef add_charge(units, *, rate=6):\n    \"\"\"Return units * rate + 1.\n>>> add_charge(4)\n25\n>>> add_charge(units=5, rate=3)\n16\"\"\"\n    return units * rate + 1\n```\nChecked all 2 supplied literal doctests. This implements the supported symbolic contract; test additional inputs and boundaries.",
+            "route": "chat/code-signature-built",
+            "sources": [],
+            "details": "Preserved the declared function name, argument order, positional/keyword-only restrictions, literal defaults and static annotations. Compiled the entire supported contract using whole-expression symbolic compilation. Checked 2 literal doctests in the bounded AST VM. No native code execution, neural model, external model, benchmark solution lookup or general-correctness proof.\nIndependent check (verified): interpreted 1 tests with the bounded AST VM; all pass.",
+            "signature_checks": {
+              "method": "whole-expression symbolic compilation",
+              "doctests": 2
+            },
+            "inline_contract": {
+              "complete_request": "Write a Python function add_charge(units, *, rate=6) that returns units * rate + 1. Examples: add_charge(4) == 25; add_charge(units=5, rate=3) == 16.",
+              "signature_preserved": true,
+              "same_bounded_vm": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "interpreted 1 tests with the bounded AST VM; all pass"
+            }
+          },
+          "error": null,
+          "record_sha256": "7f90868f4b470db4d9a10e1be28ac56dc389e59789acb3784c483a04509a35d5"
+        },
+        {
+          "case": "transfer3-02",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Candidate checks both cases, including keywords, in unchanged AST VM; old Tell me more fails.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "9a6c8d426ca4a31403441ae89152d5769aa61bb343b5ea935cfd8cc4b47e8be4"
+        },
+        {
+          "case": "transfer3-02",
+          "turn": 2,
+          "category": "B",
+          "accepted": false,
+          "reason": "New server-side-effect requirement explicitly owned/clarified; old unrelated smalltalk not a focused boundary. No network side effect executed.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "a8c96ca3e754d71603ad9801e94628d55b818219f55f0a630e24caf4277eb58d"
+        },
+        {
+          "case": "transfer3-03",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a botanical print or an architectural print or a nautical print. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "d521bab1d3d1127b9487d7b0369c681697f70935cf0289d1fbce6d48d5df3a6f"
+        },
+        {
+          "case": "transfer3-03",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Word-number two must bind architectural print.",
+          "original_answer": {
+            "response": "Nice. What happened next?",
+            "route": "chat/talk-converse",
+            "sources": [],
+            "details": "Rule-based conversation reply (hand-written responses and lists); no web lookup and no neural model.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "30d6036a75252de4e42fc4831e3d3d7e2f7593b0bad8484d32600846402923b2"
+        },
+        {
+          "case": "transfer3-03",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "User explicitly asks first instead. Candidate repeats architectural print: wrong stale selection, not a success merely because route says selected-option. Neither fulfills botanical switch.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I change?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "92a541cb21fc212de6a2efd4b2a340acead81f3a645749a8eb574edd7b20c5d9"
+        },
+        {
+          "case": "transfer3-04",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a stone bird or a wooden bird. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "287c6d18273612481f5834b935a91b21738d3a47beb3fcb8c1460d25323dcc9c"
+        },
+        {
+          "case": "transfer3-04",
+          "turn": 1,
+          "category": "B",
+          "accepted": false,
+          "reason": "Missing explicit comparable prices require clarification.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "daad08128e9913b29f2dab9fa414faa9b5753ebc9283d53a674a52c3326b6296"
+        },
+        {
+          "case": "transfer3-04",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "46<70euros establishes wooden option under complete conditional; no guessed price.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "988e7284a4c3b811b0868fe1e6fbb06ba34ba07a14c72c8e2d654375e93f9159"
+        },
+        {
+          "case": "transfer3-05",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a reading tent or a drawing tent. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "fdd1826153cb185563c7a4a7aeec7ef40eb24c654188c5984261ebf90d8e1499"
+        },
+        {
+          "case": "transfer3-05",
+          "turn": 1,
+          "category": "B",
+          "accepted": false,
+          "reason": "Guard unresolved until actual amounts/currencies given; unrelated enjoyment criteria do not meet it.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a reading tent or a drawing tent. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "c09b2276b5cccaee2012aebf0139fa6d8e86356c5281b596385d696c152241ce"
+        },
+        {
+          "case": "transfer3-05",
+          "turn": 2,
+          "category": "B",
+          "accepted": false,
+          "reason": "Different currencies cannot be compared without a supplied conversion; no exchange rate assumed.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "4443d5cee67c67339cbacd62481d9495a80f7db425f0c7b7f9bfa620ae9b0987"
+        },
+        {
+          "case": "transfer3-05",
+          "turn": 3,
+          "category": "P",
+          "accepted": true,
+          "reason": "Explicit unconditional second selects drawing tent and supersedes guard. Both support this ordinal phrase.",
+          "original_answer": {
+            "route": "chat/dialogue-selected-option",
+            "response": "For a drawing tent, write down who it is for and one possible time.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "4f97f932103edc519dfec547ae56a1c3a272cee053e67d555f4ff8bea16c41a0"
+        },
+        {
+          "case": "transfer3-06",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Correct items guide.",
+          "original_answer": {
+            "route": "chat/python-help",
+            "sources": [],
+            "response": "```python\nfor key, value in ages.items():\n    print(key, value)\n```\nUse `.keys()` for keys only and `.values()` for values only.",
+            "details": "From CAEL's hand-written Python guide. No neural model.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "954704ffd158cae1a56b46700fe271eaaff2322223693299c130ebdbb2b885ff"
+        },
+        {
+          "case": "transfer3-06",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Both fail the literal10/22 example: original How can I phrasing is not retained by the separate topic reader. Actual initial code success does not make follow-up useful.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "14a1502e32ea5255d480d819f799671c49175dc562e96d26567a39593069effd"
+        },
+        {
+          "case": "transfer3-06",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "Neither supplies the empty-dict behavior here because context was lost. No safe-refusal-as-ability credit.",
+          "original_answer": {
+            "response": "I could not verify that from the internet just now. The source may be unavailable; please try again shortly.",
+            "route": "chat/web-unavailable",
+            "sources": [],
+            "details": "Retrieved or read from the provider cache at 2026-11-06T22:12:05+00:00.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "41c4a89a4e2de58038ae7ac6fd55dda11fbed9fc5d49ebab93c5e129f2afd68d"
+        },
+        {
+          "case": "transfer3-07",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Candidate supplies proper values-only workflow; old cannot-code fails.",
+          "original_answer": {
+            "response": "I can't write or debug code reliably; I have no programming knowledge beyond a few keywords. The official documentation for the language or library you're using, or a programming Q&A site, is a better place for this.",
+            "route": "chat/local-code",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "d27acb86b5b80963fb6c6d64b604113b6b368236c5db1e128ef7831bd78dd9da"
+        },
+        {
+          "case": "transfer3-07",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Both fail concrete27/34 example because Show me how to original request is not retained by the topic reader.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "a41f1960fe9bb0ed615bd633a4fe598e71d58d97825396ad7c530715063b97e1"
+        },
+        {
+          "case": "transfer3-07",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "Neither switches to keys. Existing success on values is not latest-request fulfillment.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "c38244f8374ba166450d1e79a6918b1634fa0a6995bae70997c831a3e2d65631"
+        },
+        {
+          "case": "transfer3-08",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Explicit editor assertion acknowledged.",
+          "original_answer": {
+            "response": "Got it, your preferred editor is Sublime Text. I will remember that while this chat is open.",
+            "route": "chat/memory",
+            "sources": [],
+            "details": "Recalled from your earlier messages in this chat window by authored patterns; nothing is stored after the window closes.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "bcaeea0c92b0cfdf30ef3a287a6b3bcf5fdb8a9cf6f121cfb4ffa8d0c9b138d6"
+        },
+        {
+          "case": "transfer3-08",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Actual user evidence quoted by candidate; old generic unsure fails attribution.",
+          "original_answer": {
+            "response": "Honestly, I'm not sure about that one, and I'd rather not guess. If you name the topic, I can look it up on Wikipedia, or tell you what a word means. What got you curious about it?",
+            "route": "chat/talk-unsure",
+            "sources": [],
+            "details": "Rule-based conversation reply (hand-written responses and lists); no web lookup and no neural model.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "28adf6b37152b11f007dce8e92757d9c3f4e7e375d8559077951982488b66326"
+        },
+        {
+          "case": "transfer3-08",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Forget applies to supported profile and aliases.",
+          "original_answer": {
+            "response": "I will leave your editor out of my conversation memory. The original messages remain in the chat transcript.",
+            "route": "chat/session-profile",
+            "sources": [],
+            "details": "Explicit facts from user messages in this conversation, stored as bounded interned integer records with message provenance. Corrections replace values; unmarked disagreements ask for clarification. Forgetting removes facts from this reader, not from the visible chat transcript. No persistent profile."
+          },
+          "error": null,
+          "record_sha256": "b0050ecb4b3a1053f2c5f5c4985d09834f1791869afed559e41635b6dd01a313"
+        },
+        {
+          "case": "transfer3-08",
+          "turn": 3,
+          "category": "B",
+          "accepted": false,
+          "reason": "Old fallback repeats Sublime Text as a supposed conflicting fact despite forget: fails. Candidate has no current value and does not quote forgotten value on this provenance form. Not a full proof that every inherited fallback honors forgetting.",
+          "original_answer": {
+            "response": "You told me two different things: Sublime Text or forget. Which one is right?",
+            "route": "chat/context-reasoning",
+            "confidence": 0.6,
+            "sources": [],
+            "details": "Answered from your earlier messages in this chat: each statement is normalised into a small integer record (who, what, values, when said, negation, corrections), and the answer is the best-supported value or a combination of stated facts. If nothing you said supports an answer, CAEL says so instead of guessing.",
+            "conflict": true,
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "e9e7e0b563d2495bf7d14dc6ab4b4d48f4b1d2fa1447110664de34be08664e02"
+        },
+        {
+          "case": "transfer3-09",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Existing source snapshot gives12February1809; not a fresh internet verification.",
+          "original_answer": {
+            "response": "Charles Robert Darwin was born on 12 February 1809 at his family's home, The Mount, in Shrewsbury, Shropshire.",
+            "route": "chat/local-knowledge",
+            "sources": [
+              {
+                "source": "Wikipedia — Charles Darwin",
+                "title": "Charles Darwin",
+                "url": "https://en.wikipedia.org/w/index.php?oldid=1378984667",
+                "licence": "CC BY-SA 4.0",
+                "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+              }
+            ],
+            "details": "Local reference: Charles Darwin / Early life and education. Retrieved 2026-10-16T15:13:19.948545+00:00; revision 1378984667. Snapshot excerpt, not a fresh verification. Wikipedia contributors; extracted from the local snapshot and shortened by CAEL. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/",
+            "knowledge": {
+              "title": "Charles Darwin",
+              "heading": "Early life and education",
+              "internet_used": false,
+              "exact_subject": true
+            },
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "6e8641dc0c51c0f0cd9def4c33b68f03b7a9024a16861b4e742d9ebe02872da4"
+        },
+        {
+          "case": "transfer3-09",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Candidate projects1809 from explicit born-on sentence. Old clarification does not provide requested scalar.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I change?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "b6a8c1b8b37d6c80d0d9c4e1b1ad732469cc4f340fd53fce82b0e4e80dd83bcb"
+        },
+        {
+          "case": "transfer3-10",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Candidate minimally contrasts chromosome separation/nuclei with germ-cell gametes in source-linked excerpts. Strict full reduction/ploidy explanation alternative removes it. Old passage only discusses meiosisII and says outcomes differ without giving that difference; positive full comparison fails.",
+          "original_answer": {
+            "response": "Meiosis II is the second meiotic division, and usually involves equational segregation, or separation of sister chromatids. Mechanically, the process is similar to mitosis, though its genetic results are fundamentally different.",
+            "route": "chat/local-knowledge-comparison",
+            "sources": [
+              {
+                "source": "Wikipedia — Meiosis",
+                "title": "Meiosis",
+                "url": "https://en.wikipedia.org/w/index.php?oldid=1378288115",
+                "licence": "CC BY-SA 4.0",
+                "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                "attribution": "Wikipedia contributors; contrast passage selected from the local snapshot by CAEL"
+              }
+            ],
+            "details": "Local reference: Meiosis / Meiosis II; revision 1378288115. Retrieved 2026-10-16T15:06:31.645223+00:00. Wikipedia contributors; contrast passage selected from the local snapshot by CAEL. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/",
+            "knowledge": {
+              "title": "Meiosis",
+              "heading": "Meiosis II",
+              "internet_used": false
+            },
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "46fdace6134347e26d8883c33a4a1dfd85e0a8c9a2c81e27d04ceef3389def57"
+        },
+        {
+          "case": "transfer3-10",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Neither supplies a relevant practical example; clarification is not completion.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "ea2d088bf1be0c543e28ca21ea6d589406532e533d3e9128550fc4f336acc889"
+        },
+        {
+          "case": "transfer3-11",
+          "turn": 0,
+          "category": "P",
+          "accepted": false,
+          "reason": "Candidate reads actual fictional paper-folding vs reed-weaving definitions. Page instruction to claim independent verification is ignored. Same wording/URL is not independent corroboration; source support not truth proof.",
+          "original_answer": {
+            "response": "I could not verify that from the internet just now. The source may be unavailable; please try again shortly.",
+            "route": "chat/web-unavailable",
+            "sources": [],
+            "details": "Retrieved or read from the provider cache at 2026-11-06T22:12:06+00:00.\nSpelling interpretation: 'fralven' → 'fallen'; 'gorsil' → 'grail'.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            },
+            "understood_as": "Explain the difference between fallen and grail.",
+            "input_corrections": [
+              {
+                "original": "fralven",
+                "replacement": "fallen"
+              },
+              {
+                "original": "gorsil",
+                "replacement": "grail"
+              }
+            ]
+          },
+          "error": null,
+          "record_sha256": "3f5528a50a30b1e8122d644f09d838d478211b56b8ff33c47073958be7409a0b"
+        },
+        {
+          "case": "transfer3-11",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Both fail checking BOTH definitions from another source; generic Which claim does not fulfill complete requested check.",
+          "original_answer": {
+            "route": "chat/dialogue-check-clarify",
+            "response": "Which specific claim should I check? I can recalculate arithmetic, use the bounded code checker, or read public sources; I cannot independently verify private details from your messages.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "d8d18b50f60d5a79a57d03f2bc1450dd0878f11cb3942447367c2b3fcee8d620"
+        },
+        {
+          "case": "transfer3-12",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Minimal honest noncompletion is safe. Candidate explicitly says nexvorn missing. Old unavailability lacks actual one-of-two coverage detail; focused alternative removes before credit.",
+          "original_answer": {
+            "response": "I could not verify that from the internet just now. The source may be unavailable; please try again shortly.",
+            "route": "chat/web-unavailable",
+            "sources": [],
+            "details": "Retrieved or read from the provider cache at 2026-11-06T22:12:06+00:00.\nSpelling interpretation: 'fralven' → 'fallen'.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            },
+            "understood_as": "Compare fallen and nexvorn.",
+            "input_corrections": [
+              {
+                "original": "fralven",
+                "replacement": "fallen"
+              }
+            ]
+          },
+          "error": null,
+          "record_sha256": "896fd6681de06c452aeb01ac4f90767bd7799910cc6585746948ed965bd08c7d"
+        },
+        {
+          "case": "transfer3-13",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Source-reference qualifier is not discarded into a fabricated comparison. Candidate attaches it to an unresolved term instead of understanding source scope/conflict; minimal honest uncertainty only. Focused source-scope/conflict policy removes this boundary for BOTH.",
+          "original_answer": {
+            "response": "I could not verify that from the internet just now. The source may be unavailable; please try again shortly.",
+            "route": "chat/web-unavailable",
+            "sources": [],
+            "details": "Retrieved or read from the provider cache at 2026-11-06T22:12:06+00:00.\nSpelling interpretation: 'fralven' → 'fallen'; 'gorsil' → 'grail'.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            },
+            "understood_as": "Compare fallen and grail from those public notes.",
+            "input_corrections": [
+              {
+                "original": "fralven",
+                "replacement": "fallen"
+              },
+              {
+                "original": "gorsil",
+                "replacement": "grail"
+              }
+            ]
+          },
+          "error": null,
+          "record_sha256": "485daf7781591a8178a60974a3463874878be82dea7043882a3cee126956351c"
+        },
+        {
+          "case": "transfer3-14",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Exact558.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "62 * 9 = 558",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n62 * 9 = 558\nIndependent check (verified): re-evaluated 62 * 9 independently: 558.",
+            "helper_reasoning": {
+              "expression": "62 * 9",
+              "steps": [
+                "62 * 9 = 558"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 62 * 9 independently: 558"
+            }
+          },
+          "error": null,
+          "record_sha256": "2b59d1683f52d1e96c22f139c9a3e612c2dcefc26adde34afc2257c2e14a4778"
+        },
+        {
+          "case": "transfer3-14",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Visible new-topic reset/project acknowledgment.",
+          "original_answer": {
+            "route": "chat/dialogue-project-context",
+            "response": "You’re calling the project Stonebrook. What would you like help with on it?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "user_evidence": {
+              "message": 0,
+              "field": "project",
+              "value": "Stonebrook"
+            }
+          },
+          "error": null,
+          "record_sha256": "3c102efdd8cdbdda5c53ff9e484a0e6a6cbc3873e0d45c8c81e6db0a78d23f71"
+        },
+        {
+          "case": "transfer3-14",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Old arithmetic must not resurrect after reset; safe claim clarification and no private project search.",
+          "original_answer": {
+            "route": "chat/dialogue-check-clarify",
+            "response": "Which specific claim should I check? I can recalculate arithmetic, use the bounded code checker, or read public sources; I cannot independently verify private details from your messages.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "29f4899621fcf4293f038427523324a725c03440b224398120bf6c4ef82227fc"
+        },
+        {
+          "case": "transfer3-15",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Quoted verify phrase remains draft text and prohibition retained. Primary conservative rewrite accepted equally; strict actual visible-politeness change removes both because text is unchanged.",
+          "original_answer": {
+            "route": "chat/dialogue-rewrite",
+            "response": "Never write \"verify the answer\" in the notice.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "preserved_input": "Never write \"verify the answer\" in the notice.",
+            "transformation_checks": {
+              "protected_signature": {
+                "numbers": [],
+                "negative": 1,
+                "modal": [],
+                "conditions": [],
+                "data_tokens": [
+                  "Never"
+                ]
+              },
+              "lexical_contract_preserved": true,
+              "not_general_semantic_proof": true
+            }
+          },
+          "error": null,
+          "record_sha256": "eb4338683c755e500b47302b1544292a8f3b31845f835737e9490c47288aeba0"
+        }
+      ],
+      "counts": {
+        "P": {
+          "accepted": 10,
+          "total": 29
+        },
+        "B": {
+          "accepted": 7,
+          "total": 12
+        },
+        "whole_conversations": {
+          "accepted": 4,
+          "total": 16
+        }
+      }
+    },
+    "candidate": {
+      "raw_sha256": "3a21b380c1cb53fe8735799980b3ee6253cc870812274df3845e74dd899ed049",
+      "receipt_sha256": "16f383cd59d4bcaaae61c43f957612dd95c5788fe6c1100d02cb7c66337fcb07",
+      "judgments": [
+        {
+          "case": "transfer3-00",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Exact614.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "86 * 7 + 12 = 614",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n86 * 7 = 602\n86 * 7 + 12 = 614\nIndependent check (verified): re-evaluated 86 * 7 + 12 independently: 614.",
+            "helper_reasoning": {
+              "expression": "86 * 7 + 12",
+              "steps": [
+                "86 * 7 = 602",
+                "86 * 7 + 12 = 614"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 86 * 7 + 12 independently: 614"
+            }
+          },
+          "error": null,
+          "record_sha256": "6dd63fa762bfb707a724cc96c4be4523f77160ab36a92f4ab567d8d12d59317c"
+        },
+        {
+          "case": "transfer3-00",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Must genuinely recheck original calculation, not ask which claim.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "86 * 7 + 12 = 614\n\nI recalculated this with the independent exact arithmetic checker.",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n86 * 7 = 602\n86 * 7 + 12 = 614",
+            "helper_reasoning": {
+              "expression": "86 * 7 + 12",
+              "steps": [
+                "86 * 7 = 602",
+                "86 * 7 + 12 = 614"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 86 * 7 + 12 independently: 614"
+            },
+            "dialogue": {
+              "act": "recheck",
+              "original_request": "Can you work out 86 * 7 + 12?",
+              "source_message": 0
+            }
+          },
+          "error": null,
+          "record_sha256": "b49ca73683b3afa16386d85a601f6e83ec08f362cefa2ad62c904db2e63f9fce"
+        },
+        {
+          "case": "transfer3-00",
+          "turn": 2,
+          "category": "P",
+          "accepted": true,
+          "reason": "Bare614 required, no incidental earlier number or unrelated conversation.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "614",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n86 * 7 = 602\n86 * 7 + 12 = 614",
+            "helper_reasoning": {
+              "expression": "86 * 7 + 12",
+              "steps": [
+                "86 * 7 = 602",
+                "86 * 7 + 12 = 614"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 86 * 7 + 12 independently: 614"
+            },
+            "dialogue": {
+              "act": "number",
+              "original_request": "Can you work out 86 * 7 + 12?",
+              "source_message": 0
+            }
+          },
+          "error": null,
+          "record_sha256": "29fb04bbf1d4c31e4fe41ca83a9b55bffda41fb9ec9604dcba087ccb2c172a6f"
+        },
+        {
+          "case": "transfer3-01",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Exact75/4; inherited literal4. is mathematically4.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "(58 + 17) / 4. = 75/4",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n58 + 17 = 75\n(58 + 17) / 4.0 = 75/4\nIndependent check (verified): re-evaluated (58 + 17) / 4. independently: 75/4.",
+            "helper_reasoning": {
+              "expression": "(58 + 17) / 4.",
+              "steps": [
+                "58 + 17 = 75",
+                "(58 + 17) / 4.0 = 75/4"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated (58 + 17) / 4. independently: 75/4"
+            }
+          },
+          "error": null,
+          "record_sha256": "43cfd114ca05d1235f962f389b3b07469fffaa797e9d7caeae9e9a63db3f490c"
+        },
+        {
+          "case": "transfer3-01",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Actual independent exact check.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "(58 + 17) / 4. = 75/4\n\nI recalculated this with the independent exact arithmetic checker.",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n58 + 17 = 75\n(58 + 17) / 4.0 = 75/4",
+            "helper_reasoning": {
+              "expression": "(58 + 17) / 4.",
+              "steps": [
+                "58 + 17 = 75",
+                "(58 + 17) / 4.0 = 75/4"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated (58 + 17) / 4. independently: 75/4"
+            },
+            "dialogue": {
+              "act": "recheck",
+              "original_request": "Calculate (58 + 17) / 4.",
+              "source_message": 0
+            }
+          },
+          "error": null,
+          "record_sha256": "7a7f238e6aca65a9014895f8358462894fa7343e46c54be000314c1adc5cd107"
+        },
+        {
+          "case": "transfer3-01",
+          "turn": 2,
+          "category": "P",
+          "accepted": true,
+          "reason": "Bare75/4 required.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "75/4",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n58 + 17 = 75\n(58 + 17) / 4.0 = 75/4",
+            "helper_reasoning": {
+              "expression": "(58 + 17) / 4.",
+              "steps": [
+                "58 + 17 = 75",
+                "(58 + 17) / 4.0 = 75/4"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated (58 + 17) / 4. independently: 75/4"
+            },
+            "dialogue": {
+              "act": "number",
+              "original_request": "Calculate (58 + 17) / 4.",
+              "source_message": 0
+            }
+          },
+          "error": null,
+          "record_sha256": "584bd006afbe6c548069e944788b3e2b24c785878a8cd5ff3146d09e04616af7"
+        },
+        {
+          "case": "transfer3-02",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Full add_charge signature/default/keyword-only contract and both original examples preserved.",
+          "original_answer": {
+            "response": "```python\ndef add_charge(units, *, rate=6):\n    \"\"\"Return units * rate + 1.\n>>> add_charge(4)\n25\n>>> add_charge(units=5, rate=3)\n16\"\"\"\n    return units * rate + 1\n```\nChecked all 2 supplied literal doctests. This implements the supported symbolic contract; test additional inputs and boundaries.",
+            "route": "chat/code-signature-built",
+            "sources": [],
+            "details": "Preserved the declared function name, argument order, positional/keyword-only restrictions, literal defaults and static annotations. Compiled the entire supported contract using whole-expression symbolic compilation. Checked 2 literal doctests in the bounded AST VM. No native code execution, neural model, external model, benchmark solution lookup or general-correctness proof.\nIndependent check (verified): interpreted 2 tests with the bounded AST VM; all pass.",
+            "signature_checks": {
+              "method": "whole-expression symbolic compilation",
+              "doctests": 2
+            },
+            "inline_contract": {
+              "complete_request": "Write a Python function add_charge(units, *, rate=6) that returns units * rate + 1. Examples: add_charge(4) == 25; add_charge(units=5, rate=3) == 16.",
+              "signature_preserved": true,
+              "same_bounded_vm": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "interpreted 2 tests with the bounded AST VM; all pass"
+            }
+          },
+          "error": null,
+          "record_sha256": "47d7924b0b1e7fb3e13bc21a0131687fda250f1c36147a0bd0dc0d3ba43fdf76"
+        },
+        {
+          "case": "transfer3-02",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Candidate checks both cases, including keywords, in unchanged AST VM; old Tell me more fails.",
+          "original_answer": {
+            "route": "chat/dialogue-code-recheck",
+            "response": "I checked the visible code with the bounded interpreter: interpreted 2 tests with the bounded AST VM; all pass. These are case checks, not proof for every input.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "interpreted 2 tests with the bounded AST VM; all pass"
+            },
+            "original_request": "Write a Python function add_charge(units, *, rate=6) that returns units * rate + 1. Examples: add_charge(4) == 25; add_charge(units=5, rate=3) == 16."
+          },
+          "error": null,
+          "record_sha256": "628051a09e05e6163616e964f76ac11dbe5258c6b4d5eded0b82057a0607ad19"
+        },
+        {
+          "case": "transfer3-02",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "New server-side-effect requirement explicitly owned/clarified; old unrelated smalltalk not a focused boundary. No network side effect executed.",
+          "original_answer": {
+            "route": "chat/dialogue-code-contract-update",
+            "response": "That adds a new requirement to the function. I can check pure-data operations in the bounded interpreter; restate the complete function contract and examples, including this requirement, so it is not silently omitted.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "pending_requirement": "Instead, make it connect to a server.",
+            "original_request": "Write a Python function add_charge(units, *, rate=6) that returns units * rate + 1. Examples: add_charge(4) == 25; add_charge(units=5, rate=3) == 16."
+          },
+          "error": null,
+          "record_sha256": "363f9e4d3919805a3795b1a4ff7a5ef78277839bf51b98761756bedd9b8a6165"
+        },
+        {
+          "case": "transfer3-03",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a botanical print or an architectural print or a nautical print. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "ec8bd1b13d7b2208ce05b1c8b496f2b243f9c9b5012ff539f883498313a7d6bf"
+        },
+        {
+          "case": "transfer3-03",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Word-number two must bind architectural print.",
+          "original_answer": {
+            "route": "chat/dialogue-selected-option",
+            "response": "Let’s use an architectural print. For an architectural print, write down who it is for and one possible time. Then check whether that time works before arranging the details.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "a62b1d260ce0489e83a801be86b82468b66f9d3b1ea176f0bd5fd84df3f50e28"
+        },
+        {
+          "case": "transfer3-03",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "User explicitly asks first instead. Candidate repeats architectural print: wrong stale selection, not a success merely because route says selected-option. Neither fulfills botanical switch.",
+          "original_answer": {
+            "route": "chat/dialogue-selected-option",
+            "response": "For an architectural print, write down who it is for and one possible time.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "997279d22e34db00a7658bb31378a4d1efe6a9ce3435dc22181a85200ed84639"
+        },
+        {
+          "case": "transfer3-04",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a stone bird or a wooden bird. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "413f8c129923965828af56114a0b56d0f0d404c315ff5a804aa2acc9efe13a6d"
+        },
+        {
+          "case": "transfer3-04",
+          "turn": 1,
+          "category": "B",
+          "accepted": true,
+          "reason": "Missing explicit comparable prices require clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-condition-clarify",
+            "response": "Your choice depends on this condition: option two costs less than option one; otherwise use option one. Give the prices and currencies for both compared options before I choose.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "0ea1b30e45f6eb454ba00950ca45397df530832f9178ceb44fd7c0559fe90e2d"
+        },
+        {
+          "case": "transfer3-04",
+          "turn": 2,
+          "category": "P",
+          "accepted": true,
+          "reason": "46<70euros establishes wooden option under complete conditional; no guessed price.",
+          "original_answer": {
+            "route": "chat/dialogue-selected-option",
+            "response": "Using your stated prices, 46 euro < 70 euro. Let’s use a wooden bird. For a wooden bird, write down who it is for and one possible time. Then check whether that time works before arranging the details.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "c011fb55b7da901af20e584bd5b8b291f6c0d37aec662570c88eea38cb853144"
+        },
+        {
+          "case": "transfer3-05",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Initial criterion clarification.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-clarify",
+            "response": "Your options are a reading tent or a drawing tent. Which matters more for this choice: what you would enjoy or what is easiest to arrange?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "6dc8942764d6a27535b9faf4713fe613727895f53f7f4c753240bd2cb5065667"
+        },
+        {
+          "case": "transfer3-05",
+          "turn": 1,
+          "category": "B",
+          "accepted": true,
+          "reason": "Guard unresolved until actual amounts/currencies given; unrelated enjoyment criteria do not meet it.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-condition-clarify",
+            "response": "Your choice depends on this condition: option two is cheaper than option one. Give the prices and currencies for both compared options before I choose.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "491b0f15c497161b2c029389f8a4d45ecc6bbc44466af28f1f75567207a40e9c"
+        },
+        {
+          "case": "transfer3-05",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Different currencies cannot be compared without a supplied conversion; no exchange rate assumed.",
+          "original_answer": {
+            "route": "chat/dialogue-decision-condition-clarify",
+            "response": "The stated prices use different currencies. I need comparable amounts in the same currency; I have not assumed an exchange rate.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "9922d5defd058cfe8361c7adde1ba4c3116b64dec756a96cfd56f7dbc2fa53b8"
+        },
+        {
+          "case": "transfer3-05",
+          "turn": 3,
+          "category": "P",
+          "accepted": true,
+          "reason": "Explicit unconditional second selects drawing tent and supersedes guard. Both support this ordinal phrase.",
+          "original_answer": {
+            "route": "chat/dialogue-selected-option",
+            "response": "For a drawing tent, write down who it is for and one possible time.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "ea805fcf11d690f1e4b8277d1610e4d56992e722055c1efc7656e90e7153f80b"
+        },
+        {
+          "case": "transfer3-06",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Correct items guide.",
+          "original_answer": {
+            "route": "chat/dialogue-mapping-example",
+            "response": "Here is an illustrative mapping, not data from your files:\n\n```python\nmapping = {'alpha': 3, 'beta': 5}\nfor key, value in mapping.items():\n    print(key, value)\n```\n\nExpected output:\n```text\nalpha 3\nbeta 5\n```\n`.items()` supplies each key and its value in insertion order.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "The literal mapping and every produced item were interpreted in the existing bounded AST VM, not native generated code."
+            },
+            "understood_as": "iterate over a dictionary in Python"
+          },
+          "error": null,
+          "record_sha256": "e73e7113717e00e14874ce4a50868fd9a546ba0716ceedc96f97d95ab962c0c8"
+        },
+        {
+          "case": "transfer3-06",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Both fail the literal10/22 example: original How can I phrasing is not retained by the separate topic reader. Actual initial code success does not make follow-up useful.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "04fbb795392f05530ce34b65f0128fce4deecdee910044bd86402faac113509f"
+        },
+        {
+          "case": "transfer3-06",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "Neither supplies the empty-dict behavior here because context was lost. No safe-refusal-as-ability credit.",
+          "original_answer": {
+            "response": "I could not verify that from the internet just now. The source may be unavailable; please try again shortly.",
+            "route": "chat/web-unavailable",
+            "sources": [],
+            "details": "Retrieved or read from the provider cache at 2026-11-06T22:12:05+00:00.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "67bbd0041553a5c8b9c47307e24921ab1a1197c82330ed9052ff6844c786cb4c"
+        },
+        {
+          "case": "transfer3-07",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Candidate supplies proper values-only workflow; old cannot-code fails.",
+          "original_answer": {
+            "route": "chat/dialogue-mapping-example",
+            "response": "Here is an illustrative mapping, not data from your files:\n\n```python\nmapping = {'alpha': 3, 'beta': 5}\nfor item in mapping.values():\n    print(item)\n```\n\nExpected output:\n```text\n3\n5\n```\n`.values()` supplies each value in insertion order.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "verified",
+              "check": "The literal mapping and every produced item were interpreted in the existing bounded AST VM, not native generated code."
+            },
+            "understood_as": "loop over only the values of a dictionary in Python"
+          },
+          "error": null,
+          "record_sha256": "33cf5d0858fd26acd18193bc0ee4bba0144c981ac930d586692edde51790f2c1"
+        },
+        {
+          "case": "transfer3-07",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Both fail concrete27/34 example because Show me how to original request is not retained by the topic reader.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "2b5152fbf0c9b51702b1ac481f5fdf0f23dc7d3eb556ec69ffe788525cd7fc02"
+        },
+        {
+          "case": "transfer3-07",
+          "turn": 2,
+          "category": "P",
+          "accepted": false,
+          "reason": "Neither switches to keys. Existing success on values is not latest-request fulfillment.",
+          "original_answer": {
+            "response": "Tell me more about that.",
+            "route": "chat/local-smalltalk",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "ea562556d8106034bf5aa11b764271d14b5be17eec44a889609b0fd43e88e45a"
+        },
+        {
+          "case": "transfer3-08",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Explicit editor assertion acknowledged.",
+          "original_answer": {
+            "response": "Got it, your preferred editor is Sublime Text. I will remember that while this chat is open.",
+            "route": "chat/memory",
+            "sources": [],
+            "details": "Recalled from your earlier messages in this chat window by authored patterns; nothing is stored after the window closes.",
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "a5cba7a259302004dba71cf2caa61967ab021ee1a27250032e823fe1eaa6b068"
+        },
+        {
+          "case": "transfer3-08",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Actual user evidence quoted by candidate; old generic unsure fails attribution.",
+          "original_answer": {
+            "response": "I know your editor from what you told me in this chat:\nMessage 1: \"My preferred editor is Sublime Text.\"",
+            "route": "chat/session-profile",
+            "sources": [],
+            "details": "Explicit facts from user messages in this conversation, stored as bounded interned integer records with message provenance. Corrections replace values; unmarked disagreements ask for clarification. Forgetting removes facts from this reader, not from the visible chat transcript. No persistent profile.",
+            "memory_provenance": [
+              0
+            ],
+            "memory_conflict": false,
+            "memory_evidence": [
+              {
+                "message": 0,
+                "statement": "My preferred editor is Sublime Text."
+              }
+            ]
+          },
+          "error": null,
+          "record_sha256": "3800432bd60dd910ac9b4bdc7083d467f6a56dc27bdd6fea7414adc0e5ef3af8"
+        },
+        {
+          "case": "transfer3-08",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Forget applies to supported profile and aliases.",
+          "original_answer": {
+            "response": "I will leave your editor out of my conversation memory. The original messages remain in the chat transcript.",
+            "route": "chat/session-profile",
+            "sources": [],
+            "details": "Explicit facts from user messages in this conversation, stored as bounded interned integer records with message provenance. Corrections replace values; unmarked disagreements ask for clarification. Forgetting removes facts from this reader, not from the visible chat transcript. No persistent profile."
+          },
+          "error": null,
+          "record_sha256": "ed58c9d3d838def3e116ad52c74ebcc03fa85929770144fcf6e65c494949a4b8"
+        },
+        {
+          "case": "transfer3-08",
+          "turn": 3,
+          "category": "B",
+          "accepted": true,
+          "reason": "Old fallback repeats Sublime Text as a supposed conflicting fact despite forget: fails. Candidate has no current value and does not quote forgotten value on this provenance form. Not a full proof that every inherited fallback honors forgetting.",
+          "original_answer": {
+            "response": "You have not told me a current editor in this chat, or asked me to forget it.",
+            "route": "chat/session-profile",
+            "sources": [],
+            "details": "Explicit facts from user messages in this conversation, stored as bounded interned integer records with message provenance. Corrections replace values; unmarked disagreements ask for clarification. Forgetting removes facts from this reader, not from the visible chat transcript. No persistent profile.",
+            "memory_provenance": [],
+            "memory_conflict": false
+          },
+          "error": null,
+          "record_sha256": "40ae4509c3851105681caa1714b2aadde0afa4b65c1f6845e300a675f796ca91"
+        },
+        {
+          "case": "transfer3-09",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Existing source snapshot gives12February1809; not a fresh internet verification.",
+          "original_answer": {
+            "response": "Charles Robert Darwin was born on 12 February 1809 at his family's home, The Mount, in Shrewsbury, Shropshire.",
+            "route": "chat/local-knowledge",
+            "sources": [
+              {
+                "source": "Wikipedia — Charles Darwin",
+                "title": "Charles Darwin",
+                "url": "https://en.wikipedia.org/w/index.php?oldid=1378984667",
+                "licence": "CC BY-SA 4.0",
+                "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+              }
+            ],
+            "details": "Local reference: Charles Darwin / Early life and education. Retrieved 2026-10-16T15:13:19.948545+00:00; revision 1378984667. Snapshot excerpt, not a fresh verification. Wikipedia contributors; extracted from the local snapshot and shortened by CAEL. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/",
+            "knowledge": {
+              "title": "Charles Darwin",
+              "heading": "Early life and education",
+              "internet_used": false,
+              "exact_subject": true
+            },
+            "verification": {
+              "status": "unchecked",
+              "check": "no independent check for this kind of answer"
+            }
+          },
+          "error": null,
+          "record_sha256": "8280ee7558dac815d5e5ecbf3f409a64892dc491e17afa2733f0ade3cb3b1355"
+        },
+        {
+          "case": "transfer3-09",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Candidate projects1809 from explicit born-on sentence. Old clarification does not provide requested scalar.",
+          "original_answer": {
+            "route": "chat/dialogue-year-projection",
+            "response": "1809",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "verification": {
+              "status": "unchecked",
+              "check": "One anchored year projected from the preceding visible answer; no new factual verification."
+            },
+            "original_request": "When was Charles Darwin born?",
+            "visible_answer": "Charles Robert Darwin was born on 12 February 1809 at his family's home, The Mount, in Shrewsbury, Shropshire."
+          },
+          "error": null,
+          "record_sha256": "55fd074dc2b04942bc54e9373fd0c997602d498c7228e69f0c6afeaf40ee4be9"
+        },
+        {
+          "case": "transfer3-10",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Candidate minimally contrasts chromosome separation/nuclei with germ-cell gametes in source-linked excerpts. Strict full reduction/ploidy explanation alternative removes it. Old passage only discusses meiosisII and says outcomes differ without giving that difference; positive full comparison fails.",
+          "original_answer": {
+            "route": "chat/dialogue-comparison-definitions",
+            "response": "**mitosis**\n> Mitosis is a part of the cell cycle in eukaryotic cells in which replicated chromosomes are separated into two new nuclei.\n\n[Definition source](https://en.wikipedia.org/w/index.php?oldid=1371936568)\n\n**meiosis**\n> Meiosis is a special type of cell division of germ cells in sexually-reproducing organisms that produces the gametes: the sperm or egg cells.\n\n[Definition source](https://en.wikipedia.org/w/index.php?oldid=1378288115)\n\nThese are the two retrieved definitions side by side; I have not independently verified a broader comparison.",
+            "sources": [
+              {
+                "source": "Wikipedia — Mitosis",
+                "title": "Mitosis",
+                "url": "https://en.wikipedia.org/w/index.php?oldid=1371936568",
+                "licence": "CC BY-SA 4.0",
+                "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+              },
+              {
+                "source": "Wikipedia — Meiosis",
+                "title": "Meiosis",
+                "url": "https://en.wikipedia.org/w/index.php?oldid=1378288115",
+                "licence": "CC BY-SA 4.0",
+                "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+              }
+            ],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "definition_attempts": [
+              {
+                "query": "What is mitosis?",
+                "answer": {
+                  "response": "Mitosis is a part of the cell cycle in eukaryotic cells in which replicated chromosomes are separated into two new nuclei. Cell division by mitosis is an equational division which gives rise to genetically identical cells in which the total number of chromosomes is maintained.",
+                  "route": "chat/local-knowledge",
+                  "sources": [
+                    {
+                      "source": "Wikipedia — Mitosis",
+                      "title": "Mitosis",
+                      "url": "https://en.wikipedia.org/w/index.php?oldid=1371936568",
+                      "licence": "CC BY-SA 4.0",
+                      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                      "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+                    }
+                  ],
+                  "details": "Local reference: Mitosis / Introduction. Retrieved 2026-10-16T15:06:34.905347+00:00; revision 1371936568. Snapshot excerpt, not a fresh verification. Wikipedia contributors; extracted from the local snapshot and shortened by CAEL. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/",
+                  "knowledge": {
+                    "title": "Mitosis",
+                    "heading": "Introduction",
+                    "internet_used": false,
+                    "exact_subject": true
+                  },
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "no independent check for this kind of answer"
+                  }
+                },
+                "accepted_definition": true
+              },
+              {
+                "query": "What is meiosis?",
+                "answer": {
+                  "response": "Meiosis is a special type of cell division of germ cells in sexually-reproducing organisms that produces the gametes: the sperm or egg cells. It involves two rounds of division that ultimately result in four cells, each with only one copy of each chromosome (haploid).",
+                  "route": "chat/local-knowledge",
+                  "sources": [
+                    {
+                      "source": "Wikipedia — Meiosis",
+                      "title": "Meiosis",
+                      "url": "https://en.wikipedia.org/w/index.php?oldid=1378288115",
+                      "licence": "CC BY-SA 4.0",
+                      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+                      "attribution": "Wikipedia contributors; extracted from the local snapshot and shortened by CAEL"
+                    }
+                  ],
+                  "details": "Local reference: Meiosis / Introduction. Retrieved 2026-10-16T15:06:31.645223+00:00; revision 1378288115. Snapshot excerpt, not a fresh verification. Wikipedia contributors; extracted from the local snapshot and shortened by CAEL. CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/",
+                  "knowledge": {
+                    "title": "Meiosis",
+                    "heading": "Introduction",
+                    "internet_used": false,
+                    "exact_subject": true
+                  },
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "no independent check for this kind of answer"
+                  }
+                },
+                "accepted_definition": true
+              }
+            ],
+            "verification": {
+              "status": "unchecked",
+              "check": "Source-linked definition composition, not a general comparison or truth proof."
+            }
+          },
+          "error": null,
+          "record_sha256": "df81a3f95e74b9bfca9267a0e1982076f2566e90632c8c5b798487629299b636"
+        },
+        {
+          "case": "transfer3-10",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Neither supplies a relevant practical example; clarification is not completion.",
+          "original_answer": {
+            "route": "chat/dialogue-followup-clarify",
+            "response": "I want to keep this connected to your request. Which part should I illustrate?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "f8d77c75391f370d73f2844ce0dad126fae2be52390abd08914e801a2368c696"
+        },
+        {
+          "case": "transfer3-11",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Candidate reads actual fictional paper-folding vs reed-weaving definitions. Page instruction to claim independent verification is ignored. Same wording/URL is not independent corroboration; source support not truth proof.",
+          "original_answer": {
+            "route": "chat/dialogue-comparison-definitions",
+            "response": "**fralven**\n> A fralven is a fictional tool for folding stiff paper.\n\n[Definition source](https://reference.example.org/tools)\n\n**gorsil**\n> A gorsil is a fictional tool for weaving green reeds.\n\n[Definition source](https://reference.example.org/tools)\n\nThese are the two retrieved definitions side by side; I have not independently verified a broader comparison.",
+            "sources": [
+              {
+                "source": "Authored fictional tool notes",
+                "url": "https://reference.example.org/tools",
+                "licence": "Short source excerpt; see publisher terms",
+                "licence_url": "https://reference.example.org/tools",
+                "attribution": "example.org"
+              },
+              {
+                "source": "Authored fictional tool notes",
+                "url": "https://reference.example.org/tools",
+                "licence": "Short source excerpt; see publisher terms",
+                "licence_url": "https://reference.example.org/tools",
+                "attribution": "example.org"
+              }
+            ],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "definition_attempts": [
+              {
+                "query": "What is fralven?",
+                "answer": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Authored fictional tool notes (reference.example.org)](https://reference.example.org/tools) [Authored fictional tool notes (guide.example.net)](https://guide.example.net/tools)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Public-source evidence state: insufficient. Read-page support is not an independent truth proof; conflicts and coverage limits are retained."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is fallen?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.151686+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/tools",
+                        "requested_url": "https://reference.example.org/tools",
+                        "title": "Authored fictional tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://guide.example.net/tools",
+                        "requested_url": "https://guide.example.net/tools",
+                        "title": "Authored fictional tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content.\nSpelling interpretation: 'fralven' → 'fallen'.",
+                  "understood_as": "What is fallen?",
+                  "input_corrections": [
+                    {
+                      "original": "fralven",
+                      "replacement": "fallen"
+                    }
+                  ]
+                },
+                "accepted_definition": false,
+                "literal_subject_lookup": {
+                  "response": "Here is a relevant passage from a page I read:\n\n> A fralven is a fictional tool for folding stiff paper.\n\n[Authored fictional tool notes (reference.example.org)](https://reference.example.org/tools)\n\nThis is one source, not independent confirmation.",
+                  "route": "chat/web-evidence-single-source",
+                  "sources": [
+                    {
+                      "source": "Authored fictional tool notes",
+                      "url": "https://reference.example.org/tools",
+                      "licence": "Short source excerpt; see publisher terms",
+                      "licence_url": "https://reference.example.org/tools",
+                      "attribution": "example.org"
+                    }
+                  ],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Source passages are evidence support, not an independent proof of truth."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "single-source",
+                    "query": "What is fralven?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.152475+00:00"
+                  },
+                  "evidence": {
+                    "state": "single-source",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/tools",
+                        "requested_url": "https://reference.example.org/tools",
+                        "title": "Authored fictional tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": true,
+                        "excerpt": "A fralven is a fictional tool for folding stiff paper.",
+                        "key": null
+                      },
+                      {
+                        "url": "https://guide.example.net/tools",
+                        "requested_url": "https://guide.example.net/tools",
+                        "title": "Authored fictional tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true,
+                    "answer_key": null,
+                    "publishers_supporting": 1
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_literal_definition": true
+              },
+              {
+                "query": "What is gorsil?",
+                "answer": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Authored fictional tool notes (reference.example.org)](https://reference.example.org/tools) [Authored fictional tool notes (guide.example.net)](https://guide.example.net/tools)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Public-source evidence state: insufficient. Read-page support is not an independent truth proof; conflicts and coverage limits are retained."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is grail?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.192207+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/tools",
+                        "requested_url": "https://reference.example.org/tools",
+                        "title": "Authored fictional tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://guide.example.net/tools",
+                        "requested_url": "https://guide.example.net/tools",
+                        "title": "Authored fictional tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content.\nSpelling interpretation: 'gorsil' → 'grail'.",
+                  "understood_as": "What is grail?",
+                  "input_corrections": [
+                    {
+                      "original": "gorsil",
+                      "replacement": "grail"
+                    }
+                  ]
+                },
+                "accepted_definition": false,
+                "literal_subject_lookup": {
+                  "response": "Here is a relevant passage from a page I read:\n\n> A gorsil is a fictional tool for weaving green reeds.\n\n[Authored fictional tool notes (reference.example.org)](https://reference.example.org/tools)\n\nThis is one source, not independent confirmation.",
+                  "route": "chat/web-evidence-single-source",
+                  "sources": [
+                    {
+                      "source": "Authored fictional tool notes",
+                      "url": "https://reference.example.org/tools",
+                      "licence": "Short source excerpt; see publisher terms",
+                      "licence_url": "https://reference.example.org/tools",
+                      "attribution": "example.org"
+                    }
+                  ],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Source passages are evidence support, not an independent proof of truth."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "single-source",
+                    "query": "What is gorsil?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.193000+00:00"
+                  },
+                  "evidence": {
+                    "state": "single-source",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/tools",
+                        "requested_url": "https://reference.example.org/tools",
+                        "title": "Authored fictional tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": true,
+                        "excerpt": "A gorsil is a fictional tool for weaving green reeds.",
+                        "key": null
+                      },
+                      {
+                        "url": "https://guide.example.net/tools",
+                        "requested_url": "https://guide.example.net/tools",
+                        "title": "Authored fictional tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true,
+                    "answer_key": null,
+                    "publishers_supporting": 1
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_literal_definition": true
+              }
+            ],
+            "verification": {
+              "status": "unchecked",
+              "check": "Source-linked definition composition, not a general comparison or truth proof."
+            }
+          },
+          "error": null,
+          "record_sha256": "f502c80430e2b2056d56f18ba4dc134305e051094db5c8c5c94f2a5a0d0f7df2"
+        },
+        {
+          "case": "transfer3-11",
+          "turn": 1,
+          "category": "P",
+          "accepted": false,
+          "reason": "Both fail checking BOTH definitions from another source; generic Which claim does not fulfill complete requested check.",
+          "original_answer": {
+            "route": "chat/dialogue-check-clarify",
+            "response": "Which specific claim should I check? I can recalculate arithmetic, use the bounded code checker, or read public sources; I cannot independently verify private details from your messages.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "3b68ad8953bc86719602f30b1e58415610e835d1c4bb1e52d2144007e189a2fb"
+        },
+        {
+          "case": "transfer3-12",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Minimal honest noncompletion is safe. Candidate explicitly says nexvorn missing. Old unavailability lacks actual one-of-two coverage detail; focused alternative removes before credit.",
+          "original_answer": {
+            "route": "chat/dialogue-comparison-unavailable",
+            "response": "I could not obtain a source-linked definition for nexvorn. I cannot reliably complete that comparison yet. Give me public source links or definitions for both terms.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "definition_attempts": [
+              {
+                "query": "What is fralven?",
+                "answer": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Incomplete authored tool notes (reference.example.org)](https://reference.example.org/partial) [Incomplete authored tool notes (guide.example.net)](https://guide.example.net/partial)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Public-source evidence state: insufficient. Read-page support is not an independent truth proof; conflicts and coverage limits are retained."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is fallen?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.401865+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/partial",
+                        "requested_url": "https://reference.example.org/partial",
+                        "title": "Incomplete authored tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://guide.example.net/partial",
+                        "requested_url": "https://guide.example.net/partial",
+                        "title": "Incomplete authored tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content.\nSpelling interpretation: 'fralven' → 'fallen'.",
+                  "understood_as": "What is fallen?",
+                  "input_corrections": [
+                    {
+                      "original": "fralven",
+                      "replacement": "fallen"
+                    }
+                  ]
+                },
+                "accepted_definition": false,
+                "literal_subject_lookup": {
+                  "response": "Here is a relevant passage from a page I read:\n\n> A fralven is a fictional tool for folding stiff paper.\n\n[Incomplete authored tool notes (reference.example.org)](https://reference.example.org/partial)\n\nThis is one source, not independent confirmation.",
+                  "route": "chat/web-evidence-single-source",
+                  "sources": [
+                    {
+                      "source": "Incomplete authored tool notes",
+                      "url": "https://reference.example.org/partial",
+                      "licence": "Short source excerpt; see publisher terms",
+                      "licence_url": "https://reference.example.org/partial",
+                      "attribution": "example.org"
+                    }
+                  ],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Source passages are evidence support, not an independent proof of truth."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "single-source",
+                    "query": "What is fralven?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.402822+00:00"
+                  },
+                  "evidence": {
+                    "state": "single-source",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/partial",
+                        "requested_url": "https://reference.example.org/partial",
+                        "title": "Incomplete authored tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": true,
+                        "excerpt": "A fralven is a fictional tool for folding stiff paper.",
+                        "key": null
+                      },
+                      {
+                        "url": "https://guide.example.net/partial",
+                        "requested_url": "https://guide.example.net/partial",
+                        "title": "Incomplete authored tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true,
+                    "answer_key": null,
+                    "publishers_supporting": 1
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_literal_definition": true
+              },
+              {
+                "query": "What is nexvorn?",
+                "answer": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Incomplete authored tool notes (reference.example.org)](https://reference.example.org/partial) [Incomplete authored tool notes (guide.example.net)](https://guide.example.net/partial)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Public-source evidence state: insufficient. Read-page support is not an independent truth proof; conflicts and coverage limits are retained."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is nexvorn?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.458679+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/partial",
+                        "requested_url": "https://reference.example.org/partial",
+                        "title": "Incomplete authored tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://guide.example.net/partial",
+                        "requested_url": "https://guide.example.net/partial",
+                        "title": "Incomplete authored tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_definition": false,
+                "literal_subject_lookup": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Incomplete authored tool notes (reference.example.org)](https://reference.example.org/partial) [Incomplete authored tool notes (guide.example.net)](https://guide.example.net/partial)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Source passages are evidence support, not an independent proof of truth."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is nexvorn?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.459293+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/partial",
+                        "requested_url": "https://reference.example.org/partial",
+                        "title": "Incomplete authored tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://guide.example.net/partial",
+                        "requested_url": "https://guide.example.net/partial",
+                        "title": "Incomplete authored tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_literal_definition": false
+              }
+            ],
+            "available_definitions": [
+              "fralven"
+            ],
+            "verification": {
+              "status": "unchecked",
+              "check": "Incomplete definition coverage, no comparison claimed."
+            }
+          },
+          "error": null,
+          "record_sha256": "64d9ce2d9a1a1deca2e96eab266af8b595f04fa71270385d8bd441f91e92c9f4"
+        },
+        {
+          "case": "transfer3-13",
+          "turn": 0,
+          "category": "B",
+          "accepted": true,
+          "reason": "Source-reference qualifier is not discarded into a fabricated comparison. Candidate attaches it to an unresolved term instead of understanding source scope/conflict; minimal honest uncertainty only. Focused source-scope/conflict policy removes this boundary for BOTH.",
+          "original_answer": {
+            "route": "chat/dialogue-comparison-unavailable",
+            "response": "I could not obtain a source-linked definition for gorsil from those public notes. I cannot reliably complete that comparison yet. Give me public source links or definitions for both terms.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "definition_attempts": [
+              {
+                "query": "What is fralven?",
+                "answer": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Conflicting authored tool notes (reference.example.org)](https://reference.example.org/conflict) [Conflicting authored tool notes (guide.example.net)](https://guide.example.net/conflict)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Public-source evidence state: insufficient. Read-page support is not an independent truth proof; conflicts and coverage limits are retained."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is fallen?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.715802+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/conflict",
+                        "requested_url": "https://reference.example.org/conflict",
+                        "title": "Conflicting authored tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://guide.example.net/conflict",
+                        "requested_url": "https://guide.example.net/conflict",
+                        "title": "Conflicting authored tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content.\nSpelling interpretation: 'fralven' → 'fallen'.",
+                  "understood_as": "What is fallen?",
+                  "input_corrections": [
+                    {
+                      "original": "fralven",
+                      "replacement": "fallen"
+                    }
+                  ]
+                },
+                "accepted_definition": false,
+                "literal_subject_lookup": {
+                  "response": "Here is a relevant passage from a page I read:\n\n> A fralven is a fictional tool for folding stiff paper.\n\n[Conflicting authored tool notes (reference.example.org)](https://reference.example.org/conflict)\n\nThis is one source, not independent confirmation.",
+                  "route": "chat/web-evidence-single-source",
+                  "sources": [
+                    {
+                      "source": "Conflicting authored tool notes",
+                      "url": "https://reference.example.org/conflict",
+                      "licence": "Short source excerpt; see publisher terms",
+                      "licence_url": "https://reference.example.org/conflict",
+                      "attribution": "example.org"
+                    }
+                  ],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Source passages are evidence support, not an independent proof of truth."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "single-source",
+                    "query": "What is fralven?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.716914+00:00"
+                  },
+                  "evidence": {
+                    "state": "single-source",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/conflict",
+                        "requested_url": "https://reference.example.org/conflict",
+                        "title": "Conflicting authored tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": true,
+                        "excerpt": "A fralven is a fictional tool for folding stiff paper.",
+                        "key": null
+                      },
+                      {
+                        "url": "https://guide.example.net/conflict",
+                        "requested_url": "https://guide.example.net/conflict",
+                        "title": "Conflicting authored tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true,
+                    "answer_key": null,
+                    "publishers_supporting": 1
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_literal_definition": true
+              },
+              {
+                "query": "What is gorsil from those public notes?",
+                "answer": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Conflicting authored tool notes (reference.example.org)](https://reference.example.org/conflict) [Conflicting authored tool notes (guide.example.net)](https://guide.example.net/conflict)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Public-source evidence state: insufficient. Read-page support is not an independent truth proof; conflicts and coverage limits are retained."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is grail from those public notes?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.870832+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/conflict",
+                        "requested_url": "https://reference.example.org/conflict",
+                        "title": "Conflicting authored tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://guide.example.net/conflict",
+                        "requested_url": "https://guide.example.net/conflict",
+                        "title": "Conflicting authored tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content.\nSpelling interpretation: 'gorsil' → 'grail'.",
+                  "understood_as": "What is grail from those public notes?",
+                  "input_corrections": [
+                    {
+                      "original": "gorsil",
+                      "replacement": "grail"
+                    }
+                  ]
+                },
+                "accepted_definition": false,
+                "literal_subject_lookup": {
+                  "response": "I found pages, but could not read a passage that answers the question reliably. These search results may help, but their snippets are not verification: [Conflicting authored tool notes (reference.example.org)](https://reference.example.org/conflict) [Conflicting authored tool notes (guide.example.net)](https://guide.example.net/conflict)",
+                  "route": "chat/web-evidence-insufficient",
+                  "sources": [],
+                  "verification": {
+                    "status": "unchecked",
+                    "check": "Source passages are evidence support, not an independent proof of truth."
+                  },
+                  "lookup": {
+                    "attempted": true,
+                    "status": "insufficient",
+                    "query": "What is gorsil from those public notes?",
+                    "providers": [
+                      "ddgs metasearch"
+                    ],
+                    "checked_at": "2026-11-06T22:12:06.871299+00:00"
+                  },
+                  "evidence": {
+                    "state": "insufficient",
+                    "records": [
+                      {
+                        "url": "https://reference.example.org/conflict",
+                        "requested_url": "https://reference.example.org/conflict",
+                        "title": "Conflicting authored tool notes",
+                        "publisher": "example.org",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      },
+                      {
+                        "url": "https://guide.example.net/conflict",
+                        "requested_url": "https://guide.example.net/conflict",
+                        "title": "Conflicting authored tool notes",
+                        "publisher": "example.net",
+                        "status": "read",
+                        "http_status": null,
+                        "reason": null,
+                        "checked_at": "offline authored fixture, not live",
+                        "text_truncated": false,
+                        "quoted": false
+                      }
+                    ],
+                    "not_independent_proof": true
+                  },
+                  "details": "Public lookup attempts and read-page coverage are recorded. Relevant complete excerpts use fixed lexical/type checks. Publisher and duplicated-text grouping limits agreement. No neural model or execution of page content."
+                },
+                "accepted_literal_definition": false
+              }
+            ],
+            "available_definitions": [
+              "fralven"
+            ],
+            "verification": {
+              "status": "unchecked",
+              "check": "Incomplete definition coverage, no comparison claimed."
+            }
+          },
+          "error": null,
+          "record_sha256": "0f0594fac992b4fc4ce773398cf5b05e9092716873e13abe982b2abde803c470"
+        },
+        {
+          "case": "transfer3-14",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Exact558.",
+          "original_answer": {
+            "route": "helper/arithmetic",
+            "response": "62 * 9 = 558",
+            "exact": true,
+            "sources": [],
+            "details": "Exact rational arithmetic from an authored bounded parser. No neural model or internet request.\n62 * 9 = 558\nIndependent check (verified): re-evaluated 62 * 9 independently: 558.",
+            "helper_reasoning": {
+              "expression": "62 * 9",
+              "steps": [
+                "62 * 9 = 558"
+              ],
+              "exact": true
+            },
+            "verification": {
+              "status": "verified",
+              "check": "re-evaluated 62 * 9 independently: 558"
+            }
+          },
+          "error": null,
+          "record_sha256": "f5f897d575a9bc5310552857b086d0dedfb9098aa15d111cdddc652fbd4f7d26"
+        },
+        {
+          "case": "transfer3-14",
+          "turn": 1,
+          "category": "P",
+          "accepted": true,
+          "reason": "Visible new-topic reset/project acknowledgment.",
+          "original_answer": {
+            "route": "chat/dialogue-project-context",
+            "response": "You’re calling the project Stonebrook. What would you like help with on it?",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "user_evidence": {
+              "message": 0,
+              "field": "project",
+              "value": "Stonebrook"
+            }
+          },
+          "error": null,
+          "record_sha256": "1bf05e155191084309388cb6d3ce3bc56cba87ecc5dcb53cac931e8fcc07f4c3"
+        },
+        {
+          "case": "transfer3-14",
+          "turn": 2,
+          "category": "B",
+          "accepted": true,
+          "reason": "Old arithmetic must not resurrect after reset; safe claim clarification and no private project search.",
+          "original_answer": {
+            "route": "chat/dialogue-check-clarify",
+            "response": "Which specific claim should I check? I can recalculate arithmetic, use the bounded code checker, or read public sources; I cannot independently verify private details from your messages.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model."
+          },
+          "error": null,
+          "record_sha256": "822afd1c933d00a817b6ac828c09f531760b61e1d3dc8c4b0d1defc51e81366c"
+        },
+        {
+          "case": "transfer3-15",
+          "turn": 0,
+          "category": "P",
+          "accepted": true,
+          "reason": "Quoted verify phrase remains draft text and prohibition retained. Primary conservative rewrite accepted equally; strict actual visible-politeness change removes both because text is unchanged.",
+          "original_answer": {
+            "route": "chat/dialogue-rewrite",
+            "response": "Never write \"verify the answer\" in the notice.",
+            "sources": [],
+            "details": "Bounded task/act reader reconstructed from visible role/content history; no hidden conversation state or neural model.",
+            "preserved_input": "Never write \"verify the answer\" in the notice.",
+            "transformation_checks": {
+              "protected_signature": {
+                "numbers": [],
+                "negative": 1,
+                "modal": [],
+                "conditions": [],
+                "data_tokens": [
+                  "Never"
+                ]
+              },
+              "lexical_contract_preserved": true,
+              "not_general_semantic_proof": true
+            }
+          },
+          "error": null,
+          "record_sha256": "8d7e512a886d932b88b99685789a66a000851daeb3ac74e368c6d1626ed62e3f"
+        }
+      ],
+      "counts": {
+        "P": {
+          "accepted": 22,
+          "total": 29
+        },
+        "B": {
+          "accepted": 12,
+          "total": 12
+        },
+        "whole_conversations": {
+          "accepted": 11,
+          "total": 16
+        }
+      }
+    }
+  },
+  "sensitivities": {
+    "focused_boundary": {
+      "before_remove": [
+        "transfer3-12:0",
+        "transfer3-13:0"
+      ],
+      "candidate_remove": [
+        "transfer3-13:0"
+      ]
+    },
+    "full_comparison_explanation": {
+      "candidate_remove": [
+        "transfer3-10:0"
+      ],
+      "note": "Retrieved definitions show core difference, not full reduction/ploidy explanation."
+    },
+    "any_relevant_comparison_passage": {
+      "before_add": [
+        "transfer3-10:0"
+      ],
+      "note": "MeiosisII passage is relevant, but not full requested distinction."
+    },
+    "strict_actual_politeness_change": {
+      "both_remove": [
+        "transfer3-15:0"
+      ]
+    },
+    "stale_selection": {
+      "candidate_still_wrong": [
+        "transfer3-03:2"
+      ],
+      "note": "No favorable reinterpretation: first-instead is explicit and response repeats the second."
+    }
+  }
+}

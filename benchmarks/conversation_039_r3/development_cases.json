@@ -1,0 +1,273 @@
+[
+  {
+    "id": "dev3-00",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Would you compute 64 * 8 - 9?",
+      "Could you verify whether there is an error in your calculation?",
+      "Show the value alone, please."
+    ],
+    "categories": "PPP",
+    "rubric": "503; actual independent exact check; then bare503. Count safe clarification separately from doing the arithmetic."
+  },
+  {
+    "id": "dev3-01",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Please calculate (73 + 26) / 9.",
+      "Independently recompute the preceding result.",
+      "Only the answer in your reply."
+    ],
+    "categories": "PPP",
+    "rubric": "11; original request retained even if a count classifier calls its wording an act; actual recheck then bare11."
+  },
+  {
+    "id": "dev3-02",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "When was Nikola Tesla born?",
+      "Give just the year in your reply."
+    ],
+    "categories": "PP",
+    "rubric": "10July1856 from existing source knowledge; project1856 from anchored birth answer, not an incidental number or fresh verification."
+  },
+  {
+    "id": "dev3-03",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Write a Python function augment(quantity, *, levy=9) that returns quantity * 4 + levy. Examples: augment(8) == 41; augment(quantity=6, levy=2) == 26.",
+      "Please actually test all supplied examples again.",
+      "Also make the function append a message to a log file."
+    ],
+    "categories": "PPB",
+    "rubric": "Exact name/default/keyword contract; recheck BOTH examples; a new side-effect requirement must be owned and clarified without native code execution."
+  },
+  {
+    "id": "dev3-04",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Help me decide: 1. a carved whistle; 2. a glass token; 3. a copper badge.",
+      "We will choose option three.",
+      "Use the glass token."
+    ],
+    "categories": "BPP",
+    "rubric": "Initial criterion clarification; cardinal third then literal second option supported without fuzzy substitution."
+  },
+  {
+    "id": "dev3-05",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Choose between these ideas: 1. a woven screen; 2. a folded screen.",
+      "Choose option one if it is cheaper than option two; otherwise use option two.",
+      "Option one costs 41 dollars; option two costs 25 dollars."
+    ],
+    "categories": "BBP",
+    "rubric": "Unknown prices clarify, then exact stated same-currency comparison selects folded screen via explicit fallback."
+  },
+  {
+    "id": "dev3-06",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Help choose: 1. a reed sculpture; 2. a wire sculpture.",
+      "Select option one if it is cheaper than option two; otherwise choose option two.",
+      "Option one costs 22 dollars; option two costs 16 euros.",
+      "I choose option two."
+    ],
+    "categories": "BBBP",
+    "rubric": "No assumed exchange rate; later unconditional selection supersedes conditional request."
+  },
+  {
+    "id": "dev3-07",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Help choose: 1. a birch shelf; 2. an ash shelf.",
+      "Use option one unless option two is cheaper.",
+      "Option one costs 38 pounds; option two costs 24 pounds."
+    ],
+    "categories": "BBB",
+    "rubric": "Initial/missing-price clarification; condition blocks birch but no fallback was specified, so do not invent a selection."
+  },
+  {
+    "id": "dev3-08",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "How do I loop over a Python dictionary?",
+      "Show one small worked illustration with {'moss': 12, 'reed': 15}.",
+      "And what happens with the empty dictionary in Python?"
+    ],
+    "categories": "PPP",
+    "rubric": "Correct items guide; exact supplied mapping/output; empty iteration produces no output, checked in the unchanged VM."
+  },
+  {
+    "id": "dev3-09",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "How do I loop through only dictionary keys in Python?",
+      "Show one example using {'cove': 18, 'dune': 23}."
+    ],
+    "categories": "PP",
+    "rubric": "Full keys-only workflow; illustrative code must not print the values when only keys are requested."
+  },
+  {
+    "id": "dev3-10",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "How do I iterate through dictionary values in Python?",
+      "Give one worked example with {'cove': 18, 'dune': 23}."
+    ],
+    "categories": "PP",
+    "rubric": "Values-only workflow, actual18/23 output, no extra keys; unsupported initial guide is not positive completion."
+  },
+  {
+    "id": "dev3-11",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "How do I loop through a dictionary and skip odd values in Python?",
+      "Show one worked example using {'clay': 13, 'wood': 20}."
+    ],
+    "categories": "PB",
+    "rubric": "First requires a real filter if answered; later unsupported whole workflow must not silently emit unfiltered iteration. Focused clarification boundary separate."
+  },
+  {
+    "id": "dev3-12",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "My preferred language is Icelandic.",
+      "What evidence do you have for knowing my preferred language?",
+      "Can you independently confirm my preferred language?"
+    ],
+    "categories": "PPB",
+    "rubric": "Evidence quotes only actual user assertion; private detail is not independently verified or searched online."
+  },
+  {
+    "id": "dev3-13",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "My preferred editor is VSCodium.",
+      "What is your basis for remembering my editor?",
+      "Forget my editor.",
+      "What evidence do you have for my editor?"
+    ],
+    "categories": "PPBB",
+    "rubric": "Attribution to user statement, forget applies to provenance too; no forgotten value quoted afterward."
+  },
+  {
+    "id": "dev3-14",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Explain the difference between diffusion and osmosis.",
+      "Give a specific practical example of the distinction."
+    ],
+    "categories": "PP",
+    "rubric": "Correct scientific distinction and relevant example; source-labeled definitions alone do not establish arbitrary follow-up examples. Missing knowledge is not positive credit."
+  },
+  {
+    "id": "dev3-15",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Compare compiler and interpreter."
+    ],
+    "categories": "P",
+    "rubric": "Useful source-backed definitions that distinguish translation/execution; no generic smalltalk or unrelated matched article."
+  },
+  {
+    "id": "dev3-16",
+    "kind": "source-fixture",
+    "license": "CC0-1.0",
+    "turns": [
+      "Explain the difference between talmera and volrun."
+    ],
+    "categories": "P",
+    "rubric": "Use ONLY the authored public-page definitions: paper-pressing versus clay-shaping tools. This is fixture grounding, not real-world knowledge or model training.",
+    "fixture": {
+      "title": "Fictional tool reference",
+      "urls": [
+        "https://source.example.org/tools",
+        "https://manual.example.net/tools"
+      ],
+      "snippets": [
+        "A talmera is a fictional hand tool for pressing soft paper.",
+        "A volrun is a fictional wheel tool for shaping wet clay."
+      ],
+      "bodies": [
+        "A talmera is a fictional hand tool for pressing soft paper.\nA volrun is a fictional wheel tool for shaping wet clay.",
+        "A talmera is a fictional hand tool for pressing soft paper.\nA volrun is a fictional wheel tool for shaping wet clay."
+      ]
+    }
+  },
+  {
+    "id": "dev3-17",
+    "kind": "source-fixture",
+    "license": "CC0-1.0",
+    "turns": [
+      "Compare talmera and brenvek."
+    ],
+    "categories": "B",
+    "rubric": "Only talmera defined in authored read pages; no invented brenvek definition or complete comparison claim.",
+    "fixture": {
+      "title": "Incomplete fictional reference",
+      "urls": [
+        "https://source.example.org/partial",
+        "https://manual.example.net/partial"
+      ],
+      "snippets": [
+        "A talmera is a fictional hand tool for pressing soft paper.",
+        "A talmera is a fictional hand tool for pressing soft paper."
+      ],
+      "bodies": [
+        "A talmera is a fictional hand tool for pressing soft paper.",
+        "A talmera is a fictional hand tool for pressing soft paper."
+      ]
+    }
+  },
+  {
+    "id": "dev3-18",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Calculate 57 * 7.",
+      "My preferred editor is Fleet.",
+      "Recheck your answer."
+    ],
+    "categories": "PPB",
+    "rubric": "399 then user fact; a new personal task blocks earlier arithmetic, and must not leak the private assertion to public search."
+  },
+  {
+    "id": "dev3-19",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "No questions please. I only want you to listen.",
+      "I enjoyed getting the old bicycle bell to ring again."
+    ],
+    "categories": "BB",
+    "rubric": "Listening remains user-evidence-based, with no questions/advice/invented cause; focused variant distinguishes generic acknowledgment."
+  },
+  {
+    "id": "dev3-20",
+    "kind": "conversation",
+    "license": "CC0-1.0",
+    "turns": [
+      "Choose between these plans: 1. a courtyard mural; 2. a hallway mural.",
+      "Option one costs 27 euros but includes an unspecified extra fee."
+    ],
+    "categories": "BB",
+    "rubric": "Clarify missing criterion and full unsupported price/tax clause; do not certify a partial amount or choose cheapest."
+  }
+]

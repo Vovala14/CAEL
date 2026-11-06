@@ -1,0 +1,239 @@
+{
+  "train_examples": 584,
+  "heldout_examples": 132,
+  "heldout_topics": [
+    "Canada",
+    "Brazil",
+    "robotics",
+    "quantum computers",
+    "ocean conservation",
+    "Nintendo"
+  ],
+  "heldout_positive_templates": [
+    "please give me <{topic}> news today",
+    "latest headlines from <{topic}>",
+    "tell me about recent news in <{topic}>",
+    "any updates on <{topic}> today",
+    "<{topic}> news please",
+    "what is the latest news about <{topic}>"
+  ],
+  "intent_correct": 132,
+  "intent_total": 132,
+  "topic_exact": 36,
+  "topic_total": 36,
+  "failures": [],
+  "limitation": "Authored paraphrase holdout only; not independent real-user understanding or news truthfulness",
+  "model_sha256": "cea66ef487e4e721e0db653b854a5d8236872c0b8f5b602d8341defc2a32f311",
+  "confirmation": {
+    "correct": 20,
+    "total": 20,
+    "cases": [
+      {
+        "text": "give me South Korea headlines please",
+        "correct": true,
+        "actual": {
+          "topic": "south korea",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "give me semiconductors headlines please",
+        "correct": true,
+        "actual": {
+          "topic": "semiconductors",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "give me renewable energy storage headlines please",
+        "correct": true,
+        "actual": {
+          "topic": "renewable energy storage",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "give me marine biology headlines please",
+        "correct": true,
+        "actual": {
+          "topic": "marine biology",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "give me Australia headlines please",
+        "correct": true,
+        "actual": {
+          "topic": "australia",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "please show the recent news on South Korea",
+        "correct": true,
+        "actual": {
+          "topic": "south korea",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "please show the recent news on semiconductors",
+        "correct": true,
+        "actual": {
+          "topic": "semiconductors",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "please show the recent news on renewable energy storage",
+        "correct": true,
+        "actual": {
+          "topic": "renewable energy storage",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "please show the recent news on marine biology",
+        "correct": true,
+        "actual": {
+          "topic": "marine biology",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "please show the recent news on Australia",
+        "correct": true,
+        "actual": {
+          "topic": "australia",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "what are the newest developments about South Korea",
+        "correct": true,
+        "actual": {
+          "topic": "south korea",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "what are the newest developments about semiconductors",
+        "correct": true,
+        "actual": {
+          "topic": "semiconductors",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "what are the newest developments about renewable energy storage",
+        "correct": true,
+        "actual": {
+          "topic": "renewable energy storage",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "what are the newest developments about marine biology",
+        "correct": true,
+        "actual": {
+          "topic": "marine biology",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "what are the newest developments about Australia",
+        "correct": true,
+        "actual": {
+          "topic": "australia",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "South Korea updates briefly",
+        "correct": true,
+        "actual": {
+          "topic": "south korea",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "semiconductors updates briefly",
+        "correct": true,
+        "actual": {
+          "topic": "semiconductors",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "renewable energy storage updates briefly",
+        "correct": true,
+        "actual": {
+          "topic": "renewable energy storage",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "marine biology updates briefly",
+        "correct": true,
+        "actual": {
+          "topic": "marine biology",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      },
+      {
+        "text": "Australia updates briefly",
+        "correct": true,
+        "actual": {
+          "topic": "australia",
+          "limit": 3,
+          "max_words": 75,
+          "learned": true
+        }
+      }
+    ],
+    "limitation": "Separate authored templates and topic strings; same author and feature family"
+  },
+  "previous_regex_topic_exact": {
+    "correct": 12,
+    "total": 36,
+    "scope": "Same authored positive request holdout, reproduced previous topic extraction"
+  }
+}

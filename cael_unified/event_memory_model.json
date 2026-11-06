@@ -1,0 +1,583 @@
+{
+  "schema": 1,
+  "neural": false,
+  "trained_utc": "2026-11-04T22:41:24.366048+00:00",
+  "training": "Fresh authored CC0 general state lessons; before/after transition selection and annotated surface-frame induction",
+  "algorithm_prior": "Finite state transitions and regular role-frame representation; explicit non-neural inductive bias",
+  "frames": [
+    {
+      "frame": "{{E}}'s {{A}} becomes {{V}}",
+      "operation": "put",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 2,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 24,
+        "assert": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "change {{E}}'s {{A}} to {{V}}",
+      "operation": "put",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 3,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 24,
+        "assert": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "{{E}} has {{V}} {{A}}",
+      "operation": "put",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 1,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 24,
+        "assert": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "{{E}}'s {{A}} is {{V}}",
+      "operation": "assert",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 2,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 0,
+        "assert": 24,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "raise {{E}}'s {{A}} by {{D}}",
+      "operation": "add",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 3,
+      "witnesses": 24,
+      "fit_counts": {
+        "clear": 0,
+        "add": 24,
+        "subtract": 0
+      }
+    },
+    {
+      "frame": "increase the {{A}} of {{E}} by {{D}}",
+      "operation": "add",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 4,
+      "witnesses": 24,
+      "fit_counts": {
+        "clear": 0,
+        "add": 24,
+        "subtract": 0
+      }
+    },
+    {
+      "frame": "reduce {{E}}'s {{A}} by {{D}}",
+      "operation": "subtract",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 3,
+      "witnesses": 24,
+      "fit_counts": {
+        "clear": 0,
+        "add": 0,
+        "subtract": 24
+      }
+    },
+    {
+      "frame": "{{E}} gains {{D}} {{A}}",
+      "operation": "add",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 1,
+      "witnesses": 24,
+      "fit_counts": {
+        "clear": 0,
+        "add": 24,
+        "subtract": 0
+      }
+    },
+    {
+      "frame": "{{E}} loses {{D}} {{A}}",
+      "operation": "subtract",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 1,
+      "witnesses": 24,
+      "fit_counts": {
+        "clear": 0,
+        "add": 0,
+        "subtract": 24
+      }
+    },
+    {
+      "frame": "{{E}} copies {{S}}'s {{A}}",
+      "operation": "copy",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 2,
+      "witnesses": 24,
+      "fit_counts": {
+        "copy": 24,
+        "live": 0,
+        "swap": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "make {{E}}'s {{A}} equal to {{S}}'s {{A}}",
+      "operation": "copy",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 5,
+      "witnesses": 24,
+      "fit_counts": {
+        "copy": 24,
+        "live": 0,
+        "swap": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "{{E}} takes a snapshot of {{S}}'s {{A}}",
+      "operation": "copy",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 5,
+      "witnesses": 24,
+      "fit_counts": {
+        "copy": 24,
+        "live": 0,
+        "swap": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "keep {{E}}'s {{A}} linked to {{S}}'s {{A}}",
+      "operation": "live",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 5,
+      "witnesses": 24,
+      "fit_counts": {
+        "copy": 0,
+        "live": 24,
+        "swap": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "exchange the {{A}} of {{E}} and {{S}}",
+      "operation": "swap",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 4,
+      "witnesses": 24,
+      "fit_counts": {
+        "copy": 0,
+        "live": 0,
+        "swap": 24,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "forget {{E}}'s {{A}}",
+      "operation": "clear",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 2,
+      "witnesses": 24,
+      "fit_counts": {
+        "clear": 24
+      }
+    },
+    {
+      "frame": "{{E}}'s {{A}} is unknown",
+      "operation": "clear",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 3,
+      "witnesses": 24,
+      "fit_counts": {
+        "clear": 24
+      }
+    },
+    {
+      "frame": "raise {{E}}'s {{A}} by {{D}}, wrapping at {{M}}",
+      "operation": "modadd",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 6,
+      "witnesses": 24,
+      "fit_counts": {
+        "clear": 0,
+        "add": 8,
+        "subtract": 0,
+        "modadd": 24
+      }
+    },
+    {
+      "frame": "add {{D}} to {{E}}'s {{A}} with a cycle length of {{M}}",
+      "operation": "modadd",
+      "defaults": {},
+      "aliases": [],
+      "specificity": 8,
+      "witnesses": 24,
+      "fit_counts": {
+        "clear": 0,
+        "add": 17,
+        "subtract": 0,
+        "modadd": 24
+      }
+    },
+    {
+      "frame": "{{E}} ^relocated^ to {{V}}",
+      "operation": "put",
+      "defaults": {
+        "A": "location"
+      },
+      "aliases": [
+        "relocated",
+        "relocateded",
+        "relocateds"
+      ],
+      "specificity": 2,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 24,
+        "assert": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "{{E}} ^arrived^ at {{V}}",
+      "operation": "put",
+      "defaults": {
+        "A": "location"
+      },
+      "aliases": [
+        "arrived",
+        "arriveded",
+        "arriveds"
+      ],
+      "specificity": 2,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 24,
+        "assert": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "^dye^ {{E}} {{V}}",
+      "operation": "put",
+      "defaults": {
+        "A": "color"
+      },
+      "aliases": [
+        "black",
+        "blacked",
+        "blacken",
+        "blackened",
+        "blackens",
+        "blacks",
+        "blanch",
+        "blanched",
+        "blanchs",
+        "bleach",
+        "bleach out",
+        "bleached",
+        "bleachs",
+        "blench",
+        "blenched",
+        "blenchs",
+        "blue",
+        "blued",
+        "bluer",
+        "blues",
+        "bluest",
+        "blush",
+        "blushed",
+        "blushs",
+        "bronze",
+        "bronzed",
+        "bronzes",
+        "burn",
+        "burned",
+        "burns",
+        "burnt",
+        "crimson",
+        "crimsoned",
+        "crimsons",
+        "decolor",
+        "decolored",
+        "decolorise",
+        "decolorised",
+        "decolorises",
+        "decolorize",
+        "decolorized",
+        "decolorizes",
+        "decolors",
+        "decolour",
+        "decoloured",
+        "decolourise",
+        "decolourised",
+        "decolourises",
+        "decolourize",
+        "decolourized",
+        "decolourizes",
+        "decolours",
+        "discolorise",
+        "discolorised",
+        "discolorises",
+        "discolorize",
+        "discolorized",
+        "discolorizes",
+        "discolourise",
+        "discolourised",
+        "discolourises",
+        "dye",
+        "dyed",
+        "dyes",
+        "flush",
+        "flushed",
+        "flushs",
+        "gray",
+        "grayed",
+        "grays",
+        "green",
+        "greened",
+        "greens",
+        "grey",
+        "greyed",
+        "greys",
+        "infuscate",
+        "infuscated",
+        "infuscates",
+        "melanise",
+        "melanised",
+        "melanises",
+        "melanize",
+        "melanized",
+        "melanizes",
+        "nigrified",
+        "nigrify",
+        "nigrifyed",
+        "nigrifys",
+        "pale",
+        "paled",
+        "pales",
+        "purple",
+        "purpled",
+        "purples",
+        "redden",
+        "reddened",
+        "reddens",
+        "sallow",
+        "sallowed",
+        "sallows",
+        "silver",
+        "silvered",
+        "silvers",
+        "sunburn",
+        "sunburned",
+        "sunburns",
+        "tan",
+        "taned",
+        "tanned",
+        "tanner",
+        "tannest",
+        "tanning",
+        "tans",
+        "tone",
+        "toned",
+        "tones",
+        "turn",
+        "turned",
+        "turns",
+        "wash out",
+        "white",
+        "whited",
+        "whiten",
+        "whitened",
+        "whitens",
+        "whites",
+        "yellow",
+        "yellowed",
+        "yellows"
+      ],
+      "specificity": 1,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 24,
+        "assert": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "{{E}} was ^dyed^ {{V}}",
+      "operation": "put",
+      "defaults": {
+        "A": "color"
+      },
+      "aliases": [
+        "dyed",
+        "dyeded",
+        "dyeds"
+      ],
+      "specificity": 2,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 24,
+        "assert": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "{{E}}'s setting becomes {{V}}",
+      "operation": "put",
+      "defaults": {
+        "A": "setting"
+      },
+      "aliases": [],
+      "specificity": 3,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 24,
+        "assert": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "{{E}}'s setting matches {{S}}'s setting",
+      "operation": "copy",
+      "defaults": {
+        "A": "setting"
+      },
+      "aliases": [],
+      "specificity": 5,
+      "witnesses": 24,
+      "fit_counts": {
+        "copy": 24,
+        "live": 0,
+        "swap": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "^adjust^ {{E}} to {{V}}",
+      "operation": "put",
+      "defaults": {
+        "A": "setting"
+      },
+      "aliases": [
+        "adjust",
+        "adjusted",
+        "adjusts",
+        "align",
+        "aligned",
+        "aligns",
+        "aline",
+        "alined",
+        "alines",
+        "correct",
+        "corrected",
+        "corrects",
+        "line up",
+        "set",
+        "seted",
+        "sets",
+        "setting",
+        "skew",
+        "skewed",
+        "skews",
+        "tip",
+        "tiped",
+        "tipped",
+        "tipping",
+        "tips"
+      ],
+      "specificity": 2,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 24,
+        "assert": 0,
+        "clear": 0
+      }
+    },
+    {
+      "frame": "{{E}} ^visits^ {{V}}",
+      "operation": "put",
+      "defaults": {
+        "A": "location"
+      },
+      "aliases": [
+        "visits",
+        "visitsed",
+        "visitss"
+      ],
+      "specificity": 1,
+      "witnesses": 24,
+      "fit_counts": {
+        "put": 24,
+        "assert": 0,
+        "clear": 0
+      }
+    }
+  ],
+  "summary_words": [
+    "color",
+    "current",
+    "final",
+    "latest",
+    "location",
+    "overview",
+    "setting",
+    "snapshot",
+    "state",
+    "summary",
+    "value"
+  ],
+  "instruction_starts": [
+    "follow",
+    "keep",
+    "monitor",
+    "remember",
+    "track"
+  ],
+  "instruction_words": [
+    "a",
+    "as",
+    "changes",
+    "current",
+    "follow",
+    "in",
+    "inventory",
+    "it",
+    "keep",
+    "monitor",
+    "of",
+    "order",
+    "record",
+    "remember",
+    "settings",
+    "state",
+    "the",
+    "these",
+    "track",
+    "updates"
+  ],
+  "license": "CC0-1.0; existing WordNet lexical expansion uses its retained public-resource license"
+}

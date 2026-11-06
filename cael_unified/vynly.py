@@ -180,9 +180,12 @@ class VynlyHelp:
         text = SPACED_AI.sub('ai', text)
         if OWN_WORDS.search(text) or WHY_CHECK.search(text) and re.search(r'(?i)\bai\b', text):
             return True
-        if self.flagged(messages) and HELP_QUESTION.search(text):
-            return True
-        return self.follows_vynly_answer(messages) and bool(HELP_QUESTION.search(text))
+        # A proxy marker describes the host, not the subject of every request.
+        # Implicit site questions must match a complete authored help intent;
+        # generic questions such as "Can you work out 74 * 5?" stay in chat.
+        # Explicit Vynly/features still use the public-help retrieval above.
+        contextual = self.flagged(messages) or self.follows_vynly_answer(messages)
+        return contextual and bool(HELP_QUESTION.search(text)) and self.faq(text) is not None
 
     def faq(self, text):
         t = ' '.join(text.lower().replace('’', "'").split())

@@ -23,6 +23,13 @@ The VM itself is not extended. This is integration of the tested policy, not a
 claim of whole-runtime security certification. Source and dependency hashes,
 portable regression checks and deployment evidence are recorded separately.
 
+An actual HTTP preflight found that the Vynly proxy's site marker could intercept
+an unrelated arithmetic question as site help. The release integration now uses
+implicit site context only for a recognized authored help intent; explicitly
+named Vynly/features retain public-help retrieval. Routing regressions and actual
+worker smoke checks qualify this additional change. The frozen research source,
+its transfer failures and its reported scores are unchanged.
+
 Latest authored fresh transfer: useful answers 10/29 -> 22/29, and complete
 positive-task conversations 2/14 -> 9/14, versus the previous development
 candidate. Boundaries include refusal/clarification, not solved positive tasks.
@@ -31,6 +38,9 @@ There is no new Qwen win or standard benchmark claim.
 
 Known gaps include stale option switches, some dictionary follow-ups, generated
 practical examples, compound source checks and incomplete lexical retrieval.
+An additional preflight paraphrase, "Which editor did I say I prefer?", receives
+generic uncertainty; the supported "Which editor do I prefer?" is separate.
+That failed paraphrase is retained and was not used to tune the candidate.
 Read README.md and benchmarks/conversation_039_r3/REPORT.md for scope.
 
 Public assets contain no private conversations/photos, credentials, image/portrait

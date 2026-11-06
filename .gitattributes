@@ -1,5 +1,6 @@
 * text=auto eol=lf
 models/** -text
+benchmarks/conversation_039_r3/** -text
 reference/model.json -text
 *.zip binary
 *.cael binary

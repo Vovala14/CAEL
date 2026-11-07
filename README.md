@@ -54,7 +54,7 @@ All 123 candidate abstentions count as wrong, including all unsupported-wording 
 
 Seven other engines were evaluated with their previously fixed readouts. Neural models used a single bare A/B/C/D next-token logit readout, with no free-form generation or chain of thought. This is **not a best-chat comparison**, a standard published benchmark score, a Qwen result, or evidence of general superiority. Qwen was not evaluated here. Task families were known, development was adaptive, and question authoring/review was maintainer-led and AI-assisted. The 100% familiar half does not establish broad competence.
 
-[Full results and all nine scores](https://vynly-non-neural-ai-leaderboard.hf.space/fresh-transfer.html) В· [Questions, references, raw outputs, readouts, audits and hashes](https://huggingface.co/datasets/vynly/nnai-bench/tree/main/fresh-transfer/2026-11-07-native). The fresh study is a separate supplement, not a replacement for older leaderboard scores.
+[Full results and all nine scores](https://vynly-non-neural-ai-leaderboard.static.hf.space/fresh-transfer.html) В· [Questions, references, raw outputs, readouts, audits and hashes](https://huggingface.co/datasets/vynly/nnai-bench/tree/main/fresh-transfer/2026-11-07-native). The fresh study is a separate supplement, not a replacement for older leaderboard scores.
 
 ## Remaining limits and validation
 

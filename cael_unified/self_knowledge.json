@@ -1,45 +1,41 @@
 {
-  "version": "0.3.9.1",
+  "version": "0.4.0",
   "changes": [
-    "Native readers now interpret complete supported arithmetic, rule, ordering, location, string and table tasks before unrelated chat fallbacks.",
-    "Supported interpretations compile to checked symbolic operations using the existing non-neural engines; weights and the resource bundle are unchanged.",
-    "Unsupported wording or constraints can still lead to clarification or abstention rather than a guessed answer.",
-    "Installed version, change-list and capability questions use local product metadata before public web lookup."
+    "CAEL 0.4.0 updates the core engines; a website worker can run a separately selected version.",
+    "Indexed rule-graph propagation, sparse validated world transitions and finite-domain ordering replace earlier core algorithms.",
+    "A new non-neural local transition learner infers bounded discrete updates from explicit examples.",
+    "Live references are traversed iteratively; retrieval honours requested neighbour counts and deterministic ties."
   ],
   "capabilities": [
-    "Solve supported standalone arithmetic, rule chains, precedence, location updates, string operations and table reductions.",
-    "Keep supported context and explicit preferences from the messages in this chat.",
-    "Calculate exact arithmetic and recheck supported calculations.",
-    "Write and check bounded Python examples; unsupported code needs clarification.",
-    "Read public sources and show links when a supported answer can be extracted.",
-    "Explain Vynly features and help write image prompts."
+    "Execute supported exact arithmetic, rule, state, ordering and bounded Python tasks.",
+    "Infer finite local discrete transitions from explicit input/output examples, reporting empirical guesses and ambiguity.",
+    "Retain supported context from the supplied conversation while isolating independent requests."
   ],
   "limitations": [
-    "Finite readers miss unsupported wording. In the fresh 900-question study, 123 questions received no scored answer.",
-    "I still miss some phrasings, option switches, dictionary follow-ups and requests for richer examples.",
-    "My Python interpreter and language readers cover finite patterns, not arbitrary programs or English.",
-    "A retrieved source is evidence, not proof that an answer is true.",
-    "Supported forgetting is not general transcript erasure."
+    "Four inherited quantity-conversation/possessive-memory regression cases remain; this is not a general chatbot breakthrough.",
+    "Finite readers still miss wording and complete context; no general chatbot or Qwen superiority is established.",
+    "An inferred local transition is a hypothesis, not proof of a unique general rule.",
+    "Inherited weights, protected solvers, image CA kernels and the 0.3.7 public resource bundle are unchanged."
   ],
-  "evidence": "On one fresh 900-question synthetic study, the evaluated native candidate scored 777/900 versus 414/900 for the unchanged 0.3.9 baseline. The release preserves those task modules and adds version metadata. Known task families, maintainer/AI-assisted authoring and fixed neural letter scoring limit the result. This does not establish general chat competence or a Qwen win; Qwen was not part of this study. The evaluated count fallback was inactive; a fresh installation activates it, so that primary score is configuration-specific.",
+  "evidence": "Maintainer evaluation on 60 fresh authored positive core cases: 60/60 versus 12/60 for 0.3.9.1, with known-family/adaptive authoring limitations. On all 2,000 official CellARC test tasks, aggregate cell accuracy is 57.31% interpolation and 34.94% extrapolation; entire puzzles correct are 79/1000 and 5/1000. The exact frozen checkpoint and every prediction were reproduced through the unmodified official symbolic harness. This is not an accepted leaderboard rank, a general-chat claim or a Qwen win.",
   "sources": [
     {
-      "title": "CAEL 0.3.9.1 release notes",
-      "url": "https://github.com/Vovala14/CAEL/releases/tag/v0.3.9.1"
+      "title": "CAEL 0.4.0 release",
+      "url": "https://github.com/Vovala14/CAEL/releases/tag/v0.4.0"
     },
     {
-      "title": "CAEL 0.3.9.1 model card",
-      "url": "https://huggingface.co/vynly/CAEL-0.3.9.1"
+      "title": "CAEL 0.4.0 model card",
+      "url": "https://huggingface.co/vynly/CAEL-0.4.0"
     },
     {
-      "title": "Fresh interpretation study and complete evidence",
-      "url": "https://huggingface.co/datasets/vynly/nnai-bench/tree/main/fresh-transfer/2026-11-07-native"
+      "title": "Frozen evaluation and official harness reproduction",
+      "url": "https://github.com/Vovala14/CAEL/tree/v0.4.0/benchmarks/core_040"
     }
   ],
   "local_document_provenance": [
-    "README.md",
-    "RELEASE_0_3_9_1.md",
-    "benchmarks/native_interpretation_0391/REPORT.md"
+    "CORE_0_4.md",
+    "RELEASE_0_4_0.md",
+    "benchmarks/core_040/REPORT.md"
   ],
-  "scope": "Curated installed product facts; never user messages or retrieved instructions."
+  "scope": "Version-bound public product facts and measured evaluation scope, not user or benchmark answer data."
 }

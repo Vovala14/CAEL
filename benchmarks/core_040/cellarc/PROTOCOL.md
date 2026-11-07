@@ -1,0 +1,17 @@
+# CellARC evaluation of the frozen CAEL 0.4 core candidate
+
+Primary source: https://github.com/mireklzicar/cellarc at 2a317a6f78025f67d0666e0ce7ad10436a18a807. Dataset: supervision-only mireklzicar/cellarc_100k revision 76040e6aef0edc4982e53c13a85ef227378ed171. Use ALL 1,000 interpolation and ALL 1,000 extrapolation episodes in published order, not selected subsets. No filtering by outcome, coverage or solver grammar.
+
+Only after CORE_QUALIFICATION.json passes, verify the frozen candidate source and fetch the two official test JSONL files. SHA256 interpolation 457e092bcaa5ab2be2c51f58a246621b14d924900a5425a831a5decf5b945284; extrapolation 015f58ce3bcc8a772db567171aea5b4538467d23aba5b0ec959cb66644fce4b1. Retain original files, dataset MIT licence, upstream Apache-2.0 licence and protocol source.
+
+Map each episode's five `train` input/output pairs to the ordinary `examples` field; copy `query`. Format the existing generic `Infer discrete transition:` request and call the actual Assistant in chat mode. Both 0.3.9.1 and the frozen candidate receive the same requests. Do not pass IDs, solution, split name, metadata, radius/window, rule family, alphabet size, rule tables or rollout-step count to either model. The standard periodic-boundary assumption is fixed from documentation; no episode-specific oracle boundary is supplied.
+
+Use fresh request learning with no supplied session and no retained conversation, fixed CAEL seed 401107, equal installed inherited resource selections, web/network disabled. All predictions must complete before scorer opens gold. Write predictions to append-only streams and hash them. No source/configuration tuning after viewing these tests or their scores; any later fix is a separately labelled future experiment.
+
+Prediction is the final whole response decoded as a plain JSON list of integer symbols, requiring exactly the query width. An unsupported reply/invalid length/error counts wrong for every cell and the episode. Do not extract incidental lists from explanations or repair values/names. The candidate's direct automaton diagnostic must agree with its displayed JSON response. All guessed cells remain in the primary score; report selected-hypothesis coverage and disagreement separately, never use those as filters or certified truth.
+
+Report micro per-cell accuracy (correct cells / all query cells), macro mean episode cell accuracy, and whole-episode exact accuracy, each split separately. Cell/token accuracy is not whole-episode accuracy. Include invalid replies, errors, empirical-only episodes, elapsed model/load/inference and full-process peak RAM. Only real local measurements; no summed nonconcurrent peaks or universal efficiency claims.
+
+No benchmark training/validation fitting is performed. This is benchmark-aware engineering of a generic local-transition API with known CA structure/ranges but no test tasks/solutions used in development. Documentation and TRAIN preview rows were visible in browsing; none were development data. The new authored confirmation is same-author/known-family and is separate from this public benchmark. Existing public leaderboard models are not rerun, and their oracle metadata access, prompting, subsets and compute may differ. Do not claim direct leaderboard superiority from incompatible protocols.
+
+This is an evaluation only. No submission, release, HF/Git publication or Vynly worker change.

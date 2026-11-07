@@ -1,0 +1,26 @@
+{
+  "version": "0.4.0",
+  "changes": [
+    "This is an isolated unpublished 0.4.0 core-engine candidate, not the current Vynly worker.",
+    "Indexed rule-graph propagation, sparse validated world transitions and finite-domain ordering replace earlier core algorithms.",
+    "A new non-neural local transition learner infers bounded discrete updates from explicit examples.",
+    "Live references are traversed iteratively; retrieval honours requested neighbour counts and deterministic ties."
+  ],
+  "capabilities": [
+    "Execute supported exact arithmetic, rule, state, ordering and bounded Python tasks.",
+    "Infer finite local discrete transitions from explicit input/output examples, reporting empirical guesses and ambiguity.",
+    "Retain supported context from the supplied conversation while isolating independent requests."
+  ],
+  "limitations": [
+    "This candidate is not published, deployed or independently evaluated.",
+    "Finite readers still miss wording and complete context; no general chatbot or Qwen superiority is established.",
+    "An inferred local transition is a hypothesis, not proof of a unique general rule.",
+    "Inherited weights, protected solvers, image CA kernels and the 0.3.7 public resource bundle are unchanged."
+  ],
+  "evidence": "Authored core development and regressions are separate from external benchmark results. This source snapshot claims no CellARC score or broad 0.4 win. See local CORE_0_4.md for scope.",
+  "sources": [],
+  "local_document_provenance": [
+    "CORE_0_4.md"
+  ],
+  "scope": "Curated isolated-candidate product facts, not user or benchmark answer data."
+}

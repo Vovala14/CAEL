@@ -172,7 +172,7 @@ def _order(text,options):
     m=re.fullmatch(r'(?is)([^:.\n]{1,140}):\s*([^:.\n]+)\.\s*(.+)',text)
     if not m or not re.match(r'(?i)^(?:items|objects|participants|on |in |at |there (?:are|stand) )',m[1]):return None
     names=[clean(p.strip()) for p in re.split(r',\s*(?:and\s+)?|\s+and\s+',m[2])]
-    if not 2<=len(names)<=8 or len(set(names))!=len(names):raise Unclear('Use two to eight distinct explicitly listed objects.')
+    if not 2<=len(names)<=12 or len(set(names))!=len(names):raise Unclear('Use two to twelve distinct explicitly listed objects.')
     declared=re.search(r'(?i)\b('+ '|'.join(NUMBERS)+r'|\d+)\b',m[1])
     if declared and _number(declared[1])!=len(names):raise Unclear('The stated object count and complete item list disagree.')
     parts=[p.strip() for p in re.split(r'[.!?]\s*|\n+',m[3]) if p.strip()]

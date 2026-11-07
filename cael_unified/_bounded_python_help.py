@@ -48,5 +48,9 @@ def install():
 
     verify.sandbox_function = denied
     apply = verify.apply
-    verify.apply = lambda text, answer: apply(text, answer, record=False)
+    def unrecorded_apply(text, answer, record=False):
+        # Preserve the checker's call contract for orchestrators that explicitly
+        # request no recording. Keep the bounded policy's no-record behaviour.
+        return apply(text, answer, record=False)
+    verify.apply = unrecorded_apply
 

@@ -1,0 +1,1035 @@
+{
+  "prepared_utc": "2026-11-07T19:54:09.041765+00:00",
+  "version": "0.4.0",
+  "source_parent": "b59a423f9984a3f7c2c642c6c1ac2d698c2b798e",
+  "original_source_freeze_sha256": "e8cec726db83e835506071f8698f462ac4c2ee9a49cfb0ed1ab7df895643f12b",
+  "official_harness_verification_sha256": "622d76488af137b3c0d866997b9a007d7a26c23c9200aaf618d1604b09af5f3c",
+  "runtime_files": {
+    "cael_unified/acronyms.py": {
+      "evaluated_sha256": "1b03067a2b67130812aa818008f879115baf89f62d9494aa1a9f2ed8fa8007ba",
+      "release_sha256": "1b03067a2b67130812aa818008f879115baf89f62d9494aa1a9f2ed8fa8007ba",
+      "metadata_only": false
+    },
+    "cael_unified/advice_text.py": {
+      "evaluated_sha256": "0c91f2b3101a79a6025edf2573bfb90d60893d8cf21386d3b73ea03a901338fe",
+      "release_sha256": "0c91f2b3101a79a6025edf2573bfb90d60893d8cf21386d3b73ea03a901338fe",
+      "metadata_only": false
+    },
+    "cael_unified/answer_finder.py": {
+      "evaluated_sha256": "459dd6cdd5f717ec9333c59e83bce3dd3429ed91fc75b2fc666c79d230d6e1ce",
+      "release_sha256": "459dd6cdd5f717ec9333c59e83bce3dd3429ed91fc75b2fc666c79d230d6e1ce",
+      "metadata_only": false
+    },
+    "cael_unified/assistant.py": {
+      "evaluated_sha256": "066ddd34165340696e70c880d595ab0cb9deef55d4cc06182009d8690c7c9fa0",
+      "release_sha256": "066ddd34165340696e70c880d595ab0cb9deef55d4cc06182009d8690c7c9fa0",
+      "metadata_only": false
+    },
+    "cael_unified/bundle.py": {
+      "evaluated_sha256": "030b74af4974c0c15111000ce86d9befc006f89cfdac4f708a3d0ed5648bf26c",
+      "release_sha256": "030b74af4974c0c15111000ce86d9befc006f89cfdac4f708a3d0ed5648bf26c",
+      "metadata_only": false
+    },
+    "cael_unified/calibrate_knowledge.py": {
+      "evaluated_sha256": "9eb241f8310121fee28a410ae2f796e9334848d6c4b7a99016f36cdd906d770a",
+      "release_sha256": "9eb241f8310121fee28a410ae2f796e9334848d6c4b7a99016f36cdd906d770a",
+      "metadata_only": false
+    },
+    "cael_unified/chat_corpus.py": {
+      "evaluated_sha256": "b6d952f2c17d974d8536c089cb07e18facce7ccb23b8f11d4b0e8e771adbfb2e",
+      "release_sha256": "b6d952f2c17d974d8536c089cb07e18facce7ccb23b8f11d4b0e8e771adbfb2e",
+      "metadata_only": false
+    },
+    "cael_unified/chat_extra.py": {
+      "evaluated_sha256": "51772b05dca83adc1fc29fe0acdf688c7b161e6ef0addf1f86fcc5c7f099088b",
+      "release_sha256": "51772b05dca83adc1fc29fe0acdf688c7b161e6ef0addf1f86fcc5c7f099088b",
+      "metadata_only": false
+    },
+    "cael_unified/checked_tasks.py": {
+      "evaluated_sha256": "ba83e1e38a905275fbc9019cbce8e1ed2a6826ef0b9b308b3ea25ea6127b746e",
+      "release_sha256": "ba83e1e38a905275fbc9019cbce8e1ed2a6826ef0b9b308b3ea25ea6127b746e",
+      "metadata_only": false
+    },
+    "cael_unified/choice.py": {
+      "evaluated_sha256": "a1dbd951d2c446ac03a13abd625fd88952c22f1240f8aa977ca22b04e644d277",
+      "release_sha256": "a1dbd951d2c446ac03a13abd625fd88952c22f1240f8aa977ca22b04e644d277",
+      "metadata_only": false
+    },
+    "cael_unified/choice_context.py": {
+      "evaluated_sha256": "96d3816399dcddd93ea26cbed688082b13c2f41ae2ffd7df8821e9c122e1a514",
+      "release_sha256": "96d3816399dcddd93ea26cbed688082b13c2f41ae2ffd7df8821e9c122e1a514",
+      "metadata_only": false
+    },
+    "cael_unified/choice_helpers.py": {
+      "evaluated_sha256": "bd5574be4788bbe135855a24b59b8b8f45793be73389ff443dc2870002fe20cf",
+      "release_sha256": "bd5574be4788bbe135855a24b59b8b8f45793be73389ff443dc2870002fe20cf",
+      "metadata_only": false
+    },
+    "cael_unified/collect_knowledge.py": {
+      "evaluated_sha256": "faaf9703ee8c38f058facb04243c25610edff84b0cc458fdcd69da65530acf94",
+      "release_sha256": "faaf9703ee8c38f058facb04243c25610edff84b0cc458fdcd69da65530acf94",
+      "metadata_only": false
+    },
+    "cael_unified/collect_reasoning.py": {
+      "evaluated_sha256": "1fac2934b5ab6e7c541d7c786ee850811aad5ef639c20be0e9bca17671fe09d5",
+      "release_sha256": "1fac2934b5ab6e7c541d7c786ee850811aad5ef639c20be0e9bca17671fe09d5",
+      "metadata_only": false
+    },
+    "cael_unified/compact.py": {
+      "evaluated_sha256": "56cd77fe7e2a1d7e1a12a0f73e7ea66075d13e63926a87340d0971e6701c53aa",
+      "release_sha256": "56cd77fe7e2a1d7e1a12a0f73e7ea66075d13e63926a87340d0971e6701c53aa",
+      "metadata_only": false
+    },
+    "cael_unified/completions.py": {
+      "evaluated_sha256": "9caed9b93c48d1674d9a3da0b8d66ae817aa05492d920b7ca6363a4369cc1e51",
+      "release_sha256": "9caed9b93c48d1674d9a3da0b8d66ae817aa05492d920b7ca6363a4369cc1e51",
+      "metadata_only": false
+    },
+    "cael_unified/compose_text.py": {
+      "evaluated_sha256": "cc4752d7094dbb3d4e0fe1b5307703caea4c08efdfd89bb43b7a856a7e505247",
+      "release_sha256": "cc4752d7094dbb3d4e0fe1b5307703caea4c08efdfd89bb43b7a856a7e505247",
+      "metadata_only": false
+    },
+    "cael_unified/constraint_automaton.py": {
+      "evaluated_sha256": "d394b77dc9f231a425959799b5ece74aa08445926436872a7d9c55f52ec056c1",
+      "release_sha256": "d394b77dc9f231a425959799b5ece74aa08445926436872a7d9c55f52ec056c1",
+      "metadata_only": false
+    },
+    "cael_unified/context_reasoner.py": {
+      "evaluated_sha256": "b1de01dacc5fc1cb09324e3220b7a643ace670ead563b11569ea9f007f6095e2",
+      "release_sha256": "b1de01dacc5fc1cb09324e3220b7a643ace670ead563b11569ea9f007f6095e2",
+      "metadata_only": false
+    },
+    "cael_unified/conversation_context.py": {
+      "evaluated_sha256": "3406ad50f46662ab987b7439ffb1b06dab5ff1280014a60784159be74f5411a4",
+      "release_sha256": "3406ad50f46662ab987b7439ffb1b06dab5ff1280014a60784159be74f5411a4",
+      "metadata_only": false
+    },
+    "cael_unified/conversation_graph.py": {
+      "evaluated_sha256": "fa18bc004b2b5682a37ff32bf5ca24b9f62e43e8898737a90c8c63ac0bb31b37",
+      "release_sha256": "fa18bc004b2b5682a37ff32bf5ca24b9f62e43e8898737a90c8c63ac0bb31b37",
+      "metadata_only": false
+    },
+    "cael_unified/conversation_memory.py": {
+      "evaluated_sha256": "82aaf56bd59d5e8de269c9442e085a5e663aff9e00e685c8030822fcc4b84bb3",
+      "release_sha256": "82aaf56bd59d5e8de269c9442e085a5e663aff9e00e685c8030822fcc4b84bb3",
+      "metadata_only": false
+    },
+    "cael_unified/count_language.py": {
+      "evaluated_sha256": "e7f9e19b228cd183437d31b254ad72a01d54a5a5bbfa6e8c0cd1c7a6ddefbf72",
+      "release_sha256": "e7f9e19b228cd183437d31b254ad72a01d54a5a5bbfa6e8c0cd1c7a6ddefbf72",
+      "metadata_only": false
+    },
+    "cael_unified/count_syntax.py": {
+      "evaluated_sha256": "e9bd2391cd75292672608010bd8718db0db336aeb23e5b0ea4d15a167d7a0df4",
+      "release_sha256": "e9bd2391cd75292672608010bd8718db0db336aeb23e5b0ea4d15a167d7a0df4",
+      "metadata_only": false
+    },
+    "cael_unified/dialogue.py": {
+      "evaluated_sha256": "12133e2998285a98e61e03598a04ddb8835467b94d7e0cd0411dd2f9288ced08",
+      "release_sha256": "12133e2998285a98e61e03598a04ddb8835467b94d7e0cd0411dd2f9288ced08",
+      "metadata_only": false
+    },
+    "cael_unified/dialogue_policy.json": {
+      "evaluated_sha256": "08bd2fd8876322421cb4d93de0320a8103cdf30c3646068fcb7d928a8c0c4e53",
+      "release_sha256": "08bd2fd8876322421cb4d93de0320a8103cdf30c3646068fcb7d928a8c0c4e53",
+      "metadata_only": false
+    },
+    "cael_unified/dialogue_policy.py": {
+      "evaluated_sha256": "20fce8966f95650fbd5c4c178e0015774cfd1cc671a2db1a380cf91a92b47cf9",
+      "release_sha256": "20fce8966f95650fbd5c4c178e0015774cfd1cc671a2db1a380cf91a92b47cf9",
+      "metadata_only": false
+    },
+    "cael_unified/dialogue_state.py": {
+      "evaluated_sha256": "f6c3d62fe0f163c74344b21f4018b0f0616ae928f5e442b2a0a0ca883f14c661",
+      "release_sha256": "f6c3d62fe0f163c74344b21f4018b0f0616ae928f5e442b2a0a0ca883f14c661",
+      "metadata_only": false
+    },
+    "cael_unified/dictionary.py": {
+      "evaluated_sha256": "5f837477e7b325c24cc784f118aae6cc2a00a04b561291ed155d565c5dd7e48b",
+      "release_sha256": "5f837477e7b325c24cc784f118aae6cc2a00a04b561291ed155d565c5dd7e48b",
+      "metadata_only": false
+    },
+    "cael_unified/emoji.py": {
+      "evaluated_sha256": "bff4af6aca7d765a43a32d0b956f99bb4f0819265f52c953bd8002b405c437e3",
+      "release_sha256": "bff4af6aca7d765a43a32d0b956f99bb4f0819265f52c953bd8002b405c437e3",
+      "metadata_only": false
+    },
+    "cael_unified/emotional_chat.py": {
+      "evaluated_sha256": "fe855f7cf3c9464c7f0b1cae2d6695948207f73a380dfa2f2423b9a35d26af59",
+      "release_sha256": "fe855f7cf3c9464c7f0b1cae2d6695948207f73a380dfa2f2423b9a35d26af59",
+      "metadata_only": false
+    },
+    "cael_unified/entity_binding.py": {
+      "evaluated_sha256": "be61c887e555f4f67c0ca4774d895a61090e0973dec4d09860a1553a152687a5",
+      "release_sha256": "be61c887e555f4f67c0ca4774d895a61090e0973dec4d09860a1553a152687a5",
+      "metadata_only": false
+    },
+    "cael_unified/evaluate_reasoning.py": {
+      "evaluated_sha256": "d545bead464b05a66e7d9eab2dc8c0a68d35a798d06ecb073455ec29b3d77b46",
+      "release_sha256": "d545bead464b05a66e7d9eab2dc8c0a68d35a798d06ecb073455ec29b3d77b46",
+      "metadata_only": false
+    },
+    "cael_unified/event_choice.py": {
+      "evaluated_sha256": "4bc56c86be50b67be249b2ca67f1006ea2713859ab0c372d4570a5843e866ada",
+      "release_sha256": "4bc56c86be50b67be249b2ca67f1006ea2713859ab0c372d4570a5843e866ada",
+      "metadata_only": false
+    },
+    "cael_unified/event_choice_r2.py": {
+      "evaluated_sha256": "bb01eb01145f8746d947dab263f4455fa21abc496cd802b278842d2924b61a9a",
+      "release_sha256": "bb01eb01145f8746d947dab263f4455fa21abc496cd802b278842d2924b61a9a",
+      "metadata_only": false
+    },
+    "cael_unified/event_compat.py": {
+      "evaluated_sha256": "c591d18284f4486f475fbe34590e610219e635a817bc672126b40757ad01c419",
+      "release_sha256": "c591d18284f4486f475fbe34590e610219e635a817bc672126b40757ad01c419",
+      "metadata_only": false
+    },
+    "cael_unified/event_memory.py": {
+      "evaluated_sha256": "365f17e2be02b45809de9958b595466bdae03c1d25d9781a9c6ce5f524a65f0c",
+      "release_sha256": "365f17e2be02b45809de9958b595466bdae03c1d25d9781a9c6ce5f524a65f0c",
+      "metadata_only": false
+    },
+    "cael_unified/event_memory_model.json": {
+      "evaluated_sha256": "940ebfd858a57059e741875b1af0af7dfb36e213c4f919b572e43c6ee1eb8b67",
+      "release_sha256": "940ebfd858a57059e741875b1af0af7dfb36e213c4f919b572e43c6ee1eb8b67",
+      "metadata_only": false
+    },
+    "cael_unified/event_parser.py": {
+      "evaluated_sha256": "e55df14247da0c3988547bfe72de47fea36737db676ebcfa585b0da4ae2e344b",
+      "release_sha256": "e55df14247da0c3988547bfe72de47fea36737db676ebcfa585b0da4ae2e344b",
+      "metadata_only": false
+    },
+    "cael_unified/event_parser_r2.py": {
+      "evaluated_sha256": "9cff212fb30a15c9bf8a5af387581fb3ce52423974c1799d6cf6f5f7572cf07f",
+      "release_sha256": "9cff212fb30a15c9bf8a5af387581fb3ce52423974c1799d6cf6f5f7572cf07f",
+      "metadata_only": false
+    },
+    "cael_unified/everyday.py": {
+      "evaluated_sha256": "e8b01caa33ccb863515a98e66121277d2d4ccdc1f476d7bca4eb079126dff941",
+      "release_sha256": "e8b01caa33ccb863515a98e66121277d2d4ccdc1f476d7bca4eb079126dff941",
+      "metadata_only": false
+    },
+    "cael_unified/everyday_reasoning.py": {
+      "evaluated_sha256": "b5a5adb6fd6812f60a9ed0d0b28d759bf68b7a0c45538225c73763f9f3d1f777",
+      "release_sha256": "b5a5adb6fd6812f60a9ed0d0b28d759bf68b7a0c45538225c73763f9f3d1f777",
+      "metadata_only": false
+    },
+    "cael_unified/explain.py": {
+      "evaluated_sha256": "0eca3ea646ec3605101a912d628b28e3f859af802d0713b34abd9ebb44cd7fc5",
+      "release_sha256": "0eca3ea646ec3605101a912d628b28e3f859af802d0713b34abd9ebb44cd7fc5",
+      "metadata_only": false
+    },
+    "cael_unified/facts.py": {
+      "evaluated_sha256": "c1b4b42a6ad4074a23e85f9df22a5e9f4b774c56c18db102b131e5b7c90fcb90",
+      "release_sha256": "c1b4b42a6ad4074a23e85f9df22a5e9f4b774c56c18db102b131e5b7c90fcb90",
+      "metadata_only": false
+    },
+    "cael_unified/factual_context.py": {
+      "evaluated_sha256": "39ff2b25626a920e88d7517c65c29524ebf4cfae64c25011fcbc5d0d60489446",
+      "release_sha256": "39ff2b25626a920e88d7517c65c29524ebf4cfae64c25011fcbc5d0d60489446",
+      "metadata_only": false
+    },
+    "cael_unified/free_story.py": {
+      "evaluated_sha256": "12c6fabffed06ab5a38ef7bab41b1c72553767b93c404856d4c431f800e8c378",
+      "release_sha256": "12c6fabffed06ab5a38ef7bab41b1c72553767b93c404856d4c431f800e8c378",
+      "metadata_only": false
+    },
+    "cael_unified/grammar.py": {
+      "evaluated_sha256": "44a25752e9832e9ff192404ca86e917ad9ebc1730e033caf07062f6d72c4d03b",
+      "release_sha256": "44a25752e9832e9ff192404ca86e917ad9ebc1730e033caf07062f6d72c4d03b",
+      "metadata_only": false
+    },
+    "cael_unified/grounded_compare.py": {
+      "evaluated_sha256": "253dbfff0e7c8b85f6b6b266ffc4a5875212e526df6c81e104df2c0fb4ca4798",
+      "release_sha256": "253dbfff0e7c8b85f6b6b266ffc4a5875212e526df6c81e104df2c0fb4ca4798",
+      "metadata_only": false
+    },
+    "cael_unified/helper.py": {
+      "evaluated_sha256": "26a523177ad898d8f2ff1299e88e49c46c54c9a32d4f8946ff6be1ff0ddbb480",
+      "release_sha256": "26a523177ad898d8f2ff1299e88e49c46c54c9a32d4f8946ff6be1ff0ddbb480",
+      "metadata_only": false
+    },
+    "cael_unified/helper_chat.py": {
+      "evaluated_sha256": "3c5ba38c36a9b4d972fc71079c36c60dfe729e304fc433ac46b9fb2955ca0da2",
+      "release_sha256": "3c5ba38c36a9b4d972fc71079c36c60dfe729e304fc433ac46b9fb2955ca0da2",
+      "metadata_only": false
+    },
+    "cael_unified/helper_groups.py": {
+      "evaluated_sha256": "44705b2333b55819059b07730f16ff7aae528d6d95fcd4e444678abb82294d52",
+      "release_sha256": "44705b2333b55819059b07730f16ff7aae528d6d95fcd4e444678abb82294d52",
+      "metadata_only": false
+    },
+    "cael_unified/helper_math.py": {
+      "evaluated_sha256": "6a0c233666d8391a0dcc18650e789bc5fbad0d93e406807c57be45828c93220b",
+      "release_sha256": "6a0c233666d8391a0dcc18650e789bc5fbad0d93e406807c57be45828c93220b",
+      "metadata_only": false
+    },
+    "cael_unified/helper_math_frames.py": {
+      "evaluated_sha256": "83e933816ad585911aedf5f4eb677cb0c458edebea4a22f9559d76d6e7bdc0c1",
+      "release_sha256": "83e933816ad585911aedf5f4eb677cb0c458edebea4a22f9559d76d6e7bdc0c1",
+      "metadata_only": false
+    },
+    "cael_unified/helper_quantities.py": {
+      "evaluated_sha256": "7a971c823e898188a4dce3461fe8f7224c3d90d5288194b4582a6459d552d3fd",
+      "release_sha256": "7a971c823e898188a4dce3461fe8f7224c3d90d5288194b4582a6459d552d3fd",
+      "metadata_only": false
+    },
+    "cael_unified/helper_rates.py": {
+      "evaluated_sha256": "d04cf541a4ae00c61a8fcd4e2f181394bb625b9595a23b92765d8bc9ceb2354c",
+      "release_sha256": "d04cf541a4ae00c61a8fcd4e2f181394bb625b9595a23b92765d8bc9ceb2354c",
+      "metadata_only": false
+    },
+    "cael_unified/image_prompt.py": {
+      "evaluated_sha256": "d206b7e8a52ad7e9f3c994f9528ccf6b21d84284cce64b5b5212897cdc1f6b0c",
+      "release_sha256": "d206b7e8a52ad7e9f3c994f9528ccf6b21d84284cce64b5b5212897cdc1f6b0c",
+      "metadata_only": false
+    },
+    "cael_unified/interpretation.py": {
+      "evaluated_sha256": "420874a726a867dc04a17c06938fcb839f0f8d8008556cba6f6e391d39ef1c2e",
+      "release_sha256": "420874a726a867dc04a17c06938fcb839f0f8d8008556cba6f6e391d39ef1c2e",
+      "metadata_only": false
+    },
+    "cael_unified/interpretation_arithmetic.py": {
+      "evaluated_sha256": "2965e764452612ef92789b48a6ad8adc8feb3758be69321292fdaa679668d33f",
+      "release_sha256": "2965e764452612ef92789b48a6ad8adc8feb3758be69321292fdaa679668d33f",
+      "metadata_only": false
+    },
+    "cael_unified/interpretation_common.py": {
+      "evaluated_sha256": "557a1cd16343707b38c87a905e76e604c4bb32dc848e459a054a381cf7bd0cfd",
+      "release_sha256": "557a1cd16343707b38c87a905e76e604c4bb32dc848e459a054a381cf7bd0cfd",
+      "metadata_only": false
+    },
+    "cael_unified/interpretation_data.py": {
+      "evaluated_sha256": "5381065f58cc407333420cc6630079eac88ccca1faf78e60eda99b22cdb4b715",
+      "release_sha256": "5381065f58cc407333420cc6630079eac88ccca1faf78e60eda99b22cdb4b715",
+      "metadata_only": false
+    },
+    "cael_unified/interpretation_relations.py": {
+      "evaluated_sha256": "a07cf7cc71762fb5db819e1f566d02ac189957c9e9ae0b488a0fb3d4be0e0eb4",
+      "release_sha256": "a07cf7cc71762fb5db819e1f566d02ac189957c9e9ae0b488a0fb3d4be0e0eb4",
+      "metadata_only": false
+    },
+    "cael_unified/knowledge.py": {
+      "evaluated_sha256": "95672fddeab680608ebb3dab25c41bb069ffa54ff704574aabfc57e60e1ec382",
+      "release_sha256": "95672fddeab680608ebb3dab25c41bb069ffa54ff704574aabfc57e60e1ec382",
+      "metadata_only": false
+    },
+    "cael_unified/knowledge_html.py": {
+      "evaluated_sha256": "1542ed9bf622967cb5ab5068b78104b65c1709b0156d4bfc686fac745230f656",
+      "release_sha256": "1542ed9bf622967cb5ab5068b78104b65c1709b0156d4bfc686fac745230f656",
+      "metadata_only": false
+    },
+    "cael_unified/knowledge_query.py": {
+      "evaluated_sha256": "bdd860c902b5d72d219affb03eda45e0d00a840ed241e757c635ecca806e9f99",
+      "release_sha256": "bdd860c902b5d72d219affb03eda45e0d00a840ed241e757c635ecca806e9f99",
+      "metadata_only": false
+    },
+    "cael_unified/knowledge_time.py": {
+      "evaluated_sha256": "02fe62105ea0c415f940e442db75c7b58d1cd3d422329dc50516de23640c4b3d",
+      "release_sha256": "02fe62105ea0c415f940e442db75c7b58d1cd3d422329dc50516de23640c4b3d",
+      "metadata_only": false
+    },
+    "cael_unified/licensing.py": {
+      "evaluated_sha256": "aa5d448aafc7e7b2aa04c89cee88327fdc5cda2cc968f2ec96e2a52c0f724033",
+      "release_sha256": "aa5d448aafc7e7b2aa04c89cee88327fdc5cda2cc968f2ec96e2a52c0f724033",
+      "metadata_only": false
+    },
+    "cael_unified/life_advice.py": {
+      "evaluated_sha256": "f12d9f8759f569fb1a0c8b1bbd2fc79f04771ed41bbe1a778c6363e156f68353",
+      "release_sha256": "f12d9f8759f569fb1a0c8b1bbd2fc79f04771ed41bbe1a778c6363e156f68353",
+      "metadata_only": false
+    },
+    "cael_unified/life_knowledge.py": {
+      "evaluated_sha256": "a72f6d9519ab8d210ba9e372f3b2ab9d5c7f7e99d07d79a3f68f25e7744a6f77",
+      "release_sha256": "a72f6d9519ab8d210ba9e372f3b2ab9d5c7f7e99d07d79a3f68f25e7744a6f77",
+      "metadata_only": false
+    },
+    "cael_unified/local_automata.py": {
+      "evaluated_sha256": "09edad807509e35a34521fd0165544a34365f5e3d885cf82c7f34e9fab7c332b",
+      "release_sha256": "09edad807509e35a34521fd0165544a34365f5e3d885cf82c7f34e9fab7c332b",
+      "metadata_only": false
+    },
+    "cael_unified/ltm.py": {
+      "evaluated_sha256": "0b853830d539d4e5e42d613216012a06c692195982df28c537dbea80147b6516",
+      "release_sha256": "0b853830d539d4e5e42d613216012a06c692195982df28c537dbea80147b6516",
+      "metadata_only": false
+    },
+    "cael_unified/math_format.py": {
+      "evaluated_sha256": "83b71b2a336330ca3f002a7975b31038f687fe996a7b5ca547671bf1d59dcbf0",
+      "release_sha256": "83b71b2a336330ca3f002a7975b31038f687fe996a7b5ca547671bf1d59dcbf0",
+      "metadata_only": false
+    },
+    "cael_unified/memory.py": {
+      "evaluated_sha256": "4676d74498f0c96ba3993a6799022fbc78542e48f54a26f11c1d2b7f46036d57",
+      "release_sha256": "4676d74498f0c96ba3993a6799022fbc78542e48f54a26f11c1d2b7f46036d57",
+      "metadata_only": false
+    },
+    "cael_unified/network.py": {
+      "evaluated_sha256": "8d435da8e9e34fa6f07aff178471fa8476a57c78de5042f3ea06e16803c9f065",
+      "release_sha256": "8d435da8e9e34fa6f07aff178471fa8476a57c78de5042f3ea06e16803c9f065",
+      "metadata_only": false
+    },
+    "cael_unified/news_policy.py": {
+      "evaluated_sha256": "d99cbecf8dfd432f0aef3ec701ea6f59e13241306e8206e19358af655154e003",
+      "release_sha256": "d99cbecf8dfd432f0aef3ec701ea6f59e13241306e8206e19358af655154e003",
+      "metadata_only": false
+    },
+    "cael_unified/news_relevance.py": {
+      "evaluated_sha256": "e80cda4eaf6456fbd2155c3c5e252b357f34861ba4ae06aaa5e43a5f8e2ed536",
+      "release_sha256": "e80cda4eaf6456fbd2155c3c5e252b357f34861ba4ae06aaa5e43a5f8e2ed536",
+      "metadata_only": false
+    },
+    "cael_unified/news_time.py": {
+      "evaluated_sha256": "3b1e9d8f5ff14c93f22a2f89b08bd80f1d069d09254fe500319ad713f6a83f38",
+      "release_sha256": "3b1e9d8f5ff14c93f22a2f89b08bd80f1d069d09254fe500319ad713f6a83f38",
+      "metadata_only": false
+    },
+    "cael_unified/numeric_programs.py": {
+      "evaluated_sha256": "cfcf6a99d9f61e107a225e8c70d5df81c2a7d78ad2c402cd979a8ed0566ab82e",
+      "release_sha256": "cfcf6a99d9f61e107a225e8c70d5df81c2a7d78ad2c402cd979a8ed0566ab82e",
+      "metadata_only": false
+    },
+    "cael_unified/orchestrator.py": {
+      "evaluated_sha256": "45b4c7592f449379df2f289477a4afc6ae6c6f976e62f5394c8482f82743867d",
+      "release_sha256": "45b4c7592f449379df2f289477a4afc6ae6c6f976e62f5394c8482f82743867d",
+      "metadata_only": false
+    },
+    "cael_unified/output_contract.py": {
+      "evaluated_sha256": "9f288ae999ebd7f0df924f2629a9d1a9665d3664a2d8c7682ba256042f65bb42",
+      "release_sha256": "9f288ae999ebd7f0df924f2629a9d1a9665d3664a2d8c7682ba256042f65bb42",
+      "metadata_only": false
+    },
+    "cael_unified/personal_facts.py": {
+      "evaluated_sha256": "de0a64704095db0c59fe2af2d4c0d02a4c74258ec999652115752ce0853e33d5",
+      "release_sha256": "de0a64704095db0c59fe2af2d4c0d02a4c74258ec999652115752ce0853e33d5",
+      "metadata_only": false
+    },
+    "cael_unified/phrases.py": {
+      "evaluated_sha256": "08ec0aad0e04ffadc1967dd3bd94e934dece88aa93f9935c93879b34fff49d5f",
+      "release_sha256": "08ec0aad0e04ffadc1967dd3bd94e934dece88aa93f9935c93879b34fff49d5f",
+      "metadata_only": false
+    },
+    "cael_unified/precise_math.py": {
+      "evaluated_sha256": "754003ad4159e36a291335b3eaf17bd90facffaed3a17c25c514cf7b6c4e311e",
+      "release_sha256": "754003ad4159e36a291335b3eaf17bd90facffaed3a17c25c514cf7b6c4e311e",
+      "metadata_only": false
+    },
+    "cael_unified/promptgen.py": {
+      "evaluated_sha256": "539aaa0707404aa980a9a8f0dcf1fb9ab2caaa30a977f04820a68ccad636d946",
+      "release_sha256": "539aaa0707404aa980a9a8f0dcf1fb9ab2caaa30a977f04820a68ccad636d946",
+      "metadata_only": false
+    },
+    "cael_unified/public_worker.py": {
+      "evaluated_sha256": "aa3f444a0b52329243415eff12490939ce654199a1213761d4479b6154019bec",
+      "release_sha256": "aa3f444a0b52329243415eff12490939ce654199a1213761d4479b6154019bec",
+      "metadata_only": false
+    },
+    "cael_unified/python_help.py": {
+      "evaluated_sha256": "9d112157232ca3726310881b81c5555fe6b74dd1e2dc342a101c33ce982f2459",
+      "release_sha256": "9d112157232ca3726310881b81c5555fe6b74dd1e2dc342a101c33ce982f2459",
+      "metadata_only": false
+    },
+    "cael_unified/quantities.py": {
+      "evaluated_sha256": "b25606d7b7eeadcee5adebafee4046c8fe0ed314f42eb7cdf3316d0a78f823a7",
+      "release_sha256": "b25606d7b7eeadcee5adebafee4046c8fe0ed314f42eb7cdf3316d0a78f823a7",
+      "metadata_only": false
+    },
+    "cael_unified/quantity_graph.py": {
+      "evaluated_sha256": "8af4f11ca5c0bcbbf3ece21ea0094dee9e8aa2e72b1d5322a1bba0df9553721c",
+      "release_sha256": "8af4f11ca5c0bcbbf3ece21ea0094dee9e8aa2e72b1d5322a1bba0df9553721c",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning.py": {
+      "evaluated_sha256": "4c32adeb90ed1575dbd1a3a7b9b0373e92777cdd20bf37d1f19ad300b8c41117",
+      "release_sha256": "4c32adeb90ed1575dbd1a3a7b9b0373e92777cdd20bf37d1f19ad300b8c41117",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning_babi.py": {
+      "evaluated_sha256": "99b1cfe0a58277afc7a5fe3bf9d0d6cfbcca2642cca1b701978bf274d63f4b86",
+      "release_sha256": "99b1cfe0a58277afc7a5fe3bf9d0d6cfbcca2642cca1b701978bf274d63f4b86",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning_chat.py": {
+      "evaluated_sha256": "3020a988f044488445c498eb381845b53f5f21cce243e4692ee6375090d55331",
+      "release_sha256": "3020a988f044488445c498eb381845b53f5f21cce243e4692ee6375090d55331",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning_compose.py": {
+      "evaluated_sha256": "3089345151a178d09e51d673ece8575eaff72774bf5eb353d0241427982098b8",
+      "release_sha256": "3089345151a178d09e51d673ece8575eaff72774bf5eb353d0241427982098b8",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning_data.py": {
+      "evaluated_sha256": "217be686f432f65099cb4aa3bd06efb7f9ac85f7a81f40404a6da39c26e5014e",
+      "release_sha256": "217be686f432f65099cb4aa3bd06efb7f9ac85f7a81f40404a6da39c26e5014e",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning_extra.py": {
+      "evaluated_sha256": "fbb6423194c47e2b58f5165608ad98142774fbb71eae8d6a317834cbaa27e78a",
+      "release_sha256": "fbb6423194c47e2b58f5165608ad98142774fbb71eae8d6a317834cbaa27e78a",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning_logic.py": {
+      "evaluated_sha256": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+      "release_sha256": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning_order.py": {
+      "evaluated_sha256": "b257f15507d9b8157843923762af731f2ada9dca819f005bc0770924797b2961",
+      "release_sha256": "b257f15507d9b8157843923762af731f2ada9dca819f005bc0770924797b2961",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning_relations.py": {
+      "evaluated_sha256": "a4affc8f2a4f5f956ef2905237c948a0983f2236ba8dccf44d9f101253325d0e",
+      "release_sha256": "a4affc8f2a4f5f956ef2905237c948a0983f2236ba8dccf44d9f101253325d0e",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning_sat.py": {
+      "evaluated_sha256": "c33b6d84821b4ac5244d7fe79d48c2ee48da375610cdd1b736a7ee2cd4902d3f",
+      "release_sha256": "c33b6d84821b4ac5244d7fe79d48c2ee48da375610cdd1b736a7ee2cd4902d3f",
+      "metadata_only": false
+    },
+    "cael_unified/reasoning_world.py": {
+      "evaluated_sha256": "1134c9fb4c06d0091b66e34370029d66764e6bb72d0acb0a42bf4cb6b427da11",
+      "release_sha256": "1134c9fb4c06d0091b66e34370029d66764e6bb72d0acb0a42bf4cb6b427da11",
+      "metadata_only": false
+    },
+    "cael_unified/request_policy.py": {
+      "evaluated_sha256": "af06debe5a40ae03b494e240cfdb4e7e5ad3761f21f5bfd4871a7ff2bcecfa07",
+      "release_sha256": "af06debe5a40ae03b494e240cfdb4e7e5ad3761f21f5bfd4871a7ff2bcecfa07",
+      "metadata_only": false
+    },
+    "cael_unified/request_reference.py": {
+      "evaluated_sha256": "c0b3fc429ab3a4521040cf1d07ed064214d93402dba39e9fa32a1d2e662abcc3",
+      "release_sha256": "c0b3fc429ab3a4521040cf1d07ed064214d93402dba39e9fa32a1d2e662abcc3",
+      "metadata_only": false
+    },
+    "cael_unified/rules.py": {
+      "evaluated_sha256": "d03f62599534b8637e8c42aac179555120b24736471d5f28018eb473e52c17ca",
+      "release_sha256": "d03f62599534b8637e8c42aac179555120b24736471d5f28018eb473e52c17ca",
+      "metadata_only": false
+    },
+    "cael_unified/runtime_policy.py": {
+      "evaluated_sha256": "4a43f00533f7975984c0c8ada4d0f52e92b26329484b4037ea804dc2db8147ad",
+      "release_sha256": "4a43f00533f7975984c0c8ada4d0f52e92b26329484b4037ea804dc2db8147ad",
+      "metadata_only": false
+    },
+    "cael_unified/self_identity.py": {
+      "evaluated_sha256": "5765c7227bfd5b75a901d8c65b8e0cb848bf98a6581b5536a744c9c729c3b053",
+      "release_sha256": "5765c7227bfd5b75a901d8c65b8e0cb848bf98a6581b5536a744c9c729c3b053",
+      "metadata_only": false
+    },
+    "cael_unified/self_knowledge.json": {
+      "evaluated_sha256": "0a5e3d143f371050b216298109697cbf90445e79a6562c0a3d400cb1973c6156",
+      "release_sha256": "192793bf4e74d6385f8c733c41fdd603ddbf3ffac859d2dabaa4e028a862b660",
+      "metadata_only": true
+    },
+    "cael_unified/semantic_quantities.py": {
+      "evaluated_sha256": "fc9c51761fa5eae0a6fe1dd2163d8470d59bdb2add3fb9cd7d3646f72119dfaa",
+      "release_sha256": "fc9c51761fa5eae0a6fe1dd2163d8470d59bdb2add3fb9cd7d3646f72119dfaa",
+      "metadata_only": false
+    },
+    "cael_unified/session_profile.py": {
+      "evaluated_sha256": "e25e862d97d0784ec5b8c5715c59ad3977acedbfdbd8b3ecf50008d0a8affc83",
+      "release_sha256": "e25e862d97d0784ec5b8c5715c59ad3977acedbfdbd8b3ecf50008d0a8affc83",
+      "metadata_only": false
+    },
+    "cael_unified/share.py": {
+      "evaluated_sha256": "a5fa37b7675bd3bed52b635befaaa2fc2fe8ea60860348d02745e16b1820f468",
+      "release_sha256": "a5fa37b7675bd3bed52b635befaaa2fc2fe8ea60860348d02745e16b1820f468",
+      "metadata_only": false
+    },
+    "cael_unified/smalltalk.py": {
+      "evaluated_sha256": "c10699bd1956bad069968a62d88985708ba53655510482487b38cae3ca865466",
+      "release_sha256": "c10699bd1956bad069968a62d88985708ba53655510482487b38cae3ca865466",
+      "metadata_only": false
+    },
+    "cael_unified/social_chat.py": {
+      "evaluated_sha256": "843bada8d57129ea5e9946f82751a05839f452ceff39b3588a429a0b6cb44c52",
+      "release_sha256": "843bada8d57129ea5e9946f82751a05839f452ceff39b3588a429a0b6cb44c52",
+      "metadata_only": false
+    },
+    "cael_unified/social_reasoning.py": {
+      "evaluated_sha256": "13654c05ffd611558b6577d0a7acb63e56c7e0dad532dc56a1099936408041a3",
+      "release_sha256": "13654c05ffd611558b6577d0a7acb63e56c7e0dad532dc56a1099936408041a3",
+      "metadata_only": false
+    },
+    "cael_unified/source_quality.py": {
+      "evaluated_sha256": "3e48392051918edd489756c32cf62193c70535bcb0b8afaa5d0607db77133953",
+      "release_sha256": "3e48392051918edd489756c32cf62193c70535bcb0b8afaa5d0607db77133953",
+      "metadata_only": false
+    },
+    "cael_unified/spelling.py": {
+      "evaluated_sha256": "743664fe79b3a068a1b8ae6393bc35d5915f7c1eeaf82bf512fecd92cdb42489",
+      "release_sha256": "743664fe79b3a068a1b8ae6393bc35d5915f7c1eeaf82bf512fecd92cdb42489",
+      "metadata_only": false
+    },
+    "cael_unified/state_language.py": {
+      "evaluated_sha256": "e8b999bf776fa7e3a3d925181c20e5c0b0a957628bf9c4ba86a7d5232862fc8e",
+      "release_sha256": "e8b999bf776fa7e3a3d925181c20e5c0b0a957628bf9c4ba86a7d5232862fc8e",
+      "metadata_only": false
+    },
+    "cael_unified/state_language_model.json": {
+      "evaluated_sha256": "532788f8150afad36701139159a1cd9e2cc4d09e42dac6782bf8ff1e2c10f7e2",
+      "release_sha256": "532788f8150afad36701139159a1cd9e2cc4d09e42dac6782bf8ff1e2c10f7e2",
+      "metadata_only": false
+    },
+    "cael_unified/sudoku.py": {
+      "evaluated_sha256": "e7a52814ed1b481c076be5a8dd7c5e832aa5f1c6774b10abb23bb07502de18e5",
+      "release_sha256": "e7a52814ed1b481c076be5a8dd7c5e832aa5f1c6774b10abb23bb07502de18e5",
+      "metadata_only": false
+    },
+    "cael_unified/symbolic_choice.py": {
+      "evaluated_sha256": "70e6570850ca868553a080b921a448a533303c7569a50c81a801e6bb5aa273b5",
+      "release_sha256": "70e6570850ca868553a080b921a448a533303c7569a50c81a801e6bb5aa273b5",
+      "metadata_only": false
+    },
+    "cael_unified/task_context.py": {
+      "evaluated_sha256": "667d29099166ca8c08d6effe1e285d4edf7c143b1e70bdd33586632e9feef7b7",
+      "release_sha256": "667d29099166ca8c08d6effe1e285d4edf7c143b1e70bdd33586632e9feef7b7",
+      "metadata_only": false
+    },
+    "cael_unified/text_contract.py": {
+      "evaluated_sha256": "f5015efd927c28dcac6bf3b2f1edab436e1d4fca27fec094b3b402be05799b88",
+      "release_sha256": "f5015efd927c28dcac6bf3b2f1edab436e1d4fca27fec094b3b402be05799b88",
+      "metadata_only": false
+    },
+    "cael_unified/text_repair.py": {
+      "evaluated_sha256": "a81cb41a6cc184e9d6f83e44d4fcc23b00a81018dc930b482c45f946411e18e9",
+      "release_sha256": "a81cb41a6cc184e9d6f83e44d4fcc23b00a81018dc930b482c45f946411e18e9",
+      "metadata_only": false
+    },
+    "cael_unified/thinking.py": {
+      "evaluated_sha256": "d785feeacd765372ccb89c64f53911e84b2653c2db16b186d27a3b6949cffee9",
+      "release_sha256": "d785feeacd765372ccb89c64f53911e84b2653c2db16b186d27a3b6949cffee9",
+      "metadata_only": false
+    },
+    "cael_unified/train_knowledge.py": {
+      "evaluated_sha256": "5f42b45330f29f9dddabd83330466b70805859f49838701f2da9cf43f36ae2d2",
+      "release_sha256": "5f42b45330f29f9dddabd83330466b70805859f49838701f2da9cf43f36ae2d2",
+      "metadata_only": false
+    },
+    "cael_unified/train_knowledge_query.py": {
+      "evaluated_sha256": "db0bcb14a690d9c6c1f31ec972c2d3a865f285edd32d352c2e5ce35459d8fc1c",
+      "release_sha256": "db0bcb14a690d9c6c1f31ec972c2d3a865f285edd32d352c2e5ce35459d8fc1c",
+      "metadata_only": false
+    },
+    "cael_unified/train_news_policy.py": {
+      "evaluated_sha256": "98aae9bd40285a426042bf5a53f091003f18ba0cff36faca79948e094003d138",
+      "release_sha256": "98aae9bd40285a426042bf5a53f091003f18ba0cff36faca79948e094003d138",
+      "metadata_only": false
+    },
+    "cael_unified/train_news_relevance.py": {
+      "evaluated_sha256": "b272d5a0c8cc3f631bc268c4059f7ad55c42ae8e3a70a692cfc8bc7a49d6ba89",
+      "release_sha256": "b272d5a0c8cc3f631bc268c4059f7ad55c42ae8e3a70a692cfc8bc7a49d6ba89",
+      "metadata_only": false
+    },
+    "cael_unified/train_reasoning.py": {
+      "evaluated_sha256": "744502dbab6cc3333bc206230279c90e9efac9b7180144699a26a7fcce1df5ca",
+      "release_sha256": "744502dbab6cc3333bc206230279c90e9efac9b7180144699a26a7fcce1df5ca",
+      "metadata_only": false
+    },
+    "cael_unified/train_request_policy.py": {
+      "evaluated_sha256": "ee314644fab8eea5a5cdc803d510f15b33d4c9731dfee7d25458a556de18bf6b",
+      "release_sha256": "ee314644fab8eea5a5cdc803d510f15b33d4c9731dfee7d25458a556de18bf6b",
+      "metadata_only": false
+    },
+    "cael_unified/train_social.py": {
+      "evaluated_sha256": "8dc7c73949a75b8a4846dbb413856da51dd31903ff0ca05c2ca81f2bd108722f",
+      "release_sha256": "8dc7c73949a75b8a4846dbb413856da51dd31903ff0ca05c2ca81f2bd108722f",
+      "metadata_only": false
+    },
+    "cael_unified/train_story_surfaces.py": {
+      "evaluated_sha256": "3f6ce382f18e0d6055a45f5db01f05454f2bda9c943b417a7d9c4db8361b8a77",
+      "release_sha256": "3f6ce382f18e0d6055a45f5db01f05454f2bda9c943b417a7d9c4db8361b8a77",
+      "metadata_only": false
+    },
+    "cael_unified/turn_counts.py": {
+      "evaluated_sha256": "d82a1f7437eb7a9f86805ed0daef447dff7746af2c98eb83003d5fed6103b5f6",
+      "release_sha256": "d82a1f7437eb7a9f86805ed0daef447dff7746af2c98eb83003d5fed6103b5f6",
+      "metadata_only": false
+    },
+    "cael_unified/turn_instructions.py": {
+      "evaluated_sha256": "b5bd6452db93bf2dde164aa0d6e1846ff3c884d12f5c9572590037a3c81da6da",
+      "release_sha256": "b5bd6452db93bf2dde164aa0d6e1846ff3c884d12f5c9572590037a3c81da6da",
+      "metadata_only": false
+    },
+    "cael_unified/verify.py": {
+      "evaluated_sha256": "f167fa9925683e50c53210e0b0550fb6045883af5ce74bb9fe7673f290704fa5",
+      "release_sha256": "f167fa9925683e50c53210e0b0550fb6045883af5ce74bb9fe7673f290704fa5",
+      "metadata_only": false
+    },
+    "cael_unified/vynly.py": {
+      "evaluated_sha256": "39d377a4cec2db6007d73d7bbcdff335f29d50443bdd298e2bd9225bad8bb107",
+      "release_sha256": "39d377a4cec2db6007d73d7bbcdff335f29d50443bdd298e2bd9225bad8bb107",
+      "metadata_only": false
+    },
+    "cael_unified/web.py": {
+      "evaluated_sha256": "14c34c069e4684dcbd314046eb86372717dbd8cd82b7a958191f406b15345161",
+      "release_sha256": "14c34c069e4684dcbd314046eb86372717dbd8cd82b7a958191f406b15345161",
+      "metadata_only": false
+    },
+    "cael_unified/web_evidence.py": {
+      "evaluated_sha256": "7b50ffd97924597cf711dde2ff0bf0989120696d817dd4fd09287b4968dbaceb",
+      "release_sha256": "7b50ffd97924597cf711dde2ff0bf0989120696d817dd4fd09287b4968dbaceb",
+      "metadata_only": false
+    },
+    "cael_unified/web_fetch.py": {
+      "evaluated_sha256": "25c241ca0043593e42da8bb3031c95800288097609bc00236acf834baaaaab4f",
+      "release_sha256": "25c241ca0043593e42da8bb3031c95800288097609bc00236acf834baaaaab4f",
+      "metadata_only": false
+    },
+    "cael_unified/web_search.py": {
+      "evaluated_sha256": "4acc06d4595d56efd973b9126ba2db264c8ee8e005b4069f27cb3240b10cbc8d",
+      "release_sha256": "4acc06d4595d56efd973b9126ba2db264c8ee8e005b4069f27cb3240b10cbc8d",
+      "metadata_only": false
+    },
+    "cael_unified/wordmath.py": {
+      "evaluated_sha256": "870114abeb5a0ec596d7b55dfc30e9ca26777ba6e1065cb07cbd650599b56bd3",
+      "release_sha256": "870114abeb5a0ec596d7b55dfc30e9ca26777ba6e1065cb07cbd650599b56bd3",
+      "metadata_only": false
+    },
+    "cael_unified/world_facts.py": {
+      "evaluated_sha256": "272151c93971b45feabb33e018469280f03a6ed9962e9361f8ac1648d034253a",
+      "release_sha256": "272151c93971b45feabb33e018469280f03a6ed9962e9361f8ac1648d034253a",
+      "metadata_only": false
+    },
+    "cael_unified/writing_chat.py": {
+      "evaluated_sha256": "fef88a1e57c329b2482779dcc2cadda2791bfe7c7beb8c3905c5423aabee551c",
+      "release_sha256": "fef88a1e57c329b2482779dcc2cadda2791bfe7c7beb8c3905c5423aabee551c",
+      "metadata_only": false
+    },
+    "cael_unified/_bounded_python_help.py": {
+      "evaluated_sha256": "0fa3f017cfa1584d49c4eb7299a0b4acc3f9ba6cb22d04e7d5c87b421a099572",
+      "release_sha256": "0fa3f017cfa1584d49c4eb7299a0b4acc3f9ba6cb22d04e7d5c87b421a099572",
+      "metadata_only": false
+    },
+    "cael_unified/__init__.py": {
+      "evaluated_sha256": "e207d2ab92a7d1f954b25121b1f0c35bfbed5c0b4733156d16ba3467f6400aa0",
+      "release_sha256": "362ff89c59f9eaa04dca6305138507044b9a07c3ca94eff8dc4b827e52d6616c",
+      "metadata_only": true
+    },
+    "cael_unified/__main__.py": {
+      "evaluated_sha256": "56792b6c970c8e2bf0a38b54a5db8bc26a630a40f24c8ab050039fb03f7e0827",
+      "release_sha256": "56792b6c970c8e2bf0a38b54a5db8bc26a630a40f24c8ab050039fb03f7e0827",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/chat.py": {
+      "evaluated_sha256": "d1da0092fa8f6305b690c407e7e0fb64234209e58bdab58211165e833ba9279c",
+      "release_sha256": "d1da0092fa8f6305b690c407e7e0fb64234209e58bdab58211165e833ba9279c",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/code_review.py": {
+      "evaluated_sha256": "5c589796f062e05400cf5c3901ea868760f35294e2e3542ca2623d049fc3edcd",
+      "release_sha256": "5c589796f062e05400cf5c3901ea868760f35294e2e3542ca2623d049fc3edcd",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/contracts.py": {
+      "evaluated_sha256": "699460a396582975a3b88405fbf47bc17096f7e719965fbf2135f7d9892d2a23",
+      "release_sha256": "699460a396582975a3b88405fbf47bc17096f7e719965fbf2135f7d9892d2a23",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/data_tools.py": {
+      "evaluated_sha256": "fdddf366f13772ccad6705b544f8486b4753fa82ad2b78e3ad333fcf3a201f7f",
+      "release_sha256": "fdddf366f13772ccad6705b544f8486b4753fa82ad2b78e3ad333fcf3a201f7f",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/explain.py": {
+      "evaluated_sha256": "93e7778ce6ef29f69f84acdf6d7f3bbd5fad092ae9f79c34e0874de1ca059bd1",
+      "release_sha256": "93e7778ce6ef29f69f84acdf6d7f3bbd5fad092ae9f79c34e0874de1ca059bd1",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/inline_contract.py": {
+      "evaluated_sha256": "f2f11c438bfb855dfbc62bf5aefa92ac16921c8a137da03dec82b1dde72d4c5c",
+      "release_sha256": "f2f11c438bfb855dfbc62bf5aefa92ac16921c8a137da03dec82b1dde72d4c5c",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/literal_cases.py": {
+      "evaluated_sha256": "a5e8d97c39ed07dd911e8b447c4fc4d3e2d21a37312b953f86a200033922a1b2",
+      "release_sha256": "a5e8d97c39ed07dd911e8b447c4fc4d3e2d21a37312b953f86a200033922a1b2",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/natural_program.py": {
+      "evaluated_sha256": "cea669d1378157bc9cecfd40b5365c4430bf9145e1529e6273d5d249951a3e00",
+      "release_sha256": "cea669d1378157bc9cecfd40b5365c4430bf9145e1529e6273d5d249951a3e00",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/object_model.py": {
+      "evaluated_sha256": "525079fafdb310a8897a5f00ce5bd9083a8dc1cd17f9d16a8c33dbd5fa4d5981",
+      "release_sha256": "525079fafdb310a8897a5f00ce5bd9083a8dc1cd17f9d16a8c33dbd5fa4d5981",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/predicate_contract.py": {
+      "evaluated_sha256": "547d53952a0dc79f2c3592a64de8d1bd346b13a2565748b25e33ae6dfe0de077",
+      "release_sha256": "547d53952a0dc79f2c3592a64de8d1bd346b13a2565748b25e33ae6dfe0de077",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/python_tasks.py": {
+      "evaluated_sha256": "5ad0ee5ab43bd8ffd8e0170ad9fa736afb9275c54716a49f648908dfca0ffb18",
+      "release_sha256": "5ad0ee5ab43bd8ffd8e0170ad9fa736afb9275c54716a49f648908dfca0ffb18",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/python_vm.py": {
+      "evaluated_sha256": "ef1c2336e739dc86ea7f98c1754aa4f90f902b4c4e6e62f3e0f5ab891be610ca",
+      "release_sha256": "ef1c2336e739dc86ea7f98c1754aa4f90f902b4c4e6e62f3e0f5ab891be610ca",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/recurrence.py": {
+      "evaluated_sha256": "545364f8ec4fd81e562c7f4d584d6f418fece49309aa979a29e5d8ab8ab93fc7",
+      "release_sha256": "545364f8ec4fd81e562c7f4d584d6f418fece49309aa979a29e5d8ab8ab93fc7",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/request_contract.py": {
+      "evaluated_sha256": "3fdef90c012a3dcc2d8dfed08c1eadb3310494b93ed8677342d4cb53a7c44305",
+      "release_sha256": "3fdef90c012a3dcc2d8dfed08c1eadb3310494b93ed8677342d4cb53a7c44305",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/signature_contract.py": {
+      "evaluated_sha256": "8a566952b7a0f9e37febe198856c4224622a0c4a4e43505f8efce413c6b9ed59",
+      "release_sha256": "8a566952b7a0f9e37febe198856c4224622a0c4a4e43505f8efce413c6b9ed59",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/specs.py": {
+      "evaluated_sha256": "749c212ca08a313a76c46d1597bc2c03c132d8f1e3eab5e2bd83d0d70fffb57a",
+      "release_sha256": "749c212ca08a313a76c46d1597bc2c03c132d8f1e3eab5e2bd83d0d70fffb57a",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/state_plan.py": {
+      "evaluated_sha256": "b26d0ad96597b29a21aede715431ba5c26bb44713bd6dff901ef6dca3251c404",
+      "release_sha256": "b26d0ad96597b29a21aede715431ba5c26bb44713bd6dff901ef6dca3251c404",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/state_search.py": {
+      "evaluated_sha256": "dfcf6fccfe709d393bb7dcdc2aa78fd3428b7a0bacfd2d0b635b0e65c2615964",
+      "release_sha256": "dfcf6fccfe709d393bb7dcdc2aa78fd3428b7a0bacfd2d0b635b0e65c2615964",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/synth.py": {
+      "evaluated_sha256": "f99440aeea782a4f029e418327f2e76c4ed19a0080da8ae6903151fd6942f1e8",
+      "release_sha256": "f99440aeea782a4f029e418327f2e76c4ed19a0080da8ae6903151fd6942f1e8",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/task_tools.py": {
+      "evaluated_sha256": "78a170e6a0d0017834c28059a494f045441b01994a77e3a55f4d024d666d6190",
+      "release_sha256": "78a170e6a0d0017834c28059a494f045441b01994a77e3a55f4d024d666d6190",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/toolmaker.py": {
+      "evaluated_sha256": "12709502ab1abb88549ab4aa36bf3d4b1dd05faae383f622346e0e4819592405",
+      "release_sha256": "12709502ab1abb88549ab4aa36bf3d4b1dd05faae383f622346e0e4819592405",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/tool_contract.py": {
+      "evaluated_sha256": "2e53be07a4a044af736dbaed59fdaa00e1aa80ee728286586287d46a61373bc4",
+      "release_sha256": "2e53be07a4a044af736dbaed59fdaa00e1aa80ee728286586287d46a61373bc4",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/tool_search.py": {
+      "evaluated_sha256": "71fa5eb62b0cc28cd9527fa0dc5c383b0d38d0e16ed612a0b71ee83187332cd8",
+      "release_sha256": "71fa5eb62b0cc28cd9527fa0dc5c383b0d38d0e16ed612a0b71ee83187332cd8",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/trace.py": {
+      "evaluated_sha256": "c02b92489a4414228459d761514fa3ce76166499b6a75a78531a5e6887e3b735",
+      "release_sha256": "c02b92489a4414228459d761514fa3ce76166499b6a75a78531a5e6887e3b735",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/train.py": {
+      "evaluated_sha256": "902fbdcd4eb1dc0569f8460a9f5233b6b476bc5cb926a13e0eaf65dfa3065d33",
+      "release_sha256": "902fbdcd4eb1dc0569f8460a9f5233b6b476bc5cb926a13e0eaf65dfa3065d33",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/workbench.py": {
+      "evaluated_sha256": "c6e27c5ea4afdeecdf51b7cb6586193d2a4bcbf8f9a8a56fac16c041f5bcd65d",
+      "release_sha256": "c6e27c5ea4afdeecdf51b7cb6586193d2a4bcbf8f9a8a56fac16c041f5bcd65d",
+      "metadata_only": false
+    },
+    "cael_unified/codegen/__init__.py": {
+      "evaluated_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "release_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "metadata_only": false
+    },
+    "cael_unified/legacy_chat/cael_v4.py": {
+      "evaluated_sha256": "9c62e105ecf69e29a70bbdc64f67805a2f0c3ef86a12923dc2a9218c76bf4df1",
+      "release_sha256": "9c62e105ecf69e29a70bbdc64f67805a2f0c3ef86a12923dc2a9218c76bf4df1",
+      "metadata_only": false
+    },
+    "cael_unified/legacy_chat/reply_skeleton_ca.py": {
+      "evaluated_sha256": "32bd8e8d552a8632299c68228d11b77d7c96fa7b86e7555afed65d3ff2134b1a",
+      "release_sha256": "32bd8e8d552a8632299c68228d11b77d7c96fa7b86e7555afed65d3ff2134b1a",
+      "metadata_only": false
+    },
+    "cael_unified/legacy_chat/reply_skeleton_ca_v2.py": {
+      "evaluated_sha256": "a2162f905577b6b104dee36e8a66df84e65310663e4d5fcda4faba260c789438",
+      "release_sha256": "a2162f905577b6b104dee36e8a66df84e65310663e4d5fcda4faba260c789438",
+      "metadata_only": false
+    },
+    "cael_unified/legacy_chat/__init__.py": {
+      "evaluated_sha256": "2d85177ce87e9f1b29ed329f9e8527d2ada60225577d918898b9b543ad73c031",
+      "release_sha256": "2d85177ce87e9f1b29ed329f9e8527d2ada60225577d918898b9b543ad73c031",
+      "metadata_only": false
+    },
+    "cael_unified/local_tools/chat.py": {
+      "evaluated_sha256": "6e85c21c6317bf8f596d6917b6669bbbaf482d93972a2678ca9fc052c44950f0",
+      "release_sha256": "6e85c21c6317bf8f596d6917b6669bbbaf482d93972a2678ca9fc052c44950f0",
+      "metadata_only": false
+    },
+    "cael_unified/local_tools/media.py": {
+      "evaluated_sha256": "03727aff2a2343a554560272e057eff8287a13fb53658d4a5fe57972fff725d4",
+      "release_sha256": "03727aff2a2343a554560272e057eff8287a13fb53658d4a5fe57972fff725d4",
+      "metadata_only": false
+    },
+    "cael_unified/local_tools/pdf_tools.py": {
+      "evaluated_sha256": "d6337c9296188e003dd3a2f1365060e6b2c065779ae2e78dac4aaf189b1e6b82",
+      "release_sha256": "d6337c9296188e003dd3a2f1365060e6b2c065779ae2e78dac4aaf189b1e6b82",
+      "metadata_only": false
+    },
+    "cael_unified/local_tools/plans.py": {
+      "evaluated_sha256": "e838a6525bf81882606552df839214d9ae062daaac1871821c4a023e5310f099",
+      "release_sha256": "e838a6525bf81882606552df839214d9ae062daaac1871821c4a023e5310f099",
+      "metadata_only": false
+    },
+    "cael_unified/local_tools/process.py": {
+      "evaluated_sha256": "9b77739351e9467c0166c1d1ab76591a28dc5020e33625c1bf25b5bb13195eae",
+      "release_sha256": "9b77739351e9467c0166c1d1ab76591a28dc5020e33625c1bf25b5bb13195eae",
+      "metadata_only": false
+    },
+    "cael_unified/local_tools/review.py": {
+      "evaluated_sha256": "e381ea0285c3ef77276f869971ba505bf7b178bc110bac37dd87d9a842eb901a",
+      "release_sha256": "e381ea0285c3ef77276f869971ba505bf7b178bc110bac37dd87d9a842eb901a",
+      "metadata_only": false
+    },
+    "cael_unified/local_tools/worker.py": {
+      "evaluated_sha256": "240a916561dbf8b81135120d4a71c1996fc306c6e70cbe23b0127c4e02c28c6c",
+      "release_sha256": "240a916561dbf8b81135120d4a71c1996fc306c6e70cbe23b0127c4e02c28c6c",
+      "metadata_only": false
+    },
+    "cael_unified/local_tools/workspace.py": {
+      "evaluated_sha256": "5c444ce740def10aa51576931f9a79d4543bcffed092573952fcce0822b8031b",
+      "release_sha256": "5c444ce740def10aa51576931f9a79d4543bcffed092573952fcce0822b8031b",
+      "metadata_only": false
+    },
+    "cael_unified/local_tools/__init__.py": {
+      "evaluated_sha256": "fa239b77e746cfc43b2af273b74ce3321b8700d04fc70123c065bdeb5dfbc4ff",
+      "release_sha256": "fa239b77e746cfc43b2af273b74ce3321b8700d04fc70123c065bdeb5dfbc4ff",
+      "metadata_only": false
+    },
+    "cael_unified/local_tools/__main__.py": {
+      "evaluated_sha256": "966e3158faf2fcf04b3cdd43e1cb5c77135035b9ed7a1cbbd24391f43b0ce546",
+      "release_sha256": "966e3158faf2fcf04b3cdd43e1cb5c77135035b9ed7a1cbbd24391f43b0ce546",
+      "metadata_only": false
+    },
+    "cael_assistant/build_cond.py": {
+      "evaluated_sha256": "da4053c6e7851cd9e7a84728bedef5f61188991bdb4ac3d0c0603b4f2352e05d",
+      "release_sha256": "da4053c6e7851cd9e7a84728bedef5f61188991bdb4ac3d0c0603b4f2352e05d",
+      "metadata_only": false
+    },
+    "cael_assistant/chat.py": {
+      "evaluated_sha256": "00e4eef45d6a5eb208062ac8512c4c4a182532f28b1079bcd3707cdca1c2ae31",
+      "release_sha256": "00e4eef45d6a5eb208062ac8512c4c4a182532f28b1079bcd3707cdca1c2ae31",
+      "metadata_only": false
+    },
+    "cael_assistant/emojigen.py": {
+      "evaluated_sha256": "3d39ca5393674e8deaac02582bc728c8cbe6ac02dca046635384ee3924cd3e95",
+      "release_sha256": "3d39ca5393674e8deaac02582bc728c8cbe6ac02dca046635384ee3924cd3e95",
+      "metadata_only": false
+    },
+    "cael_assistant/emojigen_v5.py": {
+      "evaluated_sha256": "57b6e3541552cecc1c73f41448291d7d53fb30bcf44efcb9da53b8c9d87c3412",
+      "release_sha256": "57b6e3541552cecc1c73f41448291d7d53fb30bcf44efcb9da53b8c9d87c3412",
+      "metadata_only": false
+    },
+    "cael_assistant/emojigen_v5fetch.py": {
+      "evaluated_sha256": "b56d1a6540a6aca1b4d8e349333e286ddfef0f6d867f12ef831d68e00347eca9",
+      "release_sha256": "b56d1a6540a6aca1b4d8e349333e286ddfef0f6d867f12ef831d68e00347eca9",
+      "metadata_only": false
+    },
+    "cael_assistant/emoji_fetch.py": {
+      "evaluated_sha256": "d94d2bda14eb48c6f85767533dd47afa87397407870430a85dd9cb29c2a8fb3b",
+      "release_sha256": "d94d2bda14eb48c6f85767533dd47afa87397407870430a85dd9cb29c2a8fb3b",
+      "metadata_only": false
+    },
+    "cael_assistant/emoji_learn.py": {
+      "evaluated_sha256": "4c7d16ee2993a6192fdcebec3903b8fe9efa4c8c612708b85c75a7ce688f3a4a",
+      "release_sha256": "4c7d16ee2993a6192fdcebec3903b8fe9efa4c8c612708b85c75a7ce688f3a4a",
+      "metadata_only": false
+    },
+    "cael_assistant/eval_colour.py": {
+      "evaluated_sha256": "a1dd23c47300d7c8352ad84e3b837fb05d55cc1575e88908780d80f3884c8772",
+      "release_sha256": "a1dd23c47300d7c8352ad84e3b837fb05d55cc1575e88908780d80f3884c8772",
+      "metadata_only": false
+    },
+    "cael_assistant/eval_portrait_sampling.py": {
+      "evaluated_sha256": "8c0bdb420e3abf0128cbf31535917783ab3ac13fb51d5007042f007195fcbfb9",
+      "release_sha256": "8c0bdb420e3abf0128cbf31535917783ab3ac13fb51d5007042f007195fcbfb9",
+      "metadata_only": false
+    },
+    "cael_assistant/imagegen.py": {
+      "evaluated_sha256": "b959020c04108ea11c4ee6e258d21e5743fe82de9ff7c4c6efc6e9f76b8e8518",
+      "release_sha256": "b959020c04108ea11c4ee6e258d21e5743fe82de9ff7c4c6efc6e9f76b8e8518",
+      "metadata_only": false
+    },
+    "cael_assistant/ip_guard.py": {
+      "evaluated_sha256": "1b4d007574922232d1aca25527a2e420ad589b98a0789cc57c18f9936aa17dd7",
+      "release_sha256": "1b4d007574922232d1aca25527a2e420ad589b98a0789cc57c18f9936aa17dd7",
+      "metadata_only": false
+    },
+    "cael_assistant/portrait_appearance_cli.py": {
+      "evaluated_sha256": "e2c5764d958f97645713e032bf2d2ad9907b8cad367f0f3e523eb7337796334e",
+      "release_sha256": "e2c5764d958f97645713e032bf2d2ad9907b8cad367f0f3e523eb7337796334e",
+      "metadata_only": false
+    },
+    "cael_assistant/portrait_cli.py": {
+      "evaluated_sha256": "69a16a019c49dcb9ea52ca49dde03e36ff2c770e07a2b849d62af605f519fd9b",
+      "release_sha256": "69a16a019c49dcb9ea52ca49dde03e36ff2c770e07a2b849d62af605f519fd9b",
+      "metadata_only": false
+    },
+    "cael_assistant/portrait_structure_cli.py": {
+      "evaluated_sha256": "2f6fc033b0327744fcb705e63c33619690c9faf73bad760ef5a32b73f329ae83",
+      "release_sha256": "2f6fc033b0327744fcb705e63c33619690c9faf73bad760ef5a32b73f329ae83",
+      "metadata_only": false
+    },
+    "cael_assistant/prompt_writer.py": {
+      "evaluated_sha256": "cf936deed164138596c3909c93b30241c0726596dfd64984933dbdca41b456b5",
+      "release_sha256": "cf936deed164138596c3909c93b30241c0726596dfd64984933dbdca41b456b5",
+      "metadata_only": false
+    },
+    "cael_assistant/spellfix.py": {
+      "evaluated_sha256": "a8ec3e4702fd09c8e95c41767df885b38e496dc790d656c75ac507e11cfa9023",
+      "release_sha256": "a8ec3e4702fd09c8e95c41767df885b38e496dc790d656c75ac507e11cfa9023",
+      "metadata_only": false
+    },
+    "cael_assistant/test_assistant.py": {
+      "evaluated_sha256": "9e1607561a0f03c22b8327572f4de7f4b5b15d11b9abbf7b91eaa9029b22a1cc",
+      "release_sha256": "9e1607561a0f03c22b8327572f4de7f4b5b15d11b9abbf7b91eaa9029b22a1cc",
+      "metadata_only": false
+    },
+    "cael_assistant/web_ui.py": {
+      "evaluated_sha256": "bf1695e03bd3716340c04e5d50a7012e7a5b5b3464693553009ebfa879df226a",
+      "release_sha256": "bf1695e03bd3716340c04e5d50a7012e7a5b5b3464693553009ebfa879df226a",
+      "metadata_only": false
+    },
+    "cael.py": {
+      "evaluated_sha256": "83a7bc28a2f31094d5a730cb03ffad8ecfecc3a7a2fb1e79cae15d4bcdb2c0b0",
+      "release_sha256": "83a7bc28a2f31094d5a730cb03ffad8ecfecc3a7a2fb1e79cae15d4bcdb2c0b0",
+      "metadata_only": false
+    },
+    "CORE_0_4.md": {
+      "evaluated_sha256": "11cec0ebb48734fc82028b744ea494754871c75b4f4126fad17c9bd20396a468",
+      "release_sha256": "11cec0ebb48734fc82028b744ea494754871c75b4f4126fad17c9bd20396a468",
+      "metadata_only": false
+    },
+    "bundle_config.json": {
+      "evaluated_sha256": "1fbd512360eb66f041fa95e32843e6ccd3260fcd3d3cb334bf6366b335cc56ec",
+      "release_sha256": "5cb9ce2d0389abcf08589f52a6c4dbd50554cf0648ddecb982f4f3ce97818ac9",
+      "metadata_only": true
+    }
+  },
+  "exact_algorithm_bytes": true,
+  "metadata_changes_explained": true,
+  "resource_bundle_sha256": "8efd22d7fa670e7f011d262c33a7e026941f279e71ee2014614d5d4cf5ecf79b",
+  "protected_solvers_unchanged": true,
+  "live_worker_changed": false,
+  "official_rank_claim": false
+}

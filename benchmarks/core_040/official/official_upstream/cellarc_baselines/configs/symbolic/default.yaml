@@ -1,0 +1,26 @@
+# @package _global_
+defaults:
+  - _self_
+
+baseline:
+  name: de_bruijn
+  kwargs:
+    fallback: majority
+    default_symbol: 0
+
+dataset:
+  benchmark: cellarc_100k
+  include_metadata: false
+  root: null
+
+splits:
+  - test_interpolation
+  - test_extrapolation
+
+eval:
+  max_episodes: null
+  progress_bar: true
+  results_json_path: null
+
+logging:
+  level: info

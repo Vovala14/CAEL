@@ -1,0 +1,746 @@
+--- a/cael_unified/__init__.py
++++ b/cael_unified/__init__.py
+@@ -1,5 +1,5 @@
+-"""CAEL 0.3.9.1: non-neural conversation runtime with the unchanged 0.3.7 resource bundle."""
+-__version__ = '0.3.9.1'
++"""CAEL 0.4.0 core-engine candidate; not a published or deployed release."""
++__version__ = '0.4.0'
+ 
+ 
+ def __getattr__(name):
+--- a/cael_unified/_bounded_python_help.py
++++ b/cael_unified/_bounded_python_help.py
+@@ -48,5 +48,9 @@
+ 
+     verify.sandbox_function = denied
+     apply = verify.apply
+-    verify.apply = lambda text, answer: apply(text, answer, record=False)
++    def unrecorded_apply(text, answer, record=False):
++        # Preserve the checker's call contract for orchestrators that explicitly
++        # request no recording. Keep the bounded policy's no-record behaviour.
++        return apply(text, answer, record=False)
++    verify.apply = unrecorded_apply
+ 
+--- a/cael_unified/assistant.py
++++ b/cael_unified/assistant.py
+@@ -181,6 +181,15 @@
+             # spelling repair, fact route or web lookup can read "CAEL" as someone else (self_identity.py, 0.3.8 fix).
+             from . import self_identity
+             answer = self_identity.reply(messages) if mode in ('auto', 'chat') else None
++            if (answer is None and mode in ('auto', 'chat') and isinstance(messages, list)
++                    and messages and len(messages)<=MAX_MESSAGES
++                    and all(isinstance(m,dict) and m.get('role') in ('user','assistant','system')
++                            and isinstance(m.get('content'),str) for m in messages)
++                    and sum(len(m['content']) for m in messages)<=MAX_CHARACTERS
++                    and messages[-1].get('role') == 'user' and type(n) is int and 1<=n<=8
++                    and (seed is None or type(seed) is int and 0<=seed<2**31)):
++                from .local_automata import reply as automaton_reply
++                answer = automaton_reply(messages[-1].get('content'))
+             # A complete, single-request symbolic document owns its literal
+             # symbols before dialogue acts, spelling and memory heuristics.
+             if (answer is None and mode in ('auto','chat') and isinstance(messages,list)
+--- a/cael_unified/bundle.py
++++ b/cael_unified/bundle.py
+@@ -8,8 +8,8 @@
+ import zipfile
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+-VERSION = '0.3.9.1'
+-# 0.3.9.1 adds native interpretation; the public resource bundle remains byte-identical 0.3.7.
++VERSION = '0.4.0'
++# Core algorithms evolve in source; inherited public assets remain immutable.
+ BUNDLE_VERSION = '0.3.7'
+ SUPPORTED = {'0.2.1', '0.2.2', '0.2.3', '0.2.4', '0.2.5', '0.2.6', '0.2.7', '0.2.8', '0.2.9', '0.3', '0.3.1', '0.3.2', '0.3.3', '0.3.4', '0.3.5', '0.3.6', '0.3.7', '0.3.8'}
+ DEFAULT_BUNDLE = ROOT / 'models' / f'cael-{BUNDLE_VERSION}.cael'
+--- a/cael_unified/checked_tasks.py
++++ b/cael_unified/checked_tasks.py
+@@ -172,7 +172,7 @@
+     m=re.fullmatch(r'(?is)([^:.\n]{1,140}):\s*([^:.\n]+)\.\s*(.+)',text)
+     if not m or not re.match(r'(?i)^(?:items|objects|participants|on |in |at |there (?:are|stand) )',m[1]):return None
+     names=[clean(p.strip()) for p in re.split(r',\s*(?:and\s+)?|\s+and\s+',m[2])]
+-    if not 2<=len(names)<=8 or len(set(names))!=len(names):raise Unclear('Use two to eight distinct explicitly listed objects.')
++    if not 2<=len(names)<=12 or len(set(names))!=len(names):raise Unclear('Use two to twelve distinct explicitly listed objects.')
+     declared=re.search(r'(?i)\b('+ '|'.join(NUMBERS)+r'|\d+)\b',m[1])
+     if declared and _number(declared[1])!=len(names):raise Unclear('The stated object count and complete item list disagree.')
+     parts=[p.strip() for p in re.split(r'[.!?]\s*|\n+',m[3]) if p.strip()]
+--- a/cael_unified/constraint_automaton.py
++++ b/cael_unified/constraint_automaton.py
+@@ -0,0 +1,76 @@
++"""Finite-domain constraint propagation with exhaustive bounded witnesses.
++
++Only explicit trusted predicates are called. No generated code, neural model,
++training answers or benchmark-dependent rule selection.
++"""
++from itertools import product
++
++
++class SearchLimit(ValueError):
++    pass
++
++
++def enumerate_orders(names, constraints, holds, max_nodes=250000, max_checks=3000000,
++                     max_solutions=50000):
++    names = tuple(names)
++    if not 2 <= len(names) <= 12 or len(set(names)) != len(names):
++        raise ValueError('Use 2 to 12 distinct items')
++    scopes = [tuple(dict.fromkeys(c[1:2] + (() if c[0].removeprefix('not_') == 'at' else c[2:])))
++              for c in constraints]
++    if any(any(n not in names for n in scope) for scope in scopes):
++        raise ValueError('A constraint references an unlisted item')
++    stats = dict(nodes=0, predicate_checks=0, propagations=0, complete=False)
++    solutions = []
++
++    def propagate(domains):
++        while True:
++            before = tuple(tuple(sorted(domains[n])) for n in names)
++            singles = [next(iter(v)) for v in domains.values() if len(v) == 1]
++            if len(singles) != len(set(singles)):
++                return False
++            used = set(singles)
++            for name, values in domains.items():
++                if len(values) > 1: values.difference_update(used)
++                if not values: return False
++            # Hall's union necessary condition, alongside singleton all-different.
++            if len(set().union(*domains.values())) < len(names): return False
++            for constraint, scope in zip(constraints, scopes):
++                supported = {name: set() for name in scope}
++                for values in product(*(sorted(domains[n]) for n in scope)):
++                    stats['predicate_checks'] += 1
++                    if stats['predicate_checks'] > max_checks:
++                        raise SearchLimit('Constraint propagation work budget reached')
++                    if len(values) != len(set(values)): continue
++                    if holds(constraint, dict(zip(scope, values))):
++                        for name, value in zip(scope, values): supported[name].add(value)
++                for name in scope:
++                    domains[name].intersection_update(supported[name])
++                    if not domains[name]: return False
++            stats['propagations'] += 1
++            if before == tuple(tuple(sorted(domains[n])) for n in names): return True
++
++    def visit(domains):
++        stats['nodes'] += 1
++        if stats['nodes'] > max_nodes: raise SearchLimit('Ordering search node budget reached')
++        if not propagate(domains): return
++        pending = [n for n in names if len(domains[n]) > 1]
++        if not pending:
++            positions = {n: next(iter(domains[n])) for n in names}
++            order = tuple(sorted(names, key=positions.get))
++            solutions.append(order)
++            if len(solutions) > max_solutions:
++                raise SearchLimit('Too many valid orders for complete enumeration')
++            return
++        name = min(pending, key=lambda n: (len(domains[n]), names.index(n)))
++        for value in sorted(domains[name]):
++            child = {n: set(v) for n, v in domains.items()}
++            child[name] = {value}
++            visit(child)
++
++    visit({name: set(range(len(names))) for name in names})
++    # Preserve the old public ordering of witnesses, independent of MRV order.
++    rank = {name: i for i, name in enumerate(names)}
++    solutions.sort(key=lambda row: tuple(rank[n] for n in row))
++    stats['complete'] = True
++    stats['solutions'] = len(solutions)
++    return tuple(solutions), stats
+--- a/cael_unified/count_language.py
++++ b/cael_unified/count_language.py
+@@ -66,9 +66,12 @@
+ 
+     def neighbours(self,context,limit=128):
+         np=self.np
+-        if context in self.cache:
+-            self.cache.move_to_end(context)
+-            return self.cache[context]
++        if type(limit) is not int or not 1<=limit<=2048:
++            raise ValueError('Neighbour limit must be an integer from 1 to 2048')
++        cache_key=(context,limit)
++        if cache_key in self.cache:
++            self.cache.move_to_end(cache_key)
++            return self.cache[cache_key]
+         query=self.query_features(context)
+         # Both stored/query rows are L2 normalized; this is sparse cosine recall.
+         from sklearn.preprocessing import normalize
+@@ -76,13 +79,17 @@
+         hits=(query@self.contexts.T).tocsr()
+         if hits.nnz:
+             take=min(limit,hits.nnz)
+-            selection=np.argpartition(hits.data,-take)[-take:]
++            threshold=np.partition(hits.data,-take)[-take]
++            greater=np.flatnonzero(hits.data>threshold)
++            equal=np.flatnonzero(hits.data==threshold)
++            equal=equal[np.argsort(hits.indices[equal],kind='stable')]
++            selection=np.concatenate((greater,equal[:take-len(greater)]))
+             order=np.lexsort((hits.indices[selection],-hits.data[selection]))
+             selection=selection[order]
+             result=(hits.indices[selection],hits.data[selection])
+         else:
+             result=(np.array([],dtype=np.int64),np.array([],dtype=np.float64))
+-        self.cache[context]=result
++        self.cache[cache_key]=result
+         if len(self.cache)>32:
+             self.cache.popitem(last=False)
+         return result
+@@ -90,7 +97,7 @@
+     def conditional(self,context,settings=None):
+         np=self.np
+         settings=settings or self.settings
+-        indices,similarities=self.neighbours(context)
++        indices,similarities=self.neighbours(context,limit=max(128,settings['neighbours']))
+         count=min(len(indices),settings['neighbours'])
+         if count:
+             weights=similarities[:count].astype(np.float64)**settings['recall_power']
+--- a/cael_unified/event_memory.py
++++ b/cael_unified/event_memory.py
+@@ -43,14 +43,18 @@
+ def key(entity,attribute):return clean(entity).casefold()+'\x1f'+clean(attribute).casefold()
+ 
+ def resolve(state,cell,seen=None):
+-    seen=set() if seen is None else seen
+-    if cell in seen or len(seen)>128:raise ValueError('Circular or too-deep reference')
+-    seen.add(cell)
+-    value=state.get(cell,UNKNOWN)
+-    if isinstance(value,dict):
+-        if 'ref' in value:return resolve(state,value['ref'],seen)
+-        raise ValueError('Unknown or conflicting value')
+-    return value
++    # Iterative traversal supports the stated cell budget, instead of an
++    # unrelated 128-link or Python recursion ceiling. References remain lazy:
++    # changing a source affects live links but never earlier copied values.
++    seen=set() if seen is None else set(seen)
++    while True:
++        if cell in seen:raise ValueError('Circular live dependency')
++        if len(seen)>=MAX_CELLS:raise ValueError('Reference traversal exceeds the state-cell budget')
++        seen.add(cell)
++        value=state.get(cell,UNKNOWN)
++        if not isinstance(value,dict):return value
++        if 'ref' not in value:raise ValueError('Unknown or conflicting value')
++        cell=value['ref']
+ 
+ def transition(state,slots,operation):
+     """The candidate algebra used by both the trainer and runtime.
+@@ -241,8 +245,8 @@
+             boundary=versions[0][0] if past=='initial' else versions[-1][0]-1
+             state={}
+             for k,history in self.history.items():
+-                prior=[v for i,v in history if i<=boundary]
+-                if prior:state[k]=prior[-1]
++                offset=bisect_right(history,boundary,key=lambda entry:entry[0])
++                if offset:state[k]=history[offset-1][1]
+         return resolve(state,cell)
+ 
+ def reply(messages):
+--- a/cael_unified/interpretation_relations.py
++++ b/cael_unified/interpretation_relations.py
+@@ -109,6 +109,16 @@
+     if not any(re.search(r'(?i)\b(?:before|after|ahead of|behind|precedes|follows)\b',p) for p in parts[:-1]):return None
+     boundary(parts[-1])
+     if query[0]=='unsupported':raise TaskError('The complete ordering question contains an unsupported qualifier.')
++    # Richer explicit constraints belong to the same finite-domain engine used
++    # by ordinary reasoning. Do not reject them in the precedence-only reader.
++    if re.match(r'(?i)^(?:items|people|objects|participants|runners|books|cars|order)\s*:', parts[0]) and any(
++            re.search(r'(?i)\b(?:immediately|directly|adjacent|next to|between|not|first|last|second|third|fourth|fifth)\b', p)
++            for p in parts[1:-1]):
++        from .reasoning_order import ordering
++        try: result = ordering('. '.join(parts[:-1]), parts[-1])
++        except ValueError as exc: raise TaskError(str(exc)) from exc
++        return Result(result['answer'], 'ordering', {'coverage': spans(text, parts),
++                      'engine': 'finite-domain-constraint-automaton', 'proof': result})
+     names=[];edges=[]
+     for raw in parts[:-1]:
+         p=raw.strip()
+@@ -178,6 +188,10 @@
+         words=set(re.findall(r'[a-z]+',p.casefold()))
+         if words and words<=header_words and words&{'log','events','entries','chronological','updates'}:continue
+         boundary(p)
++        m=re.fullmatch(rf'(?i)({ATOM}?) is either in (?:the )?({ATOM}?) or (?:the )?({ATOM})',p)
++        if m:events.append(('uncertain',symbol(m[1]),symbol(m[2]),symbol(m[3])));continue
++        m=re.fullmatch(rf'(?i)({ATOM}?) is (?:not|no longer) in (?:the )?({ATOM})',p)
++        if m:events.append(('exclude',symbol(m[1]),symbol(m[2])));continue
+         m=re.fullmatch(rf'(?i)({ATOM}?) (?:went|moved|relocated|walked|travelled|traveled|journeyed|returned)(?: back)? (?:to|into) (?:the )?({ATOM})',p)
+         if m:events.append(('move',symbol(m[1]),symbol(m[2])));continue
+         m=re.fullmatch(rf'(?i)({ATOM}?) (?:entered|visited) (?:the )?({ATOM})',p)
+@@ -227,13 +241,17 @@
+             if cell and cell.locations and cell.locations!={name(value)}:raise TaskError('A departure location conflicts with the preceding event state.')
+             event_text=f'{name(actor)} went to {name(extra[0])}'
+         elif op=='move':event_text=f'{name(actor)} went to {name(value)}'
++        elif op=='uncertain':event_text=f'{name(actor)} is either in {name(value)} or {name(extra[0])}'
++        elif op=='exclude':event_text=f'{name(actor)} is not in {name(value)}'
+         elif op=='take':event_text=f'{name(actor)} got {name(value)}'
+         elif op=='drop':event_text=f'{name(actor)} dropped {name(value)}'
+         else:
+             old=world.cells.get(name(value))
+             if old and old.owner not in (None,name(actor)):raise TaskError('The giver is not the established holder of the object.')
+             event_text=f'{name(actor)} gave {name(value)} to {name(extra[0])}'
+-        world.apply(world.event(event_text),index);canonical.append(event_text+'.')
++        try: world.apply(world.event(event_text),index)
++        except ValueError as exc: raise TaskError(str(exc)) from exc
++        canonical.append(event_text+'.')
+     target_value=query[1]
+     if target_value in ('he','she','they','it'):
+         referents=known_objects if query[0]=='owner' else known_actors
+--- a/cael_unified/local_automata.py
++++ b/cael_unified/local_automata.py
+@@ -0,0 +1,181 @@
++"""Example-induced finite local transition models, without neural inference.
++
++The inductive bias is explicit: stationary 1-D discrete updates, a bounded
++neighbourhood, exact lookup consistency and aggregate/symmetry hypotheses.
++Example-pair cross-validation ranks hypotheses. Query answers never enter fit.
++Unseen neighbourhoods use labelled empirical guesses, never claimed proofs.
++"""
++from collections import Counter, defaultdict
++from dataclasses import dataclass
++import json
++import math
++
++MAX_RADIUS = 3
++MAX_EXAMPLES = 32
++MAX_WIDTH = 512
++MAX_SYMBOL = 31
++
++
++class OutsideDomain(ValueError):
++    pass
++
++
++def row(value):
++    if type(value) is not list or not 1 <= len(value) <= MAX_WIDTH:
++        raise OutsideDomain('Expected a nonempty discrete row of at most 512 cells')
++    if any(type(v) is not int or not 0 <= v <= MAX_SYMBOL for v in value):
++        raise OutsideDomain('Cells must be integer symbols from 0 through 31')
++    return tuple(value)
++
++
++def neighbourhood(source, position, radius, boundary):
++    if boundary == 'wrap':
++        return tuple(source[(position+d) % len(source)] for d in range(-radius, radius+1))
++    if boundary == 'zero':
++        return tuple(source[position+d] if 0 <= position+d < len(source) else 0
++                     for d in range(-radius, radius+1))
++    raise OutsideDomain('Boundary must be wrap or zero')
++
++
++def signature(window, radius, kind):
++    if kind == 'left': return (window[0],)
++    if kind == 'right': return (window[-1],)
++    if kind == 'ordered': return window
++    if kind == 'multiset': return tuple(sorted(window))
++    if kind == 'sum': return (sum(window),)
++    outside = window[:radius] + window[radius+1:]
++    if kind == 'center_sum': return window[radius], sum(outside)
++    if kind == 'center_multiset': return window[radius], tuple(sorted(outside))
++    if kind == 'outer_sum': return (sum(outside),)
++    raise OutsideDomain('Unknown feature family')
++
++
++@dataclass
++class Hypothesis:
++    radius: int
++    kind: str
++    table: dict
++    counts: dict
++    validation_lnp: float
++    validation_seen: int
++    validation_cells: int
++    cost: float
++
++
++def fit_map(pairs, radius, kind, boundary):
++    table = {}; counts = Counter()
++    for source, target in pairs:
++        for position, value in enumerate(target):
++            key = signature(neighbourhood(source, position, radius, boundary), radius, kind)
++            if key in table and table[key] != value: return None
++            table[key] = value; counts[key] += 1
++    return table, counts
++
++
++def learn_transition(examples, query, boundary='wrap'):
++    """Predict a new row from demonstration pairs, retaining coverage/ambiguity.
++
++    All fitting is ephemeral and episode-local. This function accepts only
++    demonstrations and query, never a rule-table/family/label metadata object.
++    """
++    if type(examples) is not list or not 2 <= len(examples) <= MAX_EXAMPLES:
++        raise OutsideDomain('Provide 2 to 32 independent example pairs')
++    pairs = []
++    for example in examples:
++        if type(example) is not dict or set(example) != {'input', 'output'}:
++            raise OutsideDomain('Each example needs only input and output')
++        source, target = row(example['input']), row(example['output'])
++        if len(source) != len(target): raise OutsideDomain('Input/output widths must match')
++        pairs.append((source, target))
++    query = row(query)
++    if sum(len(x) for x, _ in pairs) > 16384:
++        raise OutsideDomain('Demonstration cell budget reached')
++    if boundary not in ('wrap', 'zero'): raise OutsideDomain('Unknown boundary')
++    # Contradictory full-row evidence is invalid even if a larger neighbourhood
++    # could hide a collision. Retain ambiguity instead of fitting the last row.
++    seen_rows = {}
++    for source, target in pairs:
++        if source in seen_rows and seen_rows[source] != target:
++            raise OutsideDomain('The demonstrations give conflicting outputs for the same input')
++        seen_rows[source] = target
++    symbols = max([*query, *(v for x, y in pairs for v in (*x, *y))]) + 1
++    symbols = max(2, symbols)
++    global_counts = Counter(v for _, target in pairs for v in target)
++    fallback = max(range(symbols), key=lambda v: (global_counts[v], -v))
++    models = []
++    families = [(0, 'ordered')]
++    families += [(r, kind) for r in range(1, MAX_RADIUS+1)
++                 for kind in ('left', 'right', 'sum', 'outer_sum', 'center_sum', 'multiset', 'center_multiset', 'ordered')]
++    for radius, kind in families:
++        fitted = fit_map(pairs, radius, kind, boundary)
++        if fitted is None: continue
++        table, counts = fitted
++        lnp = 0.0; covered = 0; total = 0
++        # Hold out entire pairs, not individual neighbouring cells, to avoid
++        # scoring an example against its own transitions.
++        for excluded, (source, target) in enumerate(pairs):
++            rest = pairs[:excluded] + pairs[excluded+1:]
++            partial, witnesses = fit_map(rest, radius, kind, boundary)
++            prior = Counter(v for _, output in rest for v in output)
++            prior_total = sum(prior.values())
++            for position, value in enumerate(target):
++                key = signature(neighbourhood(source, position, radius, boundary), radius, kind)
++                if key in partial:
++                    covered += 1
++                    probability = (witnesses[key] + 0.5) / (witnesses[key] + 0.5*symbols)
++                else:
++                    probability = (prior[value]+0.5) / (prior_total+0.5*symbols)
++                lnp += math.log(probability); total += 1
++        description = (2*radius+1 if kind == 'ordered' else radius+2 if 'multiset' in kind else 2)
++        cost = math.log2(2+len(table)) + 0.25*description
++        models.append(Hypothesis(radius, kind, table, counts, lnp, covered, total, cost))
++    models.sort(key=lambda m: (-(m.validation_lnp-0.10*m.cost), m.cost, m.radius, m.kind))
++    # No silent switch to an external model or query-label-derived rule. If
++    # local stationarity cannot fit, emit an explicit empirical-only result.
++    if not models:
++        return dict(prediction=[fallback]*len(query), supported=[False]*len(query),
++                    alternatives=[list(range(symbols)) for _ in query],
++                    status='empirical-only', fitted_hypotheses=0, selected=None,
++                    coverage=0.0, neural=False, persistent_learning=False)
++    selected = models[0]
++    prediction = []; supported = []; alternatives = []
++    for position in range(len(query)):
++        key = signature(neighbourhood(query, position, selected.radius, boundary), selected.radius, selected.kind)
++        known = key in selected.table
++        # Back off through independently consistent hypotheses when the chosen
++        # compressed representation lacks a query signature.
++        choices = []
++        for model in models:
++            signature_key = signature(neighbourhood(query, position, model.radius, boundary), model.radius, model.kind)
++            if signature_key in model.table: choices.append(model.table[signature_key])
++        value = selected.table[key] if known else choices[0] if choices else fallback
++        prediction.append(value); supported.append(known)
++        alternatives.append(sorted(set(choices)) if choices else list(range(symbols)))
++    return dict(prediction=prediction, supported=supported, alternatives=alternatives,
++                status='inferred' if all(supported) else 'partially-supported',
++                coverage=sum(supported)/len(query), fitted_hypotheses=len(models),
++                selected=dict(radius=selected.radius, features=selected.kind,
++                              observed_signatures=len(selected.table),
++                              held_pair_coverage=selected.validation_seen/max(1, selected.validation_cells),
++                              held_pair_log_likelihood=selected.validation_lnp),
++                disagreeing_cells=sum(len(v)>1 for v in alternatives),
++                neural=False, persistent_learning=False,
++                guarantee='Prediction under an inferred finite local hypothesis, not a uniquely identified general rule')
++
++
++def reply(text):
++    prefix = 'Infer discrete transition:'
++    if not isinstance(text, str) or not text.lstrip().startswith(prefix): return None
++    payload = text.lstrip()[len(prefix):].strip()
++    try:
++        if len(payload) > 200000: raise OutsideDomain('Structured task length limit')
++        task = json.loads(payload)
++        if type(task) is not dict or not {'examples', 'query'} <= set(task) or set(task)-{'examples','query','boundary'}:
++            raise OutsideDomain('Use examples, query, and optional boundary only')
++        result = learn_transition(task['examples'], task['query'], task.get('boundary', 'wrap'))
++    except (ValueError, TypeError, RecursionError) as exc:
++        return dict(route='chat/automaton-clarify', response='Please clarify the transition task: '+str(exc),
++                    sources=[], automaton={'status':'invalid-or-unsupported', 'neural':False})
++    return dict(route='chat/automaton-induction', response=json.dumps(result['prediction']), sources=[],
++                automaton=result, details='Example-induced discrete local transitions. '+result.get('guarantee',
++                    'Only an empirical output-frequency guess; no supported local rule was found.'))
+--- a/cael_unified/reasoning_logic.py
++++ b/cael_unified/reasoning_logic.py
+@@ -1,5 +1,6 @@
+ """Bounded Horn-rule graph automaton with explicit proof support and open-world answers."""
+ from dataclasses import dataclass
++from collections import defaultdict, deque
+ import re
+ 
+ 
+@@ -89,33 +90,45 @@
+     def close(self, context):
+         facts, rules = self.parse(context)
+         entities = sorted({fact[0] for fact, _ in facts})
+-        if len(entities)*len(rules)>4096:
++        if len(entities)*len(rules)>32768:
+             raise Unparsed('Too many grounded rule cells')
+-        active = {fact for fact, _ in facts}
+-        proof = {fact: {index} for fact, index in facts}
+-        depths = {fact: 0 for fact, _ in facts}
++        active, proof, depths = set(), {}, {}
++        for fact, index in facts:
++            if fact not in active:
++                active.add(fact); proof[fact] = {index}; depths[fact] = 0
+         grounded = [(tuple((entity, p, neg) for p, neg in body), tuple((entity, p, neg) for p, neg in head), index)
+                     for entity in entities for body, head, index in rules]
+-        # Bipartite graph CA: rule cells read only connected premise fact cells;
+-        # conclusion fact cells read only connected rule cells. No neural weights.
++        # Sparse graph CA: changes wake only connected rule cells. Proof
++        # improvements propagate too; truth and evidence share the fixed point.
++        readers = defaultdict(list)
++        for rule_id, (body, head, index) in enumerate(grounded):
++            for atom in set(body): readers[atom].append(rule_id)
++        agenda = deque(sorted(active)); queued = set(active)
+         table = self.model.get('and_table', {})
+-        for tick in range(24):
+-            next_active = set(active)
+-            next_proof, next_depth = dict(proof), dict(depths)
+-            for body, head, index in grounded:
++        work = 0
++        def rank(depth, support):
++            return depth, len(support), tuple(sorted(support))
++        while agenda:
++            changed = agenda.popleft(); queued.remove(changed)
++            for rule_id in readers[changed]:
++                work += 1
++                if work > 250000:
++                    raise Unparsed('The sparse graph CA exceeded its rule-transition budget')
++                body, head, index = grounded[rule_id]
+                 mask = sum((1 << i) for i, atom in enumerate(body) if atom in active)
+                 if not table.get(f'{len(body)}:{mask}', 0):
+                     continue
+                 support = {index}.union(*(proof[atom] for atom in body))
+                 depth = 1 + max(depths[atom] for atom in body)
+                 for atom in head:
+-                    next_active.add(atom)
+-                    if atom not in next_depth or depth < next_depth[atom]:
+-                        next_proof[atom], next_depth[atom] = support, depth
+-            if next_active == active:
+-                return active, proof, depths
+-            active, proof, depths = next_active, next_proof, next_depth
+-        raise Unparsed('The proof exceeded 24 rule-application rounds')
++                    if atom not in active or rank(depth, support) < rank(depths[atom], proof[atom]):
++                        active.add(atom); proof[atom], depths[atom] = support, depth
++                        if atom not in queued:
++                            agenda.append(atom); queued.add(atom)
++        self.last_stats = dict(engine='sparse-horn-graph-ca', grounded_rules=len(grounded),
++                               rule_transitions=work, active_fact_cells=len(active),
++                               maximum_proof_depth=max(depths.values(), default=0))
++        return active, proof, depths
+ 
+     def query(self, context, question):
+         active, proofs, depths = self.close(context)
+--- a/cael_unified/reasoning_order.py
++++ b/cael_unified/reasoning_order.py
+@@ -1,14 +1,13 @@
+ """Bounded integer constraints over one explicit, tie-free ordering.
+ 
+-Checks all permutations, distinguishes possibility from necessity, and requires
++Propagates finite domains, distinguishes possibility from necessity, and requires
+ complete surface clauses. No learned weights, network calls or benchmark data.
+ """
+ from functools import lru_cache
+-from itertools import permutations
+ import re
+ from .reasoning_logic import Unparsed, sentences
+ 
+-ORDINAL = dict(zip('first second third fourth fifth sixth seventh eighth'.split(), range(8)))
++ORDINAL = dict(zip('first second third fourth fifth sixth seventh eighth ninth tenth eleventh twelfth'.split(), range(12)))
+ LIST = r'(?:items|people|objects|participants|runners|books|cars|order)\s*:'
+ 
+ 
+@@ -92,16 +91,15 @@
+     if not parts or ':' not in parts[0]:raise Unparsed('An ordering puzzle needs an explicit item list')
+     items = re.sub(r'\s+and\s+', ',', parts[0].split(':',1)[1],flags=re.I)
+     names = tuple(clean(item) for item in items.split(',') if clean(item))
+-    if len(set(names)) != len(names) or not 2 <= len(names) <= 8:raise Unparsed('Use 2 to 8 distinct items')
++    if len(set(names)) != len(names) or not 2 <= len(names) <= 12:raise Unparsed('Use 2 to 12 distinct items')
+     if any(not re.fullmatch(r'[\w]+(?:[ -][\w]+)*',name) for name in names):raise Unparsed('Unsupported item name')
+     constraints = tuple(condition(part,names) for part in parts[1:])
+     if len(dimensions(' '.join(parts[1:]),names))>1:
+         raise Unparsed('Use one ordering dimension; age, price and spatial orders are separate')
+-    solutions = []
+-    for order in permutations(names):
+-        positions = {name:i for i,name in enumerate(order)}
+-        if all(holds(c,positions) for c in constraints):solutions.append(order)
+-    return names,tuple(solutions)
++    from .constraint_automaton import enumerate_orders, SearchLimit
++    try: solutions, stats = enumerate_orders(names, constraints, holds)
++    except (ValueError, SearchLimit) as exc: raise Unparsed(str(exc)) from exc
++    return names, solutions
+ 
+ 
+ def proposition(question, names):
+--- a/cael_unified/reasoning_world.py
++++ b/cael_unified/reasoning_world.py
+@@ -1,5 +1,6 @@
+ """Local packet automaton for bounded chronological fact/ownership scenarios."""
+ from dataclasses import dataclass, field
++from collections import defaultdict
+ import re
+ from .reasoning_logic import Unparsed, sentences
+ 
+@@ -20,6 +21,8 @@
+         self.model = model
+         self.cells = {}
+         self.gifts = []
++        self.carried = defaultdict(set)
++        self.transition_visits = 0
+ 
+     def event(self, statement):
+         statement = statement.lower().strip(' .')
+@@ -52,6 +55,19 @@
+ 
+     def apply(self, event, index):
+         op, actor, value, *extra = event
++        if op not in ('move', 'uncertain', 'exclude', 'take', 'drop', 'give'):
++            raise Unparsed('Unknown world transition')
++        # Validate the complete transaction before mutating any cell.
++        old_actor = self.cells.get(actor)
++        old_object = self.cells.get(value) if op in ('take', 'drop', 'give') else None
++        if old_object and old_object.owner not in (None, actor):
++            raise Unparsed('The acting person is not the established holder of this object')
++        if op == 'give' and (len(extra) != 1 or extra[0] == actor):
++            raise Unparsed('A transfer requires one distinct recipient')
++        if op in ('take', 'give') and old_actor and old_actor.locations:
++            other = old_object if op == 'take' else self.cells.get(extra[0])
++            if other and other.locations and old_actor.locations.isdisjoint(other.locations):
++                raise Unparsed('The interaction conflicts with the stated locations')
+         if actor not in self.cells:
+             self.cells[actor] = Cell(actor, 'actor')
+         if op in ('take', 'drop','give') and value not in self.cells:
+@@ -61,40 +77,36 @@
+                 self.cells[extra[0]]=Cell(extra[0],'actor')
+             self.gifts.append((actor,value,extra[0],index))
+         actor_cell = self.cells[actor]
+-        packet = dict(op=op, actor=actor, value=value, extra=extra, support={index} | actor_cell.support,
+-                      locations=set(actor_cell.locations))
+-        rows = list(self.cells.values())
+-        carriers = [None] * len(rows)
+-        carriers[0] = packet
+-        # A packet moves one neighbouring cell per synchronous tick. Each cell
+-        # reads only its own state and its local packet, as in the story CA.
+-        for _ in range(len(rows)):
+-            following = [None] * len(rows)
+-            for position, cell in enumerate(rows):
+-                message = carriers[position]
+-                if message is None:
+-                    continue
+-                if op in ('move', 'uncertain', 'exclude') and (cell.name == actor or cell.owner == actor):
+-                    if op == 'move':
+-                        self.locate(cell, {value}, {index} if cell.name == actor else cell.support | {index})
+-                    elif op == 'uncertain':
+-                        self.locate(cell, {value, extra[0]}, {index})
++        # Ownership edges define the local neighbourhood. No empty-slot
++        # N-by-N packet scan: only actor/owned-object cells receive the event.
++        if op in ('move', 'uncertain', 'exclude'):
++            for name in [actor, *sorted(self.carried[actor])]:
++                cell = self.cells[name]; self.transition_visits += 1
++                if op == 'move':
++                    self.locate(cell, {value}, {index} if name == actor else cell.support | {index})
++                elif op == 'uncertain':
++                    self.locate(cell, {value, extra[0]}, {index} if name == actor else cell.support | {index})
++                else:
++                    remaining = cell.locations - {value}; support = cell.support | {index}
++                    if remaining:
++                        self.locate(cell, remaining, support)
+                     else:
+-                        cell.locations = set()
+-                        cell.excluded = {value}
+-                        cell.support = {index}
+-                elif op in ('take', 'drop','give') and cell.name == value:
+-                    if op == 'drop' and cell.owner not in (None, actor):
+-                        raise Unparsed('An actor cannot drop an object held by someone else')
+-                    cell.owner = extra[0] if op=='give' else actor if op == 'take' else None
+-                    self.locate(cell, message['locations'], message['support'])
+-                if position + 1 < len(rows):
+-                    following[position + 1] = message
+-            carriers = following
++                        cell.locations = set(); cell.support = support
++                    cell.excluded.add(value)
++        else:
++            cell = self.cells[value]; self.transition_visits += 1
++            if cell.owner is not None: self.carried[cell.owner].discard(value)
++            cell.owner = extra[0] if op == 'give' else actor if op == 'take' else None
++            if cell.owner is not None: self.carried[cell.owner].add(value)
++            support = {index} | actor_cell.support
++            if op in ('drop', 'give'): support |= cell.support
++            self.locate(cell, set(actor_cell.locations), support)
+ 
+     def query(self, context, question):
+         self.cells = {}
+         self.gifts = []
++        self.carried = defaultdict(set)
++        self.transition_visits = 0
+         for index, statement in enumerate(sentences(context), 1):
+             self.apply(self.event(statement), index)
+         question = question.lower().strip(' ?.!.')
+--- a/cael_unified/self_knowledge.json
++++ b/cael_unified/self_knowledge.json
+@@ -1,45 +1,26 @@
+ {
+-  "version": "0.3.9.1",
++  "version": "0.4.0",
+   "changes": [
+-    "Native readers now interpret complete supported arithmetic, rule, ordering, location, string and table tasks before unrelated chat fallbacks.",
+-    "Supported interpretations compile to checked symbolic operations using the existing non-neural engines; weights and the resource bundle are unchanged.",
+-    "Unsupported wording or constraints can still lead to clarification or abstention rather than a guessed answer.",
+-    "Installed version, change-list and capability questions use local product metadata before public web lookup."
++    "This is an isolated unpublished 0.4.0 core-engine candidate, not the current Vynly worker.",
++    "Indexed rule-graph propagation, sparse validated world transitions and finite-domain ordering replace earlier core algorithms.",
++    "A new non-neural local transition learner infers bounded discrete updates from explicit examples.",
++    "Live references are traversed iteratively; retrieval honours requested neighbour counts and deterministic ties."
+   ],
+   "capabilities": [
+-    "Solve supported standalone arithmetic, rule chains, precedence, location updates, string operations and table reductions.",
+-    "Keep supported context and explicit preferences from the messages in this chat.",
+-    "Calculate exact arithmetic and recheck supported calculations.",
+-    "Write and check bounded Python examples; unsupported code needs clarification.",
+-    "Read public sources and show links when a supported answer can be extracted.",
+-    "Explain Vynly features and help write image prompts."
++    "Execute supported exact arithmetic, rule, state, ordering and bounded Python tasks.",
++    "Infer finite local discrete transitions from explicit input/output examples, reporting empirical guesses and ambiguity.",
++    "Retain supported context from the supplied conversation while isolating independent requests."
+   ],
+   "limitations": [
+-    "Finite readers miss unsupported wording. In the fresh 900-question study, 123 questions received no scored answer.",
+-    "I still miss some phrasings, option switches, dictionary follow-ups and requests for richer examples.",
+-    "My Python interpreter and language readers cover finite patterns, not arbitrary programs or English.",
+-    "A retrieved source is evidence, not proof that an answer is true.",
+-    "Supported forgetting is not general transcript erasure."
++    "This candidate is not published, deployed or independently evaluated.",
++    "Finite readers still miss wording and complete context; no general chatbot or Qwen superiority is established.",
++    "An inferred local transition is a hypothesis, not proof of a unique general rule.",
++    "Inherited weights, protected solvers, image CA kernels and the 0.3.7 public resource bundle are unchanged."
+   ],
+-  "evidence": "On one fresh 900-question synthetic study, the evaluated native candidate scored 777/900 versus 414/900 for the unchanged 0.3.9 baseline. The release preserves those task modules and adds version metadata. Known task families, maintainer/AI-assisted authoring and fixed neural letter scoring limit the result. This does not establish general chat competence or a Qwen win; Qwen was not part of this study. The evaluated count fallback was inactive; a fresh installation activates it, so that primary score is configuration-specific.",
+-  "sources": [
+-    {
+-      "title": "CAEL 0.3.9.1 release notes",
+-      "url": "https://github.com/Vovala14/CAEL/releases/tag/v0.3.9.1"
+-    },
+-    {
+-      "title": "CAEL 0.3.9.1 model card",
+-      "url": "https://huggingface.co/vynly/CAEL-0.3.9.1"
+-    },
+-    {
+-      "title": "Fresh interpretation study and complete evidence",
+-      "url": "https://huggingface.co/datasets/vynly/nnai-bench/tree/main/fresh-transfer/2026-11-07-native"
+-    }
++  "evidence": "Authored core development and regressions are separate from external benchmark results. This source snapshot claims no CellARC score or broad 0.4 win. See local CORE_0_4.md for scope.",
++  "sources": [],
++  "local_document_provenance": [
++    "CORE_0_4.md"
+   ],
+-  "local_document_provenance": [
+-    "README.md",
+-    "RELEASE_0_3_9_1.md",
+-    "benchmarks/native_interpretation_0391/REPORT.md"
+-  ],
+-  "scope": "Curated installed product facts; never user messages or retrieved instructions."
++  "scope": "Curated isolated-candidate product facts, not user or benchmark answer data."
+ }

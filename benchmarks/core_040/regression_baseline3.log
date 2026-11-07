@@ -1,0 +1,466 @@
+........................................................................ [ 10%]
+........................................................................ [ 21%]
+........................................................................ [ 32%]
+........................................................................ [ 43%]
+................FFFFFFFFFFFF.FFFFFF........FF....F.FF............. [ 53%]
+........................................................................ [ 64%]
+........................................................................ [ 75%]
+........................................................................ [ 86%]
+.....F...F...FFF........................................................ [ 97%]
+.............F....                                                 [100%]
+================================== FAILURES ===================================
+_________ test_invalid_or_future_dependency_never_dispatches[step 9] __________
+tests\test_orchestrator_upgrade.py:47: in test_invalid_or_future_dependency_never_dispatches
+    b=o.run(['calculate 20','double '+ref],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+_ test_invalid_or_future_dependency_never_dispatches[the result from step 9] __
+tests\test_orchestrator_upgrade.py:47: in test_invalid_or_future_dependency_never_dispatches
+    b=o.run(['calculate 20','double '+ref],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+_________ test_invalid_or_future_dependency_never_dispatches[part 2] __________
+tests\test_orchestrator_upgrade.py:47: in test_invalid_or_future_dependency_never_dispatches
+    b=o.run(['calculate 20','double '+ref],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+__ test_invalid_or_future_dependency_never_dispatches[the answer of part 0] ___
+tests\test_orchestrator_upgrade.py:47: in test_invalid_or_future_dependency_never_dispatches
+    b=o.run(['calculate 20','double '+ref],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+__ test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply0] __
+tests\test_orchestrator_upgrade.py:62: in test_unknown_or_multi_result_is_not_replaced_with_an_older_number
+    b=o.run(['calculate 20','find count','double it'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+__ test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply1] __
+tests\test_orchestrator_upgrade.py:62: in test_unknown_or_multi_result_is_not_replaced_with_an_older_number
+    b=o.run(['calculate 20','find count','double it'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+__ test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply2] __
+tests\test_orchestrator_upgrade.py:62: in test_unknown_or_multi_result_is_not_replaced_with_an_older_number
+    b=o.run(['calculate 20','find count','double it'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+__ test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply3] __
+tests\test_orchestrator_upgrade.py:62: in test_unknown_or_multi_result_is_not_replaced_with_an_older_number
+    b=o.run(['calculate 20','find count','double it'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+__ test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply4] __
+tests\test_orchestrator_upgrade.py:62: in test_unknown_or_multi_result_is_not_replaced_with_an_older_number
+    b=o.run(['calculate 20','find count','double it'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+__ test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply5] __
+tests\test_orchestrator_upgrade.py:62: in test_unknown_or_multi_result_is_not_replaced_with_an_older_number
+    b=o.run(['calculate 20','find count','double it'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+__ test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply6] __
+tests\test_orchestrator_upgrade.py:62: in test_unknown_or_multi_result_is_not_replaced_with_an_older_number
+    b=o.run(['calculate 20','find count','double it'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+________ test_explicit_old_value_can_bypass_a_failed_independent_step _________
+tests\test_orchestrator_upgrade.py:70: in test_explicit_old_value_can_bypass_a_failed_independent_step
+    b=o.run(['calculate 20','find count','double the result from step 1'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+________________ test_correction_is_the_value_used_downstream _________________
+tests\test_orchestrator_upgrade.py:84: in test_correction_is_the_value_used_downstream
+    b=o.run(['calculate 2+3','double it'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+_________ test_explanation_is_transparent_for_later_numeric_reference _________
+tests\test_orchestrator_upgrade.py:90: in test_explanation_is_transparent_for_later_numeric_reference
+    b=o.run(['calculate 20','explain why','double it'],lambda text,history:calculate(text))
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+_________________ test_explain_explicit_step_and_failed_step __________________
+tests\test_orchestrator_upgrade.py:97: in test_explain_explicit_step_and_failed_step
+    b=o.run(['calculate 20','find count','explain step 1','explain step 2','explain step 9'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+_ test_callback_failure_does_not_abort_independent_steps_or_leak_exception_text _
+tests\test_orchestrator_upgrade.py:109: in test_callback_failure_does_not_abort_independent_steps_or_leak_exception_text
+    b=o.run(['calculate 10','find count','double it','calculate 7','double it'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+____ test_explicit_code_and_argument_references_choose_the_right_producers ____
+tests\test_orchestrator_upgrade.py:118: in test_explicit_code_and_argument_references_choose_the_right_producers
+    b=o.run(['write square','write triple','calculate 7',
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+______ test_code_call_no_longer_searches_past_latest_incompatible_result ______
+tests\test_orchestrator_upgrade.py:127: in test_code_call_no_longer_searches_past_latest_incompatible_result
+    b=o.run(['write square','calculate 5','run it on 3'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+__________ test_string_result_is_quoted_when_used_as_a_code_argument __________
+tests\test_orchestrator_upgrade.py:162: in test_string_result_is_quoted_when_used_as_a_code_argument
+    b=o.run(['write echo','reverse the word banana','run the function from step 1 on the result from step 2'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+____________ test_word_count_result_is_a_number_not_the_input_word ____________
+tests\test_orchestrator_upgrade.py:168: in test_word_count_result_is_a_number_not_the_input_word
+    b=o.run(['count letters','double it'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+________________ test_python_exception_blocks_only_dependents _________________
+tests\test_orchestrator_upgrade.py:194: in test_python_exception_blocks_only_dependents
+    b=o.run(['write function','run it on 0','double it','calculate 9'],answer)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+___________ test_conversion_passes_converted_value_not_source_value ___________
+tests\test_orchestrator_upgrade.py:208: in test_conversion_passes_converted_value_not_source_value
+    b=o.run(['convert 2 m to cm','halve it'],lambda text,history:calculate(text))
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+_______ test_sources_are_preserved_per_step_and_deduplicated_in_report ________
+tests\test_orchestrator_upgrade.py:215: in test_sources_are_preserved_per_step_and_deduplicated_in_report
+    b=o.run(['find fact','explain why'],answer);report=o.report(b)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_orchestrator_upgrade.py:11: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+___ test_tool_source_and_result_are_preserved_separately_across_plan_steps ____
+tests\test_python_task_runtime.py:101: in test_tool_source_and_result_are_preserved_separately_across_plan_steps
+    board=o.run([first,'double it','run the function from step 1 on [1,2]'],
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_python_task_runtime.py:16: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+____ test_invalid_source_checksum_and_wrong_result_source_block_dependents ____
+tests\test_python_task_runtime.py:132: in test_invalid_source_checksum_and_wrong_result_source_block_dependents
+    board=o.run(['use data','double it'],lambda text,history:altered)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\orchestrator.py:470: in run
+    answer = verify.apply(text, answer)   # corrected values feed later steps
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_python_task_runtime.py:16: in <lambda>
+    monkeypatch.setattr(verify,'apply',lambda text,answer:original(text,answer,record=False))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: install.<locals>.<lambda>() got an unexpected keyword argument 'record'
+_ QuantityConversationTests.test_clarification_preserves_facts_and_snapshot_can_resolve_missing_amount _
+tests\test_quantity_conversation.py:47: in test_clarification_preserves_facts_and_snapshot_can_resolve_missing_amount
+    self.assertEqual(self.turn(messages,'How many marbles does Tavi have?')['route'],'helper/quantity-clarify')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_quantity_conversation.py:18: in turn
+    answer=self.engine.respond(messages,n=1,seed=47)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:200: in respond
+    answer = self._respond_request(messages, n=n, seed=seed, mode=mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:236: in _respond_request
+    answer=self._answer(messages,n=n,seed=seed,mode=mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:319: in _answer
+    answer=self._respond(messages,n=n,seed=seed,mode=mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:671: in _respond
+    answer = world_facts.reply(text) or answer_finder.reply(text)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:202: in reply
+    return Finder(net or NETWORK).answer(text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:87: in answer
+    return self.count(m[1], m[2])
+           ^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:153: in count
+    for title, intro, url, length in self.intros(f'how many {thing} {scope}'.strip(), f'number of {thing} {scope}'.strip()):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:56: in intros
+    found = self.net.json(WIKI + urlencode(dict(action='query', format='json', list='search', srsearch=query[:200],
+cael_unified\network.py:152: in json
+    return json.loads(self.get(url, **kwargs))
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\network.py:99: in get
+    with self.opener.open(urllib.request.Request(url, headers=headers), timeout=timeout) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:487: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:504: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python314\Lib\urllib\request.py:464: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:1369: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+C:\Python314\Lib\urllib\request.py:1321: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+C:\Python314\Lib\http\client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python314\Lib\http\client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python314\Lib\http\client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python314\Lib\http\client.py:1093: in _send_output
+    self.send(msg)
+C:\Python314\Lib\http\client.py:1037: in send
+    self.connect()
+C:\Python314\Lib\http\client.py:1472: in connect
+    super().connect()
+C:\Python314\Lib\http\client.py:1003: in connect
+    self.sock = self._create_connection(
+..\run_tests.py:13: in denied
+    def denied(*args,**kwargs):raise RuntimeError('Offline qualification: network disabled')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   RuntimeError: Offline qualification: network disabled
+______ QuantityConversationTests.test_inline_problem_then_add_with_query ______
+tests\test_quantity_conversation.py:39: in test_inline_problem_then_add_with_query
+    self.assertEqual(answer['helper_reasoning']['value'],'28')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'helper_reasoning'
+_ QuantityConversationTests.test_new_facts_reset_and_other_sessions_are_independent _
+tests\test_quantity_conversation.py:67: in test_new_facts_reset_and_other_sessions_are_independent
+    other=self.engine.respond([user('How many coins does Ravi have?')],n=1,seed=47)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:200: in respond
+    answer = self._respond_request(messages, n=n, seed=seed, mode=mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:236: in _respond_request
+    answer=self._answer(messages,n=n,seed=seed,mode=mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:319: in _answer
+    answer=self._respond(messages,n=n,seed=seed,mode=mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:671: in _respond
+    answer = world_facts.reply(text) or answer_finder.reply(text)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:202: in reply
+    return Finder(net or NETWORK).answer(text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:87: in answer
+    return self.count(m[1], m[2])
+           ^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:153: in count
+    for title, intro, url, length in self.intros(f'how many {thing} {scope}'.strip(), f'number of {thing} {scope}'.strip()):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:56: in intros
+    found = self.net.json(WIKI + urlencode(dict(action='query', format='json', list='search', srsearch=query[:200],
+cael_unified\network.py:152: in json
+    return json.loads(self.get(url, **kwargs))
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\network.py:99: in get
+    with self.opener.open(urllib.request.Request(url, headers=headers), timeout=timeout) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:487: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:504: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python314\Lib\urllib\request.py:464: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:1369: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+C:\Python314\Lib\urllib\request.py:1321: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+C:\Python314\Lib\http\client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python314\Lib\http\client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python314\Lib\http\client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python314\Lib\http\client.py:1093: in _send_output
+    self.send(msg)
+C:\Python314\Lib\http\client.py:1037: in send
+    self.connect()
+C:\Python314\Lib\http\client.py:1472: in connect
+    super().connect()
+C:\Python314\Lib\http\client.py:1003: in connect
+    self.sock = self._create_connection(
+..\run_tests.py:13: in denied
+    def denied(*args,**kwargs):raise RuntimeError('Offline qualification: network disabled')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   RuntimeError: Offline qualification: network disabled
+____________ ContextMemoryTests.test_people_relations_and_pronouns ____________
+tests\test_context_memory_035.py:25: in test_people_relations_and_pronouns
+    self.assertIn('Pico', ask(h, "What is Greta's parrot called?"))
+E   AssertionError: 'Pico' not found in 'I cannot establish the complete state because part of the update history is unsupported or ambiguous.'
+============================== warnings summary ===============================
+tests/test_python_vm.py::test_matches_cpython_on_authored_fixtures[def f(x):\n    try:\n        return 1\n    finally:\n        return 2-args_list17]
+  <string>:5: SyntaxWarning: 'return' in a 'finally' block
+
+tests/test_python_vm.py::test_matches_cpython_on_authored_fixtures[def f(x):\n    try:\n        return 1\n    finally:\n        return 2-args_list17]
+tests/test_python_vm.py::test_unsupported_cannot_be_hidden_by_finally
+  <unknown>:5: SyntaxWarning: 'return' in a 'finally' block
+
+tests/test_python_vm.py::test_matches_cpython_on_authored_fixtures[def f(x):\n    try:\n        return 1\n    finally:\n        return 2-args_list17]
+tests/test_python_vm.py::test_unsupported_cannot_be_hidden_by_finally
+  <syntax-validation-only>:5: SyntaxWarning: 'return' in a 'finally' block
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_orchestrator_upgrade.py::test_invalid_or_future_dependency_never_dispatches[step 9]
+FAILED tests/test_orchestrator_upgrade.py::test_invalid_or_future_dependency_never_dispatches[the result from step 9]
+FAILED tests/test_orchestrator_upgrade.py::test_invalid_or_future_dependency_never_dispatches[part 2]
+FAILED tests/test_orchestrator_upgrade.py::test_invalid_or_future_dependency_never_dispatches[the answer of part 0]
+FAILED tests/test_orchestrator_upgrade.py::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply0]
+FAILED tests/test_orchestrator_upgrade.py::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply1]
+FAILED tests/test_orchestrator_upgrade.py::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply2]
+FAILED tests/test_orchestrator_upgrade.py::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply3]
+FAILED tests/test_orchestrator_upgrade.py::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply4]
+FAILED tests/test_orchestrator_upgrade.py::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply5]
+FAILED tests/test_orchestrator_upgrade.py::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply6]
+FAILED tests/test_orchestrator_upgrade.py::test_explicit_old_value_can_bypass_a_failed_independent_step
+FAILED tests/test_orchestrator_upgrade.py::test_correction_is_the_value_used_downstream
+FAILED tests/test_orchestrator_upgrade.py::test_explanation_is_transparent_for_later_numeric_reference
+FAILED tests/test_orchestrator_upgrade.py::test_explain_explicit_step_and_failed_step
+FAILED tests/test_orchestrator_upgrade.py::test_callback_failure_does_not_abort_independent_steps_or_leak_exception_text
+FAILED tests/test_orchestrator_upgrade.py::test_explicit_code_and_argument_references_choose_the_right_producers
+FAILED tests/test_orchestrator_upgrade.py::test_code_call_no_longer_searches_past_latest_incompatible_result
+FAILED tests/test_orchestrator_upgrade.py::test_string_result_is_quoted_when_used_as_a_code_argument
+FAILED tests/test_orchestrator_upgrade.py::test_word_count_result_is_a_number_not_the_input_word
+FAILED tests/test_orchestrator_upgrade.py::test_python_exception_blocks_only_dependents
+FAILED tests/test_orchestrator_upgrade.py::test_conversion_passes_converted_value_not_source_value
+FAILED tests/test_orchestrator_upgrade.py::test_sources_are_preserved_per_step_and_deduplicated_in_report
+FAILED tests/test_python_task_runtime.py::test_tool_source_and_result_are_preserved_separately_across_plan_steps
+FAILED tests/test_python_task_runtime.py::test_invalid_source_checksum_and_wrong_result_source_block_dependents
+FAILED tests/test_quantity_conversation.py::QuantityConversationTests::test_clarification_preserves_facts_and_snapshot_can_resolve_missing_amount
+FAILED tests/test_quantity_conversation.py::QuantityConversationTests::test_inline_problem_then_add_with_query
+FAILED tests/test_quantity_conversation.py::QuantityConversationTests::test_new_facts_reset_and_other_sessions_are_independent
+FAILED tests/test_context_memory_035.py::ContextMemoryTests::test_people_relations_and_pronouns
+29 failed, 631 passed, 5 warnings, 12 subtests passed in 21.69s

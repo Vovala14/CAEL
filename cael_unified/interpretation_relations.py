@@ -109,6 +109,16 @@ def order(text):
     if not any(re.search(r'(?i)\b(?:before|after|ahead of|behind|precedes|follows)\b',p) for p in parts[:-1]):return None
     boundary(parts[-1])
     if query[0]=='unsupported':raise TaskError('The complete ordering question contains an unsupported qualifier.')
+    # Richer explicit constraints belong to the same finite-domain engine used
+    # by ordinary reasoning. Do not reject them in the precedence-only reader.
+    if re.match(r'(?i)^(?:items|people|objects|participants|runners|books|cars|order)\s*:', parts[0]) and any(
+            re.search(r'(?i)\b(?:immediately|directly|adjacent|next to|between|not|first|last|second|third|fourth|fifth)\b', p)
+            for p in parts[1:-1]):
+        from .reasoning_order import ordering
+        try: result = ordering('. '.join(parts[:-1]), parts[-1])
+        except ValueError as exc: raise TaskError(str(exc)) from exc
+        return Result(result['answer'], 'ordering', {'coverage': spans(text, parts),
+                      'engine': 'finite-domain-constraint-automaton', 'proof': result})
     names=[];edges=[]
     for raw in parts[:-1]:
         p=raw.strip()
@@ -178,6 +188,10 @@ def state(text,reasoner):
         words=set(re.findall(r'[a-z]+',p.casefold()))
         if words and words<=header_words and words&{'log','events','entries','chronological','updates'}:continue
         boundary(p)
+        m=re.fullmatch(rf'(?i)({ATOM}?) is either in (?:the )?({ATOM}?) or (?:the )?({ATOM})',p)
+        if m:events.append(('uncertain',symbol(m[1]),symbol(m[2]),symbol(m[3])));continue
+        m=re.fullmatch(rf'(?i)({ATOM}?) is (?:not|no longer) in (?:the )?({ATOM})',p)
+        if m:events.append(('exclude',symbol(m[1]),symbol(m[2])));continue
         m=re.fullmatch(rf'(?i)({ATOM}?) (?:went|moved|relocated|walked|travelled|traveled|journeyed|returned)(?: back)? (?:to|into) (?:the )?({ATOM})',p)
         if m:events.append(('move',symbol(m[1]),symbol(m[2])));continue
         m=re.fullmatch(rf'(?i)({ATOM}?) (?:entered|visited) (?:the )?({ATOM})',p)
@@ -227,13 +241,17 @@ def state(text,reasoner):
             if cell and cell.locations and cell.locations!={name(value)}:raise TaskError('A departure location conflicts with the preceding event state.')
             event_text=f'{name(actor)} went to {name(extra[0])}'
         elif op=='move':event_text=f'{name(actor)} went to {name(value)}'
+        elif op=='uncertain':event_text=f'{name(actor)} is either in {name(value)} or {name(extra[0])}'
+        elif op=='exclude':event_text=f'{name(actor)} is not in {name(value)}'
         elif op=='take':event_text=f'{name(actor)} got {name(value)}'
         elif op=='drop':event_text=f'{name(actor)} dropped {name(value)}'
         else:
             old=world.cells.get(name(value))
             if old and old.owner not in (None,name(actor)):raise TaskError('The giver is not the established holder of the object.')
             event_text=f'{name(actor)} gave {name(value)} to {name(extra[0])}'
-        world.apply(world.event(event_text),index);canonical.append(event_text+'.')
+        try: world.apply(world.event(event_text),index)
+        except ValueError as exc: raise TaskError(str(exc)) from exc
+        canonical.append(event_text+'.')
     target_value=query[1]
     if target_value in ('he','she','they','it'):
         referents=known_objects if query[0]=='owner' else known_actors

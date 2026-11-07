@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this dataset or related resources, please cite it using the metadata below."
+title: "Cellular Automata ARC Benchmark"
+authors:
+  - family-names: "Lzicar"
+    given-names: "Miroslav"
+version: "0.1.0"
+date-released: "2025-10-28"
+repository-code: "https://github.com/mireklzicar/cellarc"
+repository-artifact: "https://huggingface.co/datasets/mireklzicar/cellarc_100k"
+repository-artifact-metadata: "https://huggingface.co/datasets/mireklzicar/cellarc_100k_meta"
+abstract: >
+  The Cellular Automata ARC Benchmark (CellARC) is a proceduraly generated dataset of reasoning tasks in the spirit of the Abstraction and Reasoning Corpus (ARC). It provides 100,000 generated multicolor cellular automata of diverse complexity and coverage along with a corresponding metadata set for interpretability and benchmarking purposes.
+keywords:
+  - "cellular automata"
+  - "abstraction and reasoning corpus"
+  - "AI benchmarks"
+  - "systematic generalization"
+  - "procedural generation"
+license: "MIT"
+preferred-citation:
+  type: dataset
+  title: "Cellular Automata ARC Benchmark"
+  authors:
+    - family-names: "Lzicar"
+      given-names: "Miroslav"
+  year: 2025
+  version: "0.1.0"
+  url: "https://huggingface.co/datasets/mireklzicar/cellarc_100k"

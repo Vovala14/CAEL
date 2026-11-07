@@ -43,14 +43,18 @@ def literal(text):
 def key(entity,attribute):return clean(entity).casefold()+'\x1f'+clean(attribute).casefold()
 
 def resolve(state,cell,seen=None):
-    seen=set() if seen is None else seen
-    if cell in seen or len(seen)>128:raise ValueError('Circular or too-deep reference')
-    seen.add(cell)
-    value=state.get(cell,UNKNOWN)
-    if isinstance(value,dict):
-        if 'ref' in value:return resolve(state,value['ref'],seen)
-        raise ValueError('Unknown or conflicting value')
-    return value
+    # Iterative traversal supports the stated cell budget, instead of an
+    # unrelated 128-link or Python recursion ceiling. References remain lazy:
+    # changing a source affects live links but never earlier copied values.
+    seen=set() if seen is None else set(seen)
+    while True:
+        if cell in seen:raise ValueError('Circular live dependency')
+        if len(seen)>=MAX_CELLS:raise ValueError('Reference traversal exceeds the state-cell budget')
+        seen.add(cell)
+        value=state.get(cell,UNKNOWN)
+        if not isinstance(value,dict):return value
+        if 'ref' not in value:raise ValueError('Unknown or conflicting value')
+        cell=value['ref']
 
 def transition(state,slots,operation):
     """The candidate algebra used by both the trainer and runtime.
@@ -241,8 +245,8 @@ class Memory:
             boundary=versions[0][0] if past=='initial' else versions[-1][0]-1
             state={}
             for k,history in self.history.items():
-                prior=[v for i,v in history if i<=boundary]
-                if prior:state[k]=prior[-1]
+                offset=bisect_right(history,boundary,key=lambda entry:entry[0])
+                if offset:state[k]=history[offset-1][1]
         return resolve(state,cell)
 
 def reply(messages):

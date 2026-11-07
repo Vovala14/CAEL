@@ -1,0 +1,98 @@
+{
+  "test_extrapolation": {
+    "jsonl": {
+      "bytes": 484032,
+      "path": "data/test_extrapolation.jsonl",
+      "records": 1000
+    },
+    "parquet": {
+      "bytes": 130303,
+      "path": "data/test_extrapolation.parquet",
+      "records": 1000
+    }
+  },
+  "test_extrapolation_100": {
+    "jsonl": {
+      "bytes": 47712,
+      "path": "data/test_extrapolation_100.jsonl",
+      "records": 100
+    },
+    "parquet": {
+      "bytes": 16656,
+      "path": "data/test_extrapolation_100.parquet",
+      "records": 100
+    }
+  },
+  "test_interpolation": {
+    "jsonl": {
+      "bytes": 488376,
+      "path": "data/test_interpolation.jsonl",
+      "records": 1000
+    },
+    "parquet": {
+      "bytes": 128271,
+      "path": "data/test_interpolation.parquet",
+      "records": 1000
+    }
+  },
+  "test_interpolation_100": {
+    "jsonl": {
+      "bytes": 47232,
+      "path": "data/test_interpolation_100.jsonl",
+      "records": 100
+    },
+    "parquet": {
+      "bytes": 16621,
+      "path": "data/test_interpolation_100.parquet",
+      "records": 100
+    }
+  },
+  "train": {
+    "jsonl": {
+      "bytes": 46962990,
+      "path": "data/train.jsonl",
+      "records": 95317
+    },
+    "parquet": {
+      "bytes": 12378645,
+      "path": "data/train.parquet",
+      "records": 95317
+    }
+  },
+  "train_100": {
+    "jsonl": {
+      "bytes": 50016,
+      "path": "data/train_100.jsonl",
+      "records": 100
+    },
+    "parquet": {
+      "bytes": 17385,
+      "path": "data/train_100.parquet",
+      "records": 100
+    }
+  },
+  "val": {
+    "jsonl": {
+      "bytes": 491016,
+      "path": "data/val.jsonl",
+      "records": 1000
+    },
+    "parquet": {
+      "bytes": 128117,
+      "path": "data/val.parquet",
+      "records": 1000
+    }
+  },
+  "val_100": {
+    "jsonl": {
+      "bytes": 49056,
+      "path": "data/val_100.jsonl",
+      "records": 100
+    },
+    "parquet": {
+      "bytes": 17114,
+      "path": "data/val_100.parquet",
+      "records": 100
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "stage": "Hydra command parsing before any predictions",
+  "error": "Hydra 1.3.2 LazyCompletionHelp is incompatible with Python 3.14 argparse",
+  "model_calls": 0,
+  "source_or_harness_changes": false,
+  "adapter_sha256": "94437b8e58b62509a8e56586e02ff64b53aad8593b1ea66f87caf350c799c470",
+  "resolution": "Use existing compatible Python runtime; do not patch upstream Hydra or evaluator"
+}

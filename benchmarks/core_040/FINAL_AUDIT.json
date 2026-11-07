@@ -1,0 +1,120 @@
+{
+  "audited_utc": "2026-11-07T16:57:52.920801+00:00",
+  "passed": true,
+  "integrity_checks": 10298,
+  "capability_tests_not_integrity_count": true,
+  "source_freeze_sha256": "e8cec726db83e835506071f8698f462ac4c2ee9a49cfb0ed1ab7df895643f12b",
+  "core_qualification_sha256": "10bc49cf75026ccaf680d7a000726b9dcb4b88e3960c82c36a03c9adee7b31ef",
+  "input_seal_sha256": "91ac108787ee720bca926ab9f761c3a73bd313c432c192867957e7f370cee8c7",
+  "cellarc_scores": {
+    "baseline": {
+      "test_interpolation": {
+        "cell_accuracy": 0.0,
+        "episode_exact": 0,
+        "episodes": 1000,
+        "episode_cluster_bootstrap95": [
+          0.0,
+          0.0
+        ],
+        "uncertainty_scope": "Exploratory resampling of episodes; family dependence and benchmark-aware engineering limit inference"
+      },
+      "test_extrapolation": {
+        "cell_accuracy": 0.0,
+        "episode_exact": 0,
+        "episodes": 1000,
+        "episode_cluster_bootstrap95": [
+          0.0,
+          0.0
+        ],
+        "uncertainty_scope": "Exploratory resampling of episodes; family dependence and benchmark-aware engineering limit inference"
+      }
+    },
+    "candidate": {
+      "test_interpolation": {
+        "cell_accuracy": 0.5731146950175692,
+        "episode_exact": 79,
+        "episodes": 1000,
+        "episode_cluster_bootstrap95": [
+          0.5581053949883761,
+          0.5883932178737846
+        ],
+        "uncertainty_scope": "Exploratory resampling of episodes; family dependence and benchmark-aware engineering limit inference"
+      },
+      "test_extrapolation": {
+        "cell_accuracy": 0.34942297124015387,
+        "episode_exact": 5,
+        "episodes": 1000,
+        "episode_cluster_bootstrap95": [
+          0.3376334003041068,
+          0.36167690187244483
+        ],
+        "uncertainty_scope": "Exploratory resampling of episodes; family dependence and benchmark-aware engineering limit inference"
+      }
+    }
+  },
+  "changes": {
+    "cael_unified/__init__.py": {
+      "before_sha256": "765ad02e4e176edb0afb81ec4d906fb4652de7ae8df6e8e752c9d5b406fe7f89",
+      "after_sha256": "e207d2ab92a7d1f954b25121b1f0c35bfbed5c0b4733156d16ba3467f6400aa0"
+    },
+    "cael_unified/_bounded_python_help.py": {
+      "before_sha256": "370af5a5dd89e1596adc22a947adba1f4caa0a662e5e8028029efd8926c09bf9",
+      "after_sha256": "0fa3f017cfa1584d49c4eb7299a0b4acc3f9ba6cb22d04e7d5c87b421a099572"
+    },
+    "cael_unified/assistant.py": {
+      "before_sha256": "56d8d45d0fb11c3989c275a020dd7226bc9d94a481bb61b35c63a169f63296c5",
+      "after_sha256": "066ddd34165340696e70c880d595ab0cb9deef55d4cc06182009d8690c7c9fa0"
+    },
+    "cael_unified/bundle.py": {
+      "before_sha256": "aeed63926a1cf1e0c6ea0615c8b91bda6d828541ba5d3096bdb6cfe1e2288e71",
+      "after_sha256": "030b74af4974c0c15111000ce86d9befc006f89cfdac4f708a3d0ed5648bf26c"
+    },
+    "cael_unified/checked_tasks.py": {
+      "before_sha256": "abe41d6f69d1a4c7a178df76fc3fcc453480bc3e9bd7c5ec03c20a417f2f46d4",
+      "after_sha256": "ba83e1e38a905275fbc9019cbce8e1ed2a6826ef0b9b308b3ea25ea6127b746e"
+    },
+    "cael_unified/constraint_automaton.py": {
+      "before_sha256": null,
+      "after_sha256": "d394b77dc9f231a425959799b5ece74aa08445926436872a7d9c55f52ec056c1"
+    },
+    "cael_unified/count_language.py": {
+      "before_sha256": "a0c22561623a65a425ee0bd14a50d3aa784f6da2de499ada9158f3ff6d03bd87",
+      "after_sha256": "e7f9e19b228cd183437d31b254ad72a01d54a5a5bbfa6e8c0cd1c7a6ddefbf72"
+    },
+    "cael_unified/event_memory.py": {
+      "before_sha256": "6bf193fb82f7fbd4782808ac0d3e6904887a5b408bea542fc0ed338e622f8729",
+      "after_sha256": "365f17e2be02b45809de9958b595466bdae03c1d25d9781a9c6ce5f524a65f0c"
+    },
+    "cael_unified/interpretation_relations.py": {
+      "before_sha256": "41732683dbf63cb23be070fa7c9a900570ac6029570b1fc1ea3f4b560bfe38b6",
+      "after_sha256": "a07cf7cc71762fb5db819e1f566d02ac189957c9e9ae0b488a0fb3d4be0e0eb4"
+    },
+    "cael_unified/local_automata.py": {
+      "before_sha256": null,
+      "after_sha256": "09edad807509e35a34521fd0165544a34365f5e3d885cf82c7f34e9fab7c332b"
+    },
+    "cael_unified/reasoning_logic.py": {
+      "before_sha256": "1f4ec0b7b133ff5c060abd4d072f7ad1bf2fa0386012b3ee30986f6ab8fc148f",
+      "after_sha256": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95"
+    },
+    "cael_unified/reasoning_order.py": {
+      "before_sha256": "abfc1c7a865898f379ae80c9a3cbcca9d6b18a96428ed51ae63872e69ea9023a",
+      "after_sha256": "b257f15507d9b8157843923762af731f2ada9dca819f005bc0770924797b2961"
+    },
+    "cael_unified/reasoning_world.py": {
+      "before_sha256": "c0e230c1ba367b96732d566ee40296a68579348ce28777df5e6aed7b6c9de03a",
+      "after_sha256": "1134c9fb4c06d0091b66e34370029d66764e6bb72d0acb0a42bf4cb6b427da11"
+    },
+    "cael_unified/self_knowledge.json": {
+      "before_sha256": "a5dcc0205c46c6aa681658125e72f09185a95a22a59884bd79c474d148856646",
+      "after_sha256": "0a5e3d143f371050b216298109697cbf90445e79a6562c0a3d400cb1973c6156"
+    }
+  },
+  "changed_existing_files": 12,
+  "new_runtime_files": 2,
+  "patch_sha256": "b094bf999aaa0695a5b21cd0c0bf5843cf5a77e8aaf839bcae0f68fbfb952dc3",
+  "weights_and_protected_solvers_unchanged": true,
+  "live_worker_changed": false,
+  "published": false,
+  "licensing_amendment": "cellarc/LICENCE_NOTE.md"
+}

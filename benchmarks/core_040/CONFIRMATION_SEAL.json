@@ -1,0 +1,10 @@
+{
+  "created_utc": "2026-11-07T16:51:04.167870+00:00",
+  "source_freeze_sha256": "e8cec726db83e835506071f8698f462ac4c2ee9a49cfb0ed1ab7df895643f12b",
+  "input_sha256": "e7e1da9e3e6f15739bfaf2d3fc7f0629ebb6774211d3f35c7984f22b1dbb6d3f",
+  "cases": 76,
+  "seed": 4071139,
+  "positive": 60,
+  "boundaries": 16,
+  "scope": "New authored instances of development-aware finite families, not an independent public benchmark"
+}

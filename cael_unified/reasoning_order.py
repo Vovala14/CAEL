@@ -1,14 +1,13 @@
 """Bounded integer constraints over one explicit, tie-free ordering.
 
-Checks all permutations, distinguishes possibility from necessity, and requires
+Propagates finite domains, distinguishes possibility from necessity, and requires
 complete surface clauses. No learned weights, network calls or benchmark data.
 """
 from functools import lru_cache
-from itertools import permutations
 import re
 from .reasoning_logic import Unparsed, sentences
 
-ORDINAL = dict(zip('first second third fourth fifth sixth seventh eighth'.split(), range(8)))
+ORDINAL = dict(zip('first second third fourth fifth sixth seventh eighth ninth tenth eleventh twelfth'.split(), range(12)))
 LIST = r'(?:items|people|objects|participants|runners|books|cars|order)\s*:'
 
 
@@ -92,16 +91,15 @@ def solve_order(context):
     if not parts or ':' not in parts[0]:raise Unparsed('An ordering puzzle needs an explicit item list')
     items = re.sub(r'\s+and\s+', ',', parts[0].split(':',1)[1],flags=re.I)
     names = tuple(clean(item) for item in items.split(',') if clean(item))
-    if len(set(names)) != len(names) or not 2 <= len(names) <= 8:raise Unparsed('Use 2 to 8 distinct items')
+    if len(set(names)) != len(names) or not 2 <= len(names) <= 12:raise Unparsed('Use 2 to 12 distinct items')
     if any(not re.fullmatch(r'[\w]+(?:[ -][\w]+)*',name) for name in names):raise Unparsed('Unsupported item name')
     constraints = tuple(condition(part,names) for part in parts[1:])
     if len(dimensions(' '.join(parts[1:]),names))>1:
         raise Unparsed('Use one ordering dimension; age, price and spatial orders are separate')
-    solutions = []
-    for order in permutations(names):
-        positions = {name:i for i,name in enumerate(order)}
-        if all(holds(c,positions) for c in constraints):solutions.append(order)
-    return names,tuple(solutions)
+    from .constraint_automaton import enumerate_orders, SearchLimit
+    try: solutions, stats = enumerate_orders(names, constraints, holds)
+    except (ValueError, SearchLimit) as exc: raise Unparsed(str(exc)) from exc
+    return names, solutions
 
 
 def proposition(question, names):

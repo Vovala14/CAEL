@@ -181,6 +181,15 @@ class Assistant:
             # spelling repair, fact route or web lookup can read "CAEL" as someone else (self_identity.py, 0.3.8 fix).
             from . import self_identity
             answer = self_identity.reply(messages) if mode in ('auto', 'chat') else None
+            if (answer is None and mode in ('auto', 'chat') and isinstance(messages, list)
+                    and messages and len(messages)<=MAX_MESSAGES
+                    and all(isinstance(m,dict) and m.get('role') in ('user','assistant','system')
+                            and isinstance(m.get('content'),str) for m in messages)
+                    and sum(len(m['content']) for m in messages)<=MAX_CHARACTERS
+                    and messages[-1].get('role') == 'user' and type(n) is int and 1<=n<=8
+                    and (seed is None or type(seed) is int and 0<=seed<2**31)):
+                from .local_automata import reply as automaton_reply
+                answer = automaton_reply(messages[-1].get('content'))
             # A complete, single-request symbolic document owns its literal
             # symbols before dialogue acts, spelling and memory heuristics.
             if (answer is None and mode in ('auto','chat') and isinstance(messages,list)

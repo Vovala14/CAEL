@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cellarc"
+version = "0.1.2"
+description = "Generation and manipulation of cellular automata datasets"
+readme = "README.md"
+authors = [
+    { name = "Miroslav Lzicar", email = "mirek@mzl.ai" },
+]
+license = { text = "Apache-2.0" }
+keywords = ["cellular automata", "ARC", "datasets", "generative-ai", "machine-learning"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Games/Entertainment :: Simulation",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "tqdm",
+    "pyarrow",
+    "huggingface_hub>=0.18",
+    "datasets>=2.14",
+]
+
+[project.optional-dependencies]
+all = [
+    "cax; python_version >= '3.11'",
+    "flax",
+    "jax",
+]
+dev = [
+    "pytest",
+    "black",
+    "flake8",
+    "bump2version",
+    "cax; python_version >= '3.11'",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mireklzicar/cellarc"
+"Repository" = "https://github.com/mireklzicar/cellarc"
+"Issues" = "https://github.com/mireklzicar/cellarc/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cellarc"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "cellarc",
+    "LICENSE",
+    "README.md",
+    "CITATION.cff",
+    "requirements.txt",
+    "scripts",
+]

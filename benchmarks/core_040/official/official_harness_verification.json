@@ -1,0 +1,43 @@
+{
+  "verified_utc": "2026-11-07T19:53:23.357506+00:00",
+  "passed": true,
+  "frozen_checkpoint_sha256": "e8cec726db83e835506071f8698f462ac4c2ee9a49cfb0ed1ab7df895643f12b",
+  "original_predictions_sha256": "2b5d84e7bed617420fa4759ebd46738e78b7640077a0987459a034134e11f3e9",
+  "official_predictions_sha256": "ea3be3384c6fc1d5700acd479d863957c63e3c97b7cc51350d68715820aa10f0",
+  "official_metrics_sha256": "bf34c673df313731a9da7af74e623a94ef081b983c9307825e851fa2a84b9350",
+  "official_receipt_sha256": "b9b86149bfabdb44828f18ddae112d7b2011de6784403fbb7fcc2ceb83133eed",
+  "adapter_sha256": "94437b8e58b62509a8e56586e02ff64b53aad8593b1ea66f87caf350c799c470",
+  "exact_predictions": 2000,
+  "exact_full_replies": 2000,
+  "errors": 0,
+  "official_splits": [
+    {
+      "split": "test_interpolation",
+      "episodes": 1000,
+      "solved": 79,
+      "episode_accuracy": 0.079,
+      "token_total": 11099,
+      "token_correct": 6361,
+      "token_accuracy": 0.5731146950175692
+    },
+    {
+      "split": "test_extrapolation",
+      "episodes": 1000,
+      "solved": 5,
+      "episode_accuracy": 0.005,
+      "token_total": 10918,
+      "token_correct": 3815,
+      "token_accuracy": 0.34942297124015387
+    }
+  ],
+  "exact_original_cell_and_episode_counts": true,
+  "source_hashes_unchanged": 204,
+  "resources_unchanged": 80,
+  "official_scorer_loader_unchanged": true,
+  "original_python": "3.14.0",
+  "official_harness_python": "3.12.9 (tags/v3.12.9:fdb8142, Feb  4 2025, 15:27:58) [MSC v.1942 64 bit (AMD64)]",
+  "runtime_change_disclosed": true,
+  "all_predictions_and_replies_identical_across_runtimes": true,
+  "source_fitting_or_retuning": false,
+  "interpretation": "Official-harness reproduction on viewed tasks, not a new unseen test or accepted rank"
+}

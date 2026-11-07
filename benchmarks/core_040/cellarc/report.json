@@ -1,0 +1,101 @@
+{
+  "scored_utc": "2026-11-07T16:55:40.653613+00:00",
+  "complete": true,
+  "systems": {
+    "baseline": {
+      "splits": {
+        "test_interpolation": {
+          "episodes": 1000,
+          "correct_cells": 0,
+          "total_cells": 11099,
+          "cell_accuracy": 0.0,
+          "mean_episode_cell_accuracy": 0.0,
+          "exact_episodes": 0,
+          "episode_accuracy": 0.0,
+          "invalid": 1000,
+          "errors": 0,
+          "selected_hypothesis_supported_cells": 0,
+          "diagnostic_statuses": {
+            "no-native-model": 1000
+          },
+          "median_response_seconds": 0.005969349993392825
+        },
+        "test_extrapolation": {
+          "episodes": 1000,
+          "correct_cells": 0,
+          "total_cells": 10918,
+          "cell_accuracy": 0.0,
+          "mean_episode_cell_accuracy": 0.0,
+          "exact_episodes": 0,
+          "episode_accuracy": 0.0,
+          "invalid": 1000,
+          "errors": 0,
+          "selected_hypothesis_supported_cells": 0,
+          "diagnostic_statuses": {
+            "no-native-model": 1000
+          },
+          "median_response_seconds": 0.005704000126570463
+        }
+      },
+      "load_seconds": 1.0005264999344945,
+      "inference_seconds": 12.495285599958152,
+      "peak_process_rss_bytes": 171057152,
+      "predictions_sha256": "8b834e97e40fe9ce8c1b0971fa2e1fb5f99502d306122ad2378853af85a419fe"
+    },
+    "candidate": {
+      "splits": {
+        "test_interpolation": {
+          "episodes": 1000,
+          "correct_cells": 6361,
+          "total_cells": 11099,
+          "cell_accuracy": 0.5731146950175692,
+          "mean_episode_cell_accuracy": 0.5768550774474923,
+          "exact_episodes": 79,
+          "episode_accuracy": 0.079,
+          "invalid": 8,
+          "errors": 0,
+          "selected_hypothesis_supported_cells": 1688,
+          "diagnostic_statuses": {
+            "partially-supported": 710,
+            "inferred": 58,
+            "empirical-only": 224,
+            "invalid-or-unsupported": 8
+          },
+          "median_response_seconds": 0.0006046498892828822
+        },
+        "test_extrapolation": {
+          "episodes": 1000,
+          "correct_cells": 3815,
+          "total_cells": 10918,
+          "cell_accuracy": 0.34942297124015387,
+          "mean_episode_cell_accuracy": 0.36378004658310387,
+          "exact_episodes": 5,
+          "episode_accuracy": 0.005,
+          "invalid": 0,
+          "errors": 0,
+          "selected_hypothesis_supported_cells": 1040,
+          "diagnostic_statuses": {
+            "partially-supported": 970,
+            "empirical-only": 29,
+            "inferred": 1
+          },
+          "median_response_seconds": 0.0007134000770747662
+        }
+      },
+      "load_seconds": 0.9727274000179023,
+      "inference_seconds": 1.4981362000107765,
+      "peak_process_rss_bytes": 114429952,
+      "predictions_sha256": "2b5d84e7bed617420fa4759ebd46738e78b7640077a0987459a034134e11f3e9"
+    }
+  },
+  "input_seal_sha256": "91ac108787ee720bca926ab9f761c3a73bd313c432c192867957e7f370cee8c7",
+  "gold_sha256": "8b931fb3b201eb3495407122e11423c3daca1bffd04d3a571e303739e273ac93",
+  "scope": "Full official CellARC interpolation/extrapolation, no per-episode oracle metadata, actual Assistant structured interface",
+  "cautions": [
+    "Per-cell/token accuracy differs from exact-episode accuracy",
+    "Predicted guesses remain in every denominator",
+    "No tuning after test access",
+    "Published leaderboard model protocols/subsets/oracle metadata differ",
+    "Not general chat competence or an independent reproduction of other models"
+  ]
+}

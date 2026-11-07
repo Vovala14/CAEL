@@ -1,0 +1,8 @@
+{
+  "stage": "official imports before any predictions",
+  "error": "ModuleNotFoundError: einops",
+  "model_calls": 0,
+  "source_or_harness_changes": false,
+  "adapter_sha256": "94437b8e58b62509a8e56586e02ff64b53aad8593b1ea66f87caf350c799c470",
+  "resolution": "Install required official harness dependency einops==0.8.1 in isolated harness_deps; use a new output directory"
+}

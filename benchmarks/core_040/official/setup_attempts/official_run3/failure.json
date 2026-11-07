@@ -1,0 +1,8 @@
+{
+  "stage": "official imports before any predictions",
+  "error": "ModuleNotFoundError: pydantic",
+  "model_calls": 0,
+  "source_or_harness_changes": false,
+  "adapter_sha256": "94437b8e58b62509a8e56586e02ff64b53aad8593b1ea66f87caf350c799c470",
+  "resolution": "Install official package import dependency pydantic==2.12.3 in isolated harness_deps312"
+}

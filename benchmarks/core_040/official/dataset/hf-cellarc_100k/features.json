@@ -1,0 +1,42 @@
+{
+  "features": {
+    "id": {
+      "_type": "Value",
+      "dtype": "string"
+    },
+    "query": {
+      "_type": "Sequence",
+      "feature": {
+        "_type": "Value",
+        "dtype": "int32"
+      }
+    },
+    "solution": {
+      "_type": "Sequence",
+      "feature": {
+        "_type": "Value",
+        "dtype": "int32"
+      }
+    },
+    "train": {
+      "_type": "Sequence",
+      "feature": {
+        "input": {
+          "_type": "Sequence",
+          "feature": {
+            "_type": "Value",
+            "dtype": "int32"
+          }
+        },
+        "output": {
+          "_type": "Sequence",
+          "feature": {
+            "_type": "Value",
+            "dtype": "int32"
+          }
+        }
+      }
+    }
+  },
+  "format": "parquet"
+}

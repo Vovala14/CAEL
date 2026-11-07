@@ -66,9 +66,12 @@ class CountLanguage:
 
     def neighbours(self,context,limit=128):
         np=self.np
-        if context in self.cache:
-            self.cache.move_to_end(context)
-            return self.cache[context]
+        if type(limit) is not int or not 1<=limit<=2048:
+            raise ValueError('Neighbour limit must be an integer from 1 to 2048')
+        cache_key=(context,limit)
+        if cache_key in self.cache:
+            self.cache.move_to_end(cache_key)
+            return self.cache[cache_key]
         query=self.query_features(context)
         # Both stored/query rows are L2 normalized; this is sparse cosine recall.
         from sklearn.preprocessing import normalize
@@ -76,13 +79,17 @@ class CountLanguage:
         hits=(query@self.contexts.T).tocsr()
         if hits.nnz:
             take=min(limit,hits.nnz)
-            selection=np.argpartition(hits.data,-take)[-take:]
+            threshold=np.partition(hits.data,-take)[-take]
+            greater=np.flatnonzero(hits.data>threshold)
+            equal=np.flatnonzero(hits.data==threshold)
+            equal=equal[np.argsort(hits.indices[equal],kind='stable')]
+            selection=np.concatenate((greater,equal[:take-len(greater)]))
             order=np.lexsort((hits.indices[selection],-hits.data[selection]))
             selection=selection[order]
             result=(hits.indices[selection],hits.data[selection])
         else:
             result=(np.array([],dtype=np.int64),np.array([],dtype=np.float64))
-        self.cache[context]=result
+        self.cache[cache_key]=result
         if len(self.cache)>32:
             self.cache.popitem(last=False)
         return result
@@ -90,7 +97,7 @@ class CountLanguage:
     def conditional(self,context,settings=None):
         np=self.np
         settings=settings or self.settings
-        indices,similarities=self.neighbours(context)
+        indices,similarities=self.neighbours(context,limit=max(128,settings['neighbours']))
         count=min(len(indices),settings['neighbours'])
         if count:
             weights=similarities[:count].astype(np.float64)**settings['recall_power']

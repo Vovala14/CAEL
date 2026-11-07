@@ -1,0 +1,97 @@
+{
+  "qualified_utc": "2026-11-07T16:52:22.240775+00:00",
+  "gate_passed": true,
+  "source_freeze_sha256": "e8cec726db83e835506071f8698f462ac4c2ee9a49cfb0ed1ab7df895643f12b",
+  "confirmation_seal_sha256": "85ef3d42fc126981027590438c0b55516d41306d0170b5af9bf0858322f34ccd",
+  "systems": {
+    "baseline": {
+      "positive_correct": 12,
+      "positive_total": 60,
+      "focused_boundaries": 0,
+      "minimal_safe_boundaries": 4,
+      "boundary_total": 16,
+      "minimal_safe_ids": [
+        "invalid-transition-72",
+        "invalid-transition-73",
+        "invalid-transition-74",
+        "invalid-transition-75"
+      ],
+      "errors": 0,
+      "rows_sha256": "61daf9be76219abbf511a98373e27f13fa0767281d8526339c35e1ece74e8abd"
+    },
+    "candidate": {
+      "positive_correct": 60,
+      "positive_total": 60,
+      "focused_boundaries": 16,
+      "minimal_safe_boundaries": 16,
+      "boundary_total": 16,
+      "minimal_safe_ids": [
+        "invalid-ownership-60",
+        "invalid-ownership-61",
+        "invalid-ownership-62",
+        "invalid-ownership-63",
+        "invalid-ownership-64",
+        "invalid-ownership-65",
+        "invalid-ownership-66",
+        "invalid-ownership-67",
+        "invalid-ownership-68",
+        "invalid-ownership-69",
+        "invalid-ownership-70",
+        "invalid-ownership-71",
+        "invalid-transition-72",
+        "invalid-transition-73",
+        "invalid-transition-74",
+        "invalid-transition-75"
+      ],
+      "errors": 0,
+      "rows_sha256": "9dfa1e87456ec33219c394d4cf9a418ef54f247e0650ecae1f427b7bc0dd193b"
+    }
+  },
+  "original_flags_unchanged": true,
+  "interpretation": "Positive exact answers and focused boundaries are primary; generic safe uncertainty is a separately disclosed equal leniency.",
+  "scope": "Confirmed leap on authored core tasks, not broad language competence or independent external-model superiority",
+  "regression": {
+    "baseline_cases": 660,
+    "candidate_cases": 675,
+    "baseline_failures": [
+      "tests.test_context_memory_035.ContextMemoryTests::test_people_relations_and_pronouns",
+      "tests.test_orchestrator_upgrade::test_callback_failure_does_not_abort_independent_steps_or_leak_exception_text",
+      "tests.test_orchestrator_upgrade::test_code_call_no_longer_searches_past_latest_incompatible_result",
+      "tests.test_orchestrator_upgrade::test_conversion_passes_converted_value_not_source_value",
+      "tests.test_orchestrator_upgrade::test_correction_is_the_value_used_downstream",
+      "tests.test_orchestrator_upgrade::test_explain_explicit_step_and_failed_step",
+      "tests.test_orchestrator_upgrade::test_explanation_is_transparent_for_later_numeric_reference",
+      "tests.test_orchestrator_upgrade::test_explicit_code_and_argument_references_choose_the_right_producers",
+      "tests.test_orchestrator_upgrade::test_explicit_old_value_can_bypass_a_failed_independent_step",
+      "tests.test_orchestrator_upgrade::test_invalid_or_future_dependency_never_dispatches[part 2]",
+      "tests.test_orchestrator_upgrade::test_invalid_or_future_dependency_never_dispatches[step 9]",
+      "tests.test_orchestrator_upgrade::test_invalid_or_future_dependency_never_dispatches[the answer of part 0]",
+      "tests.test_orchestrator_upgrade::test_invalid_or_future_dependency_never_dispatches[the result from step 9]",
+      "tests.test_orchestrator_upgrade::test_python_exception_blocks_only_dependents",
+      "tests.test_orchestrator_upgrade::test_sources_are_preserved_per_step_and_deduplicated_in_report",
+      "tests.test_orchestrator_upgrade::test_string_result_is_quoted_when_used_as_a_code_argument",
+      "tests.test_orchestrator_upgrade::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply0]",
+      "tests.test_orchestrator_upgrade::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply1]",
+      "tests.test_orchestrator_upgrade::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply2]",
+      "tests.test_orchestrator_upgrade::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply3]",
+      "tests.test_orchestrator_upgrade::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply4]",
+      "tests.test_orchestrator_upgrade::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply5]",
+      "tests.test_orchestrator_upgrade::test_unknown_or_multi_result_is_not_replaced_with_an_older_number[reply6]",
+      "tests.test_orchestrator_upgrade::test_word_count_result_is_a_number_not_the_input_word",
+      "tests.test_python_task_runtime::test_invalid_source_checksum_and_wrong_result_source_block_dependents",
+      "tests.test_python_task_runtime::test_tool_source_and_result_are_preserved_separately_across_plan_steps",
+      "tests.test_quantity_conversation.QuantityConversationTests::test_clarification_preserves_facts_and_snapshot_can_resolve_missing_amount",
+      "tests.test_quantity_conversation.QuantityConversationTests::test_inline_problem_then_add_with_query",
+      "tests.test_quantity_conversation.QuantityConversationTests::test_new_facts_reset_and_other_sessions_are_independent"
+    ],
+    "candidate_failures": [
+      "tests.test_context_memory_035.ContextMemoryTests::test_people_relations_and_pronouns",
+      "tests.test_quantity_conversation.QuantityConversationTests::test_clarification_preserves_facts_and_snapshot_can_resolve_missing_amount",
+      "tests.test_quantity_conversation.QuantityConversationTests::test_inline_problem_then_add_with_query",
+      "tests.test_quantity_conversation.QuantityConversationTests::test_new_facts_reset_and_other_sessions_are_independent"
+    ],
+    "fixed_inherited_cases": 25,
+    "no_new_failures": true
+  },
+  "cellarc_test_inference_not_started": true
+}

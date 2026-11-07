@@ -1,0 +1,168 @@
+........................................................................ [ 10%]
+........................................................................ [ 21%]
+........................................................................ [ 32%]
+........................................................................ [ 42%]
+.................................................................. [ 52%]
+........................................................................ [ 63%]
+........................................................................ [ 73%]
+........................................................................ [ 84%]
+............................FFF......................................... [ 95%]
+............................F....                                  [100%]
+================================== FAILURES ===================================
+_ QuantityConversationTests.test_clarification_preserves_facts_and_snapshot_can_resolve_missing_amount _
+tests\test_quantity_conversation.py:47: in test_clarification_preserves_facts_and_snapshot_can_resolve_missing_amount
+    self.assertEqual(self.turn(messages,'How many marbles does Tavi have?')['route'],'helper/quantity-clarify')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_quantity_conversation.py:18: in turn
+    answer=self.engine.respond(messages,n=1,seed=47)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:209: in respond
+    answer = self._respond_request(messages, n=n, seed=seed, mode=mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:245: in _respond_request
+    answer=self._answer(messages,n=n,seed=seed,mode=mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:328: in _answer
+    answer=self._respond(messages,n=n,seed=seed,mode=mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:680: in _respond
+    answer = world_facts.reply(text) or answer_finder.reply(text)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:202: in reply
+    return Finder(net or NETWORK).answer(text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:87: in answer
+    return self.count(m[1], m[2])
+           ^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:153: in count
+    for title, intro, url, length in self.intros(f'how many {thing} {scope}'.strip(), f'number of {thing} {scope}'.strip()):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:56: in intros
+    found = self.net.json(WIKI + urlencode(dict(action='query', format='json', list='search', srsearch=query[:200],
+cael_unified\network.py:152: in json
+    return json.loads(self.get(url, **kwargs))
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\network.py:99: in get
+    with self.opener.open(urllib.request.Request(url, headers=headers), timeout=timeout) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:487: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:504: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python314\Lib\urllib\request.py:464: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:1369: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+C:\Python314\Lib\urllib\request.py:1321: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+C:\Python314\Lib\http\client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python314\Lib\http\client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python314\Lib\http\client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python314\Lib\http\client.py:1093: in _send_output
+    self.send(msg)
+C:\Python314\Lib\http\client.py:1037: in send
+    self.connect()
+C:\Python314\Lib\http\client.py:1472: in connect
+    super().connect()
+C:\Python314\Lib\http\client.py:1003: in connect
+    self.sock = self._create_connection(
+..\run_tests.py:13: in denied
+    def denied(*args,**kwargs):raise RuntimeError('Offline qualification: network disabled')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   RuntimeError: Offline qualification: network disabled
+______ QuantityConversationTests.test_inline_problem_then_add_with_query ______
+tests\test_quantity_conversation.py:39: in test_inline_problem_then_add_with_query
+    self.assertEqual(answer['helper_reasoning']['value'],'28')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'helper_reasoning'
+_ QuantityConversationTests.test_new_facts_reset_and_other_sessions_are_independent _
+tests\test_quantity_conversation.py:67: in test_new_facts_reset_and_other_sessions_are_independent
+    other=self.engine.respond([user('How many coins does Ravi have?')],n=1,seed=47)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:209: in respond
+    answer = self._respond_request(messages, n=n, seed=seed, mode=mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:245: in _respond_request
+    answer=self._answer(messages,n=n,seed=seed,mode=mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:328: in _answer
+    answer=self._respond(messages,n=n,seed=seed,mode=mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\assistant.py:680: in _respond
+    answer = world_facts.reply(text) or answer_finder.reply(text)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:202: in reply
+    return Finder(net or NETWORK).answer(text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:87: in answer
+    return self.count(m[1], m[2])
+           ^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:153: in count
+    for title, intro, url, length in self.intros(f'how many {thing} {scope}'.strip(), f'number of {thing} {scope}'.strip()):
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\answer_finder.py:56: in intros
+    found = self.net.json(WIKI + urlencode(dict(action='query', format='json', list='search', srsearch=query[:200],
+cael_unified\network.py:152: in json
+    return json.loads(self.get(url, **kwargs))
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+cael_unified\network.py:99: in get
+    with self.opener.open(urllib.request.Request(url, headers=headers), timeout=timeout) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:487: in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:504: in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+C:\Python314\Lib\urllib\request.py:464: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+C:\Python314\Lib\urllib\request.py:1369: in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+C:\Python314\Lib\urllib\request.py:1321: in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+C:\Python314\Lib\http\client.py:1338: in request
+    self._send_request(method, url, body, headers, encode_chunked)
+C:\Python314\Lib\http\client.py:1384: in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+C:\Python314\Lib\http\client.py:1333: in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+C:\Python314\Lib\http\client.py:1093: in _send_output
+    self.send(msg)
+C:\Python314\Lib\http\client.py:1037: in send
+    self.connect()
+C:\Python314\Lib\http\client.py:1472: in connect
+    super().connect()
+C:\Python314\Lib\http\client.py:1003: in connect
+    self.sock = self._create_connection(
+..\run_tests.py:13: in denied
+    def denied(*args,**kwargs):raise RuntimeError('Offline qualification: network disabled')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   RuntimeError: Offline qualification: network disabled
+____________ ContextMemoryTests.test_people_relations_and_pronouns ____________
+tests\test_context_memory_035.py:25: in test_people_relations_and_pronouns
+    self.assertIn('Pico', ask(h, "What is Greta's parrot called?"))
+E   AssertionError: 'Pico' not found in 'I cannot establish the complete state because part of the update history is unsupported or ambiguous.'
+============================== warnings summary ===============================
+tests/test_python_vm.py::test_matches_cpython_on_authored_fixtures[def f(x):\n    try:\n        return 1\n    finally:\n        return 2-args_list17]
+  <string>:5: SyntaxWarning: 'return' in a 'finally' block
+
+tests/test_python_vm.py::test_matches_cpython_on_authored_fixtures[def f(x):\n    try:\n        return 1\n    finally:\n        return 2-args_list17]
+tests/test_python_vm.py::test_unsupported_cannot_be_hidden_by_finally
+  <unknown>:5: SyntaxWarning: 'return' in a 'finally' block
+
+tests/test_python_vm.py::test_matches_cpython_on_authored_fixtures[def f(x):\n    try:\n        return 1\n    finally:\n        return 2-args_list17]
+tests/test_python_vm.py::test_unsupported_cannot_be_hidden_by_finally
+  <syntax-validation-only>:5: SyntaxWarning: 'return' in a 'finally' block
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_quantity_conversation.py::QuantityConversationTests::test_clarification_preserves_facts_and_snapshot_can_resolve_missing_amount
+FAILED tests/test_quantity_conversation.py::QuantityConversationTests::test_inline_problem_then_add_with_query
+FAILED tests/test_quantity_conversation.py::QuantityConversationTests::test_new_facts_reset_and_other_sessions_are_independent
+FAILED tests/test_context_memory_035.py::ContextMemoryTests::test_people_relations_and_pronouns
+4 failed, 671 passed, 5 warnings, 12 subtests passed in 23.70s

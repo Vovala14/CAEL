@@ -1,0 +1,39 @@
+{
+  "baseline": {
+    "name": "cael_040",
+    "kwargs": {
+      "fallback": "majority",
+      "default_symbol": 0
+    }
+  },
+  "benchmark": "cellarc_100k",
+  "splits": [
+    {
+      "split": "test_interpolation",
+      "episodes": 1000,
+      "solved": 79,
+      "episode_accuracy": 0.079,
+      "token_total": 11099,
+      "token_correct": 6361,
+      "token_accuracy": 0.5731146950175692
+    },
+    {
+      "split": "test_extrapolation",
+      "episodes": 1000,
+      "solved": 5,
+      "episode_accuracy": 0.005,
+      "token_total": 10918,
+      "token_correct": 3815,
+      "token_accuracy": 0.34942297124015387
+    }
+  ],
+  "overall": {
+    "episodes": 2000,
+    "solved": 84,
+    "episode_accuracy": 0.042,
+    "token_total": 22017,
+    "token_correct": 10176,
+    "token_accuracy": 0.4621883090339283
+  },
+  "max_episodes": null
+}

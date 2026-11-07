@@ -3,7 +3,7 @@ language:
 - en
 license: other
 license_name: cael-non-commercial
-license_link: https://huggingface.co/vynly/CAEL-0.3.9.1/blob/main/LICENSE
+license_link: https://huggingface.co/vynly/CAEL-0.4.0/blob/main/LICENSE
 pipeline_tag: text-generation
 tags:
 - cael
@@ -14,21 +14,15 @@ tags:
 inference: false
 ---
 
-# CAEL 0.3.9.1
+# CAEL 0.4.0
 
-A source-available Python assistant built from non-neural symbolic, count and automaton engines. This patch adds native interpretation of supported standalone tasks to the Assistant itself. No neural network, external LLM, new learned weights or benchmark-answer table is used at runtime.
+[![HF downloads (30 days)](https://img.shields.io/huggingface/d/vynly/CAEL-0.4.0?label=HF%20downloads%20%2830%20days%29)](https://huggingface.co/vynly/CAEL-0.4.0)
 
-## What changed
+A source-available Python assistant using non-neural symbolic, count and automaton engines. Version 0.4 updates core execution and adds example-induced local discrete transitions. There are no new neural weights or external LLM runtime answers. Finite readers, ambiguity and conversational gaps remain.
 
-Complete supported arithmetic, rule chains, precedence constraints, location updates, string pipelines and table reductions now route to bounded symbolic operations before unrelated spelling, topic or count fallbacks. Arithmetic uses exact values and checking; logic and state tasks use the existing engines. Unsupported clauses or ambiguous constraints can cause clarification or abstention. These are finite readers, not arbitrary English or Python understanding.
+## Install and run
 
-Questions about CAEL's version and changes use installed, version-bound product facts. Existing conversation and bounded Python functionality remains, with known gaps.
-
-The application is **0.3.9.1**. The public resource bundle is still the **byte-identical 0.3.7** archive, with unchanged inherited weights, protected solvers and CA kernels. Picture/portrait weights are excluded from this public package.
-
-## Run locally
-
-Use Python 3.11 or 3.12 with the declared dependencies. Download and extract [CAEL-0.3.9.1.zip](./CAEL-0.3.9.1.zip), then run inside the extracted folder:
+Use Python 3.12. Download and extract [CAEL-0.4.0.zip](https://huggingface.co/vynly/CAEL-0.4.0/resolve/v0.4.0/CAEL-0.4.0.zip), then from the extracted directory:
 
 ```bash
 python -m pip install -r requirements-unified.txt
@@ -36,34 +30,33 @@ python -m cael_unified --download
 python -m cael_unified --ui
 ```
 
-Open http://127.0.0.1:8765. For terminal chat use `python -m cael_unified --mode chat`. Set `CAEL_WEB_SEARCH=0` to disable public lookup. Do not use a shared demo for sensitive information.
+Open http://127.0.0.1:8765. For terminal chat use `python -m cael_unified --mode chat`. Set `CAEL_WEB_SEARCH=0` to disable public web lookup. The integrity-checked resource archive is still **byte-identical 0.3.7** (562,714,794 bytes), versioned separately from the 0.4 source. Both are required. This is **custom Python code, not a Transformers-compatible checkpoint**. Picture/portrait weights are excluded.
 
-This is a custom runtime, **not a Transformers-compatible checkpoint**. Both the source ZIP and approximately 563 MB resource archive are required. The installer checks the pinned archive and preserves existing local selections. See `release_manifest.json` and `SHA256SUMS.json` for exact bytes and hashes.
+## Core changes and measured scope
 
-## Fresh study: measured scope
+Indexed graph propagation replaces full rescans; ownership transactions validate before mutation; finite-domain ordering supports up to twelve objects; live references avoid the old recursion/link limit; count retrieval honours neighbour counts and deterministic ties. A bounded-checker interface fix resolves inherited tool orchestration failures.
 
-The source was frozen before 900 new synthetic multiple-choice questions were written. Six known task families contain 150 questions each; 450 use familiar formats with new instances and 450 use newly authored wording on different instances. There was zero exact overlap against 235,677 declared prior/train/development text guards. Undisclosed third-party pretraining cannot be exhaustively checked.
+The actual Assistant accepts `Infer discrete transition:` followed by JSON containing `examples` (integer-list input/output pairs), `query`, and optional `boundary` (`wrap` or `zero`). It learns request-local finite neighbourhood maps, ranks them by whole-pair validation, and reports unsupported cells/backoff guesses. This is not general program synthesis or proof of a unique hidden rule.
 
-| Same 900 questions | Unchanged 0.3.9 baseline | Evaluated native candidate |
+Authored confirmation: 60/60 positive answers versus 12/60 for unchanged 0.3.9.1; focused boundaries 16/16. These known-family, maintainer/AI-assisted cases establish scoped engineering gains. Relevant regressions: 671 passed, four inherited conversation failures remain. No general chatbot breakthrough is established.
+
+## CellARC: official-harness reproduction
+
+| Metric | Interpolation | Extrapolation |
 |---|---:|---:|
-| Overall | 414/900 (46.0%) | 777/900 (86.3%) |
-| Familiar-format new instances | 322/450 (71.6%) | 450/450 (100%) |
-| Newly worded instances | 92/450 (20.4%) | 327/450 (72.7%) |
+| Tasks | 1000 | 1000 |
+| Correct cells | 6361/11099 | 3815/10918 |
+| Aggregate cell accuracy | **57.31%** | **34.94%** |
+| Whole puzzles correct | **79/1000 (7.9%)** | **5/1000 (0.5%)** |
 
-All 123 candidate abstentions count as wrong, including all unsupported-wording outputs. All nine engines completed 8,100 predictions with no response errors. The evaluated candidate had no active language selection, so its inherited count fallback was inactive; the baseline had it active. Fresh installation activates the old count fallback. All 777 endorsed replies remain exact, but 105 former abstentions become statistical guesses. The 777/900 score describes the frozen configuration, not every fresh installation. See [the configuration amendment](./benchmarks/native_interpretation_0391/CONFIGURATION_AND_RELEASE_NOTE.md). The release retains the exact evaluated task modules and Assistant change; only version metadata, installed product facts and documentation differ. Packaging replay is not new test evidence.
+The exact frozen candidate was run through the **unmodified official CellARC symbolic evaluation harness**. Every prediction and full reply matches the original recorded run. No test-based solver change, training/validation fitting, metadata/gold input or omitted failure. This rerun is a reproduction on viewed tasks, not additional unseen evidence. Eight interpolation clarifications count fully wrong. Many cells use empirical/backoff guesses; exact extrapolation remains weak.
 
-Seven other engines were evaluated with their previously fixed readouts. Neural models used a single bare A/B/C/D next-token logit readout, with no free-form generation or chain of thought. This is **not a best-chat comparison**, a standard published benchmark score, a Qwen result, or evidence of general superiority. Qwen was not evaluated here. Task families were known, development was adaptive, and question authoring/review was maintainer-led and AI-assisted. The 100% familiar half does not establish broad competence.
+Download [cellarc-evidence.zip](https://huggingface.co/vynly/CAEL-0.4.0/resolve/v0.4.0/cellarc-evidence.zip), or see the [full public evidence and exact script](https://github.com/Vovala14/CAEL/tree/v0.4.0/benchmarks/core_040), including [reproduction instructions](https://github.com/Vovala14/CAEL/blob/v0.4.0/benchmarks/core_040/REPRODUCE.md). Official leaderboard inclusion is subject to maintainer review; no accepted rank, Qwen win or unrestricted architectural superiority is claimed. Other models were not rerun, and published LLM scores use smaller subsets/different protocols.
 
-[Full results and all nine scores](https://vynly-non-neural-ai-leaderboard.static.hf.space/fresh-transfer.html) В· [Questions, references, raw outputs, readouts, audits and hashes](https://huggingface.co/datasets/vynly/nnai-bench/tree/main/fresh-transfer/2026-11-07-native). The fresh study is a separate supplement, not a replacement for older leaderboard scores.
+Original structured-run measurements: load 0.973 s, 2000-task inference 1.498 s, peak full process 109.13 MiB on one shared Windows host. The official harness has additional import overhead, including Torch/neural baseline definitions; no neural model is instantiated by the CAEL solver. These measurements are not an optimized-neural efficiency comparison.
 
-## Remaining limits and validation
+## Downloads and licences
 
-Finite wording coverage still fails: 123/900 final questions produced no scored answer. Richer conversations, option switches, dictionary follow-ups and source retrieval can still fail. A link or exact calculation does not prove the surrounding interpretation is correct. Supported forgetting is not whole-transcript erasure.
+The live badge reports HF's counted query-file requests over 30 days, not unique users or all completed installs. `params.json` is a meaningful source/resource download configuration. Direct ZIP/resource clicks are not comprehensively counted; no simulated events or telemetry were added. For a full repository download: `hf download vynly/CAEL-0.4.0 --local-dir CAEL-0.4.0-download`.
 
-Authored development and inherited regressions are separate from final scores. The inherited suite had eight pre-existing baseline failures and four additional intentional route assertions in the candidate; these are disclosed rather than claimed as a fully green suite. See the release verification for archive import, installed self-information and saved-reply reproduction checks.
-
-## Licence and attribution
-
-**CAEL by Vovala14** is source-available under the [CAEL Non-Commercial License](./LICENSE), not an OSI open-source licence. Personal/non-commercial research use is allowed under its terms; commercial use requires separate permission. Third-party resources keep their own licences and attribution in `NOTICE.md` and `licenses/`. Benchmark tooling and authored question data have separate licences; this does not relicense CAEL or peer models.
-
-[Source and release](https://github.com/Vovala14/CAEL/releases/tag/v0.3.9.1) В· [Release notes](./RELEASE_0_3_9_1.md)
+CAEL: [non-commercial source-available licence](https://huggingface.co/vynly/CAEL-0.4.0/blob/main/LICENSE). Upstream resources retain their licences. CellARC is by **Miroslav Lžičař**: [dataset](https://huggingface.co/datasets/mireklzicar/cellarc_100k), [official code](https://github.com/mireklzicar/cellarc), [paper](https://arxiv.org/abs/2511.07908). The actual pinned dataset LICENSE is **CC BY 4.0**, despite the card's MIT tag; byte-preserved data and transformed evaluation files retain attribution. Official source licences are preserved separately. These results are our evaluation, not the author's endorsement. No live Vynly worker change is part of this release.

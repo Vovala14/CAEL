@@ -1,0 +1,12 @@
+{
+  "dataset": "mireklzicar/cellarc_100k",
+  "revision": "76040e6aef0edc4982e53c13a85ef227378ed171",
+  "files": {
+    "hf-cellarc_100k/data/test_interpolation.jsonl": "457e092bcaa5ab2be2c51f58a246621b14d924900a5425a831a5decf5b945284",
+    "hf-cellarc_100k/data/test_extrapolation.jsonl": "015f58ce3bcc8a772db567171aea5b4538467d23aba5b0ec959cb66644fce4b1",
+    "hf-cellarc_100k/LICENSE": "d7efe8f444304375b6902ff85be2bcc77c383cd988fdc59364dc1b13e6b65a90",
+    "hf-cellarc_100k/README.md": "ecbf448793814487d51956cb73310a20f0a75969c233a5c3f1b4a8a2e2f59fa1",
+    "hf-cellarc_100k/data_files.json": "d845ab74844ad31486208737b21e6b32f9212c39dfa0ad885f978973acb7f6f9",
+    "hf-cellarc_100k/features.json": "8902b32f3705169d5ccea5a80fd9d1c6152e06ea0ff5f247b17d43e3d24f6401"
+  }
+}

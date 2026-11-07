@@ -1,5 +1,6 @@
 """Local packet automaton for bounded chronological fact/ownership scenarios."""
 from dataclasses import dataclass, field
+from collections import defaultdict
 import re
 from .reasoning_logic import Unparsed, sentences
 
@@ -20,6 +21,8 @@ class WorldCA:
         self.model = model
         self.cells = {}
         self.gifts = []
+        self.carried = defaultdict(set)
+        self.transition_visits = 0
 
     def event(self, statement):
         statement = statement.lower().strip(' .')
@@ -52,6 +55,19 @@ class WorldCA:
 
     def apply(self, event, index):
         op, actor, value, *extra = event
+        if op not in ('move', 'uncertain', 'exclude', 'take', 'drop', 'give'):
+            raise Unparsed('Unknown world transition')
+        # Validate the complete transaction before mutating any cell.
+        old_actor = self.cells.get(actor)
+        old_object = self.cells.get(value) if op in ('take', 'drop', 'give') else None
+        if old_object and old_object.owner not in (None, actor):
+            raise Unparsed('The acting person is not the established holder of this object')
+        if op == 'give' and (len(extra) != 1 or extra[0] == actor):
+            raise Unparsed('A transfer requires one distinct recipient')
+        if op in ('take', 'give') and old_actor and old_actor.locations:
+            other = old_object if op == 'take' else self.cells.get(extra[0])
+            if other and other.locations and old_actor.locations.isdisjoint(other.locations):
+                raise Unparsed('The interaction conflicts with the stated locations')
         if actor not in self.cells:
             self.cells[actor] = Cell(actor, 'actor')
         if op in ('take', 'drop','give') and value not in self.cells:
@@ -61,40 +77,36 @@ class WorldCA:
                 self.cells[extra[0]]=Cell(extra[0],'actor')
             self.gifts.append((actor,value,extra[0],index))
         actor_cell = self.cells[actor]
-        packet = dict(op=op, actor=actor, value=value, extra=extra, support={index} | actor_cell.support,
-                      locations=set(actor_cell.locations))
-        rows = list(self.cells.values())
-        carriers = [None] * len(rows)
-        carriers[0] = packet
-        # A packet moves one neighbouring cell per synchronous tick. Each cell
-        # reads only its own state and its local packet, as in the story CA.
-        for _ in range(len(rows)):
-            following = [None] * len(rows)
-            for position, cell in enumerate(rows):
-                message = carriers[position]
-                if message is None:
-                    continue
-                if op in ('move', 'uncertain', 'exclude') and (cell.name == actor or cell.owner == actor):
-                    if op == 'move':
-                        self.locate(cell, {value}, {index} if cell.name == actor else cell.support | {index})
-                    elif op == 'uncertain':
-                        self.locate(cell, {value, extra[0]}, {index})
+        # Ownership edges define the local neighbourhood. No empty-slot
+        # N-by-N packet scan: only actor/owned-object cells receive the event.
+        if op in ('move', 'uncertain', 'exclude'):
+            for name in [actor, *sorted(self.carried[actor])]:
+                cell = self.cells[name]; self.transition_visits += 1
+                if op == 'move':
+                    self.locate(cell, {value}, {index} if name == actor else cell.support | {index})
+                elif op == 'uncertain':
+                    self.locate(cell, {value, extra[0]}, {index} if name == actor else cell.support | {index})
+                else:
+                    remaining = cell.locations - {value}; support = cell.support | {index}
+                    if remaining:
+                        self.locate(cell, remaining, support)
                     else:
-                        cell.locations = set()
-                        cell.excluded = {value}
-                        cell.support = {index}
-                elif op in ('take', 'drop','give') and cell.name == value:
-                    if op == 'drop' and cell.owner not in (None, actor):
-                        raise Unparsed('An actor cannot drop an object held by someone else')
-                    cell.owner = extra[0] if op=='give' else actor if op == 'take' else None
-                    self.locate(cell, message['locations'], message['support'])
-                if position + 1 < len(rows):
-                    following[position + 1] = message
-            carriers = following
+                        cell.locations = set(); cell.support = support
+                    cell.excluded.add(value)
+        else:
+            cell = self.cells[value]; self.transition_visits += 1
+            if cell.owner is not None: self.carried[cell.owner].discard(value)
+            cell.owner = extra[0] if op == 'give' else actor if op == 'take' else None
+            if cell.owner is not None: self.carried[cell.owner].add(value)
+            support = {index} | actor_cell.support
+            if op in ('drop', 'give'): support |= cell.support
+            self.locate(cell, set(actor_cell.locations), support)
 
     def query(self, context, question):
         self.cells = {}
         self.gifts = []
+        self.carried = defaultdict(set)
+        self.transition_visits = 0
         for index, statement in enumerate(sentences(context), 1):
             self.apply(self.event(statement), index)
         question = question.lower().strip(' ?.!.')

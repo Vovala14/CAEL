@@ -1,5 +1,6 @@
 """Bounded Horn-rule graph automaton with explicit proof support and open-world answers."""
 from dataclasses import dataclass
+from collections import defaultdict, deque
 import re
 
 
@@ -89,33 +90,45 @@ class LogicCA:
     def close(self, context):
         facts, rules = self.parse(context)
         entities = sorted({fact[0] for fact, _ in facts})
-        if len(entities)*len(rules)>4096:
+        if len(entities)*len(rules)>32768:
             raise Unparsed('Too many grounded rule cells')
-        active = {fact for fact, _ in facts}
-        proof = {fact: {index} for fact, index in facts}
-        depths = {fact: 0 for fact, _ in facts}
+        active, proof, depths = set(), {}, {}
+        for fact, index in facts:
+            if fact not in active:
+                active.add(fact); proof[fact] = {index}; depths[fact] = 0
         grounded = [(tuple((entity, p, neg) for p, neg in body), tuple((entity, p, neg) for p, neg in head), index)
                     for entity in entities for body, head, index in rules]
-        # Bipartite graph CA: rule cells read only connected premise fact cells;
-        # conclusion fact cells read only connected rule cells. No neural weights.
+        # Sparse graph CA: changes wake only connected rule cells. Proof
+        # improvements propagate too; truth and evidence share the fixed point.
+        readers = defaultdict(list)
+        for rule_id, (body, head, index) in enumerate(grounded):
+            for atom in set(body): readers[atom].append(rule_id)
+        agenda = deque(sorted(active)); queued = set(active)
         table = self.model.get('and_table', {})
-        for tick in range(24):
-            next_active = set(active)
-            next_proof, next_depth = dict(proof), dict(depths)
-            for body, head, index in grounded:
+        work = 0
+        def rank(depth, support):
+            return depth, len(support), tuple(sorted(support))
+        while agenda:
+            changed = agenda.popleft(); queued.remove(changed)
+            for rule_id in readers[changed]:
+                work += 1
+                if work > 250000:
+                    raise Unparsed('The sparse graph CA exceeded its rule-transition budget')
+                body, head, index = grounded[rule_id]
                 mask = sum((1 << i) for i, atom in enumerate(body) if atom in active)
                 if not table.get(f'{len(body)}:{mask}', 0):
                     continue
                 support = {index}.union(*(proof[atom] for atom in body))
                 depth = 1 + max(depths[atom] for atom in body)
                 for atom in head:
-                    next_active.add(atom)
-                    if atom not in next_depth or depth < next_depth[atom]:
-                        next_proof[atom], next_depth[atom] = support, depth
-            if next_active == active:
-                return active, proof, depths
-            active, proof, depths = next_active, next_proof, next_depth
-        raise Unparsed('The proof exceeded 24 rule-application rounds')
+                    if atom not in active or rank(depth, support) < rank(depths[atom], proof[atom]):
+                        active.add(atom); proof[atom], depths[atom] = support, depth
+                        if atom not in queued:
+                            agenda.append(atom); queued.add(atom)
+        self.last_stats = dict(engine='sparse-horn-graph-ca', grounded_rules=len(grounded),
+                               rule_transitions=work, active_fact_cells=len(active),
+                               maximum_proof_depth=max(depths.values(), default=0))
+        return active, proof, depths
 
     def query(self, context, question):
         active, proofs, depths = self.close(context)

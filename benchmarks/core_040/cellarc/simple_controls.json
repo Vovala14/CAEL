@@ -1,0 +1,30 @@
+{
+  "posthoc_diagnostic_only": true,
+  "source_or_primary_predictions_changed": false,
+  "controls": {
+    "support-output-mode": {
+      "test_interpolation": {
+        "cell_accuracy": 0.5141904676096946,
+        "mean_episode_cell_accuracy": 0.5080056397936429,
+        "exact": 14
+      },
+      "test_extrapolation": {
+        "cell_accuracy": 0.29730719912071807,
+        "mean_episode_cell_accuracy": 0.29798414157651776,
+        "exact": 1
+      }
+    },
+    "copy-query": {
+      "test_interpolation": {
+        "cell_accuracy": 0.3270564915758176,
+        "mean_episode_cell_accuracy": 0.31908527390222435,
+        "exact": 0
+      },
+      "test_extrapolation": {
+        "cell_accuracy": 0.18016120168529035,
+        "mean_episode_cell_accuracy": 0.17981673007934618,
+        "exact": 0
+      }
+    }
+  }
+}

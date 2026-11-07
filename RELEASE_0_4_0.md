@@ -1,0 +1,19 @@
+# CAEL 0.4.0: core automata and rule induction
+
+CAEL 0.4.0 upgrades actual non-neural symbolic/count/automaton engines: indexed rule propagation, validated sparse world transitions, finite-domain ordering up to twelve objects, iterative live references, deterministic count retrieval and bounded-checker interoperability. A new request-local learner infers finite discrete transitions from examples. Inherited weights, protected solvers, image/CA kernels and the public 0.3.7 resource bundle are byte-identical.
+
+Fresh authored core confirmation: **60/60 positive answers versus 12/60** for 0.3.9.1; focused boundaries 16/16. These are known-family, maintainer/AI-assisted engineering cases, not broad English accuracy. Relevant regressions: 671 passed, four inherited conversation failures remain; 25 inherited failures fixed and 15 new unit tests added.
+
+**Full official CellARC symbolic harness, same frozen checkpoint:**
+
+| Metric | Interpolation (1000 tasks) | Extrapolation (1000 tasks) |
+|---|---:|---:|
+| Correct cells / total | 6361/11099 | 3815/10918 |
+| Aggregate cell accuracy | **57.31%** | **34.94%** |
+| Entire puzzles correct | **79/1000 (7.9%)** | **5/1000 (0.5%)** |
+
+All 2,000 official-harness predictions and full replies reproduce the original run. No scorer/loader or checkpoint tuning; only support pairs/query reach CAEL. Eight interpolation clarifications count fully wrong. No runtime errors. The exact script, pinned sources, original outputs, input hashes, licences and reproduction command are in `benchmarks/core_040/REPRODUCE.md`. This harness rerun is a reproduction, not a new unseen confirmation. Most predictions include empirical/backoff guesses; exact extrapolation remains weak. Official leaderboard inclusion requires maintainer review; no accepted rank or general-chat/Qwen win is claimed.
+
+The source ZIP and unchanged 562,714,794-byte `cael-0.3.7.cael` resource archive are both required. This is a custom Python runtime, not a Transformers checkpoint. Use Python 3.12 and the README instructions. CAEL remains non-commercial source-available; third-party data/code licences and attribution are retained. CellARC's actual dataset LICENSE is CC BY 4.0 despite its MIT card tag.
+
+This publication does not change the Vynly worker or tunnel. Historic frozen reports describe their completion time; later owner-authorized publication does not rewrite them.

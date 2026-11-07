@@ -8,3 +8,6 @@ licenses/*.txt whitespace=-blank-at-eof
 
 # Preserve byte-bound completed study evidence.
 benchmarks/native_interpretation_0391/** -text
+
+# Preserve original hash-bound 0.4 evaluation evidence byte-for-byte.
+benchmarks/core_040/** -text

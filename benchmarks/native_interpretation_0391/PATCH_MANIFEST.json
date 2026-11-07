@@ -1,0 +1,31 @@
+{
+  "scope": "Review artifact only, not applied to live or published source",
+  "files": {
+    "cael_unified/assistant.py": {
+      "baseline_sha256": "56f1b279b40af48d27a333555f1a84b60d1a73bf5189cc4a51d78c132dd76178",
+      "candidate_sha256": "56d8d45d0fb11c3989c275a020dd7226bc9d94a481bb61b35c63a169f63296c5"
+    },
+    "cael_unified/interpretation.py": {
+      "baseline_sha256": null,
+      "candidate_sha256": "420874a726a867dc04a17c06938fcb839f0f8d8008556cba6f6e391d39ef1c2e"
+    },
+    "cael_unified/interpretation_arithmetic.py": {
+      "baseline_sha256": null,
+      "candidate_sha256": "2965e764452612ef92789b48a6ad8adc8feb3758be69321292fdaa679668d33f"
+    },
+    "cael_unified/interpretation_common.py": {
+      "baseline_sha256": null,
+      "candidate_sha256": "557a1cd16343707b38c87a905e76e604c4bb32dc848e459a054a381cf7bd0cfd"
+    },
+    "cael_unified/interpretation_data.py": {
+      "baseline_sha256": null,
+      "candidate_sha256": "5381065f58cc407333420cc6630079eac88ccca1faf78e60eda99b22cdb4b715"
+    },
+    "cael_unified/interpretation_relations.py": {
+      "baseline_sha256": null,
+      "candidate_sha256": "41732683dbf63cb23be070fa7c9a900570ac6029570b1fc1ea3f4b560bfe38b6"
+    }
+  },
+  "architecture_unchanged": true,
+  "weights_changed": false
+}

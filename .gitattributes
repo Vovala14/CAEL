@@ -5,3 +5,6 @@ reference/model.json -text
 *.zip binary
 *.cael binary
 licenses/*.txt whitespace=-blank-at-eof
+
+# Preserve byte-bound completed study evidence.
+benchmarks/native_interpretation_0391/** -text

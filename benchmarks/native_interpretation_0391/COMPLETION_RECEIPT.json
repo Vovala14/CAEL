@@ -1,0 +1,68 @@
+{
+  "status": "complete",
+  "utc": "2026-11-07T08:37:42.819702+00:00",
+  "predictions": 8100,
+  "model_evidence": {
+    "cael": {
+      "test.predictions.json": "726c30776fcd517b7f912c13834a8711d5b27448a8cb0279f75b62485f3749f9",
+      "test.rows.jsonl": "bb40ca3c8642bdca9d0f3a42ee03e00b2c03788082b2379d2d361aef906289f1",
+      "run.json": "03b50cea080a5ebadb3836dabc57173cd39414ed5c938388c25b7363e16f9b44",
+      "test.report.json": "0e2e0f2f88441b35bdbdc1883fe5eda60f3897c3d043fa29dad885a2a7c34f4e"
+    },
+    "baseline": {
+      "test.predictions.json": "083cdabf13e59b69156c57e33ee25d022a3e1ead38dd7e641c785fbf4d6e18f7",
+      "test.rows.jsonl": "f932f76fc7b0e80e55ce894ce6fab5cf6b61ffff19688476b3fc68c91abcd1f8",
+      "run.json": "ffc10defbcc94ad918af854676520481450a5b883509869b9fe088360564e03b",
+      "test.report.json": "1990efac6bd448e56534f76b9e2c201816d13558a0da89ae15c2eeec5c8a30fc"
+    },
+    "mica": {
+      "test.predictions.json": "18c82cd4f482118c1a95540e0507bca32a93e2d752e2459cc39364985f90c0d9",
+      "test.rows.jsonl": "e110a956458403ef5d5e035937c2ab12d0a1578f38ed5c9b1f3877b4914d405f",
+      "run.json": "fa232b2298286c6ade36c9d6be442228f783108e2fedb70d33c23a3128932912",
+      "test.report.json": "8115cdd36cf214d66697b7445a353d0027307bd665deff9bb0baa801a7750b80"
+    },
+    "bigram": {
+      "test.predictions.json": "e8e40683cbf07be4b9fc29b388dae4503a9da26db60e1438321511d64aa32c6f",
+      "test.rows.jsonl": "2368d1f9bc315abaf73492591fec72be26b8a8b7ffc0c06011101e5958ec7238",
+      "run.json": "fc1e1145c09bc061b7552689a381bf1a0d3b2b5b3c36b01f3e0c11f5fb249632",
+      "test.report.json": "ad033e8660709d89ac2a6dc9551816ec0a0d36481ec75c62f5ebd7adfc8a5300"
+    },
+    "griot": {
+      "test.predictions.json": "1a7ef7b7c12bd065d636711bbfe83a7f4f6f9dbd9b1c0c1732617b2e1d001bab",
+      "test.rows.jsonl": "ff83bf8cf89d5f14f19284234190c90a2e63d3f82349d6c021121d8756fa3d7a",
+      "run.json": "03876382ea6076232f16884df1bf42604f2ac4a109cce4c1e31b506253bf7141",
+      "test.report.json": "403383f57931ecfd0c95c63396499c4607c817b1c6cb95891a9448b1220bc66d"
+    },
+    "rwkv": {
+      "test.predictions.json": "8ab5be7e1747ac34fe71a8a32435ff059013b6f6c0d39d9e9f98fae5975b37a4",
+      "test.rows.jsonl": "e0c0ddb13b18fbfac0f1caabd4cb3db3dcedfd1472908661f78ea7dea6e3e946",
+      "run.json": "f6b55d4627eef3ac16a7201d8a9a1b64d2c49cd83f30868bc5c325166f24573b",
+      "test.report.json": "556bd1faea5e36c33ff1a81b7832c2d46b1bfe6a722eb0991dc5ad0d1e006023"
+    },
+    "lfm2": {
+      "test.predictions.json": "4602fd287e68136784c147dac60f076d4af5d34ffc10160272e552c9d4bed8ba",
+      "test.rows.jsonl": "7662de14fa8f9d600cd402c60243f22898df2860d7434c2c3d595f2d1fd7b325",
+      "run.json": "bd12103df95390a5f74320aa7df8d4af98b693e56c70a0e9126f0a10bd9557fb",
+      "test.report.json": "0feae46a7692f2038b598d9b68954fa53c0218283f1dc1f95630bba45b2bfbb1"
+    },
+    "xlstm": {
+      "test.predictions.json": "9925a8fba81ea84b81fc8b4d6144bb719b77d71ad9acb02c8057fe84173bfcc6",
+      "test.rows.jsonl": "c193d3db31ae89eeda8866ad7231714a2f8a7f62064a81e7da3bab83883260d4",
+      "run.json": "bfdb277d01af46b8fe1cc39c00b07fc5e2d300809dccda3b9b503bf3e616ef7f",
+      "test.report.json": "94fec26f97d7dc36250c631331934b8b8c2607389a21f6a08d7eefae3695c4d0"
+    },
+    "falcon": {
+      "test.predictions.json": "d5515fce3f407e23c15d3c671bb524024a5a291aa42f32992da60073cb38fd24",
+      "test.rows.jsonl": "4c94c211ff3efabcb0bc8e7433fafb87a97a37621965e518d40499369ece199a",
+      "run.json": "1d50a122c4e2c3d4a7fc11e9b132caa44a699190bdc15a0b79482c6419e2c867",
+      "test.report.json": "47891914dfc63a85faf4909a4966e950ca89bd730e0691b25d196618998dc2b5"
+    }
+  },
+  "source_freeze_sha256": "bc82b5efb71f7c996c575deab03d483e202a934c0d270ec103d46923cc5b92f7",
+  "test_freeze_sha256": "e10ace9eae8de57ea74d4aeb970ac8154b5dc45990b9f5388510f21f43288097",
+  "text_reference_audit_sha256": "d16a4753133968fdec73ef4f037f1af503e4156049deb3529569521f45701305",
+  "report_sha256": "09a6741ac44d3702426cc050d732994c248ff7828851b5059ce368b4ca4bc8b4",
+  "report_markdown_sha256": "1d3a95b94210acdefe3b416384979e1a531cb071bd71c9ae501d9a6ce0477089",
+  "published": false,
+  "live_changed": false
+}

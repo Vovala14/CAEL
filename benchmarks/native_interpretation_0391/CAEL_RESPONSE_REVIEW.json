@@ -1,0 +1,1016 @@
+{
+  "scope": "Post-freeze analysis only, no source/final changes or reruns. Every777 endorsed answer is exact letter+selected option consistent with independently audited gold;123 abstentions retained as wrong.",
+  "all900checked": true,
+  "correct777": true,
+  "native_proof_counts": {
+    "tables": 132,
+    "arithmetic": 131,
+    "ordering": 127,
+    "state": 132,
+    "strings": 128,
+    "logic": 52
+  },
+  "family_correct": {
+    "tables": 132,
+    "logic": 127,
+    "arithmetic": 131,
+    "ordering": 127,
+    "state_tracking": 132,
+    "strings": 128
+  },
+  "abstentions_per_family": {
+    "strings": 22,
+    "tables": 18,
+    "arithmetic": 19,
+    "ordering": 23,
+    "logic": 23,
+    "state_tracking": 18
+  },
+  "abstentions": [
+    {
+      "id": "native-fresh-strings-107",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Cycle \"dnawuwdwmqqxtws\" left through 6 positions and invert the resulting sequence."
+    },
+    {
+      "id": "native-fresh-tables-135",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_uac81a952aea4c91c782548ca_0, blue, 7, 9\nrow_uac81a952aea4c91c782548ca_1, red, 13, 9\nrow_uac81a952aea4c91c782548ca_2, blue, 15, 10\nrow_uac81a952aea4c91c782548ca_3, blue, 24, 9\nTell me how often the category label blue appears."
+    },
+    {
+      "id": "native-fresh-arithmetic-136",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: (65151 * 1175) - 57191."
+    },
+    {
+      "id": "native-fresh-strings-131",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Cycle \"mychshkjxapxana\" left through 5 positions and invert the resulting sequence."
+    },
+    {
+      "id": "native-fresh-ordering-070",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_uac2fcba797c90d4ee63bbda6_3 occurs before item_uac2fcba797c90d4ee63bbda6_4.\nitem_uac2fcba797c90d4ee63bbda6_5 is behind item_uac2fcba797c90d4ee63bbda6_4.\nitem_uac2fcba797c90d4ee63bbda6_2 precedes item_uac2fcba797c90d4ee63bbda6_0.\nitem_uac2fcba797c90d4ee63bbda6_0 precedes item_uac2fcba797c90d4ee63bbda6_3.\nitem_uac2fcba797c90d4ee63bbda6_1 precedes item_uac2fcba797c90d4ee63bbda6_2.\nWhich item occupies slot 6 in this lineup?"
+    },
+    {
+      "id": "native-fresh-strings-028",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Output every second letter of \"dyzrpudjxsme\", beginning with its second letter."
+    },
+    {
+      "id": "native-fresh-arithmetic-149",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: ((99374 + 98975) * 27741) - 99374."
+    },
+    {
+      "id": "native-fresh-logic-101",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u2d3e694d3ea6310fcc9e7fce has type kind_u2d3e694d3ea6310fcc9e7fce_0.\nEvery kind_u2d3e694d3ea6310fcc9e7fce_2 is a kind_u2d3e694d3ea6310fcc9e7fce_3.\nEvery kind_u2d3e694d3ea6310fcc9e7fce_0 is a kind_u2d3e694d3ea6310fcc9e7fce_1.\nEvery kind_u2d3e694d3ea6310fcc9e7fce_6 is a kind_u2d3e694d3ea6310fcc9e7fce_7.\nEvery kind_u2d3e694d3ea6310fcc9e7fce_3 is a kind_u2d3e694d3ea6310fcc9e7fce_4.\nEvery kind_u2d3e694d3ea6310fcc9e7fce_5 is a kind_u2d3e694d3ea6310fcc9e7fce_6.\nEvery kind_u2d3e694d3ea6310fcc9e7fce_7 is a kind_u2d3e694d3ea6310fcc9e7fce_8.\nEvery kind_u2d3e694d3ea6310fcc9e7fce_1 is a kind_u2d3e694d3ea6310fcc9e7fce_2.\nEvery kind_u2d3e694d3ea6310fcc9e7fce_4 is a kind_u2d3e694d3ea6310fcc9e7fce_5.\nDecide whether the claim \"object_u2d3e694d3ea6310fcc9e7fce has type kind_u2d3e694d3ea6310fcc9e7fce_8\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-tables-106",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: A table record has a different number of cells from its header.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u9d847ea830dc8d93da9c5c3a_0, red, 21, 7\nrow_u9d847ea830dc8d93da9c5c3a_1, blue, 18, 20\nrow_u9d847ea830dc8d93da9c5c3a_2, blue, 31, 3\nrow_u9d847ea830dc8d93da9c5c3a_3, blue, 15, 2\nrow_u9d847ea830dc8d93da9c5c3a_4, red, 35, 8\nrow_u9d847ea830dc8d93da9c5c3a_5, blue, 2, 7\nCombine the amounts listed under quantity, considering only category blue."
+    },
+    {
+      "id": "native-fresh-arithmetic-105",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: 90459 + 32967."
+    },
+    {
+      "id": "native-fresh-ordering-040",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u95f2a8b64583a11f83aeea0b_5 precedes item_u95f2a8b64583a11f83aeea0b_4.\nitem_u95f2a8b64583a11f83aeea0b_0 follows item_u95f2a8b64583a11f83aeea0b_1.\nitem_u95f2a8b64583a11f83aeea0b_2 is behind item_u95f2a8b64583a11f83aeea0b_4.\nitem_u95f2a8b64583a11f83aeea0b_1 is behind item_u95f2a8b64583a11f83aeea0b_2.\nitem_u95f2a8b64583a11f83aeea0b_3 is behind item_u95f2a8b64583a11f83aeea0b_0.\nWhich item occupies slot 6 in this lineup?"
+    },
+    {
+      "id": "native-fresh-ordering-033",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_uab3a22be147dc21d7dbd1f87_3 occurs before item_uab3a22be147dc21d7dbd1f87_1.\nitem_uab3a22be147dc21d7dbd1f87_2 precedes item_uab3a22be147dc21d7dbd1f87_0.\nitem_uab3a22be147dc21d7dbd1f87_2 follows item_uab3a22be147dc21d7dbd1f87_1.\nWhich item occupies slot 1 in this lineup?"
+    },
+    {
+      "id": "native-fresh-arithmetic-095",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: ((32707 + 67282) * 70952) - 32707."
+    },
+    {
+      "id": "native-fresh-ordering-052",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u09e11cc3204305a5cbeb4233_0 follows item_u09e11cc3204305a5cbeb4233_3.\nitem_u09e11cc3204305a5cbeb4233_3 is behind item_u09e11cc3204305a5cbeb4233_1.\nitem_u09e11cc3204305a5cbeb4233_2 occurs before item_u09e11cc3204305a5cbeb4233_5.\nitem_u09e11cc3204305a5cbeb4233_2 follows item_u09e11cc3204305a5cbeb4233_0.\nitem_u09e11cc3204305a5cbeb4233_5 precedes item_u09e11cc3204305a5cbeb4233_4.\nWhich item occupies slot 6 in this lineup?"
+    },
+    {
+      "id": "native-fresh-arithmetic-143",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: ((13811 + 67769) * 94949) - 13811."
+    },
+    {
+      "id": "native-fresh-arithmetic-070",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: (3032 * 67205) - 84255."
+    },
+    {
+      "id": "native-fresh-state_tracking-093",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u317ec2a296dcfec7e2e1e95f_0 entered room_u317ec2a296dcfec7e2e1e95f_0.\nperson_u317ec2a296dcfec7e2e1e95f_1 entered room_u317ec2a296dcfec7e2e1e95f_3.\nperson_u317ec2a296dcfec7e2e1e95f_2 arrived at room_u317ec2a296dcfec7e2e1e95f_1.\nperson_u317ec2a296dcfec7e2e1e95f_3 arrived at room_u317ec2a296dcfec7e2e1e95f_2.\nperson_u317ec2a296dcfec7e2e1e95f_2 entered room_u317ec2a296dcfec7e2e1e95f_0.\nperson_u317ec2a296dcfec7e2e1e95f_2 journeyed to room_u317ec2a296dcfec7e2e1e95f_1.\nperson_u317ec2a296dcfec7e2e1e95f_1 journeyed to room_u317ec2a296dcfec7e2e1e95f_0.\nperson_u317ec2a296dcfec7e2e1e95f_3 arrived at room_u317ec2a296dcfec7e2e1e95f_3.\nperson_u317ec2a296dcfec7e2e1e95f_3 entered room_u317ec2a296dcfec7e2e1e95f_1.\nperson_u317ec2a296dcfec7e2e1e95f_1 entered room_u317ec2a296dcfec7e2e1e95f_3.\nWhere would you find person_u317ec2a296dcfec7e2e1e95f_1 after these changes?"
+    },
+    {
+      "id": "native-fresh-arithmetic-016",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: (31134 * 34097) - 55853."
+    },
+    {
+      "id": "native-fresh-state_tracking-051",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u70cdf1c6baa625946733971a_0 entered room_u70cdf1c6baa625946733971a_0.\nperson_u70cdf1c6baa625946733971a_1 is currently in room_u70cdf1c6baa625946733971a_1.\nperson_u70cdf1c6baa625946733971a_2 is currently in room_u70cdf1c6baa625946733971a_2.\nperson_u70cdf1c6baa625946733971a_3 is currently in room_u70cdf1c6baa625946733971a_3.\nperson_u70cdf1c6baa625946733971a_0 journeyed to room_u70cdf1c6baa625946733971a_1.\nperson_u70cdf1c6baa625946733971a_1 journeyed to room_u70cdf1c6baa625946733971a_3.\nperson_u70cdf1c6baa625946733971a_0 entered room_u70cdf1c6baa625946733971a_2.\nperson_u70cdf1c6baa625946733971a_1 journeyed to room_u70cdf1c6baa625946733971a_2.\nperson_u70cdf1c6baa625946733971a_1 journeyed to room_u70cdf1c6baa625946733971a_1.\nperson_u70cdf1c6baa625946733971a_0 arrived at room_u70cdf1c6baa625946733971a_2.\nWhere would you find person_u70cdf1c6baa625946733971a_2 after these changes?"
+    },
+    {
+      "id": "native-fresh-state_tracking-070",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u04ab98e1ee87ee4034737a93_0 is currently in room_u04ab98e1ee87ee4034737a93_2.\nperson_u04ab98e1ee87ee4034737a93_1 arrived at room_u04ab98e1ee87ee4034737a93_0.\nperson_u04ab98e1ee87ee4034737a93_2 entered room_u04ab98e1ee87ee4034737a93_1.\nperson_u04ab98e1ee87ee4034737a93_3 journeyed to room_u04ab98e1ee87ee4034737a93_3.\nperson_u04ab98e1ee87ee4034737a93_2 entered room_u04ab98e1ee87ee4034737a93_0.\nperson_u04ab98e1ee87ee4034737a93_1 arrived at room_u04ab98e1ee87ee4034737a93_0.\nperson_u04ab98e1ee87ee4034737a93_1 entered room_u04ab98e1ee87ee4034737a93_3.\nperson_u04ab98e1ee87ee4034737a93_3 journeyed to room_u04ab98e1ee87ee4034737a93_3.\nperson_u04ab98e1ee87ee4034737a93_1 entered room_u04ab98e1ee87ee4034737a93_1.\nperson_u04ab98e1ee87ee4034737a93_0 is currently in room_u04ab98e1ee87ee4034737a93_0.\nperson_u04ab98e1ee87ee4034737a93_2 is currently in room_u04ab98e1ee87ee4034737a93_0.\nperson_u04ab98e1ee87ee4034737a93_1 entered room_u04ab98e1ee87ee4034737a93_3.\nperson_u04ab98e1ee87ee4034737a93_3 journeyed to room_u04ab98e1ee87ee4034737a93_3.\nperson_u04ab98e1ee87ee4034737a93_0 journeyed to room_u04ab98e1ee87ee4034737a93_2.\nWhere would you find person_u04ab98e1ee87ee4034737a93_3 after these changes?"
+    },
+    {
+      "id": "native-fresh-state_tracking-101",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u793bc22a23cb35b3ca97db42_0 journeyed to room_u793bc22a23cb35b3ca97db42_2.\nperson_u793bc22a23cb35b3ca97db42_1 is currently in room_u793bc22a23cb35b3ca97db42_0.\nperson_u793bc22a23cb35b3ca97db42_2 is currently in room_u793bc22a23cb35b3ca97db42_1.\nperson_u793bc22a23cb35b3ca97db42_3 entered room_u793bc22a23cb35b3ca97db42_3.\nperson_u793bc22a23cb35b3ca97db42_2 journeyed to room_u793bc22a23cb35b3ca97db42_0.\nperson_u793bc22a23cb35b3ca97db42_2 journeyed to room_u793bc22a23cb35b3ca97db42_1.\nperson_u793bc22a23cb35b3ca97db42_3 entered room_u793bc22a23cb35b3ca97db42_2.\nperson_u793bc22a23cb35b3ca97db42_1 entered room_u793bc22a23cb35b3ca97db42_3.\nperson_u793bc22a23cb35b3ca97db42_2 journeyed to room_u793bc22a23cb35b3ca97db42_3.\nperson_u793bc22a23cb35b3ca97db42_3 arrived at room_u793bc22a23cb35b3ca97db42_0.\nperson_u793bc22a23cb35b3ca97db42_1 arrived at room_u793bc22a23cb35b3ca97db42_3.\nperson_u793bc22a23cb35b3ca97db42_2 journeyed to room_u793bc22a23cb35b3ca97db42_2.\nperson_u793bc22a23cb35b3ca97db42_0 arrived at room_u793bc22a23cb35b3ca97db42_3.\nperson_u793bc22a23cb35b3ca97db42_1 journeyed to room_u793bc22a23cb35b3ca97db42_2.\nperson_u793bc22a23cb35b3ca97db42_1 arrived at room_u793bc22a23cb35b3ca97db42_3.\nperson_u793bc22a23cb35b3ca97db42_2 is currently in room_u793bc22a23cb35b3ca97db42_1.\nperson_u793bc22a23cb35b3ca97db42_0 journeyed to room_u793bc22a23cb35b3ca97db42_3.\nperson_u793bc22a23cb35b3ca97db42_3 is currently in room_u793bc22a23cb35b3ca97db42_2.\nperson_u793bc22a23cb35b3ca97db42_1 journeyed to room_u793bc22a23cb35b3ca97db42_0.\nperson_u793bc22a23cb35b3ca97db42_1 arrived at room_u793bc22a23cb35b3ca97db42_3.\nWhere would you find person_u793bc22a23cb35b3ca97db42_3 after these changes?"
+    },
+    {
+      "id": "native-fresh-arithmetic-106",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: (55759 * 2870) - 58269."
+    },
+    {
+      "id": "native-fresh-strings-081",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Read \"kwvcftgsw\" from last to first."
+    },
+    {
+      "id": "native-fresh-logic-041",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u43d08b8feb38a887781afb72 has type kind_u43d08b8feb38a887781afb72_0.\nEvery kind_u43d08b8feb38a887781afb72_2 is a kind_u43d08b8feb38a887781afb72_3.\nEvery kind_u43d08b8feb38a887781afb72_5 is a kind_u43d08b8feb38a887781afb72_6.\nEvery kind_u43d08b8feb38a887781afb72_7 is a kind_u43d08b8feb38a887781afb72_8.\nEvery kind_u43d08b8feb38a887781afb72_6 is a kind_u43d08b8feb38a887781afb72_7.\nEvery kind_u43d08b8feb38a887781afb72_4 is a kind_u43d08b8feb38a887781afb72_5.\nEvery kind_u43d08b8feb38a887781afb72_0 is a kind_u43d08b8feb38a887781afb72_1.\nEvery kind_u43d08b8feb38a887781afb72_1 is a kind_u43d08b8feb38a887781afb72_2.\nEvery kind_u43d08b8feb38a887781afb72_3 is a kind_u43d08b8feb38a887781afb72_4.\nDecide whether the claim \"object_u43d08b8feb38a887781afb72 has type kind_u43d08b8feb38a887781afb72_9\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-strings-003",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Invert the character sequence \"vkxzcddme\"."
+    },
+    {
+      "id": "native-fresh-ordering-027",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_ubba1dc136c18a01a66802f78_2 follows item_ubba1dc136c18a01a66802f78_3.\nitem_ubba1dc136c18a01a66802f78_0 follows item_ubba1dc136c18a01a66802f78_1.\nitem_ubba1dc136c18a01a66802f78_0 occurs before item_ubba1dc136c18a01a66802f78_3.\nWhich item occupies slot 1 in this lineup?"
+    },
+    {
+      "id": "native-fresh-ordering-004",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u24b086bec0676a9b4a9660ef_0 follows item_u24b086bec0676a9b4a9660ef_3.\nitem_u24b086bec0676a9b4a9660ef_1 precedes item_u24b086bec0676a9b4a9660ef_2.\nitem_u24b086bec0676a9b4a9660ef_4 precedes item_u24b086bec0676a9b4a9660ef_5.\nitem_u24b086bec0676a9b4a9660ef_1 is behind item_u24b086bec0676a9b4a9660ef_0.\nitem_u24b086bec0676a9b4a9660ef_3 is behind item_u24b086bec0676a9b4a9660ef_5.\nWhich item occupies slot 6 in this lineup?"
+    },
+    {
+      "id": "native-fresh-arithmetic-101",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: ((91940 + 87579) * 82751) - 91940."
+    },
+    {
+      "id": "native-fresh-tables-129",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_ud5683cd1d5168d64f826f83c_0, red, 25, 10\nrow_ud5683cd1d5168d64f826f83c_1, blue, 20, 12\nrow_ud5683cd1d5168d64f826f83c_2, red, 35, 17\nrow_ud5683cd1d5168d64f826f83c_3, blue, 32, 17\nTell me how often the category label red appears."
+    },
+    {
+      "id": "native-fresh-ordering-125",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_udaff2404dd534d043f4b539b_5 follows item_udaff2404dd534d043f4b539b_2.\nitem_udaff2404dd534d043f4b539b_5 occurs before item_udaff2404dd534d043f4b539b_8.\nitem_udaff2404dd534d043f4b539b_0 occurs before item_udaff2404dd534d043f4b539b_6.\nitem_udaff2404dd534d043f4b539b_6 precedes item_udaff2404dd534d043f4b539b_3.\nitem_udaff2404dd534d043f4b539b_2 is behind item_udaff2404dd534d043f4b539b_3.\nitem_udaff2404dd534d043f4b539b_8 occurs before item_udaff2404dd534d043f4b539b_1.\nitem_udaff2404dd534d043f4b539b_4 is behind item_udaff2404dd534d043f4b539b_7.\nitem_udaff2404dd534d043f4b539b_4 occurs before item_udaff2404dd534d043f4b539b_0.\nWhich item occupies slot 2 in this lineup?"
+    },
+    {
+      "id": "native-fresh-tables-053",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_ub958375a9eaa3324849aaa92_0, blue, 19, 14\nrow_ub958375a9eaa3324849aaa92_1, blue, 5, 12\nrow_ub958375a9eaa3324849aaa92_2, blue, 35, 5\nrow_ub958375a9eaa3324849aaa92_3, blue, 6, 15\nrow_ub958375a9eaa3324849aaa92_4, red, 1, 19\nrow_ub958375a9eaa3324849aaa92_5, red, 21, 5\nrow_ub958375a9eaa3324849aaa92_6, blue, 27, 10\nrow_ub958375a9eaa3324849aaa92_7, red, 29, 3\nrow_ub958375a9eaa3324849aaa92_8, red, 14, 5\nMultiply each matching quantity by its unit_cost and accumulate the results for category blue."
+    },
+    {
+      "id": "native-fresh-tables-063",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u62eb58f83ca2f7683cb29c51_0, red, 30, 15\nrow_u62eb58f83ca2f7683cb29c51_1, red, 9, 12\nrow_u62eb58f83ca2f7683cb29c51_2, blue, 22, 11\nrow_u62eb58f83ca2f7683cb29c51_3, red, 12, 5\nTell me how often the category label red appears."
+    },
+    {
+      "id": "native-fresh-strings-051",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Invert the character sequence \"jphhdfvny\"."
+    },
+    {
+      "id": "native-fresh-strings-076",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Output every second letter of \"muaqyfprddaq\", beginning with its second letter."
+    },
+    {
+      "id": "native-fresh-ordering-047",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u8a99b54798e556336a2ca798_6 occurs before item_u8a99b54798e556336a2ca798_7.\nitem_u8a99b54798e556336a2ca798_0 precedes item_u8a99b54798e556336a2ca798_6.\nitem_u8a99b54798e556336a2ca798_0 follows item_u8a99b54798e556336a2ca798_1.\nitem_u8a99b54798e556336a2ca798_4 precedes item_u8a99b54798e556336a2ca798_2.\nitem_u8a99b54798e556336a2ca798_2 precedes item_u8a99b54798e556336a2ca798_8.\nitem_u8a99b54798e556336a2ca798_8 occurs before item_u8a99b54798e556336a2ca798_3.\nitem_u8a99b54798e556336a2ca798_1 is behind item_u8a99b54798e556336a2ca798_3.\nitem_u8a99b54798e556336a2ca798_4 follows item_u8a99b54798e556336a2ca798_5.\nWhich item occupies slot 6 in this lineup?"
+    },
+    {
+      "id": "native-fresh-ordering-093",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u8ac79a6bcd333e7b58ef1ec1_2 is behind item_u8ac79a6bcd333e7b58ef1ec1_1.\nitem_u8ac79a6bcd333e7b58ef1ec1_3 precedes item_u8ac79a6bcd333e7b58ef1ec1_0.\nitem_u8ac79a6bcd333e7b58ef1ec1_3 follows item_u8ac79a6bcd333e7b58ef1ec1_2.\nWhich item occupies slot 1 in this lineup?"
+    },
+    {
+      "id": "native-fresh-arithmetic-046",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: (17127 * 28413) - 46292."
+    },
+    {
+      "id": "native-fresh-ordering-123",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u2af5d909045a20be610c9f4b_3 is behind item_u2af5d909045a20be610c9f4b_1.\nitem_u2af5d909045a20be610c9f4b_3 occurs before item_u2af5d909045a20be610c9f4b_0.\nitem_u2af5d909045a20be610c9f4b_2 precedes item_u2af5d909045a20be610c9f4b_1.\nWhich item occupies slot 1 in this lineup?"
+    },
+    {
+      "id": "native-fresh-strings-033",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Invert the character sequence \"rdqyxvmdt\"."
+    },
+    {
+      "id": "native-fresh-arithmetic-076",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: (87554 * 62138) - 55350."
+    },
+    {
+      "id": "native-fresh-ordering-017",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_uf0b77a614cb499543e619af3_4 follows item_uf0b77a614cb499543e619af3_2.\nitem_uf0b77a614cb499543e619af3_0 occurs before item_uf0b77a614cb499543e619af3_2.\nitem_uf0b77a614cb499543e619af3_6 precedes item_uf0b77a614cb499543e619af3_3.\nitem_uf0b77a614cb499543e619af3_1 is behind item_uf0b77a614cb499543e619af3_7.\nitem_uf0b77a614cb499543e619af3_8 precedes item_uf0b77a614cb499543e619af3_0.\nitem_uf0b77a614cb499543e619af3_6 follows item_uf0b77a614cb499543e619af3_1.\nitem_uf0b77a614cb499543e619af3_7 is behind item_uf0b77a614cb499543e619af3_5.\nitem_uf0b77a614cb499543e619af3_5 is behind item_uf0b77a614cb499543e619af3_4.\nWhich item occupies slot 2 in this lineup?"
+    },
+    {
+      "id": "native-fresh-logic-147",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_ucb054222bc2d6e1e2782add8 has type kind_ucb054222bc2d6e1e2782add8_0.\nEvery kind_ucb054222bc2d6e1e2782add8_1 is a kind_ucb054222bc2d6e1e2782add8_2.\nEvery kind_ucb054222bc2d6e1e2782add8_2 is a kind_ucb054222bc2d6e1e2782add8_3.\nEvery kind_ucb054222bc2d6e1e2782add8_0 is a kind_ucb054222bc2d6e1e2782add8_1.\nDecide whether the claim \"object_ucb054222bc2d6e1e2782add8 has type kind_ucb054222bc2d6e1e2782add8_3\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-tables-107",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u81aad641559004520f7d1ae2_0, blue, 36, 20\nrow_u81aad641559004520f7d1ae2_1, red, 4, 16\nrow_u81aad641559004520f7d1ae2_2, red, 3, 18\nrow_u81aad641559004520f7d1ae2_3, blue, 9, 5\nrow_u81aad641559004520f7d1ae2_4, blue, 23, 20\nrow_u81aad641559004520f7d1ae2_5, red, 28, 3\nrow_u81aad641559004520f7d1ae2_6, red, 37, 17\nrow_u81aad641559004520f7d1ae2_7, red, 20, 10\nrow_u81aad641559004520f7d1ae2_8, red, 15, 4\nMultiply each matching quantity by its unit_cost and accumulate the results for category red."
+    },
+    {
+      "id": "native-fresh-tables-136",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: A table record has a different number of cells from its header.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u19f89bb239529bdfe1a7a106_0, red, 9, 10\nrow_u19f89bb239529bdfe1a7a106_1, blue, 2, 17\nrow_u19f89bb239529bdfe1a7a106_2, red, 1, 10\nrow_u19f89bb239529bdfe1a7a106_3, blue, 26, 6\nrow_u19f89bb239529bdfe1a7a106_4, blue, 26, 7\nrow_u19f89bb239529bdfe1a7a106_5, blue, 10, 16\nCombine the amounts listed under quantity, considering only category blue."
+    },
+    {
+      "id": "native-fresh-state_tracking-089",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u5843f56f1efe340ca775634f_0 journeyed to room_u5843f56f1efe340ca775634f_2.\nperson_u5843f56f1efe340ca775634f_1 is currently in room_u5843f56f1efe340ca775634f_0.\nperson_u5843f56f1efe340ca775634f_2 entered room_u5843f56f1efe340ca775634f_3.\nperson_u5843f56f1efe340ca775634f_3 is currently in room_u5843f56f1efe340ca775634f_1.\nperson_u5843f56f1efe340ca775634f_3 arrived at room_u5843f56f1efe340ca775634f_0.\nperson_u5843f56f1efe340ca775634f_1 arrived at room_u5843f56f1efe340ca775634f_0.\nperson_u5843f56f1efe340ca775634f_1 entered room_u5843f56f1efe340ca775634f_2.\nperson_u5843f56f1efe340ca775634f_2 arrived at room_u5843f56f1efe340ca775634f_0.\nperson_u5843f56f1efe340ca775634f_0 entered room_u5843f56f1efe340ca775634f_1.\nperson_u5843f56f1efe340ca775634f_0 is currently in room_u5843f56f1efe340ca775634f_0.\nperson_u5843f56f1efe340ca775634f_0 arrived at room_u5843f56f1efe340ca775634f_1.\nperson_u5843f56f1efe340ca775634f_1 entered room_u5843f56f1efe340ca775634f_1.\nperson_u5843f56f1efe340ca775634f_0 is currently in room_u5843f56f1efe340ca775634f_0.\nperson_u5843f56f1efe340ca775634f_2 arrived at room_u5843f56f1efe340ca775634f_1.\nperson_u5843f56f1efe340ca775634f_0 journeyed to room_u5843f56f1efe340ca775634f_3.\nperson_u5843f56f1efe340ca775634f_0 arrived at room_u5843f56f1efe340ca775634f_3.\nperson_u5843f56f1efe340ca775634f_0 arrived at room_u5843f56f1efe340ca775634f_0.\nperson_u5843f56f1efe340ca775634f_2 journeyed to room_u5843f56f1efe340ca775634f_2.\nperson_u5843f56f1efe340ca775634f_3 journeyed to room_u5843f56f1efe340ca775634f_1.\nperson_u5843f56f1efe340ca775634f_1 entered room_u5843f56f1efe340ca775634f_0.\nWhere would you find person_u5843f56f1efe340ca775634f_1 after these changes?"
+    },
+    {
+      "id": "native-fresh-arithmetic-093",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: 71413 + 51327."
+    },
+    {
+      "id": "native-fresh-logic-123",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u0a21970e5efadb37fd00a5ee has type kind_u0a21970e5efadb37fd00a5ee_0.\nEvery kind_u0a21970e5efadb37fd00a5ee_2 is a kind_u0a21970e5efadb37fd00a5ee_3.\nEvery kind_u0a21970e5efadb37fd00a5ee_1 is a kind_u0a21970e5efadb37fd00a5ee_2.\nEvery kind_u0a21970e5efadb37fd00a5ee_0 is a kind_u0a21970e5efadb37fd00a5ee_1.\nDecide whether the claim \"object_u0a21970e5efadb37fd00a5ee has type kind_u0a21970e5efadb37fd00a5ee_3\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-ordering-136",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u5e3cb56085000156bbffd5a8_5 follows item_u5e3cb56085000156bbffd5a8_3.\nitem_u5e3cb56085000156bbffd5a8_1 precedes item_u5e3cb56085000156bbffd5a8_4.\nitem_u5e3cb56085000156bbffd5a8_0 precedes item_u5e3cb56085000156bbffd5a8_3.\nitem_u5e3cb56085000156bbffd5a8_2 follows item_u5e3cb56085000156bbffd5a8_5.\nitem_u5e3cb56085000156bbffd5a8_4 occurs before item_u5e3cb56085000156bbffd5a8_0.\nWhich item occupies slot 6 in this lineup?"
+    },
+    {
+      "id": "native-fresh-state_tracking-063",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_ue518019cea62d37c7d5c4416_0 is currently in room_ue518019cea62d37c7d5c4416_2.\nperson_ue518019cea62d37c7d5c4416_1 entered room_ue518019cea62d37c7d5c4416_3.\nperson_ue518019cea62d37c7d5c4416_2 arrived at room_ue518019cea62d37c7d5c4416_0.\nperson_ue518019cea62d37c7d5c4416_3 is currently in room_ue518019cea62d37c7d5c4416_1.\nperson_ue518019cea62d37c7d5c4416_2 is currently in room_ue518019cea62d37c7d5c4416_1.\nperson_ue518019cea62d37c7d5c4416_1 entered room_ue518019cea62d37c7d5c4416_1.\nperson_ue518019cea62d37c7d5c4416_1 is currently in room_ue518019cea62d37c7d5c4416_0.\nperson_ue518019cea62d37c7d5c4416_3 arrived at room_ue518019cea62d37c7d5c4416_3.\nperson_ue518019cea62d37c7d5c4416_1 is currently in room_ue518019cea62d37c7d5c4416_2.\nperson_ue518019cea62d37c7d5c4416_0 is currently in room_ue518019cea62d37c7d5c4416_1.\nWhere would you find person_ue518019cea62d37c7d5c4416_2 after these changes?"
+    },
+    {
+      "id": "native-fresh-arithmetic-117",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: 22145 + 6373."
+    },
+    {
+      "id": "native-fresh-tables-088",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: A table record has a different number of cells from its header.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_uf377f0db54841070dff3a32c_0, blue, 17, 2\nrow_uf377f0db54841070dff3a32c_1, blue, 33, 4\nrow_uf377f0db54841070dff3a32c_2, blue, 30, 17\nrow_uf377f0db54841070dff3a32c_3, blue, 34, 8\nrow_uf377f0db54841070dff3a32c_4, red, 27, 3\nrow_uf377f0db54841070dff3a32c_5, blue, 13, 13\nCombine the amounts listed under quantity, considering only category blue."
+    },
+    {
+      "id": "native-fresh-arithmetic-089",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: ((17204 + 91754) * 71792) - 17204."
+    },
+    {
+      "id": "native-fresh-state_tracking-046",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u2a59c276b0efb12a9ee79a2b_0 entered room_u2a59c276b0efb12a9ee79a2b_1.\nperson_u2a59c276b0efb12a9ee79a2b_1 arrived at room_u2a59c276b0efb12a9ee79a2b_2.\nperson_u2a59c276b0efb12a9ee79a2b_2 is currently in room_u2a59c276b0efb12a9ee79a2b_3.\nperson_u2a59c276b0efb12a9ee79a2b_3 is currently in room_u2a59c276b0efb12a9ee79a2b_0.\nperson_u2a59c276b0efb12a9ee79a2b_3 entered room_u2a59c276b0efb12a9ee79a2b_1.\nperson_u2a59c276b0efb12a9ee79a2b_1 is currently in room_u2a59c276b0efb12a9ee79a2b_0.\nperson_u2a59c276b0efb12a9ee79a2b_2 journeyed to room_u2a59c276b0efb12a9ee79a2b_1.\nperson_u2a59c276b0efb12a9ee79a2b_3 entered room_u2a59c276b0efb12a9ee79a2b_0.\nperson_u2a59c276b0efb12a9ee79a2b_3 entered room_u2a59c276b0efb12a9ee79a2b_1.\nperson_u2a59c276b0efb12a9ee79a2b_3 arrived at room_u2a59c276b0efb12a9ee79a2b_2.\nperson_u2a59c276b0efb12a9ee79a2b_2 entered room_u2a59c276b0efb12a9ee79a2b_2.\nperson_u2a59c276b0efb12a9ee79a2b_0 is currently in room_u2a59c276b0efb12a9ee79a2b_1.\nperson_u2a59c276b0efb12a9ee79a2b_2 entered room_u2a59c276b0efb12a9ee79a2b_1.\nperson_u2a59c276b0efb12a9ee79a2b_0 journeyed to room_u2a59c276b0efb12a9ee79a2b_3.\nWhere would you find person_u2a59c276b0efb12a9ee79a2b_0 after these changes?"
+    },
+    {
+      "id": "native-fresh-logic-021",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u99f3602a3b393ae82d2055c3 does not belong to class kind_u99f3602a3b393ae82d2055c3_3.\nobject_u99f3602a3b393ae82d2055c3 has type kind_u99f3602a3b393ae82d2055c3_0.\nEvery kind_u99f3602a3b393ae82d2055c3_0 is a kind_u99f3602a3b393ae82d2055c3_1.\nEvery kind_u99f3602a3b393ae82d2055c3_1 is a kind_u99f3602a3b393ae82d2055c3_2.\nDecide whether the claim \"object_u99f3602a3b393ae82d2055c3 has type kind_u99f3602a3b393ae82d2055c3_3\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-tables-111",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u47e424a3957229307d0f107f_0, red, 13, 16\nrow_u47e424a3957229307d0f107f_1, blue, 5, 20\nrow_u47e424a3957229307d0f107f_2, red, 6, 4\nrow_u47e424a3957229307d0f107f_3, blue, 7, 5\nTell me how often the category label blue appears."
+    },
+    {
+      "id": "native-fresh-logic-045",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u9bfb9e0ab56166b89b3ffc04 has type kind_u9bfb9e0ab56166b89b3ffc04_0.\nEvery kind_u9bfb9e0ab56166b89b3ffc04_1 is a kind_u9bfb9e0ab56166b89b3ffc04_2.\nEvery kind_u9bfb9e0ab56166b89b3ffc04_0 is a kind_u9bfb9e0ab56166b89b3ffc04_1.\nEvery kind_u9bfb9e0ab56166b89b3ffc04_2 is a kind_u9bfb9e0ab56166b89b3ffc04_3.\nDecide whether the claim \"object_u9bfb9e0ab56166b89b3ffc04 has type kind_u9bfb9e0ab56166b89b3ffc04_3\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-strings-111",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Invert the character sequence \"zvscgjmux\"."
+    },
+    {
+      "id": "native-fresh-logic-119",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_uaf2d63358a35e144ac562310 has type kind_uaf2d63358a35e144ac562310_0.\nEvery kind_uaf2d63358a35e144ac562310_7 is a kind_uaf2d63358a35e144ac562310_8.\nEvery kind_uaf2d63358a35e144ac562310_5 is a kind_uaf2d63358a35e144ac562310_6.\nEvery kind_uaf2d63358a35e144ac562310_0 is a kind_uaf2d63358a35e144ac562310_1.\nEvery kind_uaf2d63358a35e144ac562310_2 is a kind_uaf2d63358a35e144ac562310_3.\nEvery kind_uaf2d63358a35e144ac562310_4 is a kind_uaf2d63358a35e144ac562310_5.\nEvery kind_uaf2d63358a35e144ac562310_3 is a kind_uaf2d63358a35e144ac562310_4.\nEvery kind_uaf2d63358a35e144ac562310_1 is a kind_uaf2d63358a35e144ac562310_2.\nEvery kind_uaf2d63358a35e144ac562310_6 is a kind_uaf2d63358a35e144ac562310_7.\nDecide whether the claim \"object_uaf2d63358a35e144ac562310 has type kind_uaf2d63358a35e144ac562310_9\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-arithmetic-118",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: (28451 * 45465) - 89196."
+    },
+    {
+      "id": "native-fresh-strings-070",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Output every second letter of \"bzacpnrmxwxq\", beginning with its second letter."
+    },
+    {
+      "id": "native-fresh-state_tracking-117",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u912b2790900c806ac3bb7d73_0 entered room_u912b2790900c806ac3bb7d73_3.\nperson_u912b2790900c806ac3bb7d73_1 arrived at room_u912b2790900c806ac3bb7d73_2.\nperson_u912b2790900c806ac3bb7d73_2 arrived at room_u912b2790900c806ac3bb7d73_0.\nperson_u912b2790900c806ac3bb7d73_3 is currently in room_u912b2790900c806ac3bb7d73_1.\nperson_u912b2790900c806ac3bb7d73_3 journeyed to room_u912b2790900c806ac3bb7d73_1.\nperson_u912b2790900c806ac3bb7d73_1 arrived at room_u912b2790900c806ac3bb7d73_2.\nperson_u912b2790900c806ac3bb7d73_3 journeyed to room_u912b2790900c806ac3bb7d73_0.\nperson_u912b2790900c806ac3bb7d73_2 is currently in room_u912b2790900c806ac3bb7d73_2.\nperson_u912b2790900c806ac3bb7d73_2 entered room_u912b2790900c806ac3bb7d73_2.\nperson_u912b2790900c806ac3bb7d73_3 journeyed to room_u912b2790900c806ac3bb7d73_0.\nWhere would you find person_u912b2790900c806ac3bb7d73_0 after these changes?"
+    },
+    {
+      "id": "native-fresh-state_tracking-112",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u55a46b2c808c88988e1e5734_0 journeyed to room_u55a46b2c808c88988e1e5734_1.\nperson_u55a46b2c808c88988e1e5734_1 entered room_u55a46b2c808c88988e1e5734_0.\nperson_u55a46b2c808c88988e1e5734_2 entered room_u55a46b2c808c88988e1e5734_3.\nperson_u55a46b2c808c88988e1e5734_3 is currently in room_u55a46b2c808c88988e1e5734_2.\nperson_u55a46b2c808c88988e1e5734_0 is currently in room_u55a46b2c808c88988e1e5734_2.\nperson_u55a46b2c808c88988e1e5734_3 journeyed to room_u55a46b2c808c88988e1e5734_1.\nperson_u55a46b2c808c88988e1e5734_3 entered room_u55a46b2c808c88988e1e5734_1.\nperson_u55a46b2c808c88988e1e5734_0 journeyed to room_u55a46b2c808c88988e1e5734_2.\nperson_u55a46b2c808c88988e1e5734_2 is currently in room_u55a46b2c808c88988e1e5734_0.\nperson_u55a46b2c808c88988e1e5734_0 arrived at room_u55a46b2c808c88988e1e5734_1.\nperson_u55a46b2c808c88988e1e5734_3 arrived at room_u55a46b2c808c88988e1e5734_2.\nperson_u55a46b2c808c88988e1e5734_1 is currently in room_u55a46b2c808c88988e1e5734_3.\nperson_u55a46b2c808c88988e1e5734_1 arrived at room_u55a46b2c808c88988e1e5734_1.\nperson_u55a46b2c808c88988e1e5734_3 is currently in room_u55a46b2c808c88988e1e5734_1.\nWhere would you find person_u55a46b2c808c88988e1e5734_1 after these changes?"
+    },
+    {
+      "id": "native-fresh-tables-047",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u261bf0055323d483bf761ceb_0, red, 19, 20\nrow_u261bf0055323d483bf761ceb_1, red, 39, 11\nrow_u261bf0055323d483bf761ceb_2, blue, 11, 16\nrow_u261bf0055323d483bf761ceb_3, red, 16, 13\nrow_u261bf0055323d483bf761ceb_4, red, 32, 2\nrow_u261bf0055323d483bf761ceb_5, red, 18, 15\nrow_u261bf0055323d483bf761ceb_6, red, 37, 9\nrow_u261bf0055323d483bf761ceb_7, blue, 13, 13\nrow_u261bf0055323d483bf761ceb_8, red, 40, 16\nMultiply each matching quantity by its unit_cost and accumulate the results for category blue."
+    },
+    {
+      "id": "native-fresh-strings-082",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Output every second letter of \"mgavbcjvaesn\", beginning with its second letter."
+    },
+    {
+      "id": "native-fresh-ordering-131",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u75526e938710e6dcc664f1dc_0 occurs before item_u75526e938710e6dcc664f1dc_3.\nitem_u75526e938710e6dcc664f1dc_0 follows item_u75526e938710e6dcc664f1dc_4.\nitem_u75526e938710e6dcc664f1dc_1 occurs before item_u75526e938710e6dcc664f1dc_6.\nitem_u75526e938710e6dcc664f1dc_3 precedes item_u75526e938710e6dcc664f1dc_8.\nitem_u75526e938710e6dcc664f1dc_1 is behind item_u75526e938710e6dcc664f1dc_7.\nitem_u75526e938710e6dcc664f1dc_2 is behind item_u75526e938710e6dcc664f1dc_6.\nitem_u75526e938710e6dcc664f1dc_5 precedes item_u75526e938710e6dcc664f1dc_7.\nitem_u75526e938710e6dcc664f1dc_5 is behind item_u75526e938710e6dcc664f1dc_8.\nWhich item occupies slot 2 in this lineup?"
+    },
+    {
+      "id": "native-fresh-state_tracking-083",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u33dafc1958abe210ca63dd93_0 entered room_u33dafc1958abe210ca63dd93_1.\nperson_u33dafc1958abe210ca63dd93_1 entered room_u33dafc1958abe210ca63dd93_3.\nperson_u33dafc1958abe210ca63dd93_2 is currently in room_u33dafc1958abe210ca63dd93_0.\nperson_u33dafc1958abe210ca63dd93_3 is currently in room_u33dafc1958abe210ca63dd93_2.\nperson_u33dafc1958abe210ca63dd93_3 is currently in room_u33dafc1958abe210ca63dd93_1.\nperson_u33dafc1958abe210ca63dd93_2 journeyed to room_u33dafc1958abe210ca63dd93_2.\nperson_u33dafc1958abe210ca63dd93_1 is currently in room_u33dafc1958abe210ca63dd93_2.\nperson_u33dafc1958abe210ca63dd93_0 is currently in room_u33dafc1958abe210ca63dd93_2.\nperson_u33dafc1958abe210ca63dd93_0 is currently in room_u33dafc1958abe210ca63dd93_1.\nperson_u33dafc1958abe210ca63dd93_1 arrived at room_u33dafc1958abe210ca63dd93_0.\nperson_u33dafc1958abe210ca63dd93_3 entered room_u33dafc1958abe210ca63dd93_0.\nperson_u33dafc1958abe210ca63dd93_0 journeyed to room_u33dafc1958abe210ca63dd93_1.\nperson_u33dafc1958abe210ca63dd93_1 journeyed to room_u33dafc1958abe210ca63dd93_3.\nperson_u33dafc1958abe210ca63dd93_1 entered room_u33dafc1958abe210ca63dd93_1.\nperson_u33dafc1958abe210ca63dd93_0 entered room_u33dafc1958abe210ca63dd93_2.\nperson_u33dafc1958abe210ca63dd93_1 journeyed to room_u33dafc1958abe210ca63dd93_2.\nperson_u33dafc1958abe210ca63dd93_0 entered room_u33dafc1958abe210ca63dd93_3.\nperson_u33dafc1958abe210ca63dd93_1 entered room_u33dafc1958abe210ca63dd93_1.\nperson_u33dafc1958abe210ca63dd93_3 is currently in room_u33dafc1958abe210ca63dd93_1.\nperson_u33dafc1958abe210ca63dd93_0 is currently in room_u33dafc1958abe210ca63dd93_2.\nWhere would you find person_u33dafc1958abe210ca63dd93_1 after these changes?"
+    },
+    {
+      "id": "native-fresh-arithmetic-130",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: (7554 * 33935) - 94889."
+    },
+    {
+      "id": "native-fresh-strings-123",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Read \"nvjwrzhng\" from last to first."
+    },
+    {
+      "id": "native-fresh-tables-021",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_ub75ed8a9bd94027e862ba0d9_0, red, 25, 20\nrow_ub75ed8a9bd94027e862ba0d9_1, blue, 12, 11\nrow_ub75ed8a9bd94027e862ba0d9_2, blue, 2, 4\nrow_ub75ed8a9bd94027e862ba0d9_3, blue, 34, 17\nTell me how often the category label blue appears."
+    },
+    {
+      "id": "native-fresh-strings-011",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Cycle \"kdzsvzcgbrdpxne\" left through 14 positions and invert the resulting sequence."
+    },
+    {
+      "id": "native-fresh-logic-124",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_uf710db3835d5260f4f142360 does not belong to class kind_uf710db3835d5260f4f142360_5.\nobject_uf710db3835d5260f4f142360 has type kind_uf710db3835d5260f4f142360_0.\nEvery kind_uf710db3835d5260f4f142360_1 is a kind_uf710db3835d5260f4f142360_2.\nEvery kind_uf710db3835d5260f4f142360_0 is a kind_uf710db3835d5260f4f142360_1.\nEvery kind_uf710db3835d5260f4f142360_3 is a kind_uf710db3835d5260f4f142360_4.\nEvery kind_uf710db3835d5260f4f142360_2 is a kind_uf710db3835d5260f4f142360_3.\nDecide whether the claim \"object_uf710db3835d5260f4f142360 has type kind_uf710db3835d5260f4f142360_5\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-strings-029",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Cycle \"hnqxrqsusyrjsgs\" left through 5 positions and invert the resulting sequence."
+    },
+    {
+      "id": "native-fresh-logic-029",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u70a5e503644173290fb36ca7 does not belong to class kind_u70a5e503644173290fb36ca7_8.\nobject_u70a5e503644173290fb36ca7 has type kind_u70a5e503644173290fb36ca7_0.\nEvery kind_u70a5e503644173290fb36ca7_4 is a kind_u70a5e503644173290fb36ca7_5.\nEvery kind_u70a5e503644173290fb36ca7_6 is a kind_u70a5e503644173290fb36ca7_7.\nEvery kind_u70a5e503644173290fb36ca7_2 is a kind_u70a5e503644173290fb36ca7_3.\nEvery kind_u70a5e503644173290fb36ca7_0 is a kind_u70a5e503644173290fb36ca7_1.\nEvery kind_u70a5e503644173290fb36ca7_1 is a kind_u70a5e503644173290fb36ca7_2.\nEvery kind_u70a5e503644173290fb36ca7_3 is a kind_u70a5e503644173290fb36ca7_4.\nEvery kind_u70a5e503644173290fb36ca7_5 is a kind_u70a5e503644173290fb36ca7_6.\nDecide whether the claim \"object_u70a5e503644173290fb36ca7 has type kind_u70a5e503644173290fb36ca7_8\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-tables-029",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u30580f83e334bf643fa9e4ad_0, red, 22, 12\nrow_u30580f83e334bf643fa9e4ad_1, blue, 20, 7\nrow_u30580f83e334bf643fa9e4ad_2, blue, 33, 8\nrow_u30580f83e334bf643fa9e4ad_3, blue, 22, 8\nrow_u30580f83e334bf643fa9e4ad_4, red, 28, 8\nrow_u30580f83e334bf643fa9e4ad_5, red, 25, 10\nrow_u30580f83e334bf643fa9e4ad_6, red, 19, 19\nrow_u30580f83e334bf643fa9e4ad_7, red, 22, 12\nrow_u30580f83e334bf643fa9e4ad_8, red, 9, 9\nMultiply each matching quantity by its unit_cost and accumulate the results for category blue."
+    },
+    {
+      "id": "native-fresh-arithmetic-017",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: ((45760 + 50161) * 51501) - 45760."
+    },
+    {
+      "id": "native-fresh-state_tracking-022",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u3f341f36f954f104ab9fb445_0 journeyed to room_u3f341f36f954f104ab9fb445_2.\nperson_u3f341f36f954f104ab9fb445_1 entered room_u3f341f36f954f104ab9fb445_0.\nperson_u3f341f36f954f104ab9fb445_2 arrived at room_u3f341f36f954f104ab9fb445_1.\nperson_u3f341f36f954f104ab9fb445_3 arrived at room_u3f341f36f954f104ab9fb445_3.\nperson_u3f341f36f954f104ab9fb445_3 journeyed to room_u3f341f36f954f104ab9fb445_1.\nperson_u3f341f36f954f104ab9fb445_2 entered room_u3f341f36f954f104ab9fb445_2.\nperson_u3f341f36f954f104ab9fb445_2 is currently in room_u3f341f36f954f104ab9fb445_0.\nperson_u3f341f36f954f104ab9fb445_2 arrived at room_u3f341f36f954f104ab9fb445_2.\nperson_u3f341f36f954f104ab9fb445_2 journeyed to room_u3f341f36f954f104ab9fb445_1.\nperson_u3f341f36f954f104ab9fb445_1 entered room_u3f341f36f954f104ab9fb445_0.\nperson_u3f341f36f954f104ab9fb445_0 journeyed to room_u3f341f36f954f104ab9fb445_3.\nperson_u3f341f36f954f104ab9fb445_2 entered room_u3f341f36f954f104ab9fb445_1.\nperson_u3f341f36f954f104ab9fb445_1 is currently in room_u3f341f36f954f104ab9fb445_1.\nperson_u3f341f36f954f104ab9fb445_0 entered room_u3f341f36f954f104ab9fb445_0.\nWhere would you find person_u3f341f36f954f104ab9fb445_3 after these changes?"
+    },
+    {
+      "id": "native-fresh-state_tracking-129",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u4ce3e13160b40dd4acbad4ef_0 journeyed to room_u4ce3e13160b40dd4acbad4ef_0.\nperson_u4ce3e13160b40dd4acbad4ef_1 journeyed to room_u4ce3e13160b40dd4acbad4ef_3.\nperson_u4ce3e13160b40dd4acbad4ef_2 entered room_u4ce3e13160b40dd4acbad4ef_2.\nperson_u4ce3e13160b40dd4acbad4ef_3 journeyed to room_u4ce3e13160b40dd4acbad4ef_1.\nperson_u4ce3e13160b40dd4acbad4ef_3 is currently in room_u4ce3e13160b40dd4acbad4ef_1.\nperson_u4ce3e13160b40dd4acbad4ef_2 journeyed to room_u4ce3e13160b40dd4acbad4ef_1.\nperson_u4ce3e13160b40dd4acbad4ef_0 is currently in room_u4ce3e13160b40dd4acbad4ef_3.\nperson_u4ce3e13160b40dd4acbad4ef_3 is currently in room_u4ce3e13160b40dd4acbad4ef_1.\nperson_u4ce3e13160b40dd4acbad4ef_0 entered room_u4ce3e13160b40dd4acbad4ef_0.\nperson_u4ce3e13160b40dd4acbad4ef_1 arrived at room_u4ce3e13160b40dd4acbad4ef_0.\nWhere would you find person_u4ce3e13160b40dd4acbad4ef_3 after these changes?"
+    },
+    {
+      "id": "native-fresh-ordering-149",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u4af6d7700d9000a789e0d947_1 precedes item_u4af6d7700d9000a789e0d947_7.\nitem_u4af6d7700d9000a789e0d947_7 occurs before item_u4af6d7700d9000a789e0d947_0.\nitem_u4af6d7700d9000a789e0d947_0 precedes item_u4af6d7700d9000a789e0d947_6.\nitem_u4af6d7700d9000a789e0d947_3 is behind item_u4af6d7700d9000a789e0d947_8.\nitem_u4af6d7700d9000a789e0d947_2 follows item_u4af6d7700d9000a789e0d947_4.\nitem_u4af6d7700d9000a789e0d947_2 occurs before item_u4af6d7700d9000a789e0d947_8.\nitem_u4af6d7700d9000a789e0d947_6 precedes item_u4af6d7700d9000a789e0d947_4.\nitem_u4af6d7700d9000a789e0d947_3 precedes item_u4af6d7700d9000a789e0d947_5.\nWhich item occupies slot 6 in this lineup?"
+    },
+    {
+      "id": "native-fresh-logic-131",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_ue480fe8bd758c9550687c5d8 has type kind_ue480fe8bd758c9550687c5d8_0.\nEvery kind_ue480fe8bd758c9550687c5d8_4 is a kind_ue480fe8bd758c9550687c5d8_5.\nEvery kind_ue480fe8bd758c9550687c5d8_0 is a kind_ue480fe8bd758c9550687c5d8_1.\nEvery kind_ue480fe8bd758c9550687c5d8_5 is a kind_ue480fe8bd758c9550687c5d8_6.\nEvery kind_ue480fe8bd758c9550687c5d8_6 is a kind_ue480fe8bd758c9550687c5d8_7.\nEvery kind_ue480fe8bd758c9550687c5d8_7 is a kind_ue480fe8bd758c9550687c5d8_8.\nEvery kind_ue480fe8bd758c9550687c5d8_2 is a kind_ue480fe8bd758c9550687c5d8_3.\nEvery kind_ue480fe8bd758c9550687c5d8_3 is a kind_ue480fe8bd758c9550687c5d8_4.\nEvery kind_ue480fe8bd758c9550687c5d8_1 is a kind_ue480fe8bd758c9550687c5d8_2.\nDecide whether the claim \"object_ue480fe8bd758c9550687c5d8 has type kind_ue480fe8bd758c9550687c5d8_8\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-logic-148",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_uc7974f74f8aa32d86ddb4671 has type kind_uc7974f74f8aa32d86ddb4671_0.\nobject_uc7974f74f8aa32d86ddb4671 does not belong to class kind_uc7974f74f8aa32d86ddb4671_5.\nEvery kind_uc7974f74f8aa32d86ddb4671_1 is a kind_uc7974f74f8aa32d86ddb4671_2.\nEvery kind_uc7974f74f8aa32d86ddb4671_0 is a kind_uc7974f74f8aa32d86ddb4671_1.\nEvery kind_uc7974f74f8aa32d86ddb4671_2 is a kind_uc7974f74f8aa32d86ddb4671_3.\nEvery kind_uc7974f74f8aa32d86ddb4671_3 is a kind_uc7974f74f8aa32d86ddb4671_4.\nDecide whether the claim \"object_uc7974f74f8aa32d86ddb4671 has type kind_uc7974f74f8aa32d86ddb4671_5\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-tables-101",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u6c021b522d8723a9a48e6954_0, blue, 26, 8\nrow_u6c021b522d8723a9a48e6954_1, blue, 29, 14\nrow_u6c021b522d8723a9a48e6954_2, red, 31, 10\nrow_u6c021b522d8723a9a48e6954_3, blue, 28, 19\nrow_u6c021b522d8723a9a48e6954_4, blue, 24, 7\nrow_u6c021b522d8723a9a48e6954_5, blue, 9, 18\nrow_u6c021b522d8723a9a48e6954_6, red, 18, 11\nrow_u6c021b522d8723a9a48e6954_7, red, 1, 3\nrow_u6c021b522d8723a9a48e6954_8, blue, 39, 15\nMultiply each matching quantity by its unit_cost and accumulate the results for category blue."
+    },
+    {
+      "id": "native-fresh-logic-028",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_ueb29e98251311ee7cd3cd807 does not belong to class kind_ueb29e98251311ee7cd3cd807_5.\nobject_ueb29e98251311ee7cd3cd807 has type kind_ueb29e98251311ee7cd3cd807_0.\nEvery kind_ueb29e98251311ee7cd3cd807_3 is a kind_ueb29e98251311ee7cd3cd807_4.\nEvery kind_ueb29e98251311ee7cd3cd807_2 is a kind_ueb29e98251311ee7cd3cd807_3.\nEvery kind_ueb29e98251311ee7cd3cd807_0 is a kind_ueb29e98251311ee7cd3cd807_1.\nEvery kind_ueb29e98251311ee7cd3cd807_1 is a kind_ueb29e98251311ee7cd3cd807_2.\nDecide whether the claim \"object_ueb29e98251311ee7cd3cd807 has type kind_ueb29e98251311ee7cd3cd807_5\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-logic-149",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u1b4a71fbbfee7bb1f10c16f3 has type kind_u1b4a71fbbfee7bb1f10c16f3_0.\nEvery kind_u1b4a71fbbfee7bb1f10c16f3_5 is a kind_u1b4a71fbbfee7bb1f10c16f3_6.\nEvery kind_u1b4a71fbbfee7bb1f10c16f3_0 is a kind_u1b4a71fbbfee7bb1f10c16f3_1.\nEvery kind_u1b4a71fbbfee7bb1f10c16f3_4 is a kind_u1b4a71fbbfee7bb1f10c16f3_5.\nEvery kind_u1b4a71fbbfee7bb1f10c16f3_7 is a kind_u1b4a71fbbfee7bb1f10c16f3_8.\nEvery kind_u1b4a71fbbfee7bb1f10c16f3_6 is a kind_u1b4a71fbbfee7bb1f10c16f3_7.\nEvery kind_u1b4a71fbbfee7bb1f10c16f3_2 is a kind_u1b4a71fbbfee7bb1f10c16f3_3.\nEvery kind_u1b4a71fbbfee7bb1f10c16f3_3 is a kind_u1b4a71fbbfee7bb1f10c16f3_4.\nEvery kind_u1b4a71fbbfee7bb1f10c16f3_1 is a kind_u1b4a71fbbfee7bb1f10c16f3_2.\nDecide whether the claim \"object_u1b4a71fbbfee7bb1f10c16f3 has type kind_u1b4a71fbbfee7bb1f10c16f3_8\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-state_tracking-041",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u490cd7cbd487b7169b737a87_0 entered room_u490cd7cbd487b7169b737a87_0.\nperson_u490cd7cbd487b7169b737a87_1 entered room_u490cd7cbd487b7169b737a87_1.\nperson_u490cd7cbd487b7169b737a87_2 arrived at room_u490cd7cbd487b7169b737a87_3.\nperson_u490cd7cbd487b7169b737a87_3 journeyed to room_u490cd7cbd487b7169b737a87_2.\nperson_u490cd7cbd487b7169b737a87_2 journeyed to room_u490cd7cbd487b7169b737a87_0.\nperson_u490cd7cbd487b7169b737a87_0 is currently in room_u490cd7cbd487b7169b737a87_0.\nperson_u490cd7cbd487b7169b737a87_3 journeyed to room_u490cd7cbd487b7169b737a87_0.\nperson_u490cd7cbd487b7169b737a87_0 journeyed to room_u490cd7cbd487b7169b737a87_1.\nperson_u490cd7cbd487b7169b737a87_2 is currently in room_u490cd7cbd487b7169b737a87_3.\nperson_u490cd7cbd487b7169b737a87_2 arrived at room_u490cd7cbd487b7169b737a87_1.\nperson_u490cd7cbd487b7169b737a87_2 entered room_u490cd7cbd487b7169b737a87_2.\nperson_u490cd7cbd487b7169b737a87_2 journeyed to room_u490cd7cbd487b7169b737a87_3.\nperson_u490cd7cbd487b7169b737a87_0 arrived at room_u490cd7cbd487b7169b737a87_0.\nperson_u490cd7cbd487b7169b737a87_3 is currently in room_u490cd7cbd487b7169b737a87_3.\nperson_u490cd7cbd487b7169b737a87_3 is currently in room_u490cd7cbd487b7169b737a87_1.\nperson_u490cd7cbd487b7169b737a87_3 is currently in room_u490cd7cbd487b7169b737a87_3.\nperson_u490cd7cbd487b7169b737a87_2 arrived at room_u490cd7cbd487b7169b737a87_1.\nperson_u490cd7cbd487b7169b737a87_0 journeyed to room_u490cd7cbd487b7169b737a87_1.\nperson_u490cd7cbd487b7169b737a87_1 entered room_u490cd7cbd487b7169b737a87_2.\nperson_u490cd7cbd487b7169b737a87_3 entered room_u490cd7cbd487b7169b737a87_3.\nWhere would you find person_u490cd7cbd487b7169b737a87_3 after these changes?"
+    },
+    {
+      "id": "native-fresh-ordering-075",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_ucf05d41c5dba5bb38aa40f94_3 occurs before item_ucf05d41c5dba5bb38aa40f94_0.\nitem_ucf05d41c5dba5bb38aa40f94_1 occurs before item_ucf05d41c5dba5bb38aa40f94_2.\nitem_ucf05d41c5dba5bb38aa40f94_2 precedes item_ucf05d41c5dba5bb38aa40f94_3.\nWhich item occupies slot 1 in this lineup?"
+    },
+    {
+      "id": "native-fresh-arithmetic-083",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: ((83163 + 14408) * 93756) - 83163."
+    },
+    {
+      "id": "native-fresh-strings-100",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Output every second letter of \"nnmjpvsuwvfz\", beginning with its second letter."
+    },
+    {
+      "id": "native-fresh-ordering-034",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_uf45cb3363a94dcff6a79a699_3 precedes item_uf45cb3363a94dcff6a79a699_1.\nitem_uf45cb3363a94dcff6a79a699_5 precedes item_uf45cb3363a94dcff6a79a699_0.\nitem_uf45cb3363a94dcff6a79a699_3 follows item_uf45cb3363a94dcff6a79a699_0.\nitem_uf45cb3363a94dcff6a79a699_5 is behind item_uf45cb3363a94dcff6a79a699_2.\nitem_uf45cb3363a94dcff6a79a699_2 follows item_uf45cb3363a94dcff6a79a699_4.\nWhich item occupies slot 6 in this lineup?"
+    },
+    {
+      "id": "native-fresh-logic-113",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_uc62e765f77152d65c46ca613 has type kind_uc62e765f77152d65c46ca613_0.\nEvery kind_uc62e765f77152d65c46ca613_1 is a kind_uc62e765f77152d65c46ca613_2.\nEvery kind_uc62e765f77152d65c46ca613_6 is a kind_uc62e765f77152d65c46ca613_7.\nEvery kind_uc62e765f77152d65c46ca613_3 is a kind_uc62e765f77152d65c46ca613_4.\nEvery kind_uc62e765f77152d65c46ca613_4 is a kind_uc62e765f77152d65c46ca613_5.\nEvery kind_uc62e765f77152d65c46ca613_7 is a kind_uc62e765f77152d65c46ca613_8.\nEvery kind_uc62e765f77152d65c46ca613_5 is a kind_uc62e765f77152d65c46ca613_6.\nEvery kind_uc62e765f77152d65c46ca613_2 is a kind_uc62e765f77152d65c46ca613_3.\nEvery kind_uc62e765f77152d65c46ca613_0 is a kind_uc62e765f77152d65c46ca613_1.\nDecide whether the claim \"object_uc62e765f77152d65c46ca613 has type kind_uc62e765f77152d65c46ca613_9\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-strings-093",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Invert the character sequence \"mszmxancv\"."
+    },
+    {
+      "id": "native-fresh-strings-087",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Read \"wrbzuhfjw\" from last to first."
+    },
+    {
+      "id": "native-fresh-logic-099",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u286efb5fd1f7ddc8dbb7649f has type kind_u286efb5fd1f7ddc8dbb7649f_0.\nobject_u286efb5fd1f7ddc8dbb7649f does not belong to class kind_u286efb5fd1f7ddc8dbb7649f_3.\nEvery kind_u286efb5fd1f7ddc8dbb7649f_1 is a kind_u286efb5fd1f7ddc8dbb7649f_2.\nEvery kind_u286efb5fd1f7ddc8dbb7649f_0 is a kind_u286efb5fd1f7ddc8dbb7649f_1.\nDecide whether the claim \"object_u286efb5fd1f7ddc8dbb7649f has type kind_u286efb5fd1f7ddc8dbb7649f_3\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-tables-039",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u5e1ff117437d86b3bc5016ab_0, blue, 13, 13\nrow_u5e1ff117437d86b3bc5016ab_1, red, 40, 6\nrow_u5e1ff117437d86b3bc5016ab_2, blue, 20, 19\nrow_u5e1ff117437d86b3bc5016ab_3, blue, 1, 12\nTell me how often the category label blue appears."
+    },
+    {
+      "id": "native-fresh-tables-071",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u8cf9e832bce31e03a54d3d54_0, red, 24, 7\nrow_u8cf9e832bce31e03a54d3d54_1, blue, 37, 15\nrow_u8cf9e832bce31e03a54d3d54_2, blue, 21, 3\nrow_u8cf9e832bce31e03a54d3d54_3, red, 5, 19\nrow_u8cf9e832bce31e03a54d3d54_4, red, 3, 13\nrow_u8cf9e832bce31e03a54d3d54_5, red, 33, 8\nrow_u8cf9e832bce31e03a54d3d54_6, red, 34, 3\nrow_u8cf9e832bce31e03a54d3d54_7, red, 15, 20\nrow_u8cf9e832bce31e03a54d3d54_8, red, 17, 9\nMultiply each matching quantity by its unit_cost and accumulate the results for category blue."
+    },
+    {
+      "id": "native-fresh-logic-106",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u212268ec18058897bf5e5cfa has type kind_u212268ec18058897bf5e5cfa_0.\nEvery kind_u212268ec18058897bf5e5cfa_3 is a kind_u212268ec18058897bf5e5cfa_4.\nEvery kind_u212268ec18058897bf5e5cfa_0 is a kind_u212268ec18058897bf5e5cfa_1.\nEvery kind_u212268ec18058897bf5e5cfa_4 is a kind_u212268ec18058897bf5e5cfa_5.\nEvery kind_u212268ec18058897bf5e5cfa_1 is a kind_u212268ec18058897bf5e5cfa_2.\nEvery kind_u212268ec18058897bf5e5cfa_2 is a kind_u212268ec18058897bf5e5cfa_3.\nDecide whether the claim \"object_u212268ec18058897bf5e5cfa has type kind_u212268ec18058897bf5e5cfa_5\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-tables-041",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_ud1f45d40f9845cfe3e86eed4_0, red, 16, 7\nrow_ud1f45d40f9845cfe3e86eed4_1, blue, 34, 17\nrow_ud1f45d40f9845cfe3e86eed4_2, red, 31, 13\nrow_ud1f45d40f9845cfe3e86eed4_3, red, 25, 5\nrow_ud1f45d40f9845cfe3e86eed4_4, blue, 24, 4\nrow_ud1f45d40f9845cfe3e86eed4_5, red, 19, 17\nrow_ud1f45d40f9845cfe3e86eed4_6, red, 24, 11\nrow_ud1f45d40f9845cfe3e86eed4_7, blue, 3, 3\nrow_ud1f45d40f9845cfe3e86eed4_8, blue, 34, 10\nMultiply each matching quantity by its unit_cost and accumulate the results for category red."
+    },
+    {
+      "id": "native-fresh-ordering-021",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_ueca6d1f11a0fc523b1bf38b8_2 follows item_ueca6d1f11a0fc523b1bf38b8_3.\nitem_ueca6d1f11a0fc523b1bf38b8_1 is behind item_ueca6d1f11a0fc523b1bf38b8_2.\nitem_ueca6d1f11a0fc523b1bf38b8_0 is behind item_ueca6d1f11a0fc523b1bf38b8_1.\nWhich item occupies slot 1 in this lineup?"
+    },
+    {
+      "id": "native-fresh-state_tracking-142",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_ubb14ef0dadb2734abed561e4_0 entered room_ubb14ef0dadb2734abed561e4_3.\nperson_ubb14ef0dadb2734abed561e4_1 is currently in room_ubb14ef0dadb2734abed561e4_2.\nperson_ubb14ef0dadb2734abed561e4_2 entered room_ubb14ef0dadb2734abed561e4_1.\nperson_ubb14ef0dadb2734abed561e4_3 arrived at room_ubb14ef0dadb2734abed561e4_0.\nperson_ubb14ef0dadb2734abed561e4_0 is currently in room_ubb14ef0dadb2734abed561e4_1.\nperson_ubb14ef0dadb2734abed561e4_2 arrived at room_ubb14ef0dadb2734abed561e4_1.\nperson_ubb14ef0dadb2734abed561e4_3 entered room_ubb14ef0dadb2734abed561e4_2.\nperson_ubb14ef0dadb2734abed561e4_2 arrived at room_ubb14ef0dadb2734abed561e4_1.\nperson_ubb14ef0dadb2734abed561e4_1 arrived at room_ubb14ef0dadb2734abed561e4_2.\nperson_ubb14ef0dadb2734abed561e4_1 entered room_ubb14ef0dadb2734abed561e4_2.\nperson_ubb14ef0dadb2734abed561e4_0 arrived at room_ubb14ef0dadb2734abed561e4_1.\nperson_ubb14ef0dadb2734abed561e4_3 journeyed to room_ubb14ef0dadb2734abed561e4_2.\nperson_ubb14ef0dadb2734abed561e4_2 is currently in room_ubb14ef0dadb2734abed561e4_0.\nperson_ubb14ef0dadb2734abed561e4_1 is currently in room_ubb14ef0dadb2734abed561e4_2.\nWhere would you find person_ubb14ef0dadb2734abed561e4_0 after these changes?"
+    },
+    {
+      "id": "native-fresh-logic-093",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u88b935d82b2723fa5593488e has type kind_u88b935d82b2723fa5593488e_0.\nEvery kind_u88b935d82b2723fa5593488e_2 is a kind_u88b935d82b2723fa5593488e_3.\nEvery kind_u88b935d82b2723fa5593488e_0 is a kind_u88b935d82b2723fa5593488e_1.\nEvery kind_u88b935d82b2723fa5593488e_1 is a kind_u88b935d82b2723fa5593488e_2.\nDecide whether the claim \"object_u88b935d82b2723fa5593488e has type kind_u88b935d82b2723fa5593488e_4\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-strings-130",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Output every second letter of \"vqmxqkxwwqzb\", beginning with its second letter."
+    },
+    {
+      "id": "native-fresh-state_tracking-052",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u268bed1070d0468a5d29c5e2_0 entered room_u268bed1070d0468a5d29c5e2_1.\nperson_u268bed1070d0468a5d29c5e2_1 arrived at room_u268bed1070d0468a5d29c5e2_2.\nperson_u268bed1070d0468a5d29c5e2_2 is currently in room_u268bed1070d0468a5d29c5e2_3.\nperson_u268bed1070d0468a5d29c5e2_3 journeyed to room_u268bed1070d0468a5d29c5e2_0.\nperson_u268bed1070d0468a5d29c5e2_1 arrived at room_u268bed1070d0468a5d29c5e2_3.\nperson_u268bed1070d0468a5d29c5e2_0 journeyed to room_u268bed1070d0468a5d29c5e2_0.\nperson_u268bed1070d0468a5d29c5e2_0 arrived at room_u268bed1070d0468a5d29c5e2_3.\nperson_u268bed1070d0468a5d29c5e2_0 arrived at room_u268bed1070d0468a5d29c5e2_2.\nperson_u268bed1070d0468a5d29c5e2_3 is currently in room_u268bed1070d0468a5d29c5e2_2.\nperson_u268bed1070d0468a5d29c5e2_1 entered room_u268bed1070d0468a5d29c5e2_1.\nperson_u268bed1070d0468a5d29c5e2_1 is currently in room_u268bed1070d0468a5d29c5e2_2.\nperson_u268bed1070d0468a5d29c5e2_1 entered room_u268bed1070d0468a5d29c5e2_1.\nperson_u268bed1070d0468a5d29c5e2_2 journeyed to room_u268bed1070d0468a5d29c5e2_1.\nperson_u268bed1070d0468a5d29c5e2_3 is currently in room_u268bed1070d0468a5d29c5e2_0.\nWhere would you find person_u268bed1070d0468a5d29c5e2_1 after these changes?"
+    },
+    {
+      "id": "native-fresh-logic-053",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_ufbb24d28143c08f8879f4768 does not belong to class kind_ufbb24d28143c08f8879f4768_8.\nobject_ufbb24d28143c08f8879f4768 has type kind_ufbb24d28143c08f8879f4768_0.\nEvery kind_ufbb24d28143c08f8879f4768_6 is a kind_ufbb24d28143c08f8879f4768_7.\nEvery kind_ufbb24d28143c08f8879f4768_0 is a kind_ufbb24d28143c08f8879f4768_1.\nEvery kind_ufbb24d28143c08f8879f4768_4 is a kind_ufbb24d28143c08f8879f4768_5.\nEvery kind_ufbb24d28143c08f8879f4768_3 is a kind_ufbb24d28143c08f8879f4768_4.\nEvery kind_ufbb24d28143c08f8879f4768_1 is a kind_ufbb24d28143c08f8879f4768_2.\nEvery kind_ufbb24d28143c08f8879f4768_5 is a kind_ufbb24d28143c08f8879f4768_6.\nEvery kind_ufbb24d28143c08f8879f4768_2 is a kind_ufbb24d28143c08f8879f4768_3.\nDecide whether the claim \"object_ufbb24d28143c08f8879f4768 has type kind_ufbb24d28143c08f8879f4768_8\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-logic-051",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u0ba8a3c813a4699821411d43 has type kind_u0ba8a3c813a4699821411d43_0.\nEvery kind_u0ba8a3c813a4699821411d43_2 is a kind_u0ba8a3c813a4699821411d43_3.\nEvery kind_u0ba8a3c813a4699821411d43_1 is a kind_u0ba8a3c813a4699821411d43_2.\nEvery kind_u0ba8a3c813a4699821411d43_0 is a kind_u0ba8a3c813a4699821411d43_1.\nDecide whether the claim \"object_u0ba8a3c813a4699821411d43 has type kind_u0ba8a3c813a4699821411d43_3\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-logic-010",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u09163ab1855df49e758a8e30 has type kind_u09163ab1855df49e758a8e30_0.\nEvery kind_u09163ab1855df49e758a8e30_2 is a kind_u09163ab1855df49e758a8e30_3.\nEvery kind_u09163ab1855df49e758a8e30_1 is a kind_u09163ab1855df49e758a8e30_2.\nEvery kind_u09163ab1855df49e758a8e30_3 is a kind_u09163ab1855df49e758a8e30_4.\nEvery kind_u09163ab1855df49e758a8e30_4 is a kind_u09163ab1855df49e758a8e30_5.\nEvery kind_u09163ab1855df49e758a8e30_0 is a kind_u09163ab1855df49e758a8e30_1.\nDecide whether the claim \"object_u09163ab1855df49e758a8e30 has type kind_u09163ab1855df49e758a8e30_5\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-ordering-089",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u005798d3af67cc91838d3b84_6 occurs before item_u005798d3af67cc91838d3b84_0.\nitem_u005798d3af67cc91838d3b84_1 is behind item_u005798d3af67cc91838d3b84_5.\nitem_u005798d3af67cc91838d3b84_2 precedes item_u005798d3af67cc91838d3b84_3.\nitem_u005798d3af67cc91838d3b84_2 is behind item_u005798d3af67cc91838d3b84_7.\nitem_u005798d3af67cc91838d3b84_7 is behind item_u005798d3af67cc91838d3b84_4.\nitem_u005798d3af67cc91838d3b84_1 precedes item_u005798d3af67cc91838d3b84_8.\nitem_u005798d3af67cc91838d3b84_5 follows item_u005798d3af67cc91838d3b84_3.\nitem_u005798d3af67cc91838d3b84_8 precedes item_u005798d3af67cc91838d3b84_6.\nWhich item occupies slot 5 in this lineup?"
+    },
+    {
+      "id": "native-fresh-logic-118",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_ue707fcca2defb019c592d49a has type kind_ue707fcca2defb019c592d49a_0.\nEvery kind_ue707fcca2defb019c592d49a_4 is a kind_ue707fcca2defb019c592d49a_5.\nEvery kind_ue707fcca2defb019c592d49a_3 is a kind_ue707fcca2defb019c592d49a_4.\nEvery kind_ue707fcca2defb019c592d49a_0 is a kind_ue707fcca2defb019c592d49a_1.\nEvery kind_ue707fcca2defb019c592d49a_1 is a kind_ue707fcca2defb019c592d49a_2.\nEvery kind_ue707fcca2defb019c592d49a_2 is a kind_ue707fcca2defb019c592d49a_3.\nDecide whether the claim \"object_ue707fcca2defb019c592d49a has type kind_ue707fcca2defb019c592d49a_6\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-tables-017",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: The complete table query contains an uncompiled operation or qualifier.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_u47cfd7f1fdaed7b728c5c7b1_0, blue, 7, 6\nrow_u47cfd7f1fdaed7b728c5c7b1_1, red, 5, 8\nrow_u47cfd7f1fdaed7b728c5c7b1_2, red, 38, 17\nrow_u47cfd7f1fdaed7b728c5c7b1_3, blue, 22, 19\nrow_u47cfd7f1fdaed7b728c5c7b1_4, blue, 4, 15\nrow_u47cfd7f1fdaed7b728c5c7b1_5, red, 17, 10\nrow_u47cfd7f1fdaed7b728c5c7b1_6, red, 18, 12\nrow_u47cfd7f1fdaed7b728c5c7b1_7, blue, 5, 11\nrow_u47cfd7f1fdaed7b728c5c7b1_8, red, 35, 14\nMultiply each matching quantity by its unit_cost and accumulate the results for category blue."
+    },
+    {
+      "id": "native-fresh-ordering-041",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u1540c466a6f73ffd16cc1fc0_4 occurs before item_u1540c466a6f73ffd16cc1fc0_1.\nitem_u1540c466a6f73ffd16cc1fc0_2 is behind item_u1540c466a6f73ffd16cc1fc0_8.\nitem_u1540c466a6f73ffd16cc1fc0_4 is behind item_u1540c466a6f73ffd16cc1fc0_2.\nitem_u1540c466a6f73ffd16cc1fc0_6 follows item_u1540c466a6f73ffd16cc1fc0_1.\nitem_u1540c466a6f73ffd16cc1fc0_3 occurs before item_u1540c466a6f73ffd16cc1fc0_5.\nitem_u1540c466a6f73ffd16cc1fc0_0 precedes item_u1540c466a6f73ffd16cc1fc0_3.\nitem_u1540c466a6f73ffd16cc1fc0_5 precedes item_u1540c466a6f73ffd16cc1fc0_8.\nitem_u1540c466a6f73ffd16cc1fc0_7 is behind item_u1540c466a6f73ffd16cc1fc0_6.\nWhich item occupies slot 2 in this lineup?"
+    },
+    {
+      "id": "native-fresh-tables-040",
+      "family": "tables",
+      "presentation": "new_wording",
+      "route": "chat/native-task-clarify",
+      "response": "Please clarify: A table record has a different number of cells from its header.",
+      "prompt": "entry, category, quantity, unit_cost\nrow_uba42cf50758583c89b649880_0, red, 17, 2\nrow_uba42cf50758583c89b649880_1, red, 2, 18\nrow_uba42cf50758583c89b649880_2, blue, 3, 8\nrow_uba42cf50758583c89b649880_3, blue, 21, 17\nrow_uba42cf50758583c89b649880_4, blue, 3, 10\nrow_uba42cf50758583c89b649880_5, blue, 9, 12\nCombine the amounts listed under quantity, considering only category red."
+    },
+    {
+      "id": "native-fresh-ordering-118",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_u71cff71f755748a0e70ac03c_1 is behind item_u71cff71f755748a0e70ac03c_2.\nitem_u71cff71f755748a0e70ac03c_5 follows item_u71cff71f755748a0e70ac03c_4.\nitem_u71cff71f755748a0e70ac03c_5 precedes item_u71cff71f755748a0e70ac03c_3.\nitem_u71cff71f755748a0e70ac03c_0 precedes item_u71cff71f755748a0e70ac03c_4.\nitem_u71cff71f755748a0e70ac03c_1 occurs before item_u71cff71f755748a0e70ac03c_0.\nWhich item occupies slot 6 in this lineup?"
+    },
+    {
+      "id": "native-fresh-state_tracking-077",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u839d919d29d192d5c2e74a7a_0 is currently in room_u839d919d29d192d5c2e74a7a_2.\nperson_u839d919d29d192d5c2e74a7a_1 arrived at room_u839d919d29d192d5c2e74a7a_0.\nperson_u839d919d29d192d5c2e74a7a_2 is currently in room_u839d919d29d192d5c2e74a7a_1.\nperson_u839d919d29d192d5c2e74a7a_3 journeyed to room_u839d919d29d192d5c2e74a7a_3.\nperson_u839d919d29d192d5c2e74a7a_1 journeyed to room_u839d919d29d192d5c2e74a7a_3.\nperson_u839d919d29d192d5c2e74a7a_3 journeyed to room_u839d919d29d192d5c2e74a7a_3.\nperson_u839d919d29d192d5c2e74a7a_1 journeyed to room_u839d919d29d192d5c2e74a7a_1.\nperson_u839d919d29d192d5c2e74a7a_3 arrived at room_u839d919d29d192d5c2e74a7a_3.\nperson_u839d919d29d192d5c2e74a7a_0 is currently in room_u839d919d29d192d5c2e74a7a_1.\nperson_u839d919d29d192d5c2e74a7a_3 is currently in room_u839d919d29d192d5c2e74a7a_3.\nperson_u839d919d29d192d5c2e74a7a_3 journeyed to room_u839d919d29d192d5c2e74a7a_2.\nperson_u839d919d29d192d5c2e74a7a_3 arrived at room_u839d919d29d192d5c2e74a7a_0.\nperson_u839d919d29d192d5c2e74a7a_0 arrived at room_u839d919d29d192d5c2e74a7a_2.\nperson_u839d919d29d192d5c2e74a7a_3 is currently in room_u839d919d29d192d5c2e74a7a_3.\nperson_u839d919d29d192d5c2e74a7a_2 is currently in room_u839d919d29d192d5c2e74a7a_0.\nperson_u839d919d29d192d5c2e74a7a_1 journeyed to room_u839d919d29d192d5c2e74a7a_0.\nperson_u839d919d29d192d5c2e74a7a_1 arrived at room_u839d919d29d192d5c2e74a7a_0.\nperson_u839d919d29d192d5c2e74a7a_0 arrived at room_u839d919d29d192d5c2e74a7a_3.\nperson_u839d919d29d192d5c2e74a7a_2 arrived at room_u839d919d29d192d5c2e74a7a_3.\nperson_u839d919d29d192d5c2e74a7a_2 is currently in room_u839d919d29d192d5c2e74a7a_2.\nWhere would you find person_u839d919d29d192d5c2e74a7a_0 after these changes?"
+    },
+    {
+      "id": "native-fresh-state_tracking-058",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u5fe7f60469a006a717b1f585_0 entered room_u5fe7f60469a006a717b1f585_3.\nperson_u5fe7f60469a006a717b1f585_1 is currently in room_u5fe7f60469a006a717b1f585_2.\nperson_u5fe7f60469a006a717b1f585_2 entered room_u5fe7f60469a006a717b1f585_1.\nperson_u5fe7f60469a006a717b1f585_3 journeyed to room_u5fe7f60469a006a717b1f585_0.\nperson_u5fe7f60469a006a717b1f585_0 entered room_u5fe7f60469a006a717b1f585_3.\nperson_u5fe7f60469a006a717b1f585_2 journeyed to room_u5fe7f60469a006a717b1f585_0.\nperson_u5fe7f60469a006a717b1f585_2 entered room_u5fe7f60469a006a717b1f585_3.\nperson_u5fe7f60469a006a717b1f585_1 entered room_u5fe7f60469a006a717b1f585_3.\nperson_u5fe7f60469a006a717b1f585_3 arrived at room_u5fe7f60469a006a717b1f585_3.\nperson_u5fe7f60469a006a717b1f585_0 is currently in room_u5fe7f60469a006a717b1f585_3.\nperson_u5fe7f60469a006a717b1f585_1 entered room_u5fe7f60469a006a717b1f585_2.\nperson_u5fe7f60469a006a717b1f585_2 is currently in room_u5fe7f60469a006a717b1f585_2.\nperson_u5fe7f60469a006a717b1f585_3 arrived at room_u5fe7f60469a006a717b1f585_0.\nperson_u5fe7f60469a006a717b1f585_3 arrived at room_u5fe7f60469a006a717b1f585_3.\nWhere would you find person_u5fe7f60469a006a717b1f585_3 after these changes?"
+    },
+    {
+      "id": "native-fresh-arithmetic-063",
+      "family": "arithmetic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "I need a numerical answer to this calculation: 48402 + 88858."
+    },
+    {
+      "id": "native-fresh-ordering-076",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_ua6793d7a782b82991c511072_0 occurs before item_ua6793d7a782b82991c511072_5.\nitem_ua6793d7a782b82991c511072_3 precedes item_ua6793d7a782b82991c511072_0.\nitem_ua6793d7a782b82991c511072_5 occurs before item_ua6793d7a782b82991c511072_1.\nitem_ua6793d7a782b82991c511072_4 precedes item_ua6793d7a782b82991c511072_3.\nitem_ua6793d7a782b82991c511072_4 is behind item_ua6793d7a782b82991c511072_2.\nWhich item occupies slot 6 in this lineup?"
+    },
+    {
+      "id": "native-fresh-strings-046",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Output every second letter of \"ztuakcvwcuea\", beginning with its second letter."
+    },
+    {
+      "id": "native-fresh-logic-143",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u5697063b46114f3cab36c0c2 has type kind_u5697063b46114f3cab36c0c2_0.\nEvery kind_u5697063b46114f3cab36c0c2_4 is a kind_u5697063b46114f3cab36c0c2_5.\nEvery kind_u5697063b46114f3cab36c0c2_7 is a kind_u5697063b46114f3cab36c0c2_8.\nEvery kind_u5697063b46114f3cab36c0c2_2 is a kind_u5697063b46114f3cab36c0c2_3.\nEvery kind_u5697063b46114f3cab36c0c2_6 is a kind_u5697063b46114f3cab36c0c2_7.\nEvery kind_u5697063b46114f3cab36c0c2_5 is a kind_u5697063b46114f3cab36c0c2_6.\nEvery kind_u5697063b46114f3cab36c0c2_1 is a kind_u5697063b46114f3cab36c0c2_2.\nEvery kind_u5697063b46114f3cab36c0c2_3 is a kind_u5697063b46114f3cab36c0c2_4.\nEvery kind_u5697063b46114f3cab36c0c2_0 is a kind_u5697063b46114f3cab36c0c2_1.\nDecide whether the claim \"object_u5697063b46114f3cab36c0c2 has type kind_u5697063b46114f3cab36c0c2_8\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-ordering-059",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_ud55806522ff66ff43776b4f9_6 occurs before item_ud55806522ff66ff43776b4f9_5.\nitem_ud55806522ff66ff43776b4f9_5 occurs before item_ud55806522ff66ff43776b4f9_0.\nitem_ud55806522ff66ff43776b4f9_1 occurs before item_ud55806522ff66ff43776b4f9_8.\nitem_ud55806522ff66ff43776b4f9_4 precedes item_ud55806522ff66ff43776b4f9_7.\nitem_ud55806522ff66ff43776b4f9_2 follows item_ud55806522ff66ff43776b4f9_3.\nitem_ud55806522ff66ff43776b4f9_6 is behind item_ud55806522ff66ff43776b4f9_7.\nitem_ud55806522ff66ff43776b4f9_4 is behind item_ud55806522ff66ff43776b4f9_8.\nitem_ud55806522ff66ff43776b4f9_0 precedes item_ud55806522ff66ff43776b4f9_3.\nWhich item occupies slot 7 in this lineup?"
+    },
+    {
+      "id": "native-fresh-state_tracking-003",
+      "family": "state_tracking",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "person_u291dfe5904ec7ef234b5fb75_0 is currently in room_u291dfe5904ec7ef234b5fb75_0.\nperson_u291dfe5904ec7ef234b5fb75_1 entered room_u291dfe5904ec7ef234b5fb75_1.\nperson_u291dfe5904ec7ef234b5fb75_2 journeyed to room_u291dfe5904ec7ef234b5fb75_3.\nperson_u291dfe5904ec7ef234b5fb75_3 arrived at room_u291dfe5904ec7ef234b5fb75_2.\nperson_u291dfe5904ec7ef234b5fb75_2 is currently in room_u291dfe5904ec7ef234b5fb75_3.\nperson_u291dfe5904ec7ef234b5fb75_0 arrived at room_u291dfe5904ec7ef234b5fb75_3.\nperson_u291dfe5904ec7ef234b5fb75_3 entered room_u291dfe5904ec7ef234b5fb75_2.\nperson_u291dfe5904ec7ef234b5fb75_2 arrived at room_u291dfe5904ec7ef234b5fb75_3.\nperson_u291dfe5904ec7ef234b5fb75_2 arrived at room_u291dfe5904ec7ef234b5fb75_1.\nperson_u291dfe5904ec7ef234b5fb75_0 entered room_u291dfe5904ec7ef234b5fb75_2.\nWhere would you find person_u291dfe5904ec7ef234b5fb75_2 after these changes?"
+    },
+    {
+      "id": "native-fresh-logic-071",
+      "family": "logic",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "Treat these statements as a local hypothetical record:\nobject_u7688ec58dfd18be9ebe039b5 has type kind_u7688ec58dfd18be9ebe039b5_0.\nEvery kind_u7688ec58dfd18be9ebe039b5_5 is a kind_u7688ec58dfd18be9ebe039b5_6.\nEvery kind_u7688ec58dfd18be9ebe039b5_4 is a kind_u7688ec58dfd18be9ebe039b5_5.\nEvery kind_u7688ec58dfd18be9ebe039b5_1 is a kind_u7688ec58dfd18be9ebe039b5_2.\nEvery kind_u7688ec58dfd18be9ebe039b5_7 is a kind_u7688ec58dfd18be9ebe039b5_8.\nEvery kind_u7688ec58dfd18be9ebe039b5_6 is a kind_u7688ec58dfd18be9ebe039b5_7.\nEvery kind_u7688ec58dfd18be9ebe039b5_0 is a kind_u7688ec58dfd18be9ebe039b5_1.\nEvery kind_u7688ec58dfd18be9ebe039b5_2 is a kind_u7688ec58dfd18be9ebe039b5_3.\nEvery kind_u7688ec58dfd18be9ebe039b5_3 is a kind_u7688ec58dfd18be9ebe039b5_4.\nDecide whether the claim \"object_u7688ec58dfd18be9ebe039b5 has type kind_u7688ec58dfd18be9ebe039b5_8\" follows, is contradicted, or remains open."
+    },
+    {
+      "id": "native-fresh-ordering-063",
+      "family": "ordering",
+      "presentation": "new_wording",
+      "route": "chat/choice-unsupported",
+      "response": "I cannot establish which option is correct from this question.",
+      "prompt": "item_uba43818b5a95a0837fe6e92c_0 occurs before item_uba43818b5a95a0837fe6e92c_3.\nitem_uba43818b5a95a0837fe6e92c_2 follows item_uba43818b5a95a0837fe6e92c_1.\nitem_uba43818b5a95a0837fe6e92c_1 follows item_uba43818b5a95a0837fe6e92c_3.\nWhich item occupies slot 1 in this lineup?"
+    },
+    {
+      "id": "native-fresh-strings-118",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Output every second letter of \"femjgyuwqbqd\", beginning with its second letter."
+    },
+    {
+      "id": "native-fresh-strings-141",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Read \"sajpndghz\" from last to first."
+    },
+    {
+      "id": "native-fresh-strings-004",
+      "family": "strings",
+      "presentation": "new_wording",
+      "route": "chat/local-smalltalk",
+      "response": "Tell me more about that.",
+      "prompt": "Output every second letter of \"rershmrtbxpm\", beginning with its second letter."
+    }
+  ],
+  "raw_sha256": "bb40ca3c8642bdca9d0f3a42ee03e00b2c03788082b2379d2d361aef906289f1"
+}

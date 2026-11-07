@@ -1,3 +1,7 @@
+# 0.3.9.1 — 2026-11-07
+
+Native bounded task interpretation and installed product metadata. Unchanged non-neural architecture and resource bundle. Fresh 900-question study: 777 correct, 123 abstentions; scope and limitations in RELEASE_0_3_9_1.md.
+
 # Changelog
 
 ## 0.3.9 (2026-11-07)

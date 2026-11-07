@@ -1,0 +1,8 @@
+{
+  "reference_benchmark_sha256": "60b81d31c13e02acdef2bc39f1fb95e13fe7eb342d5d2596f69ca9623960b8d5",
+  "matches_pre_existing_source_freeze": true,
+  "matching_receipt": "research\\nnai_fresh_039_20261107\\source_freeze.json",
+  "scoring_rule": "Exact A/B/C/D match, ABSTAIN/errors counted wrong, predeclared in frozen PROTOCOL.md before new test selection.",
+  "unsealed_tools": "Independent text auditor and report/integrity/scoring helpers were implemented after question generation; they do not select model answers or alter the frozen input/gold/readouts. Their hashes and initial diagnostic failures are retained.",
+  "model_code_assets_or_outcomes_changed": false
+}

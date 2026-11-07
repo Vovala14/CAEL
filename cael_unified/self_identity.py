@@ -5,9 +5,11 @@ Without this, "What's is CAEL?" went through the general fact routes and the web
 wrestling coach Cael Sanderson on Wikipedia. Questions clearly about someone else ("Who is Cael Sanderson?")
 are left alone. Rule-based; no neural model.
 """
+import json
+from pathlib import Path
 import re
 
-from .bundle import VERSION
+from .bundle import VERSION, BUNDLE_VERSION
 
 ABOUT = (f"I'm CAEL (version {VERSION}), a small experimental chat assistant built from non-neural symbolic, count and "
          "automaton engines, with no neural network. CAEL is source-available, non-commercial software. "
@@ -49,24 +51,133 @@ def normalize(text):
     return re.sub(r'\s+', ' ', t).strip()
 
 
+# Whole-question readers: a site marker or the name "Cael" alone is not enough.
+RELEASE_SUBJECT = (
+    r"(?:(?:this|the|your|current|latest|new|installed)(?:\s+(?:current|latest|new|installed))?\s+"
+    r"(?:version|release|update)(?:\s+of\s+(?:cael|this assistant|this chatbot))?"
+    r"|cael(?:\s+(?:version|release|v))?(?:\s+\d+(?:\s+\d+){1,3})?"
+    r"|your\s+(?:updates|changes))")
+ASK = LEAD + r"(?:(?:please|can you|could you|would you)\s+)*(?:tell me\s+)?"
+PRODUCT_PATTERNS = [
+    (rf"{ASK}{WHAT}\s+(?:is\s+)?(?:new|different|improved|updated)\s+(?:in|with|about|for)\s+{RELEASE_SUBJECT}(?:\s+please)?", 'changes'),
+    (rf"{ASK}{WHAT}\s+(?:has\s+)?changed\s+(?:in|with|about|for)\s+{RELEASE_SUBJECT}(?:\s+please)?", 'changes'),
+    (rf"{ASK}{WHAT}\s+(?:are|were)\s+(?:the\s+)?(?:changes|new features|improvements|updates|fixes)\s+(?:in|to|for|with)\s+{RELEASE_SUBJECT}", 'changes'),
+    (rf"{ASK}(?:show me|give me|summari[sz]e|explain)\s+(?:the\s+)?(?:changes|new features|release notes|changelog)\s+(?:in|for|to|of)\s+{RELEASE_SUBJECT}", 'changes'),
+    (rf"{ASK}{WHAT}\s+(?:did|have)\s+you\s+(?:add|change|improve|fix)\s+(?:in|for|with)\s+{RELEASE_SUBJECT}", 'changes'),
+    (rf"{ASK}(?:what|which)\s+(?:version|release)(?:\s+of cael)?\s+(?:are you(?:\s+(?:running|using|on))?|is this|is installed|is cael(?:\s+(?:running|using|on))?|do you run)", 'version'),
+    (rf"{ASK}{WHAT}\s+(?:is\s+)?(?:your|cael s)\s+(?:(?:current|installed|latest)\s+)?(?:version|release)", 'version'),
+    (rf"{ASK}(?:what|which)\s+(?:resource |model )?bundle\s+(?:do you use|are you using)", 'version'),
+    (rf"{ASK}{WHAT}\s+(?:can\s+(?:you|cael)\s+do|(?:do|does)\s+(?:you|cael)\s+do|are\s+(?:your|cael s)\s+(?:features|capabilities)|are\s+you\s+capable\s+of)", 'capabilities'),
+    (rf"{ASK}how\s+can\s+you\s+help(?:\s+me)?", 'capabilities'),
+    (rf"{ASK}{WHAT}\s+(?:are\s+(?:your|cael s)\s+(?:limits|limitations|weaknesses)|can t\s+you\s+do|cannot\s+(?:you|cael)\s+do)", 'limitations'),
+    (rf"{ASK}(?:are you (?:an? )?(?:llm|neural network|transformer)|do you use (?:qwen|transformers|neural networks)|what architecture do you use)", 'architecture'),
+    (rf"{ASK}(?:did|have)\s+(?:you|cael)\s+(?:beat|beaten|outperform|outperformed)\s+qwen", 'evidence'),
+]
+FOLLOWUPS = [
+    (r"(?:and |so )?what(?: is)? new(?: in this version| in this release)?", 'changes'),
+    (r"(?:and |so )?what(?: else)? changed", 'changes'),
+    (r"(?:please )?(?:tell me more|show me the changes|what improvements|what new features)", 'changes'),
+    (r"what (?:did|have) you (?:add|change|improve|fix)", 'changes'),
+    (r"what (?:new )?(?:features|improvements|fixes|changes) (?:did|have) you (?:add|added|make|made|implement|implemented)", 'changes'),
+]
+
+
 def kind(text):
-    """'about', 'acronym' or 'person' when the whole message asks about CAEL itself, else None."""
-    if not isinstance(text, str) or len(text) > 120:
+    """Classify a complete question about this product, not another named entity."""
+    if not isinstance(text, str) or len(text) > 240 or text.lstrip().startswith(('"', "'", '`')):
         return None
     t = normalize(text)
-    for pattern, k in PATTERNS:
+    for pattern, k in PATTERNS + PRODUCT_PATTERNS:
         if t and re.fullmatch(pattern, t):
             return k
     return None
 
 
+def followup_kind(text):
+    if not isinstance(text, str) or len(text) > 120 or text.lstrip().startswith(('"', "'", '`')):
+        return None
+    t = normalize(text)
+    return next((k for pattern, k in FOLLOWUPS if re.fullmatch(pattern, t)), None)
+
+
+def self_context(messages):
+    """Only explicit visible self-questions and uninterrupted supported follow-ups."""
+    active = False
+    saw_user = False
+    for message in messages:
+        if not isinstance(message, dict):
+            return False
+        if message.get('role') != 'user':
+            continue
+        text = message.get('content')
+        explicit = kind(text)
+        if explicit == 'changes' and saw_user and not active and not named_product(text):
+            explicit = None
+        active = explicit is not None or (active and followup_kind(text) is not None)
+        saw_user = True
+    return active
+
+
+def named_product(text):
+    return isinstance(text, str) and bool(re.search(r'\bcael\b|\byour\s+(?:current|latest|new|installed|version|release|update)\b', normalize(text)))
+
+
+def release_facts():
+    """Installed, version-bound facts only. External pages and messages cannot replace them."""
+    try:
+        facts = json.loads(Path(__file__).with_name('self_knowledge.json').read_text(encoding='utf-8'))
+        if facts.get('version') != VERSION:
+            return None
+        for field in ('changes', 'capabilities', 'limitations'):
+            values = facts.get(field)
+            if not isinstance(values, list) or not values or not all(isinstance(x, str) and 0 < len(x) < 400 for x in values):
+                return None
+        return facts
+    except (OSError, ValueError, TypeError):
+        return None
+
+
+def requested_version(text):
+    found = re.search(r'(?i)\b(?:cael\s+(?:version\s+)?|version\s+|release\s+|v(?=\d))(\d+(?:\.\d+){1,3})\b', text)
+    return found[1] if found else None
+
+
 def reply(messages):
-    """CAEL's own short self-description for a question about CAEL itself, else None."""
+    """Describe identity/current release before spelling, fact lookup or public search."""
     if not isinstance(messages, list) or not messages or not isinstance(messages[-1], dict) \
             or messages[-1].get('role') != 'user' or not isinstance(messages[-1].get('content'), str):
         return None
-    k = kind(messages[-1]['content'])
+    question = messages[-1]['content']
+    k = kind(question)
+    context = self_context(messages[:-1])
+    if k == 'changes' and not named_product(question) and not context and any(isinstance(m, dict) and m.get('role') == 'user' for m in messages[:-1]):
+        return None  # "this release" after a Python discussion can mean Python.
+    if k is None and context:
+        k = followup_kind(question)
     if k is None:
         return None
-    text = dict(about=ABOUT, acronym=ACRONYM + ABOUT, person=NOT_A_PERSON + ABOUT)[k]
-    return dict(route='chat/self-identity', response=text, sources=[], details=DETAILS)
+    facts = release_facts()
+    version = requested_version(question)
+    if k in ('changes', 'version') and version and version != VERSION:
+        text = f"I'm running CAEL {VERSION}. I don't have confirmed release details for CAEL {version} in my installed metadata, so I won't invent its changes."
+    elif k == 'version':
+        text = f"I'm running CAEL {VERSION}. That's the application/runtime version. The unchanged public resource bundle is version {BUNDLE_VERSION}; it is versioned separately."
+    elif k in ('about', 'acronym', 'person', 'architecture'):
+        text = {'about': ABOUT, 'acronym': ACRONYM + ABOUT, 'person': NOT_A_PERSON + ABOUT,
+                'architecture': ABOUT + ' Qwen and Transformers are not part of my runtime.'}[k]
+    elif facts is None:
+        text = f"I'm running CAEL {VERSION}, but my installed release metadata is missing or doesn't match. I can't confirm the change list from it."
+    elif k == 'changes':
+        text = f"I'm running CAEL {VERSION}. Here's what's new in this release:\n\n" + '\n'.join('- ' + x for x in facts['changes'])
+        text += '\n\nI still have gaps in wording and follow-ups; this is not a claim that I can handle every conversation.'
+    elif k == 'capabilities':
+        text = "I'm CAEL, a non-neural assistant. I can:\n\n" + '\n'.join('- ' + x for x in facts['capabilities'])
+        text += '\n\nWhen a request is outside my supported patterns, I should clarify or say I cannot establish an answer.'
+    elif k == 'limitations':
+        text = '\n'.join('- ' + x for x in facts['limitations'])
+    else:
+        text = facts['evidence']
+    sources = facts['sources'] if facts and k in ('changes', 'capabilities', 'limitations', 'evidence') else []
+    return dict(route='chat/self-identity', response=text, sources=sources,
+                details='Answered from installed, version-bound CAEL product metadata and documented runtime facts. No web lookup or external instructions.',
+                self_information={'kind': k, 'application_version': VERSION, 'resource_bundle_version': BUNDLE_VERSION})

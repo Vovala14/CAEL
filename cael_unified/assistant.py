@@ -94,6 +94,8 @@ def new_picture_request(text):
 
 def picture_follow_up(messages):
     """'make it blue' right after a picture: an edit of that picture, not a chat message."""
+    if len(messages) < 3 or not picture_reply(messages[-2]):
+        return False
     from cael_image.scene import is_edit
     text = messages[-1]['content']
     return len(messages) >= 3 and picture_reply(messages[-2]) and is_edit(text) and not new_picture_request(text)
@@ -179,6 +181,18 @@ class Assistant:
             # spelling repair, fact route or web lookup can read "CAEL" as someone else (self_identity.py, 0.3.8 fix).
             from . import self_identity
             answer = self_identity.reply(messages) if mode in ('auto', 'chat') else None
+            # A complete, single-request symbolic document owns its literal
+            # symbols before dialogue acts, spelling and memory heuristics.
+            if (answer is None and mode in ('auto','chat') and isinstance(messages,list)
+                    and messages and messages[-1].get('role')=='user'
+                    and all(isinstance(m,dict) and m.get('role') in ('system','user')
+                            and isinstance(m.get('content'),str) for m in messages)
+                    and sum(m['role']=='user' for m in messages)==1
+                    and type(n) is int and 1<=n<=8
+                    and (seed is None or type(seed) is int and 0<=seed<2**31)):
+                from .interpretation import reply as native_task_reply
+                task=messages[-1]['content'];framed=choice_problem(task)
+                answer=native_task_reply(framed[0],framed[1],self._reasoning) if framed else native_task_reply(task,reasoner=self._reasoning)
             if answer is None and mode in ('auto','chat') and type(n) is int and 1<=n<=8 and (seed is None or type(seed) is int and 0<=seed<2**31):
                 from .dialogue import reply as dialogue_reply
                 answer=dialogue_reply(messages,lambda history:self._respond_request(history,n=n,seed=seed,mode=mode))
@@ -401,6 +415,10 @@ class Assistant:
 
     def _context_choice(self, context, endings):
         """The same existing solvers/counts, before an unrelated topic route."""
+        from .interpretation import reply as native_task_reply
+        native = native_task_reply(context, endings, self._reasoning)
+        if native is not None:
+            return dict(native, context_owned=True)
         from .quantity_graph import choice_reply as quantity_choice
         quantified=quantity_choice(context,endings)
         if quantified is not None:
@@ -451,6 +469,13 @@ class Assistant:
         if not text:
             raise ValueError('Request is empty')
         if mode in ('auto', 'chat'):
+            # Native whole-task interpretation is shared by direct chat and MC;
+            # it never receives benchmark metadata, answer keys or model replies.
+            from .interpretation import reply as native_task_reply
+            framed = choice_problem(text)
+            native = native_task_reply(framed[0], framed[1], self._reasoning) if framed else native_task_reply(text, reasoner=self._reasoning)
+            if native is not None:
+                return native
             def settled(found):
                 # A solver that cannot parse a clause asks for clarification; the everyday word-problem reasoner and
                 # the price/percent solver get a chance first (0.3.8 Q&A fix: "She gives 5 to Tom. Then she buys 8").

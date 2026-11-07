@@ -1,0 +1,1253 @@
+{
+  "experiment": "Native interpretation fresh comparison 2026-11-07",
+  "completed_utc": "2026-11-07T08:37:42.819702+00:00",
+  "models": {
+    "cael": {
+      "name": "CAEL native candidate",
+      "correct": 777,
+      "total": 900,
+      "accuracy_percent": 86.33333333333333,
+      "wilson95_percent": [
+        83.93424052300331,
+        88.42358214794608
+      ],
+      "per_family": {
+        "tables": {
+          "correct": 132,
+          "total": 150,
+          "answered": 132,
+          "accuracy_percent": 88.0
+        },
+        "logic": {
+          "correct": 127,
+          "total": 150,
+          "answered": 127,
+          "accuracy_percent": 84.66666666666667
+        },
+        "arithmetic": {
+          "correct": 131,
+          "total": 150,
+          "answered": 131,
+          "accuracy_percent": 87.33333333333333
+        },
+        "ordering": {
+          "correct": 127,
+          "total": 150,
+          "answered": 127,
+          "accuracy_percent": 84.66666666666667
+        },
+        "state_tracking": {
+          "correct": 132,
+          "total": 150,
+          "answered": 132,
+          "accuracy_percent": 88.0
+        },
+        "strings": {
+          "correct": 128,
+          "total": 150,
+          "answered": 128,
+          "accuracy_percent": 85.33333333333333
+        }
+      },
+      "per_presentation": {
+        "familiar": {
+          "correct": 450,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 100.0
+        },
+        "new_wording": {
+          "correct": 327,
+          "total": 450,
+          "answered": 327,
+          "accuracy_percent": 72.66666666666667
+        }
+      },
+      "per_tier": {
+        "2": {
+          "correct": 258,
+          "total": 300,
+          "answered": 258,
+          "accuracy_percent": 86.0
+        },
+        "3": {
+          "correct": 258,
+          "total": 300,
+          "answered": 258,
+          "accuracy_percent": 86.0
+        },
+        "1": {
+          "correct": 261,
+          "total": 300,
+          "answered": 261,
+          "accuracy_percent": 87.0
+        }
+      },
+      "errors": [],
+      "abstentions": [
+        "native-fresh-strings-107",
+        "native-fresh-tables-135",
+        "native-fresh-arithmetic-136",
+        "native-fresh-strings-131",
+        "native-fresh-ordering-070",
+        "native-fresh-strings-028",
+        "native-fresh-arithmetic-149",
+        "native-fresh-logic-101",
+        "native-fresh-tables-106",
+        "native-fresh-arithmetic-105",
+        "native-fresh-ordering-040",
+        "native-fresh-ordering-033",
+        "native-fresh-arithmetic-095",
+        "native-fresh-ordering-052",
+        "native-fresh-arithmetic-143",
+        "native-fresh-arithmetic-070",
+        "native-fresh-state_tracking-093",
+        "native-fresh-arithmetic-016",
+        "native-fresh-state_tracking-051",
+        "native-fresh-state_tracking-070",
+        "native-fresh-state_tracking-101",
+        "native-fresh-arithmetic-106",
+        "native-fresh-strings-081",
+        "native-fresh-logic-041",
+        "native-fresh-strings-003",
+        "native-fresh-ordering-027",
+        "native-fresh-ordering-004",
+        "native-fresh-arithmetic-101",
+        "native-fresh-tables-129",
+        "native-fresh-ordering-125",
+        "native-fresh-tables-053",
+        "native-fresh-tables-063",
+        "native-fresh-strings-051",
+        "native-fresh-strings-076",
+        "native-fresh-ordering-047",
+        "native-fresh-ordering-093",
+        "native-fresh-arithmetic-046",
+        "native-fresh-ordering-123",
+        "native-fresh-strings-033",
+        "native-fresh-arithmetic-076",
+        "native-fresh-ordering-017",
+        "native-fresh-logic-147",
+        "native-fresh-tables-107",
+        "native-fresh-tables-136",
+        "native-fresh-state_tracking-089",
+        "native-fresh-arithmetic-093",
+        "native-fresh-logic-123",
+        "native-fresh-ordering-136",
+        "native-fresh-state_tracking-063",
+        "native-fresh-arithmetic-117",
+        "native-fresh-tables-088",
+        "native-fresh-arithmetic-089",
+        "native-fresh-state_tracking-046",
+        "native-fresh-logic-021",
+        "native-fresh-tables-111",
+        "native-fresh-logic-045",
+        "native-fresh-strings-111",
+        "native-fresh-logic-119",
+        "native-fresh-arithmetic-118",
+        "native-fresh-strings-070",
+        "native-fresh-state_tracking-117",
+        "native-fresh-state_tracking-112",
+        "native-fresh-tables-047",
+        "native-fresh-strings-082",
+        "native-fresh-ordering-131",
+        "native-fresh-state_tracking-083",
+        "native-fresh-arithmetic-130",
+        "native-fresh-strings-123",
+        "native-fresh-tables-021",
+        "native-fresh-strings-011",
+        "native-fresh-logic-124",
+        "native-fresh-strings-029",
+        "native-fresh-logic-029",
+        "native-fresh-tables-029",
+        "native-fresh-arithmetic-017",
+        "native-fresh-state_tracking-022",
+        "native-fresh-state_tracking-129",
+        "native-fresh-ordering-149",
+        "native-fresh-logic-131",
+        "native-fresh-logic-148",
+        "native-fresh-tables-101",
+        "native-fresh-logic-028",
+        "native-fresh-logic-149",
+        "native-fresh-state_tracking-041",
+        "native-fresh-ordering-075",
+        "native-fresh-arithmetic-083",
+        "native-fresh-strings-100",
+        "native-fresh-ordering-034",
+        "native-fresh-logic-113",
+        "native-fresh-strings-093",
+        "native-fresh-strings-087",
+        "native-fresh-logic-099",
+        "native-fresh-tables-039",
+        "native-fresh-tables-071",
+        "native-fresh-logic-106",
+        "native-fresh-tables-041",
+        "native-fresh-ordering-021",
+        "native-fresh-state_tracking-142",
+        "native-fresh-logic-093",
+        "native-fresh-strings-130",
+        "native-fresh-state_tracking-052",
+        "native-fresh-logic-053",
+        "native-fresh-logic-051",
+        "native-fresh-logic-010",
+        "native-fresh-ordering-089",
+        "native-fresh-logic-118",
+        "native-fresh-tables-017",
+        "native-fresh-ordering-041",
+        "native-fresh-tables-040",
+        "native-fresh-ordering-118",
+        "native-fresh-state_tracking-077",
+        "native-fresh-state_tracking-058",
+        "native-fresh-arithmetic-063",
+        "native-fresh-ordering-076",
+        "native-fresh-strings-046",
+        "native-fresh-logic-143",
+        "native-fresh-ordering-059",
+        "native-fresh-state_tracking-003",
+        "native-fresh-logic-071",
+        "native-fresh-ordering-063",
+        "native-fresh-strings-118",
+        "native-fresh-strings-141",
+        "native-fresh-strings-004"
+      ],
+      "coverage_percent": 86.33333333333333,
+      "route_counts": {
+        "chat/native-tables": 132,
+        "chat/choice-helper-logic": 75,
+        "chat/native-arithmetic": 131,
+        "chat/native-ordering": 127,
+        "chat/native-state": 132,
+        "chat/local-smalltalk": 22,
+        "chat/native-task-clarify": 18,
+        "chat/native-strings": 128,
+        "chat/choice-unsupported": 83,
+        "chat/native-logic": 52
+      },
+      "run": {
+        "model": "cael",
+        "items": 900,
+        "errors": 0,
+        "route_counts": {
+          "chat/native-tables": 132,
+          "chat/choice-helper-logic": 75,
+          "chat/native-arithmetic": 131,
+          "chat/native-ordering": 127,
+          "chat/native-state": 132,
+          "chat/local-smalltalk": 22,
+          "chat/native-task-clarify": 18,
+          "chat/native-strings": 128,
+          "chat/choice-unsupported": 83,
+          "chat/native-logic": 52
+        },
+        "elapsed_seconds": 3.042775500100106,
+        "setup_seconds": 0.9754638001322746,
+        "python": "3.14.0",
+        "peak_process_working_set_bytes": 148561920,
+        "threads": 1,
+        "seed": 20261107,
+        "predictions_sha256": "726c30776fcd517b7f912c13834a8711d5b27448a8cb0279f75b62485f3749f9",
+        "runner_sha256": "c81d2778144a8baaf7291242a4fb10a5495165242b88e8ff3fc64d6ddc4cd5e2",
+        "input_sha256": "d6b7b91a703fcc74b8682247fda122ba1061ae0a2fd1c399335d192482f30a89",
+        "input": "id/prompt/choices only; no gold, category, generator, examples, or presentation metadata",
+        "network": "socket and DNS denied before model imports",
+        "training_performed": false
+      }
+    },
+    "baseline": {
+      "name": "CAEL 0.3.9 unchanged",
+      "correct": 414,
+      "total": 900,
+      "accuracy_percent": 46.0,
+      "wilson95_percent": [
+        42.76774628825258,
+        49.26625488558785
+      ],
+      "per_family": {
+        "tables": {
+          "correct": 32,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 21.333333333333332
+        },
+        "logic": {
+          "correct": 75,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 50.0
+        },
+        "arithmetic": {
+          "correct": 95,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 63.333333333333336
+        },
+        "ordering": {
+          "correct": 81,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 54.0
+        },
+        "state_tracking": {
+          "correct": 90,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 60.0
+        },
+        "strings": {
+          "correct": 41,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 27.333333333333332
+        }
+      },
+      "per_presentation": {
+        "familiar": {
+          "correct": 322,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 71.55555555555556
+        },
+        "new_wording": {
+          "correct": 92,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 20.444444444444443
+        }
+      },
+      "per_tier": {
+        "2": {
+          "correct": 128,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 42.666666666666664
+        },
+        "3": {
+          "correct": 147,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 49.0
+        },
+        "1": {
+          "correct": 139,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 46.333333333333336
+        }
+      },
+      "errors": [],
+      "abstentions": [],
+      "coverage_percent": 100.0,
+      "route_counts": {
+        "chat/choice-count": 625,
+        "chat/choice-helper-logic": 75,
+        "chat/choice-helper-arithmetic": 75,
+        "chat/choice-helper-state": 75,
+        "chat/choice-helper-ordering": 50
+      },
+      "run": {
+        "model": "baseline",
+        "items": 900,
+        "errors": 0,
+        "route_counts": {
+          "chat/choice-count": 625,
+          "chat/choice-helper-logic": 75,
+          "chat/choice-helper-arithmetic": 75,
+          "chat/choice-helper-state": 75,
+          "chat/choice-helper-ordering": 50
+        },
+        "elapsed_seconds": 146.20711959991604,
+        "setup_seconds": 1.0354919999372214,
+        "python": "3.14.0",
+        "peak_process_working_set_bytes": 988237824,
+        "threads": 1,
+        "seed": 20261107,
+        "predictions_sha256": "083cdabf13e59b69156c57e33ee25d022a3e1ead38dd7e641c785fbf4d6e18f7",
+        "runner_sha256": "c81d2778144a8baaf7291242a4fb10a5495165242b88e8ff3fc64d6ddc4cd5e2",
+        "input_sha256": "d6b7b91a703fcc74b8682247fda122ba1061ae0a2fd1c399335d192482f30a89",
+        "input": "id/prompt/choices only; no gold, category, generator, examples, or presentation metadata",
+        "network": "socket and DNS denied before model imports",
+        "training_performed": false
+      }
+    },
+    "mica": {
+      "name": "MICA Flame-W 0.3.6",
+      "correct": 216,
+      "total": 900,
+      "accuracy_percent": 24.0,
+      "wilson95_percent": [
+        21.324022390542304,
+        26.896985239420506
+      ],
+      "per_family": {
+        "tables": {
+          "correct": 70,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 46.666666666666664
+        },
+        "logic": {
+          "correct": 45,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 30.0
+        },
+        "arithmetic": {
+          "correct": 29,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 19.333333333333332
+        },
+        "ordering": {
+          "correct": 12,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 8.0
+        },
+        "state_tracking": {
+          "correct": 55,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 36.666666666666664
+        },
+        "strings": {
+          "correct": 5,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 3.3333333333333335
+        }
+      },
+      "per_presentation": {
+        "familiar": {
+          "correct": 126,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 28.0
+        },
+        "new_wording": {
+          "correct": 90,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 20.0
+        }
+      },
+      "per_tier": {
+        "2": {
+          "correct": 48,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 16.0
+        },
+        "3": {
+          "correct": 78,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 26.0
+        },
+        "1": {
+          "correct": 90,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 30.0
+        }
+      },
+      "errors": [],
+      "abstentions": [],
+      "coverage_percent": 100.0,
+      "route_counts": {
+        "word-model-0.3.6": 900
+      },
+      "run": {
+        "model": "mica",
+        "items": 900,
+        "errors": 0,
+        "route_counts": {
+          "word-model-0.3.6": 900
+        },
+        "elapsed_seconds": 193.2354111999739,
+        "setup_seconds": 0.07983319996856153,
+        "python": "3.14.0",
+        "peak_process_working_set_bytes": 139976704,
+        "threads": 1,
+        "seed": 20261107,
+        "predictions_sha256": "18c82cd4f482118c1a95540e0507bca32a93e2d752e2459cc39364985f90c0d9",
+        "runner_sha256": "c81d2778144a8baaf7291242a4fb10a5495165242b88e8ff3fc64d6ddc4cd5e2",
+        "input_sha256": "d6b7b91a703fcc74b8682247fda122ba1061ae0a2fd1c399335d192482f30a89",
+        "input": "id/prompt/choices only; no gold, category, generator, examples, or presentation metadata",
+        "network": "socket and DNS denied before model imports",
+        "training_performed": false
+      }
+    },
+    "bigram": {
+      "name": "Bigram",
+      "correct": 225,
+      "total": 900,
+      "accuracy_percent": 25.0,
+      "wilson95_percent": [
+        22.281308542966904,
+        27.931198793535795
+      ],
+      "per_family": {
+        "tables": {
+          "correct": 37,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 24.666666666666668
+        },
+        "logic": {
+          "correct": 37,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 24.666666666666668
+        },
+        "arithmetic": {
+          "correct": 38,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 25.333333333333332
+        },
+        "ordering": {
+          "correct": 38,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 25.333333333333332
+        },
+        "state_tracking": {
+          "correct": 37,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 24.666666666666668
+        },
+        "strings": {
+          "correct": 38,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 25.333333333333332
+        }
+      },
+      "per_presentation": {
+        "familiar": {
+          "correct": 119,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 26.444444444444443
+        },
+        "new_wording": {
+          "correct": 106,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 23.555555555555557
+        }
+      },
+      "per_tier": {
+        "2": {
+          "correct": 85,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 28.333333333333332
+        },
+        "3": {
+          "correct": 76,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 25.333333333333332
+        },
+        "1": {
+          "correct": 64,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 21.333333333333332
+        }
+      },
+      "errors": [],
+      "abstentions": [],
+      "coverage_percent": 100.0,
+      "route_counts": {
+        "native-bigram-conditional-mean-logp": 900
+      },
+      "run": {
+        "model": "bigram",
+        "items": 900,
+        "errors": 0,
+        "route_counts": {
+          "native-bigram-conditional-mean-logp": 900
+        },
+        "elapsed_seconds": 0.0414168001152575,
+        "setup_seconds": 0.006973500130698085,
+        "python": "3.14.0",
+        "peak_process_working_set_bytes": 27668480,
+        "threads": 1,
+        "seed": 20261107,
+        "predictions_sha256": "e8e40683cbf07be4b9fc29b388dae4503a9da26db60e1438321511d64aa32c6f",
+        "runner_sha256": "c81d2778144a8baaf7291242a4fb10a5495165242b88e8ff3fc64d6ddc4cd5e2",
+        "input_sha256": "d6b7b91a703fcc74b8682247fda122ba1061ae0a2fd1c399335d192482f30a89",
+        "input": "id/prompt/choices only; no gold, category, generator, examples, or presentation metadata",
+        "network": "socket and DNS denied before model imports",
+        "training_performed": false
+      }
+    },
+    "griot": {
+      "name": "Griot Nano 1 KenLM",
+      "correct": 273,
+      "total": 900,
+      "accuracy_percent": 30.333333333333332,
+      "wilson95_percent": [
+        27.41883830368112,
+        33.41500080103434
+      ],
+      "per_family": {
+        "tables": {
+          "correct": 69,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 46.0
+        },
+        "logic": {
+          "correct": 53,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 35.333333333333336
+        },
+        "arithmetic": {
+          "correct": 38,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 25.333333333333332
+        },
+        "ordering": {
+          "correct": 38,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 25.333333333333332
+        },
+        "state_tracking": {
+          "correct": 37,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 24.666666666666668
+        },
+        "strings": {
+          "correct": 38,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 25.333333333333332
+        }
+      },
+      "per_presentation": {
+        "familiar": {
+          "correct": 137,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 30.444444444444443
+        },
+        "new_wording": {
+          "correct": 136,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 30.22222222222222
+        }
+      },
+      "per_tier": {
+        "2": {
+          "correct": 83,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 27.666666666666668
+        },
+        "3": {
+          "correct": 83,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 27.666666666666668
+        },
+        "1": {
+          "correct": 107,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 35.666666666666664
+        }
+      },
+      "errors": [],
+      "abstentions": [],
+      "coverage_percent": 100.0,
+      "route_counts": {
+        "arpa-conditional-mean-log10p": 900
+      },
+      "run": {
+        "model": "griot",
+        "items": 900,
+        "errors": 0,
+        "route_counts": {
+          "arpa-conditional-mean-log10p": 900
+        },
+        "elapsed_seconds": 3.2577428000513464,
+        "setup_seconds": 3.205894800135866,
+        "python": "3.14.0",
+        "peak_process_working_set_bytes": 29339648,
+        "threads": 1,
+        "seed": 20261107,
+        "predictions_sha256": "1a7ef7b7c12bd065d636711bbfe83a7f4f6f9dbd9b1c0c1732617b2e1d001bab",
+        "runner_sha256": "c81d2778144a8baaf7291242a4fb10a5495165242b88e8ff3fc64d6ddc4cd5e2",
+        "input_sha256": "d6b7b91a703fcc74b8682247fda122ba1061ae0a2fd1c399335d192482f30a89",
+        "input": "id/prompt/choices only; no gold, category, generator, examples, or presentation metadata",
+        "network": "socket and DNS denied before model imports",
+        "training_performed": false
+      }
+    },
+    "rwkv": {
+      "name": "RWKV-7 G1d 0.1B",
+      "correct": 247,
+      "total": 900,
+      "accuracy_percent": 27.444444444444443,
+      "wilson95_percent": [
+        24.629590475175817,
+        30.451027255091063
+      ],
+      "per_family": {
+        "tables": {
+          "correct": 42,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 28.0
+        },
+        "logic": {
+          "correct": 45,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 30.0
+        },
+        "arithmetic": {
+          "correct": 42,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 28.0
+        },
+        "ordering": {
+          "correct": 39,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 26.0
+        },
+        "state_tracking": {
+          "correct": 38,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 25.333333333333332
+        },
+        "strings": {
+          "correct": 41,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 27.333333333333332
+        }
+      },
+      "per_presentation": {
+        "familiar": {
+          "correct": 133,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 29.555555555555557
+        },
+        "new_wording": {
+          "correct": 114,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 25.333333333333332
+        }
+      },
+      "per_tier": {
+        "2": {
+          "correct": 79,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 26.333333333333332
+        },
+        "3": {
+          "correct": 70,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 23.333333333333332
+        },
+        "1": {
+          "correct": 98,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 32.666666666666664
+        }
+      },
+      "errors": [],
+      "abstentions": [],
+      "coverage_percent": 100.0,
+      "route_counts": {
+        "fixed-logit-readout": 900
+      },
+      "run": {
+        "items": 900,
+        "elapsed_seconds": 325.90371900005266,
+        "setup_seconds": 1.7380484000314027,
+        "gpu_peak_allocated_bytes": 545946112,
+        "gpu_peak_reserved_bytes": 587202560,
+        "peak_process_working_set_bytes": 1318895616,
+        "max_prompt_tokens": 1216,
+        "label_token_ids": [
+          66,
+          67,
+          68,
+          69
+        ],
+        "predictions_sha256": "8ab5be7e1747ac34fe71a8a32435ff059013b6f6c0d39d9e9f98fae5975b37a4",
+        "integrity_verified_before_and_after": true,
+        "evaluation_track": "neural-comparison",
+        "smoke": false
+      }
+    },
+    "lfm2": {
+      "name": "LFM2-350M",
+      "correct": 224,
+      "total": 900,
+      "accuracy_percent": 24.88888888888889,
+      "wilson95_percent": [
+        22.17484342229938,
+        27.81638616903222
+      ],
+      "per_family": {
+        "tables": {
+          "correct": 39,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 26.0
+        },
+        "logic": {
+          "correct": 51,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 34.0
+        },
+        "arithmetic": {
+          "correct": 34,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 22.666666666666668
+        },
+        "ordering": {
+          "correct": 32,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 21.333333333333332
+        },
+        "state_tracking": {
+          "correct": 39,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 26.0
+        },
+        "strings": {
+          "correct": 29,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 19.333333333333332
+        }
+      },
+      "per_presentation": {
+        "familiar": {
+          "correct": 109,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 24.22222222222222
+        },
+        "new_wording": {
+          "correct": 115,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 25.555555555555557
+        }
+      },
+      "per_tier": {
+        "2": {
+          "correct": 69,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 23.0
+        },
+        "3": {
+          "correct": 78,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 26.0
+        },
+        "1": {
+          "correct": 77,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 25.666666666666668
+        }
+      },
+      "errors": [],
+      "abstentions": [],
+      "coverage_percent": 100.0,
+      "route_counts": {
+        "fixed-logit-readout": 900
+      },
+      "run": {
+        "items": 900,
+        "elapsed_seconds": 23.749233899870887,
+        "setup_seconds": 3.4527221000753343,
+        "gpu_peak_allocated_bytes": 1003912704,
+        "gpu_peak_reserved_bytes": 1138753536,
+        "peak_process_working_set_bytes": 1167208448,
+        "max_prompt_tokens": 1106,
+        "label_token_ids": [
+          542,
+          543,
+          544,
+          545
+        ],
+        "predictions_sha256": "4602fd287e68136784c147dac60f076d4af5d34ffc10160272e552c9d4bed8ba",
+        "integrity_verified_before_and_after": true,
+        "evaluation_track": "neural-comparison",
+        "smoke": false
+      }
+    },
+    "xlstm": {
+      "name": "xLSTM-7B",
+      "correct": 273,
+      "total": 900,
+      "accuracy_percent": 30.333333333333332,
+      "wilson95_percent": [
+        27.41883830368112,
+        33.41500080103434
+      ],
+      "per_family": {
+        "tables": {
+          "correct": 60,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 40.0
+        },
+        "logic": {
+          "correct": 59,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 39.333333333333336
+        },
+        "arithmetic": {
+          "correct": 39,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 26.0
+        },
+        "ordering": {
+          "correct": 38,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 25.333333333333332
+        },
+        "state_tracking": {
+          "correct": 40,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 26.666666666666668
+        },
+        "strings": {
+          "correct": 37,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 24.666666666666668
+        }
+      },
+      "per_presentation": {
+        "familiar": {
+          "correct": 148,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 32.888888888888886
+        },
+        "new_wording": {
+          "correct": 125,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 27.77777777777778
+        }
+      },
+      "per_tier": {
+        "2": {
+          "correct": 78,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 26.0
+        },
+        "3": {
+          "correct": 96,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 32.0
+        },
+        "1": {
+          "correct": 99,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 33.0
+        }
+      },
+      "errors": [],
+      "abstentions": [],
+      "coverage_percent": 100.0,
+      "route_counts": {
+        "fixed-logit-readout": 900
+      },
+      "run": {
+        "items": 900,
+        "elapsed_seconds": 260.4887385000475,
+        "setup_seconds": 22.47032680013217,
+        "gpu_peak_allocated_bytes": 14675316224,
+        "gpu_peak_reserved_bytes": 18750636032,
+        "peak_process_working_set_bytes": 4072202240,
+        "max_prompt_tokens": 1173,
+        "label_token_ids": [
+          34,
+          35,
+          36,
+          37
+        ],
+        "predictions_sha256": "9925a8fba81ea84b81fc8b4d6144bb719b77d71ad9acb02c8057fe84173bfcc6",
+        "integrity_verified_before_and_after": true,
+        "evaluation_track": "neural-comparison",
+        "smoke": false
+      }
+    },
+    "falcon": {
+      "name": "Falcon3-Mamba-7B-Base",
+      "correct": 353,
+      "total": 900,
+      "accuracy_percent": 39.22222222222222,
+      "wilson95_percent": [
+        36.084671701643785,
+        42.451387016759604
+      ],
+      "per_family": {
+        "tables": {
+          "correct": 70,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 46.666666666666664
+        },
+        "logic": {
+          "correct": 57,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 38.0
+        },
+        "arithmetic": {
+          "correct": 40,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 26.666666666666668
+        },
+        "ordering": {
+          "correct": 55,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 36.666666666666664
+        },
+        "state_tracking": {
+          "correct": 48,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 32.0
+        },
+        "strings": {
+          "correct": 83,
+          "total": 150,
+          "answered": 150,
+          "accuracy_percent": 55.333333333333336
+        }
+      },
+      "per_presentation": {
+        "familiar": {
+          "correct": 174,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 38.666666666666664
+        },
+        "new_wording": {
+          "correct": 179,
+          "total": 450,
+          "answered": 450,
+          "accuracy_percent": 39.77777777777778
+        }
+      },
+      "per_tier": {
+        "2": {
+          "correct": 105,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 35.0
+        },
+        "3": {
+          "correct": 99,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 33.0
+        },
+        "1": {
+          "correct": 149,
+          "total": 300,
+          "answered": 300,
+          "accuracy_percent": 49.666666666666664
+        }
+      },
+      "errors": [],
+      "abstentions": [],
+      "coverage_percent": 100.0,
+      "route_counts": {
+        "fixed-logit-readout": 900
+      },
+      "run": {
+        "items": 900,
+        "elapsed_seconds": 1983.4791180000175,
+        "setup_seconds": 13.775544699979946,
+        "gpu_peak_allocated_bytes": 16637122560,
+        "gpu_peak_reserved_bytes": 20283654144,
+        "peak_process_working_set_bytes": 3716755456,
+        "max_prompt_tokens": 1125,
+        "label_token_ids": [
+          44,
+          45,
+          46,
+          47
+        ],
+        "predictions_sha256": "d5515fce3f407e23c15d3c671bb524024a5a291aa42f32992da60073cb38fd24",
+        "integrity_verified_before_and_after": true,
+        "evaluation_track": "neural-comparison",
+        "smoke": false
+      }
+    }
+  },
+  "predictions": 8100,
+  "all_actual_complete": true,
+  "source_assets_unchanged_since_freeze": true,
+  "third_party_pretraining_absence_certified": false,
+  "known_exact_guard_texts": 235677,
+  "reference_keys_verified": 900,
+  "integrity_checks": 21600,
+  "integrity_checks_are_not_capability_cases": true,
+  "paired_candidate_vs_others": {
+    "baseline": {
+      "candidate_only_correct": 382,
+      "other_only_correct": 19,
+      "net_correct": 363,
+      "difference_pp": 40.333333333333336,
+      "exact_two_sided_mcnemar_p": 6.259928406628576e-89,
+      "scope": "Exploratory synthetic-item paired test; authoring/family/development dependence limits exchangeability."
+    },
+    "mica": {
+      "candidate_only_correct": 599,
+      "other_only_correct": 38,
+      "net_correct": 561,
+      "difference_pp": 62.333333333333336,
+      "exact_two_sided_mcnemar_p": 8.376761824056262e-131,
+      "scope": "Exploratory synthetic-item paired test; authoring/family/development dependence limits exchangeability."
+    },
+    "bigram": {
+      "candidate_only_correct": 583,
+      "other_only_correct": 31,
+      "net_correct": 552,
+      "difference_pp": 61.333333333333336,
+      "exact_two_sided_mcnemar_p": 4.742013755225649e-133,
+      "scope": "Exploratory synthetic-item paired test; authoring/family/development dependence limits exchangeability."
+    },
+    "griot": {
+      "candidate_only_correct": 545,
+      "other_only_correct": 41,
+      "net_correct": 504,
+      "difference_pp": 56.0,
+      "exact_two_sided_mcnemar_p": 1.8553750731439675e-113,
+      "scope": "Exploratory synthetic-item paired test; authoring/family/development dependence limits exchangeability."
+    },
+    "rwkv": {
+      "candidate_only_correct": 567,
+      "other_only_correct": 37,
+      "net_correct": 530,
+      "difference_pp": 58.888888888888886,
+      "exact_two_sided_mcnemar_p": 6.010532793663916e-123,
+      "scope": "Exploratory synthetic-item paired test; authoring/family/development dependence limits exchangeability."
+    },
+    "lfm2": {
+      "candidate_only_correct": 589,
+      "other_only_correct": 36,
+      "net_correct": 553,
+      "difference_pp": 61.44444444444444,
+      "exact_two_sided_mcnemar_p": 6.5980524354950535e-130,
+      "scope": "Exploratory synthetic-item paired test; authoring/family/development dependence limits exchangeability."
+    },
+    "xlstm": {
+      "candidate_only_correct": 550,
+      "other_only_correct": 46,
+      "net_correct": 504,
+      "difference_pp": 56.0,
+      "exact_two_sided_mcnemar_p": 1.1790736566975714e-110,
+      "scope": "Exploratory synthetic-item paired test; authoring/family/development dependence limits exchangeability."
+    },
+    "falcon": {
+      "candidate_only_correct": 471,
+      "other_only_correct": 47,
+      "net_correct": 424,
+      "difference_pp": 47.111111111111114,
+      "exact_two_sided_mcnemar_p": 4.3554159299823056e-89,
+      "scope": "Exploratory synthetic-item paired test; authoring/family/development dependence limits exchangeability."
+    },
+    "baseline_familiar": {
+      "candidate_only_correct": 128,
+      "other_only_correct": 0,
+      "net_correct": 128,
+      "difference_pp": 28.444444444444443,
+      "exact_two_sided_mcnemar_p": 5.877471754111438e-39,
+      "scope": "Exploratory synthetic-item paired test; authoring/family/development dependence limits exchangeability."
+    },
+    "baseline_new_wording": {
+      "candidate_only_correct": 254,
+      "other_only_correct": 19,
+      "net_correct": 235,
+      "difference_pp": 52.22222222222222,
+      "exact_two_sided_mcnemar_p": 1.1937567115192044e-53,
+      "scope": "Exploratory synthetic-item paired test; authoring/family/development dependence limits exchangeability."
+    }
+  },
+  "family_deltas_pp": {
+    "tables": 66.66666666666667,
+    "logic": 34.66666666666667,
+    "arithmetic": 23.999999999999993,
+    "ordering": 30.66666666666667,
+    "state_tracking": 28.0,
+    "strings": 58.0
+  },
+  "predeclared_gates": {
+    "overall_at_least_10pp": true,
+    "new_wording_at_least_15pp": true,
+    "no_family_drop_over_5pp": true
+  },
+  "improvement_gate_met": true,
+  "cael_response_checks": {
+    "cael": {
+      "exact_letter_and_option_text_verified": 777,
+      "abstentions_including_errors": 123,
+      "all_900_outputs_checked": true
+    },
+    "baseline": {
+      "exact_letter_and_option_text_verified": 900,
+      "abstentions_including_errors": 0,
+      "all_900_outputs_checked": true
+    }
+  },
+  "limitations": [
+    "Post-freeze random text with known exact overlap guards; absence from undisclosed third-party pretraining cannot be certified.",
+    "Known/adaptively chosen families, authored development and unblinded maintainer/AI-assisted test writing. This is transfer within six synthetic families, not a general chatbot or standard published benchmark claim.",
+    "Bigger arithmetic operands1000..99999 and strings9/12/15 characters than the previous set. Compare baseline and candidate on these same items; old/new-set scores are not a controlled trend.",
+    "Neural fixed one-letter next-token readout, no free-form generation/CoT or equal compute budgets. Native readouts and different implementations/weights are not a best-chat, same-size or optimized-neural comparison.",
+    "Bounded symbolic grammars still abstain on unsupported wording; exact rational checking is not proof of arbitrary language understanding.",
+    "CPU/GPU queues overlap on a shared host; reported process/VRAM/time are measured run evidence, not an efficiency ranking.",
+    "Inherited regression suite still has eight baseline failures; four additional candidate assertions are intentional route changes. No new assertion of fixing all conversation gaps.",
+    "No release, Git/HF/leaderboard publication, training on final questions, live-worker change or new version occurred."
+  ],
+  "source_freeze_sha256": "bc82b5efb71f7c996c575deab03d483e202a934c0d270ec103d46923cc5b92f7",
+  "test_freeze_sha256": "e10ace9eae8de57ea74d4aeb970ac8154b5dc45990b9f5388510f21f43288097",
+  "scorer_sha256": "0e1fec6fdb3a0dff0762930b6fa2c3287e89b7e0e86429d80c1062e68767645d"
+}

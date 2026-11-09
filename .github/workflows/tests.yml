@@ -6,6 +6,7 @@ jobs:
     env:
       CAEL_WEB_SEARCH: '0'   # tests stay offline and repeatable
     strategy:
+      fail-fast: false
       matrix:
         python-version: ['3.11', '3.12']
     steps:
@@ -24,6 +25,10 @@ jobs:
             sleep 10
           done
       - run: python -m unittest discover -s tests -v
+      - name: Optional OpenCog bridge tests
+        env:
+          CAEL040_ROOT: ${{ github.workspace }}
+        run: python -m unittest discover -s examples/opencog_interop -p test_bridge.py -v
       - run: python -m pytest -q tests/test_release_029.py tests/test_upgrade_20261022.py tests/test_symbolic_choice.py tests/test_code_explain_routing.py
       - run: python chat.py "Tell a story about a mouse finding cheese in a bakery." --ask "Who has the cheese?"
       - if: matrix.python-version == '3.12'

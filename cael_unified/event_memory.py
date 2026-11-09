@@ -285,6 +285,13 @@ def reply(messages):
             memory.apply(op,slots,step,part)
     owned=bool(memory.count) or declared
     if not owned:return None
+    if query['kind']=='one_phrase':
+        try:
+            e,a=state_language.property_phrase(query['phrase'],memory.focus)
+        except ValueError:
+            if not declared:return None
+        else:
+            query={**query,'kind':'one','E':e,'A':a}
     # A generic summary word in an unrelated short conversation does not claim
     # ownership. An explicit data document is handled as one complete context.
     if query['kind']=='one' and key(query['E'],query['A']) not in memory.state and not declared:return None

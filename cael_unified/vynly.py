@@ -185,7 +185,16 @@ class VynlyHelp:
         # generic questions such as "Can you work out 74 * 5?" stay in chat.
         # Explicit Vynly/features still use the public-help retrieval above.
         contextual = self.flagged(messages) or self.follows_vynly_answer(messages)
-        return contextual and bool(HELP_QUESTION.search(text)) and self.faq(text) is not None
+        if not contextual or not HELP_QUESTION.search(text):
+            return False
+        if self.faq(text) is not None:
+            return True
+        # An implicit site intent needs every content term in a source passage.
+        # Partial overlap is not enough to capture an unrelated general task.
+        content = set(words(text)) - {'vynly'}
+        found, _ = self.search(text)
+        return len(content) >= 2 and any(score >= 4.0 and content <= set(words(
+            chunk['title'] + ' ' + chunk['heading'] + ' ' + chunk['text'])) for score, chunk in found)
 
     def faq(self, text):
         t = ' '.join(text.lower().replace('’', "'").split())

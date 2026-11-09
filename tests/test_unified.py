@@ -35,9 +35,26 @@ class UnifiedTests(unittest.TestCase):
     def test_malformed_messages_are_rejected_without_loading_engines(self):
         from cael_unified.assistant import Assistant
         assistant = Assistant.__new__(Assistant)
-        for messages in [None, [], ['text'], [{'role': 'assistant', 'content': 'hello'}]]:
+        for messages in [None, [], ['text'], [None, {'role': 'user', 'content': 'hello'}],
+                         [{'role': 'user', 'content': None}],
+                         [{'role': 'invalid', 'content': 'hello'}],
+                         [{'role': 'assistant', 'content': 'hello'}]]:
             with self.assertRaises(ValueError):
                 assistant.respond(messages)
+
+    def test_fast_paths_obey_request_limits_before_loading_engines(self):
+        from cael_unified.assistant import Assistant, MAX_CHARACTERS, MAX_MESSAGES
+        assistant = Assistant.__new__(Assistant)
+        user = {'role': 'user', 'content': 'Who are you?'}
+        cases = [([user], {'n': 0}), ([user], {'n': True}),
+                 ([user], {'seed': -1}), ([user], {'seed': True}),
+                 ([user], {'mode': 'unknown'}),
+                 ([{'role': 'user', 'content': ' '}], {}),
+                 ([user] * (MAX_MESSAGES + 1), {}),
+                 ([{'role': 'user', 'content': 'x' * (MAX_CHARACTERS + 1)}], {})]
+        for messages, kwargs in cases:
+            with self.subTest(kwargs=kwargs, count=len(messages)), self.assertRaises(ValueError):
+                assistant.respond(messages, **kwargs)
 
     def test_stored_emoji_prior_works_without_network(self):
         import torch

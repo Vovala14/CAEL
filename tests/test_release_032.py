@@ -1,5 +1,6 @@
 """CAEL 0.3.2: web answers that say the asked thing, confirmation without a name/number, and A-D questions routed
 to multiple choice. Offline: search providers and pages are fixtures."""
+import os
 import unittest
 from unittest.mock import patch
 
@@ -11,10 +12,13 @@ class WebAnswerTests(unittest.TestCase):
     def setUp(self):
         W._CACHE.clear()
         W._RECENT.clear()
+        self.enterContext(patch.dict(os.environ, {'CAEL_WEB_SEARCH': '1'}))
 
     def run_answer(self, question, results, pages):
-        with patch.object(W, 'PROVIDERS', (('Fixture', lambda q: results),)), \
-                patch.object(W, 'wikipedia', lambda q: []), patch.object(W, 'read', lambda url: pages.get(url, '')):
+        def read_page(url, **kwargs):
+            return dict(url=url, status='read', http_status=200, text=pages.get(url, ''), text_truncated=False)
+        with patch.object(W, 'search', return_value=(results, ['Fixture'])), \
+                patch.object(W, 'read_page', side_effect=read_page):
             return W.answer(question)
 
     def test_in_what_year_questions_are_searched(self):
@@ -29,16 +33,21 @@ class WebAnswerTests(unittest.TestCase):
         self.assertFalse(W.says_asked('What is the largest bone in the human foot?', 'Testing confirmed that the foot was human.'))
         result = W.Result('Scotland', 'https://en.wikipedia.org/wiki/Scotland', '', 'Fixture')
         page = 'Scotland is a country that is part of the United Kingdom. Scotland has a long coast with many islands.'
-        self.assertIsNone(self.run_answer('What is the national animal of Scotland?', [result], {result.url: page}))
+        answer = self.run_answer('What is the national animal of Scotland?', [result], {result.url: page})
+        self.assertEqual(answer['evidence']['state'], 'insufficient')
+        self.assertEqual(answer['sources'], [])
 
-    def test_two_websites_saying_the_same_answer_word_confirm_it(self):
+    def test_untyped_definition_does_not_claim_independent_answer_agreement(self):
         results = [W.Result('Hardest minerals', 'https://minerals.example.org/hardest', '', 'Fixture'),
                    W.Result('Mohs scale', 'https://geology.example.com/mohs', '', 'Fixture')]
         pages = {results[0].url: 'Diamond is the hardest natural mineral known on the Mohs scale of hardness.',
                  results[1].url: 'Diamond is always at the top of the scale, being the hardest natural mineral.'}
         answer = self.run_answer('What is the hardest natural mineral?', results, pages)
-        self.assertEqual(answer['route'], 'chat/web-search')
-        self.assertIn('2 different websites agree', answer['response'])
+        self.assertEqual(answer['route'], 'chat/web-evidence-single-source')
+        self.assertIn('Diamond is the hardest natural mineral', answer['response'])
+        self.assertIsNone(answer['evidence']['answer_key'])
+        self.assertEqual(answer['evidence']['publishers_supporting'], 1)
+        self.assertEqual(answer['verification']['status'], 'unchecked')
 
 
 class MultipleChoiceRoutingTests(unittest.TestCase):

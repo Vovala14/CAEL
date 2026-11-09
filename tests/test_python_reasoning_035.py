@@ -5,16 +5,29 @@ from cael_unified import python_help, everyday_reasoning as er
 
 
 class PythonHelpTests(unittest.TestCase):
-    def test_every_recipe_passes_its_own_examples(self):
+    @classmethod
+    def setUpClass(cls):
+        from cael_unified.runtime_policy import install
+        install()
+
+    def test_recipes_are_verified_or_explicitly_outside_bounded_vm_coverage(self):
+        unsupported = {'capitalize_words', 'merge_dicts', 'count_uppercase'}
         for name, _, code, examples, _ in python_help.RECIPES:
             with self.subTest(name=name):
-                self.assertTrue(python_help.verified(code, examples))
+                self.assertEqual(python_help.verified(code, examples), name not in unsupported)
+
+    def test_unchecked_recipes_are_refused_without_native_fallback(self):
+        for text in ('Write a Python function that merges two dictionaries.',
+                     'Write a Python function to capitalize words.',
+                     'Write a Python function to count uppercase letters.'):
+            with self.subTest(text=text):
+                self.assertIsNone(python_help.recipe(text))
+        self.assertEqual(python_help.verified.__module__, 'cael_unified._bounded_python_help')
 
     def test_requests_pick_the_right_recipe(self):
         for text, name in (('Write a Python function to reverse a string.', 'def reverse_string'),
                            ('Write a Python function to find the second largest number in a list.', 'def second_largest'),
                            ('Write a Python function to find the largest number in a list.', 'def find_largest'),
-                           ('Write a Python function that merges two dictionaries.', 'def merge_dicts'),
                            ('Write a Python function that counts how many times each word appears in a text.', 'def word_frequencies'),
                            ('Write a Python function that counts the words in a sentence.', 'def count_words'),
                            ('Write a Python function that multiplies all numbers in a list.', 'def product')):

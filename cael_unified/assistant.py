@@ -175,12 +175,44 @@ class Assistant:
             return self._language.score_endings(context,endings)
 
     def respond(self, messages, n=2, seed=None, mode='auto'):
+        # Validate before any fast path reads a message or loads an engine.
+        if (not isinstance(messages, list) or not messages or
+                not all(isinstance(m, dict) and m.get('role') in ('user', 'assistant', 'system')
+                        and isinstance(m.get('content'), str) for m in messages)):
+            raise ValueError('Invalid message format')
+        if messages[-1]['role'] != 'user':
+            raise ValueError('Messages must end with a user request')
+        if len(messages) > MAX_MESSAGES or sum(len(m['content']) for m in messages) > MAX_CHARACTERS:
+            raise ValueError('Conversation exceeds the local context limit')
+        if type(n) is not int or not 1 <= n <= 8:
+            raise ValueError('Choose between 1 and 8 outputs')
+        if seed is not None and (type(seed) is not int or not 0 <= seed < 2 ** 31):
+            raise ValueError('Seed must be between 0 and 2147483647')
+        if not messages[-1]['content'].strip():
+            raise ValueError('Request is empty')
+        if mode not in ('auto', 'chat', 'emoji', 'image', 'prompt', 'story'):
+            raise ValueError('Unknown assistant mode')
         from . import ltm
         with ltm.request_memory(getattr(self, '_learning_memory', None)):
             # Questions about CAEL itself ("What's is CAEL?", "who are you?") get CAEL's own description before any
             # spelling repair, fact route or web lookup can read "CAEL" as someone else (self_identity.py, 0.3.8 fix).
             from . import self_identity
             answer = self_identity.reply(messages) if mode in ('auto', 'chat') else None
+            # Keep the established checked quantity API and replayable sharing
+            # replies before generic task/dialogue readers consume the turn.
+            if answer is None and mode in ('auto', 'chat') and not choice_problem(messages[-1]['content']):
+                from .helper_groups import prepared, reply as groups_reply
+                text, explained = prepared(messages[-1]['content'])
+                answer = groups_reply(text, messages, explained)
+                if answer is None:
+                    from .helper_chat import WHY, reply as helper_reply
+                    if WHY.fullmatch(text):
+                        answer = helper_reply(messages[-1]['content'], messages)
+                if answer is None:
+                    from .helper_quantities import reply as inventory_reply
+                    inventory = inventory_reply(text, messages, explain=explained)
+                    if inventory and (inventory.get('helper_reasoning') or {}).get('value') is not None:
+                        answer = inventory
             if (answer is None and mode in ('auto', 'chat') and isinstance(messages, list)
                     and messages and len(messages)<=MAX_MESSAGES
                     and all(isinstance(m,dict) and m.get('role') in ('user','assistant','system')

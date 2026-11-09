@@ -33,7 +33,8 @@ class VynlyScopeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             assistant=Assistant(output_root=temp)
             result=assistant.respond([SITE,{'role':'user','content':'Can you work out 74 * 5?'}],mode='chat',n=1,seed=137)
-            self.assertEqual(result['route'],'helper/arithmetic')
+            self.assertEqual(result['route'],'chat/native-arithmetic')
+            self.assertEqual(result['reasoning']['value'], '370')
             self.assertIn('370',result['response'])
 
 if __name__=='__main__':

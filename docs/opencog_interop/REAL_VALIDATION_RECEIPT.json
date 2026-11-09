@@ -1,0 +1,768 @@
+{
+  "at_utc": "2026-11-09T20:30:27.468867+00:00",
+  "passed": true,
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+  "binding_file": "/home/runner/work/_temp/cael-opencog/install/lib/python-site/opencog/atomspace.so",
+  "binding_sha256": "7883858a21872e970c5d399c8c7b2aa830e0440426c18caf1312b435e4a6d06c",
+  "real_atomspace_imported": true,
+  "mock_qualifies": false,
+  "checks": [
+    {
+      "name": "cogutil source pin",
+      "passed": true
+    },
+    {
+      "name": "atomspace source pin",
+      "passed": true
+    },
+    {
+      "name": "all unit tests including real import pass with zero skips",
+      "passed": true
+    },
+    {
+      "name": "exact released model",
+      "passed": true
+    },
+    {
+      "name": "custody EdgeLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "custody EdgeLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "custody EdgeLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "custody EvaluationLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "custody EvaluationLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "custody EvaluationLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "handoff EdgeLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "handoff EdgeLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "handoff EdgeLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "handoff EvaluationLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "handoff EvaluationLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "handoff EvaluationLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "uncertain EdgeLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "uncertain EdgeLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "uncertain EdgeLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "uncertain EvaluationLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "uncertain EvaluationLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "uncertain EvaluationLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "rejected-transfer EdgeLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "rejected-transfer EdgeLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "rejected-transfer EdgeLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "rejected-transfer EvaluationLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "rejected-transfer EvaluationLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "rejected-transfer EvaluationLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "rule-chain EdgeLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "rule-chain EdgeLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "rule-chain EdgeLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "rule-chain EvaluationLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "rule-chain EvaluationLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "rule-chain EvaluationLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "unknown-is-not-false EdgeLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "unknown-is-not-false EdgeLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "unknown-is-not-false EdgeLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "unknown-is-not-false EvaluationLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "unknown-is-not-false EvaluationLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "unknown-is-not-false EvaluationLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "conflict-is-not-certainty EdgeLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "conflict-is-not-certainty EdgeLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "conflict-is-not-certainty EdgeLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "conflict-is-not-certainty EvaluationLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "conflict-is-not-certainty EvaluationLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "conflict-is-not-certainty EvaluationLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "cyclic-rules EdgeLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "cyclic-rules EdgeLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "cyclic-rules EdgeLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "cyclic-rules EvaluationLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "cyclic-rules EvaluationLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "cyclic-rules EvaluationLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "bare-category-chain EdgeLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "bare-category-chain EdgeLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "bare-category-chain EdgeLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "bare-category-chain EvaluationLink full read-back",
+      "passed": true
+    },
+    {
+      "name": "bare-category-chain EvaluationLink exact unique atom count",
+      "passed": true
+    },
+    {
+      "name": "bare-category-chain EvaluationLink idempotent insertion",
+      "passed": true
+    },
+    {
+      "name": "the two original parser failures remain disclosed",
+      "passed": true
+    },
+    {
+      "name": "native query retrieves first historical state",
+      "passed": true
+    },
+    {
+      "name": "native query retrieves latest state",
+      "passed": true
+    },
+    {
+      "name": "same human label stays in separate input scope",
+      "passed": true
+    },
+    {
+      "name": "missing snapshot has no fabricated fact",
+      "passed": true
+    },
+    {
+      "name": "native queries preserve both explicit polarities",
+      "passed": true
+    },
+    {
+      "name": "lack of a claim is not a negative claim",
+      "passed": true
+    },
+    {
+      "name": "malformed graph rejected before shared-space mutation",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 32 EdgeLink 0",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 32 EdgeLink 1",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 32 EdgeLink 2",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 32 EdgeLink 3",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 32 EdgeLink 4",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 32 EvaluationLink 0",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 32 EvaluationLink 1",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 32 EvaluationLink 2",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 32 EvaluationLink 3",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 32 EvaluationLink 4",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 64 EdgeLink 0",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 64 EdgeLink 1",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 64 EdgeLink 2",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 64 EdgeLink 3",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 64 EdgeLink 4",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 64 EvaluationLink 0",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 64 EvaluationLink 1",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 64 EvaluationLink 2",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 64 EvaluationLink 3",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 64 EvaluationLink 4",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 128 EdgeLink 0",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 128 EdgeLink 1",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 128 EdgeLink 2",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 128 EdgeLink 3",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 128 EdgeLink 4",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 128 EvaluationLink 0",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 128 EvaluationLink 1",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 128 EvaluationLink 2",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 128 EvaluationLink 3",
+      "passed": true
+    },
+    {
+      "name": "diagnostic query 128 EvaluationLink 4",
+      "passed": true
+    }
+  ],
+  "upstream_pins": {
+    "cogutil": "776aaf9c4987259545beacf633d097181c79bc83",
+    "atomspace": "c8d633bf272b838c2132c21b7c8ddf169a18dd22",
+    "sensory_examined_not_installed": "fd367dc330b7ab82607a8622569adb609ad91a4a",
+    "cael_release": "49359eae9aa197d5b92631c16efb74085180a27c"
+  },
+  "unit_tests": {
+    "run": 16,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "cael_identity": {
+    "version": "0.4.0",
+    "model_sha256": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4",
+    "source_sha256": {
+      "cael_unified/reasoning_world.py": "1134c9fb4c06d0091b66e34370029d66764e6bb72d0acb0a42bf4cb6b427da11",
+      "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95"
+    }
+  },
+  "evaluation_is_edge_alias": false,
+  "original_authored_fixtures": {
+    "episodes": 9,
+    "query_answers": 17,
+    "desired_answers_matched": 15,
+    "parser_failures_retained": 2
+  },
+  "roundtrips": [
+    {
+      "episode": "custody",
+      "representation": "EdgeLink",
+      "roots": 97,
+      "unique_atoms": 221,
+      "read_back_exact": true
+    },
+    {
+      "episode": "custody",
+      "representation": "EvaluationLink",
+      "roots": 97,
+      "unique_atoms": 221,
+      "read_back_exact": true
+    },
+    {
+      "episode": "handoff",
+      "representation": "EdgeLink",
+      "roots": 106,
+      "unique_atoms": 239,
+      "read_back_exact": true
+    },
+    {
+      "episode": "handoff",
+      "representation": "EvaluationLink",
+      "roots": 106,
+      "unique_atoms": 239,
+      "read_back_exact": true
+    },
+    {
+      "episode": "uncertain",
+      "representation": "EdgeLink",
+      "roots": 29,
+      "unique_atoms": 82,
+      "read_back_exact": true
+    },
+    {
+      "episode": "uncertain",
+      "representation": "EvaluationLink",
+      "roots": 29,
+      "unique_atoms": 82,
+      "read_back_exact": true
+    },
+    {
+      "episode": "rejected-transfer",
+      "representation": "EdgeLink",
+      "roots": 69,
+      "unique_atoms": 163,
+      "read_back_exact": true
+    },
+    {
+      "episode": "rejected-transfer",
+      "representation": "EvaluationLink",
+      "roots": 69,
+      "unique_atoms": 163,
+      "read_back_exact": true
+    },
+    {
+      "episode": "rule-chain",
+      "representation": "EdgeLink",
+      "roots": 7,
+      "unique_atoms": 27,
+      "read_back_exact": true
+    },
+    {
+      "episode": "rule-chain",
+      "representation": "EvaluationLink",
+      "roots": 7,
+      "unique_atoms": 27,
+      "read_back_exact": true
+    },
+    {
+      "episode": "unknown-is-not-false",
+      "representation": "EdgeLink",
+      "roots": 5,
+      "unique_atoms": 23,
+      "read_back_exact": true
+    },
+    {
+      "episode": "unknown-is-not-false",
+      "representation": "EvaluationLink",
+      "roots": 5,
+      "unique_atoms": 23,
+      "read_back_exact": true
+    },
+    {
+      "episode": "conflict-is-not-certainty",
+      "representation": "EdgeLink",
+      "roots": 9,
+      "unique_atoms": 34,
+      "read_back_exact": true
+    },
+    {
+      "episode": "conflict-is-not-certainty",
+      "representation": "EvaluationLink",
+      "roots": 9,
+      "unique_atoms": 34,
+      "read_back_exact": true
+    },
+    {
+      "episode": "cyclic-rules",
+      "representation": "EdgeLink",
+      "roots": 5,
+      "unique_atoms": 23,
+      "read_back_exact": true
+    },
+    {
+      "episode": "cyclic-rules",
+      "representation": "EvaluationLink",
+      "roots": 5,
+      "unique_atoms": 23,
+      "read_back_exact": true
+    },
+    {
+      "episode": "bare-category-chain",
+      "representation": "EdgeLink",
+      "roots": 20,
+      "unique_atoms": 59,
+      "read_back_exact": true
+    },
+    {
+      "episode": "bare-category-chain",
+      "representation": "EvaluationLink",
+      "roots": 20,
+      "unique_atoms": 59,
+      "read_back_exact": true
+    }
+  ],
+  "same_payload_diagnostics": [
+    {
+      "events": 32,
+      "representation": "EdgeLink",
+      "roots": 193,
+      "unique_atoms": [
+        431,
+        431,
+        431,
+        431,
+        431
+      ],
+      "insertion_seconds": [
+        0.0038617370000224582,
+        0.0038460850000205937,
+        0.003836476000003586,
+        0.003799493000030907,
+        0.00377965000001268
+      ],
+      "query_seconds": [
+        0.001215470000033747,
+        0.0011578049999911855,
+        0.001137726000024486,
+        0.001170695999974214,
+        0.001263609999966775
+      ],
+      "median_insertion_seconds": 0.003836476000003586,
+      "median_query_seconds": 0.001170695999974214
+    },
+    {
+      "events": 32,
+      "representation": "EvaluationLink",
+      "roots": 193,
+      "unique_atoms": [
+        431,
+        431,
+        431,
+        431,
+        431
+      ],
+      "insertion_seconds": [
+        0.0038943189999827155,
+        0.003943924999987303,
+        0.004164655000010953,
+        0.0038477870000406256,
+        0.003875207000021419
+      ],
+      "query_seconds": [
+        0.0015351380000083736,
+        0.0011462289999712993,
+        0.0011299779999944803,
+        0.0011638400000038018,
+        0.0012187460000063766
+      ],
+      "median_insertion_seconds": 0.0038943189999827155,
+      "median_query_seconds": 0.0011638400000038018
+    },
+    {
+      "events": 64,
+      "representation": "EdgeLink",
+      "roots": 385,
+      "unique_atoms": [
+        847,
+        847,
+        847,
+        847,
+        847
+      ],
+      "insertion_seconds": [
+        0.007716199000014967,
+        0.008100788999968245,
+        0.007623543000022437,
+        0.007582085999956689,
+        0.007417457000030936
+      ],
+      "query_seconds": [
+        0.001664939000022514,
+        0.0012305099999707636,
+        0.0013519830000063848,
+        0.001348376000009921,
+        0.0013710150000179055
+      ],
+      "median_insertion_seconds": 0.007623543000022437,
+      "median_query_seconds": 0.0013519830000063848
+    },
+    {
+      "events": 64,
+      "representation": "EvaluationLink",
+      "roots": 385,
+      "unique_atoms": [
+        847,
+        847,
+        847,
+        847,
+        847
+      ],
+      "insertion_seconds": [
+        0.007685072000015225,
+        0.007698199000003569,
+        0.0077227259999972375,
+        0.007818196999949123,
+        0.007730611999988923
+      ],
+      "query_seconds": [
+        0.0015865660000144999,
+        0.0012620229999811272,
+        0.0014770230000067386,
+        0.00156488499999341,
+        0.0014041630000178884
+      ],
+      "median_insertion_seconds": 0.0077227259999972375,
+      "median_query_seconds": 0.0014770230000067386
+    },
+    {
+      "events": 128,
+      "representation": "EdgeLink",
+      "roots": 769,
+      "unique_atoms": [
+        1679,
+        1679,
+        1679,
+        1679,
+        1679
+      ],
+      "insertion_seconds": [
+        0.01566457299998092,
+        0.015184891000046719,
+        0.015363037999975404,
+        0.015335108999977365,
+        0.01526814000004606
+      ],
+      "query_seconds": [
+        0.0016349389999845698,
+        0.0017316999999934524,
+        0.0016323540000371395,
+        0.0016236500000559317,
+        0.0015732909999996991
+      ],
+      "median_insertion_seconds": 0.015335108999977365,
+      "median_query_seconds": 0.0016323540000371395
+    },
+    {
+      "events": 128,
+      "representation": "EvaluationLink",
+      "roots": 769,
+      "unique_atoms": [
+        1679,
+        1679,
+        1679,
+        1679,
+        1679
+      ],
+      "insertion_seconds": [
+        0.01530800000000454,
+        0.015943903000049886,
+        0.01541747400000304,
+        0.015564377999965018,
+        0.015103443999976207
+      ],
+      "query_seconds": [
+        0.001741761999994651,
+        0.001584276000016871,
+        0.001605275999963851,
+        0.0015666389999751118,
+        0.0016497459999982311
+      ],
+      "median_insertion_seconds": 0.01541747400000304,
+      "median_query_seconds": 0.001605275999963851
+    }
+  ],
+  "limitations": [
+    "Authored integration fixtures and tiny same-host diagnostics, not benchmarks or a general speed ranking.",
+    "Native Meet queries retrieve stored reported data; they do not establish OpenCog reasoning accuracy.",
+    "Sensory source/examples were examined, not built or integrated in this job.",
+    "No CAEL weight/source repair, neural runtime or model answer service was used."
+  ],
+  "files": {
+    "uncertain.EdgeLink.graph.json": "f70c381cfde424afd8aee94d3cd8b90c96228c0ae5aea832c54b4f54b9ecee38",
+    "rule-chain.result.json": "24dd7528da0dd39c6046ebb49e06a4908372e21c39a8de3b8eac1c6fca87ff99",
+    "handoff.EvaluationLink.graph.json": "195f62df23747efc0d804c6b9dea15116179c2f54473bba86d6ebf7ab997d1f3",
+    "handoff.input.json": "6d04b2f8f879ef69ca2d74aa02595a211b887918c6a4b7ddd95154cf47bf7f33",
+    "bare-category-chain.result.json": "8e77c5a81bdf170cf69549d6526b2eff4f22c8e6c7ff6a07134feb21d0864088",
+    "rejected-transfer.input.json": "4d0645779c8d4b0e1096adc519029c31d619b14fe689549fbe70deffbb434205",
+    "handoff.EdgeLink.graph.json": "f6bc9da5aab7b4b1c0be3cb0dc62a9bff675d26a3363ed85abb2d47122f8184b",
+    "rejected-transfer.result.json": "0c7e7129d7d684d02de9ff016dd2b40ab08f06059848940f171def5649740f64",
+    "conflict-is-not-certainty.input.json": "ad07e6710f584df8fe32d69db1b289abffec3a20db03b998911237df1453929a",
+    "conflict-is-not-certainty.EvaluationLink.graph.json": "ee65cbc1e8239da86388a259fe8944e803b1b8d54f3a641dd1e7c3b7430e5ffa",
+    "cyclic-rules.EvaluationLink.graph.json": "a8620d6ec510bc17cc89453fc0cb2663fb236eec2aed78e89ef1e13cbce686c6",
+    "custody.EdgeLink.graph.json": "e72472b7e8cb0734040e01e4462da23d74fcbf83d75b3b093cd2a096d5eec9c4",
+    "conflict-is-not-certainty.EdgeLink.graph.json": "3642c4b87ca259b47e88c1d39a0eec32246e909a6cb7e0ee7f9bae384889bbde",
+    "unit_tests.log": "49633f5d9e54d0f9b3ad219c3e2a6ba5ded6f2f50f3cc4e9de91f6d1da727a8e",
+    "unknown-is-not-false.EdgeLink.graph.json": "e129239e1797f4ffdb7e7549adda408e39a5ae8a8f0cec37975eeea02b235047",
+    "rejected-transfer.EvaluationLink.graph.json": "0215d4a2babaa3b28d23aa852266e42a2f25297ad58ef5d79e995be60d7cd31e",
+    "cyclic-rules.input.json": "fa1a96bb292a08cb0854fbc8e752a44ac47df94c0e1c1a2dc1e7c83d18ca2704",
+    "bare-category-chain.input.json": "a86ec1054dc6935c472ee149585a505feb6f5510ff53c11614a6fe5d7130bc61",
+    "custody.input.json": "76f9e7249422fed82e7c1060f0022942780e960d74a6f90e4cdea00ca247e900",
+    "uncertain.EvaluationLink.graph.json": "a597879d0ef61d2595f4152f5c6d1e12d829c01c159dc9f7ddec28993ab62c7f",
+    "rule-chain.EdgeLink.graph.json": "10731ed47e657f25e0437fe8efead8706a723bdacc91c05c7e7f78ed0fc21efa",
+    "rule-chain.input.json": "296c63efa94af1f83a6e3fe477b64b1aa12419bd9b9909e6a3686f6d6662fbe0",
+    "shared_scope.inputs.json": "e69810d05ae4cbb8aa1c3e6c6bffed033718fce3b80d15ab5ed6ddbd810e4757",
+    "rule-chain.EvaluationLink.graph.json": "b810d781a9900589ca8727f51c2460d943eb11288301b56bac3b7d6841436013",
+    "cyclic-rules.EdgeLink.graph.json": "e60dd0a7897c94c639c16ad81e7560d93305a09edda5306159f81ba247e79f53",
+    "uncertain.input.json": "f8aff15626b7c10f3d9a0db77278fb0fc77d44f970615494552a804eb23910c5",
+    "rejected-transfer.EdgeLink.graph.json": "534bf660e5af8d68384a054ace3c056d4fca93830e12f12b76875b402a086692",
+    "cyclic-rules.result.json": "f4f1850610dd2cea7156e64320240021efbd569959d39d55844d6d31c09578b0",
+    "bare-category-chain.EvaluationLink.graph.json": "04a707f8505487bf785cdaf6c0f915ffdb8818847c2e99417ce614f21452f29e",
+    "unknown-is-not-false.EvaluationLink.graph.json": "b71e28ac977fe0bb885df56ff00665c031183a9214c89e3f39b1d9f5f4e6b3e5",
+    "conflict-is-not-certainty.result.json": "34d7a623d0835daa42eb0a4a850b1c88185a7a778aace7a5581bc2a8b9521ede",
+    "unknown-is-not-false.result.json": "6c9b2936612637fb919b19bc3c6eac120cd2552e95a2754bb2bd0bc0daaca93e",
+    "custody.result.json": "4749a1f4361ec6d91ab37406642627c265b4e88b395b8b7729328b0242ee5888",
+    "bare-category-chain.EdgeLink.graph.json": "2c98cd436fa022106bd9aad00f53800148c9ccd56f50a6a50a28308e255f97b9",
+    "uncertain.result.json": "694e5bb861a940c08e5a012d39e0ea10460baffc5216e73631f87471b0f49edf",
+    "unknown-is-not-false.input.json": "a89e3e745c2b6be8fb64637d1cdadacf071d8f440b65bae6e85b5c4f1378c278",
+    "handoff.result.json": "2084d29bce8cf63b4d2cce10e87fd1dd306ac79192364dbc6691cbe88ffdab62",
+    "shared_scope.results.json": "6d63ca48c19fc3f7eacb0c2f2fe5135029cebf2f8b1cf94451177d90d59d2b0c",
+    "custody.EvaluationLink.graph.json": "3aaec67dba6c72f0c1a7f924e71bc984ceb2e7c1bd19cd4fb425d2b7623768e5"
+  }
+}

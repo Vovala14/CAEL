@@ -47,7 +47,7 @@ def test_full_proposition_is_matched_without_extra_claims():
     assert answer['reasoning']['support']
 
 
-def test_unified_unknown_scenario_preserves_the_existing_chooser():
+def test_unified_ambiguous_state_clarifies_without_count_guessing():
     from threading import RLock
     from unittest.mock import Mock,patch
     from cael_unified.assistant import Assistant
@@ -64,11 +64,11 @@ def test_unified_unknown_scenario_preserves_the_existing_chooser():
     prompt='Mira holds the compass. She gives it away. Who holds the compass?\nA) Mira\nB) Leon'
     with patch('cael_unified.choice.choose',return_value=(1,dict(route='fallback-sentinel'))) as chooser:
         answer=assistant._respond([dict(role='user',content=prompt)],seed=7,mode='chat')
-    assert answer['route']=='chat/choice-count'
-    assert answer['choice']==1
-    assert answer['continuation_scores'] is scores
-    assert chooser.call_args.args[2] is scores
-    assistant.score_endings.assert_called_once()
+    assert answer['route']=='chat/native-task-clarify'
+    assert not answer['reasoning']['complete_source']
+    assert 'choice' not in answer
+    chooser.assert_not_called()
+    assistant.score_endings.assert_not_called()
 
 
 def test_unified_proof_precedes_the_count_chooser():
@@ -83,6 +83,7 @@ def test_unified_proof_precedes_the_count_chooser():
     assistant.score_endings=Mock(side_effect=AssertionError('Do not guess a proved answer'))
     prompt='Mira holds the compass. Mira hands the compass to Leon. Who holds the compass?\nA) Mira\nB) Leon'
     answer=assistant._respond([dict(role='user',content=prompt)],seed=7,mode='chat')
-    assert answer['route']=='chat/choice-symbolic'
+    assert answer['route']=='chat/native-state'
     assert answer['choice']==1
+    assert answer['reasoning']['value']=='leon'
     assistant.score_endings.assert_not_called()

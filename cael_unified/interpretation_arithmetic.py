@@ -21,7 +21,8 @@ def compile(text):
     t=strip_request(text)
     # The established whole-expression reader retains percentages and supported
     # word operators; no changes to its solver or protected kernels.
-    old=calculate(t)
+    literal = re.sub(r'(?i)\bpercent\b', '%', t)
+    old=calculate(literal)
     if old and old.get('route')=='helper/arithmetic':
         try:
             p=check_arithmetic(t,old)

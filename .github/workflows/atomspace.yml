@@ -1,0 +1,45 @@
+name: Real AtomSpace integration
+on:
+  pull_request:
+    paths:
+      - 'examples/opencog_interop/**'
+      - '.github/workflows/atomspace.yml'
+permissions:
+  contents: read
+jobs:
+  real-atomspace:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: Vovala14/CAEL
+          ref: 49359eae9aa197d5b92631c16efb74085180a27c
+          path: external-cael-040
+          persist-credentials: false
+          sparse-checkout: |
+            cael_unified
+            models/cael-reasoning-v1
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends build-essential cmake pkg-config guile-3.0-dev libgmp-dev python3-dev cython3 binutils-dev libiberty-dev
+      - name: Build pinned real C++ and Python AtomSpace
+        run: bash examples/opencog_interop/build_atomspace.sh "$RUNNER_TEMP/cael-opencog"
+      - name: Validate actual storage, queries, scopes and round trips
+        env:
+          CAEL040_ROOT: ${{ github.workspace }}/external-cael-040
+          PYTHONPATH: ${{ runner.temp }}/cael-opencog/install/lib/python-site
+          LD_LIBRARY_PATH: ${{ runner.temp }}/cael-opencog/install/lib/opencog:${{ runner.temp }}/cael-opencog/install/lib
+        run: /usr/bin/python3 examples/opencog_interop/validate_atomspace.py --output integration-output --upstream-root "$RUNNER_TEMP/cael-opencog"
+      - name: Preserve validation and build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: real-atomspace-evidence
+          path: |
+            integration-output
+            ${{ runner.temp }}/cael-opencog/logs

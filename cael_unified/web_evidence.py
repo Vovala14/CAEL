@@ -24,7 +24,10 @@ def excluded(url):
 def relation_present(question,sentence,ws):
     definition=re.fullmatch(r'(?i)\s*what (?:is|are) (?:a |an |the )?([\w -]+?)\??\s*',question)
     if definition:
-        return bool(re.match(r'(?i)^(?:a |an |the )?'+re.escape(definition[1])+r'\s+(?:is|are)\b',sentence))
+        subject = re.escape(definition[1])
+        return bool(re.match(r'(?i)^(?:a |an |the )?'+subject+r'\s+(?:is|are)\b',sentence) or
+                    re.match(r'(?i)^what (?:is|are) the\b',question) and
+                    re.match(r'(?i)^[\w -]{1,80}\s+(?:is|are)\s+(?:a |an |the )?'+subject+r'(?:\b|[.!])',sentence))
     if ws.says_asked(question,sentence):return True
     # Bounded creator paraphrase: an explicitly attributed implementation is
     # relevant to "who created". This does not equate all design/author roles.

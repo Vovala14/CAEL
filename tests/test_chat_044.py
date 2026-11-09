@@ -180,7 +180,9 @@ class IntegrationTests(unittest.TestCase):
     def test_repaired_helper_and_greeting_use_the_unified_entrypoint(self):
         with patch('cael_unified.text_repair.active_repairer',return_value=self.model),patch.object(self.engine._facts,'respond',side_effect=AssertionError('Lookup forbidden')):
             answer=self.engine.respond([user('cna yuo caluclate 20 percnt of 50?')],seed=1)
-            self.assertTrue(answer['response'].endswith(' = 10'))
+            self.assertEqual(answer['response'], '10')
+            self.assertEqual(answer['reasoning']['value'], '10')
+            self.assertEqual(answer['reasoning']['program']['check']['status'], 'verified')
             self.assertIn('Spelling interpretation:',answer['details'])
             self.assertEqual(self.engine.respond([user('helo')],seed=1)['route'],'chat/smalltalk-greeting')
 

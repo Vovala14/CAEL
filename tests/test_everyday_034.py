@@ -70,6 +70,17 @@ class AssistantTests(unittest.TestCase):
     def setUpClass(cls):
         cls.a = Assistant()
 
+    def setUp(self):
+        # Test spelling and routing against local fixtures, never live Wikipedia.
+        from unittest.mock import patch
+        from cael_unified import world_facts
+        def fixture(text, **kwargs):
+            if 'capital of australia' in text.lower():
+                return dict(route='chat/fixture', response='Canberra is the capital of Australia.', sources=[])
+            return world_facts.reply(text)
+        self.enterContext(patch.object(self.a._facts, 'respond', side_effect=fixture))
+        self.enterContext(patch.object(self.a._facts, 'structured_faq', side_effect=fixture))
+
     def ask(self, text):
         return self.a.respond([dict(role='user', content=text)])
 

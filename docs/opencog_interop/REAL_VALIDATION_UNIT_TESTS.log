@@ -1,0 +1,21 @@
+test_actual_atomspace_import (test_bridge.BridgeTests.test_actual_atomspace_import) ... ok
+test_actual_released_engine_episodes (test_bridge.BridgeTests.test_actual_released_engine_episodes) ... ok
+test_edge_and_legacy_data_relations_preserve_identical_tuples (test_bridge.BridgeTests.test_edge_and_legacy_data_relations_preserve_identical_tuples) ... ok
+test_every_statement_is_episode_scoped (test_bridge.BridgeTests.test_every_statement_is_episode_scoped) ... ok
+test_executable_atom_types_are_rejected (test_bridge.BridgeTests.test_executable_atom_types_are_rejected) ... ok
+test_explicit_negative_unknown_conflict_stay_distinct (test_bridge.BridgeTests.test_explicit_negative_unknown_conflict_stay_distinct) ... ok
+test_external_input_unchanged_and_separate_episodes (test_bridge.BridgeTests.test_external_input_unchanged_and_separate_episodes) ... ok
+test_json_roundtrip_and_scheme_literal_escaping (test_bridge.BridgeTests.test_json_roundtrip_and_scheme_literal_escaping) ... ok
+test_low_level_binding_contract_with_test_double (test_bridge.BridgeTests.test_low_level_binding_contract_with_test_double) ... ok
+test_malformed_graphs_rejected_before_dependency_import (test_bridge.BridgeTests.test_malformed_graphs_rejected_before_dependency_import) ... ok
+test_owner_and_movement_evidence_propagate (test_bridge.BridgeTests.test_owner_and_movement_evidence_propagate) ... ok
+test_query_evidence_maps_to_original_event_indices (test_bridge.BridgeTests.test_query_evidence_maps_to_original_event_indices) ... ok
+test_rejected_transaction_retains_state (test_bridge.BridgeTests.test_rejected_transaction_retains_state) ... ok
+test_representation_cannot_select_an_executable_link (test_bridge.BridgeTests.test_representation_cannot_select_an_executable_link) ... ok
+test_same_label_different_inputs_get_different_scopes (test_bridge.BridgeTests.test_same_label_different_inputs_get_different_scopes) ... ok
+test_uncertainty_keeps_possible_locations (test_bridge.BridgeTests.test_uncertainty_keeps_possible_locations) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.109s
+
+OK

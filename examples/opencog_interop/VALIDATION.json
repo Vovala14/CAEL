@@ -1,0 +1,179 @@
+{
+  "at": "2026-11-09T18:53:15.676658+00:00",
+  "python": "3.14.0 (tags/v3.14.0:ebf955d, Oct  7 2025, 10:15:03) [MSC v.1944 64 bit (AMD64)]",
+  "cael_root": "<external released CAEL v0.4.0 checkout>",
+  "cael_identity": {
+    "version": "0.4.0",
+    "model_sha256": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4",
+    "source_sha256": {
+      "cael_unified/reasoning_world.py": "1134c9fb4c06d0091b66e34370029d66764e6bb72d0acb0a42bf4cb6b427da11",
+      "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95"
+    }
+  },
+  "authored_episodes": 9,
+  "answers": 17,
+  "answers_matching_desired": 15,
+  "episodes_matching_desired": 8,
+  "bridge_contracts_valid": 9,
+  "results": [
+    {
+      "id": "custody",
+      "answers": [
+        "gallery",
+        "loft",
+        "unknown"
+      ],
+      "expected": [
+        "gallery",
+        "loft",
+        "unknown"
+      ],
+      "answers_match_desired": true,
+      "known_parser_failure": false,
+      "bridge_contract_valid": true,
+      "accepted_events": 5,
+      "rejected_events": 0,
+      "atomspace": null
+    },
+    {
+      "id": "handoff",
+      "answers": [
+        "lena",
+        "courtyard",
+        "lena"
+      ],
+      "expected": [
+        "lena",
+        "courtyard",
+        "lena"
+      ],
+      "answers_match_desired": true,
+      "known_parser_failure": false,
+      "bridge_contract_valid": true,
+      "accepted_events": 5,
+      "rejected_events": 0,
+      "atomspace": null
+    },
+    {
+      "id": "uncertain",
+      "answers": [
+        "cellar",
+        "no"
+      ],
+      "expected": [
+        "cellar",
+        "no"
+      ],
+      "answers_match_desired": true,
+      "known_parser_failure": false,
+      "bridge_contract_valid": true,
+      "accepted_events": 2,
+      "rejected_events": 0,
+      "atomspace": null
+    },
+    {
+      "id": "rejected-transfer",
+      "answers": [
+        "sora",
+        "hall"
+      ],
+      "expected": [
+        "sora",
+        "hall"
+      ],
+      "answers_match_desired": true,
+      "known_parser_failure": false,
+      "bridge_contract_valid": true,
+      "accepted_events": 3,
+      "rejected_events": 1,
+      "atomspace": null
+    },
+    {
+      "id": "rule-chain",
+      "answers": [
+        "unknown",
+        "unknown"
+      ],
+      "expected": [
+        "true",
+        "false"
+      ],
+      "answers_match_desired": false,
+      "known_parser_failure": true,
+      "bridge_contract_valid": true,
+      "accepted_events": 0,
+      "rejected_events": 0,
+      "atomspace": null
+    },
+    {
+      "id": "unknown-is-not-false",
+      "answers": [
+        "unknown"
+      ],
+      "expected": [
+        "unknown"
+      ],
+      "answers_match_desired": true,
+      "known_parser_failure": false,
+      "bridge_contract_valid": true,
+      "accepted_events": 0,
+      "rejected_events": 0,
+      "atomspace": null
+    },
+    {
+      "id": "conflict-is-not-certainty",
+      "answers": [
+        "conflicting"
+      ],
+      "expected": [
+        "conflicting"
+      ],
+      "answers_match_desired": true,
+      "known_parser_failure": false,
+      "bridge_contract_valid": true,
+      "accepted_events": 0,
+      "rejected_events": 0,
+      "atomspace": null
+    },
+    {
+      "id": "cyclic-rules",
+      "answers": [
+        "unknown"
+      ],
+      "expected": [
+        "unknown"
+      ],
+      "answers_match_desired": true,
+      "known_parser_failure": false,
+      "bridge_contract_valid": true,
+      "accepted_events": 0,
+      "rejected_events": 0,
+      "atomspace": null
+    },
+    {
+      "id": "bare-category-chain",
+      "answers": [
+        "true",
+        "false"
+      ],
+      "expected": [
+        "true",
+        "false"
+      ],
+      "answers_match_desired": true,
+      "known_parser_failure": false,
+      "bridge_contract_valid": true,
+      "accepted_events": 0,
+      "rejected_events": 0,
+      "atomspace": null
+    }
+  ],
+  "actual_atomspace_import_tested": false,
+  "scope": "Authored interoperability fixtures, not chatbot/benchmark capability scores.",
+  "files": {},
+  "unit_tests": {
+    "passed": 13,
+    "skipped": 1,
+    "actual_atomspace_tested": false
+  }
+}

@@ -1,0 +1,60 @@
+name: Publish only the approved CAEL provenance adapter
+
+on:
+  push:
+    branches: ['codex/provenance-pypi']
+    paths: ['.github/workflows/publish-provenance.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pypi-cael-provenance-bridge-0-1-0
+  cancel-in-progress: false
+
+jobs:
+  build-approved-wheel:
+    if: github.repository == 'Vovala14/CAEL' && github.ref == 'refs/heads/codex/provenance-pypi'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 6c732a71e7e95671dd7fe690810f80a19bb5e5cd
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'hatchling==1.33.0'
+      - name: Build only the MIT adapter and require the exact qualified wheel
+        working-directory: examples/agent_provenance
+        run: |
+          python -m hatchling build -t wheel
+          echo 'f44c24a3ed1f971dbff945c9d31f625d6445eadb0f51ee2a254a2add9086a38d  dist/cael_provenance_bridge-0.1.0-py3-none-any.whl' | sha256sum --check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: approved-provenance-wheel
+          path: examples/agent_provenance/dist/*.whl
+          if-no-files-found: error
+
+  publish-approved-wheel:
+    needs: build-approved-wheel
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: pypi-provenance
+      url: https://pypi.org/project/cael-provenance-bridge/0.1.0/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: approved-provenance-wheel
+          path: adapter-dist
+      - name: Verify the artifact again before upload
+        run: echo 'f44c24a3ed1f971dbff945c9d31f625d6445eadb0f51ee2a254a2add9086a38d  adapter-dist/cael_provenance_bridge-0.1.0-py3-none-any.whl' | sha256sum --check
+      - name: Publish the authorized adapter using short-lived PyPI identity
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086
+        with:
+          packages-dir: adapter-dist/
+          attestations: true

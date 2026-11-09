@@ -60,7 +60,8 @@ test focused on a reproducible real AtomSpace build and its data/query API.
 ## Reproduce the real check
 
 On an isolated Ubuntu Linux environment with C++/CMake, Guile 3, Python 3
-development headers and Cython installed:
+development headers and Cython installed, and installation privileges for the
+upstream installer (which writes a loader configuration under `/etc`):
 
 ```sh
 bash examples/opencog_interop/build_atomspace.sh /new/build/directory

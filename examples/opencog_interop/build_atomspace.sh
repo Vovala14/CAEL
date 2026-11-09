@@ -22,7 +22,10 @@ for project in cogutil atomspace; do
     -DGUILE_SITE_CCACHE_DIR="$prefix/lib/guile/3.0/site-ccache" \
     2>&1 | tee "$root/logs/$project-configure.log"
   cmake --build "$root/$project-build" --parallel 2 2>&1 | tee "$root/logs/$project-build.log"
-  cmake --install "$root/$project-build" 2>&1 | tee "$root/logs/$project-install.log"
+  # Upstream also installs /etc/ld.so.conf.d/opencog.conf regardless of prefix.
+  # Installation privileges are required; use an isolated Linux runner.
+  sudo cmake --install "$root/$project-build" 2>&1 | tee "$root/logs/$project-install.log"
+  sudo ldconfig
 done
 PYTHONPATH="$python_site" LD_LIBRARY_PATH="$prefix/lib/opencog:$prefix/lib" \
   "$python_bin" -c 'import opencog.atomspace as a; print(a.__file__); print(a.AtomSpace())'

@@ -1,0 +1,64 @@
+{
+  "at_utc": "2026-11-09T21:39:25.180733+00:00",
+  "publication_status": "qualified_artifact_awaiting_owner_pypi_account_and_publisher_setup",
+  "owner_authorized_pypi_upload": true,
+  "package": "cael-provenance-bridge",
+  "version": "0.1.0",
+  "original_qualified_wheel_sha256": "ce93d97464f164b88f17dde9f05335a43e14e28e167fdf2b1b631cb85dfb3c55",
+  "publication_wheel_sha256": "3b680a0af0728f75031431f1baed7f0e880377da41250be453381053b0ed992a",
+  "change": "PyPI long description and project URLs only; all adapter modules byte-identical",
+  "engine_or_model_bundled": false,
+  "installed_publication_wheel_tests": {
+    "run": 79,
+    "passed": 79,
+    "skips": 0
+  },
+  "attempt8_receipt_sha256": "888211630be5a22df97b324d8dbaf72474d14bb66f6f81b00752504fb26670c4",
+  "linux_tests": {
+    "run": 79,
+    "passed": 79,
+    "skips": 0
+  },
+  "linux_run": "https://github.com/Vovala14/CAEL/actions/runs/42703207604",
+  "linux_full_certificates_equal_to_windows": 51,
+  "distinct_requests": 17,
+  "intended_answer_agreement": {
+    "matches": 12,
+    "total": 14
+  },
+  "unsupported_boundaries": 3,
+  "known_parser_misses_preserved": 2,
+  "source_manifest": {
+    "LICENSE": "1236dc6f4d57a9335553cc9bce8cfa022fab71883d9d852b6595ce044f99c1e2",
+    "PYPI_README.md": "799a4fdcbb4e5ef7725e7e4ce956af6be480d106f1089bbe5de0dbe76c635fb0",
+    "pyproject.toml": "003df6274713afb1b4d3dd4a17904a1075d011a6b7f5c207b211a662b72e111f",
+    "README.md": "33c5e74b23483f94e93961dc071b0cff1fe898e0b720ff95b6c610567bad6756",
+    ".ruff_cache\\.gitignore": "9e3a60f1e6ec4ae60215c11d54b171392745ec25e9dded433d5bd921363af316",
+    ".ruff_cache\\CACHEDIR.TAG": "5953156d7e0c564a427251316eaf26f8870e6483ae2197f916b630e4f93e31ae",
+    "cael_provenance\\core.py": "09e3a0d78e4fb40670faed9f75de144d2f49ea3118ecc820b98bc5da213e827c",
+    "cael_provenance\\crewai.py": "ab96024a748b93ad369cdf4c7b7fdf49a9c16752cdb268cde791a27684722dde",
+    "cael_provenance\\langgraph.py": "c1973562dd84fb353b0e28ee017a2d30dcf439bb52534b68f2e9838a66a78dad",
+    "cael_provenance\\schema.py": "3f29a4f5e19faefcd5dcad3fe1125a2374d7252fc22aec756c9f9aa8c675a30c",
+    "cael_provenance\\__init__.py": "9f3b30fd1c6f0f18d35761448aa0a398c52a08a095db66ac6001b3f4529e3e56",
+    "tests\\cases.py": "07650b56e3955ee1fb0794fcc304d0ea50ab0d9e4c2a1c56e7327749d5575106",
+    "tests\\conftest.py": "1d31405ddd1d477a2ae5c85276f98924b40d6d5b5592e4ce4b3e56d543d0f832",
+    "tests\\test_frameworks.py": "70b6136b53428a3ec7cbb808b66fd6a0614f7a95b4a1ffa9bb77514c6827c4ed",
+    "tests\\test_provenance.py": "9de9f875e14e7261470f99cde2e951a254f0cd467d570ac5da21f5d62cab8151",
+    "validation\\.gitattributes": "ddcd21568e0d3a90f231e4664e2393435dae1637e3e5695fa01b364d987b4f12",
+    "validation\\all_episodes.json": "e98e40c4c3497813533821ee084877e2157a6578440621ff0e0d27d75109cc95",
+    "validation\\chain.json": "fd09dc49e2646f5461bdf799c88c9d2f2930c0ba44a619314408e3bca60e6e49",
+    "validation\\conflict.json": "3e47e5dfb1db5bc3b3b4fc586e90b6b08a7dad448dca2a31a18f5995e482f249",
+    "validation\\pytest.log": "ebf98ed0000f97c5e9bbe52db2db4efe3476cbbd4af4d8af830e46e40da6fe9f",
+    "validation\\receipt.json": "656afa3050a8044d6126fb75a3565e0c2a2527d38b7415dc5d45e3aa5eaeda43",
+    "validation\\REPORT.md": "a03c8029f6b734993fb338ac74280724eb0fd0068cd38909af412427be763ad1",
+    "validation\\unknown.json": "9c90c36a525e9af12f3904b8da44a90f3f25b42a1eb25d5a4a2be0173ac5b9e5",
+    "validation\\unsupported-condition.json": "9f4b7817a6f96d92a77e4f812357581ac26d426f6bcafc455b0611e65c441d59",
+    ".ruff_cache\\0.17.4\\11127111781252331084": "0c06d54a2de8a45477ba1af56a19dde93e8840b1ba240f62653096e445dfdeb4",
+    ".ruff_cache\\0.17.4\\2218457552874533800": "0d38016d9d43d3e6ccbbbd9e3e608b9fefb850ed49b5e7d40b7a055daf63316d"
+  },
+  "limits": [
+    "Derivation relative to CAEL parse, not external truth or source authorship",
+    "No benchmark or general chatbot claim",
+    "MIT adapter; separately licensed external CAEL runtime"
+  ]
+}

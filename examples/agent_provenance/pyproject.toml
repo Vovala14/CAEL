@@ -6,9 +6,15 @@ build-backend = "hatchling.build"
 name = "cael-provenance-bridge"
 version = "0.1.0"
 description = "Optional source-linked CAEL reasoning tools for workflow runtimes"
+readme = "PYPI_README.md"
 requires-python = ">=3.10"
 license = "MIT"
 dependencies = []
+
+[project.urls]
+Source = "https://github.com/Vovala14/CAEL/tree/codex/agent-provenance/examples/agent_provenance"
+Documentation = "https://github.com/Vovala14/CAEL/blob/codex/agent-provenance/examples/agent_provenance/README.md"
+Issues = "https://github.com/Vovala14/CAEL/issues"
 
 [project.optional-dependencies]
 langgraph = ["langgraph>=1.2.20,<2"]

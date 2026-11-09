@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 20
     env:
       CAEL040_ROOT: ${{ github.workspace }}
-      CAEL_PROVENANCE_ARTIFACT_DIR: ${{ runner.temp }}/provenance-output
+      CAEL_PROVENANCE_ARTIFACT_DIR: ${{ github.workspace }}/provenance-output
       OTEL_SDK_DISABLED: 'true'
       CREWAI_TELEMETRY_ENABLED: 'false'
       CREWAI_DISABLE_VERSION_CHECK: 'true'
@@ -43,6 +43,6 @@ jobs:
         with:
           name: actual-framework-provenance
           path: |
-            ${{ runner.temp }}/provenance-output
+            provenance-output
             provenance-junit.xml
             provenance-installed.txt

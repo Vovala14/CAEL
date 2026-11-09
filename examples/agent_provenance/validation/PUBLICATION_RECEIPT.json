@@ -5,7 +5,7 @@
   "package": "cael-provenance-bridge",
   "version": "0.1.0",
   "original_qualified_wheel_sha256": "ce93d97464f164b88f17dde9f05335a43e14e28e167fdf2b1b631cb85dfb3c55",
-  "publication_wheel_sha256": "3b680a0af0728f75031431f1baed7f0e880377da41250be453381053b0ed992a",
+  "publication_wheel_sha256": "f44c24a3ed1f971dbff945c9d31f625d6445eadb0f51ee2a254a2add9086a38d",
   "change": "PyPI long description and project URLs only; all adapter modules byte-identical",
   "engine_or_model_bundled": false,
   "installed_publication_wheel_tests": {
@@ -60,5 +60,20 @@
     "Derivation relative to CAEL parse, not external truth or source authorship",
     "No benchmark or general chatbot claim",
     "MIT adapter; separately licensed external CAEL runtime"
-  ]
+  ],
+  "windows_metadata_wheel_sha256": "3b680a0af0728f75031431f1baed7f0e880377da41250be453381053b0ed992a",
+  "publication_build_source_commit": "6c732a71e7e95671dd7fe690810f80a19bb5e5cd",
+  "publication_wheel_build_platform": "Linux GitHub Actions ubuntu-24.04",
+  "platform_archive_difference": "Exactly nine ZIP central-directory create_system bytes: 0 Windows versus 3 Unix. After changing only these marker bytes, entire archives are byte-identical.",
+  "all_archive_entry_payloads_identical": true,
+  "linux_wheel_installed_on_windows_tests": {
+    "run": 79,
+    "passed": 79,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "attempt9_receipt_sha256": "770eea2658b6cd30754f7dde424558c0305a109d46929b92f9eb9dae4d4138ee",
+  "platform_diagnostic_sha256": "970c356b77b63972ae687a0a0cb7a95d4d1271b120ab1622009a2761e5450fb0",
+  "failed_packaging_ci_preserved": "https://github.com/Vovala14/CAEL/actions/runs/42715987111"
 }

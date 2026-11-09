@@ -40,7 +40,7 @@ jobs:
           python -m pip install 'hatchling==1.33.0'
           cd examples/agent_provenance
           python -m hatchling build -t wheel
-          echo '3b680a0af0728f75031431f1baed7f0e880377da41250be453381053b0ed992a  dist/cael_provenance_bridge-0.1.0-py3-none-any.whl' | sha256sum --check
+          echo 'f44c24a3ed1f971dbff945c9d31f625d6445eadb0f51ee2a254a2add9086a38d  dist/cael_provenance_bridge-0.1.0-py3-none-any.whl' | sha256sum --check
       - name: Preserve actual receipts and dependency versions
         if: always()
         run: python -m pip freeze > provenance-installed.txt

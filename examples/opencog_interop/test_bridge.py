@@ -48,7 +48,7 @@ class BridgeTests(unittest.TestCase):
     def test_every_statement_is_episode_scoped(self):
         r=export_episode(episodes()[0],self.backend);g=atom_graph(r)
         for root in g['roots']:
-            self.assertEqual(root['type'],'EvaluationLink')
+            self.assertEqual(root['type'],'EdgeLink')
             self.assertTrue(root['outgoing'][0]['name'].startswith('cael:'))
         plain=[x for x in g['roots'] if x['outgoing'][0]['name'] in ('cael:possible-location','cael:holder','cael:location-status')]
         for root in plain:self.assertEqual(root['outgoing'][1]['outgoing'][0]['name'],'cael:episode:'+r['input_sha256'])
@@ -87,11 +87,25 @@ class BridgeTests(unittest.TestCase):
             def add_node(self,kind,name):calls.append(('node',kind,name));return ('node',kind,name)
             def add_link(self,kind,outgoing):calls.append(('link',kind,outgoing));return ('link',kind,outgoing)
         module=types.ModuleType('opencog.atomspace');module.AtomSpace=Space
-        module.types=types.SimpleNamespace(**{k:k for k in ['ConceptNode','PredicateNode','NumberNode','EvaluationLink','ListLink']})
+        module.types=types.SimpleNamespace(**{k:k for k in ['ConceptNode','PredicateNode','NumberNode','EdgeLink','EvaluationLink','ListLink']})
         g=dict(format=FORMAT,episode_id='binding',roots=[claim('data',concept('binding'),concept('literal'))])
         with patch.dict(sys.modules,{'opencog':types.ModuleType('opencog'),'opencog.atomspace':module}):
             space,roots=import_atomspace(g)
-        self.assertEqual(len(roots),1);self.assertEqual(calls[-1][1],'EvaluationLink')
+        self.assertEqual(len(roots),1);self.assertEqual(calls[-1][1],'EdgeLink')
+
+    def test_edge_and_legacy_data_relations_preserve_identical_tuples(self):
+        result=export_episode(episodes()[0],self.backend)
+        edge=atom_graph(result);legacy=atom_graph(result,'EvaluationLink')
+        def normalize(atom):
+            if 'name' in atom:return atom
+            return dict(type='relation' if atom['type'] in ('EdgeLink','EvaluationLink') else atom['type'],
+                        outgoing=[normalize(a) for a in atom['outgoing']])
+        self.assertEqual([normalize(r) for r in edge['roots']],[normalize(r) for r in legacy['roots']])
+        validate_graph(legacy)
+
+    def test_representation_cannot_select_an_executable_link(self):
+        result=export_episode(episodes()[0],self.backend)
+        with self.assertRaises(ValueError):atom_graph(result,'ExecutionOutputLink')
 
     @unittest.skipUnless(importlib.util.find_spec('opencog') is not None,'Real AtomSpace bindings are unavailable; API double is not integration proof.')
     def test_actual_atomspace_import(self):

@@ -12,7 +12,7 @@ import sys
 
 FORMAT='cael-atomspace-data-v1'
 NODES={'ConceptNode','PredicateNode','NumberNode'}
-LINKS={'ListLink','EvaluationLink'}
+LINKS={'ListLink','EdgeLink','EvaluationLink'}
 
 
 def digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -85,34 +85,37 @@ def export_episode(spec,backend):
 def node(kind,value):return dict(type=kind,name=str(value))
 def link(kind,*outgoing):return dict(type=kind,outgoing=list(outgoing))
 def concept(value):return node('ConceptNode',value)
-def claim(predicate,*args):return link('EvaluationLink',node('PredicateNode','cael:'+predicate),link('ListLink',*args))
+def claim(predicate,*args,relation_type='EdgeLink'):
+    if relation_type not in ('EdgeLink','EvaluationLink'):raise ValueError('Unsupported data relation representation.')
+    return link(relation_type,node('PredicateNode','cael:'+predicate),link('ListLink',*args))
 
 
-def atom_graph(result):
+def atom_graph(result,relation_type='EdgeLink'):
     if result.get('format')!=FORMAT:raise ValueError('Unsupported bridge format.')
+    def relation(predicate,*args):return claim(predicate,*args,relation_type=relation_type)
     # A human-readable label can repeat; input-specific scope prevents two
     # different episodes with the same label from sharing mutable facts.
-    episode=concept('cael:episode:'+result['input_sha256']);roots=[claim('episode-label',episode,concept(result['id']))]
+    episode=concept('cael:episode:'+result['input_sha256']);roots=[relation('episode-label',episode,concept(result['id']))]
     for snapshot in result['snapshots']:
         step=node('NumberNode',snapshot['step'])
         for cell in snapshot['cells']:
             entity=concept(cell['entity'])
-            facts=[claim('location-status',episode,step,entity,concept(cell['location_status']))]
-            facts += [claim('possible-location',episode,step,entity,concept(loc)) for loc in cell['possible_locations']]
-            facts += [claim('excluded-location',episode,step,entity,concept(loc)) for loc in cell['excluded_locations']]
+            facts=[relation('location-status',episode,step,entity,concept(cell['location_status']))]
+            facts += [relation('possible-location',episode,step,entity,concept(loc)) for loc in cell['possible_locations']]
+            facts += [relation('excluded-location',episode,step,entity,concept(loc)) for loc in cell['excluded_locations']]
             # Null is an explicit engine-state marker, never converted to a
             # negated fact about any named owner.
-            facts += [claim('holder',episode,step,entity,concept(cell['holder'] if cell['holder'] is not None else 'cael:no-recorded-holder'))]
+            facts += [relation('holder',episode,step,entity,concept(cell['holder'] if cell['holder'] is not None else 'cael:no-recorded-holder'))]
             roots.extend(facts)
-            roots += [claim('event-support',fact,node('NumberNode',source)) for fact in facts for source in cell['support']]
+            roots += [relation('event-support',fact,node('NumberNode',source)) for fact in facts for source in cell['support']]
     for item in result['logic_claims']:
-        fact=claim('logical-claim',episode,concept(item['entity']),concept(item['property']),concept(item['polarity']))
-        roots.append(fact);roots += [claim('logic-support',fact,node('NumberNode',i)) for i in item['support']]
+        fact=relation('logical-claim',episode,concept(item['entity']),concept(item['property']),concept(item['polarity']))
+        roots.append(fact);roots += [relation('logic-support',fact,node('NumberNode',i)) for i in item['support']]
     for query in result['queries']:
         q=concept(query['text']);kind=concept(query['engine'])
-        roots.append(claim('query-status',episode,kind,q,concept(query['status'])))
-        if query['answer'] is not None:roots.append(claim('query-answer',episode,kind,q,concept(query['answer'])))
-        roots += [claim('query-support',episode,kind,q,node('NumberNode',i)) for i in query['support']]
+        roots.append(relation('query-status',episode,kind,q,concept(query['status'])))
+        if query['answer'] is not None:roots.append(relation('query-answer',episode,kind,q,concept(query['answer'])))
+        roots += [relation('query-support',episode,kind,q,node('NumberNode',i)) for i in query['support']]
     graph=dict(format=FORMAT,episode_id=result['id'],roots=roots);validate_graph(graph);return graph
 
 
@@ -133,7 +136,7 @@ def validate_graph(graph):
             if kind=='NumberNode' and not atom['name'].isdigit():raise ValueError('Only nonnegative index numbers are supported.')
         elif kind in LINKS:
             if set(atom)!={'type','outgoing'} or type(atom['outgoing']) is not list:raise ValueError('Unknown link fields.')
-            if kind=='EvaluationLink' and (len(atom['outgoing'])!=2 or any(type(v) is not dict for v in atom['outgoing']) or atom['outgoing'][0].get('type')!='PredicateNode' or atom['outgoing'][1].get('type')!='ListLink'):raise ValueError('Invalid data evaluation shape.')
+            if kind in ('EdgeLink','EvaluationLink') and (len(atom['outgoing'])!=2 or any(type(v) is not dict for v in atom['outgoing']) or atom['outgoing'][0].get('type')!='PredicateNode' or atom['outgoing'][1].get('type')!='ListLink'):raise ValueError('Invalid data relation shape.')
             if len(atom['outgoing'])>16:raise ValueError('Link arity limit.')
             for item in atom['outgoing']:visit(item,depth+1)
         else:raise ValueError('Only data node/link types are accepted; executable atom types are forbidden.')
@@ -148,11 +151,12 @@ def scheme(graph):
     return '; CAEL episode-scoped reported data. No evaluation, commands or truth-value claims.\n'+'\n'.join(render(a) for a in graph['roots'])+'\n'
 
 
-def import_atomspace(graph):
+def import_atomspace(graph,space=None):
     """Use the upstream low-level API, with no eval/load-file/execute calls."""
     validate_graph(graph)  # complete validation before any AtomSpace mutation
     from opencog.atomspace import AtomSpace,types
-    space=AtomSpace()
+    if space is None:space=AtomSpace()
+    elif not isinstance(space,AtomSpace):raise TypeError('Use an actual AtomSpace instance.')
     def build(atom):
         kind=getattr(types,atom['type'])
         return space.add_node(kind,atom['name']) if 'name' in atom else space.add_link(kind,[build(v) for v in atom['outgoing']])

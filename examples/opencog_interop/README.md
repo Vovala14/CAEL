@@ -50,22 +50,34 @@ the bridge code retains this repository's license.
 - The graph describes **what CAEL reports under supplied premises**. It does not
   assert externally verified truth or invent numeric confidence.
 
-Only `ConceptNode`, `PredicateNode`, `NumberNode`, `ListLink` and
-`EvaluationLink` are accepted by the loader. It validates the whole data graph
+Only `ConceptNode`, `PredicateNode`, `NumberNode`, `ListLink`, `EdgeLink` and
+the original comparison format `EvaluationLink` are accepted by the loader. It validates the whole data graph
 before calling the low-level `AtomSpace.add_node/add_link` API. There is no
 `eval`, `load-file`, generated function execution or automatic Atomese inference.
 Exported `.scm` strings are escaped literal data; input text cannot choose an
 executable atom type. Use a fresh AtomSpace for experiments.
 
-## Actual OpenCog check remains outstanding
+## Real AtomSpace validation
+
+See [REPRESENTATION.md](REPRESENTATION.md) for the completed upstream source
+investigation, storage decision and sensory boundary analysis. `EdgeLink` is
+the new default; the original `EvaluationLink` format remains available for a
+same-payload comparison. Neither format runs inference when imported.
+
+The `Real AtomSpace integration` workflow builds pinned CogUtil/AtomSpace C++
+and Python bindings on Linux, then runs `validate_atomspace.py`. It requires
+the actual extension and zero skipped tests. Its artifact records graph
+read-back, native pattern queries, episode/history isolation, validation before
+mutation, and bounded timing/atom-count diagnostics. A running or failed job
+does not qualify as successful real-runtime validation; inspect its receipt.
 
 The low-level binding API was checked against the upstream example at AtomSpace
 commit `c8d633bf272b838c2132c21b7c8ddf169a18dd22`:
 [create_atoms_lowlevel.py](https://github.com/opencog/atomspace/blob/c8d633bf272b838c2132c21b7c8ddf169a18dd22/examples/python/create_atoms_lowlevel.py).
 
-Local tests cover CAEL execution, graph semantics/validation and an explicitly
-labeled API test double. **Real AtomSpace bindings were unavailable on the
-development machine, so the real integration test is skipped.** A test double
+Local Windows tests cover CAEL execution, graph semantics/validation and an explicitly
+labeled API test double. **Real AtomSpace bindings are unavailable on the
+Windows development machine, so that local integration test is skipped.** A test double
 does not verify ABI/API compatibility or OpenCog reasoning. With real bindings:
 
 ```sh

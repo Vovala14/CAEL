@@ -1,0 +1,82 @@
+{
+  "inputs": {
+    "episode_id": "example",
+    "sources": [
+      {
+        "id": "s1",
+        "text": "Aria is calm",
+        "origin": "authored:test"
+      }
+    ],
+    "entity": "Aria",
+    "predicate": "ready",
+    "negated": false
+  },
+  "certificate": {
+    "format": "cael-provenance-v1",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is calm",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "input_sha256": "945d5631617b7be97f6426705b77bff3bb405b0ea507bd4f8c31c99441e52376",
+    "engine": {
+      "version": "0.4.0",
+      "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+      "files_sha256": {
+        "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+        "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+      }
+    },
+    "evidence": [],
+    "parsed": {
+      "facts": [
+        [
+          [
+            "aria",
+            "calm",
+            0
+          ],
+          1
+        ]
+      ],
+      "rules": [],
+      "query": [
+        "aria",
+        "ready",
+        0
+      ]
+    },
+    "proof": {
+      "steps": [],
+      "roots": {
+        "positive": null,
+        "negative": null
+      },
+      "checked_status": "unknown"
+    },
+    "reported": {
+      "answer": "unknown",
+      "status": "unknown",
+      "support": [],
+      "depth": 0
+    },
+    "verification": {
+      "passed": true,
+      "scope": "derivation_relative_to_CAEL_parse",
+      "independent_horn_check": true,
+      "external_truth_verified": false
+    },
+    "certificate_sha256": "442156978840e12e2508992b1ac6e2662c0af091620a6f7a1b9dd6de5dd9b742"
+  },
+  "intended_answer": "unknown",
+  "intended_match": true
+}

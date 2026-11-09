@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cael-provenance-bridge"
+version = "0.1.0"
+description = "Optional source-linked CAEL reasoning tools for workflow runtimes"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = []
+
+[project.optional-dependencies]
+langgraph = ["langgraph>=1.2.20,<2"]
+crewai = ["crewai>=1.15.39,<2"]
+test = ["pytest>=8,<10"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["cael_provenance"]
+
+[tool.ruff]
+line-length = 88

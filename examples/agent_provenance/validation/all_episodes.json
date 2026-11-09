@@ -1,0 +1,2114 @@
+[
+  {
+    "case": "chain",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is a wren",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Every wren is a bird",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s3",
+          "text": "Every bird is visible",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "visible",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is a wren",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s2",
+            "text": "Every wren is a bird",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s3",
+            "text": "Every bird is visible",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "visible",
+        "negated": false
+      },
+      "input_sha256": "096ac3701f85077f1ef94f15b4e4e76ab1c29cbed5855f53c1f35f645697a91e",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [
+        {
+          "source_id": "s1",
+          "statement_index": 1,
+          "quote": "Aria is a wren",
+          "origin": "authored:test",
+          "text_sha256": "d935e86e8551988a1ac3227e35b0927881b686b7c5a3563160ea5ac11d9cbc39"
+        },
+        {
+          "source_id": "s2",
+          "statement_index": 2,
+          "quote": "Every wren is a bird",
+          "origin": "authored:test",
+          "text_sha256": "b1c6c7ddcfd922606c45fab92d15f708a415e647cfd91e2c8c9ac998bd95c9ff"
+        },
+        {
+          "source_id": "s3",
+          "statement_index": 3,
+          "quote": "Every bird is visible",
+          "origin": "authored:test",
+          "text_sha256": "675198750d9a10e7ebb6fa624b9fbca1620367ad71014c85bbfe5e752095075a"
+        }
+      ],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "wren",
+              0
+            ],
+            1
+          ]
+        ],
+        "rules": [
+          [
+            [
+              [
+                "wren",
+                0
+              ]
+            ],
+            [
+              [
+                "bird",
+                0
+              ]
+            ],
+            2
+          ],
+          [
+            [
+              [
+                "bird",
+                0
+              ]
+            ],
+            [
+              [
+                "visible",
+                0
+              ]
+            ],
+            3
+          ]
+        ],
+        "query": [
+          "aria",
+          "visible",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [
+          {
+            "id": 0,
+            "atom": [
+              "aria",
+              "wren",
+              0
+            ],
+            "source_index": 1,
+            "parents": []
+          },
+          {
+            "id": 1,
+            "atom": [
+              "aria",
+              "bird",
+              0
+            ],
+            "source_index": 2,
+            "parents": [
+              0
+            ]
+          },
+          {
+            "id": 2,
+            "atom": [
+              "aria",
+              "visible",
+              0
+            ],
+            "source_index": 3,
+            "parents": [
+              1
+            ]
+          }
+        ],
+        "roots": {
+          "positive": 2,
+          "negative": null
+        },
+        "checked_status": "true"
+      },
+      "reported": {
+        "answer": "true",
+        "status": "true",
+        "support": [
+          1,
+          2,
+          3
+        ],
+        "depth": 2
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "803ba36b320917fc2a44fcbbcd91e439c49b59fb9ed7929155ab39dd53574c85"
+    },
+    "intended_answer": "true",
+    "intended_match": true
+  },
+  {
+    "case": "conflict",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is ready",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Aria is not ready",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is ready",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s2",
+            "text": "Aria is not ready",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "9a7bb0444f8fc59e444383d26c57e434d6bd979abb4fa17c0bc67599fb096cc2",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [
+        {
+          "source_id": "s1",
+          "statement_index": 1,
+          "quote": "Aria is ready",
+          "origin": "authored:test",
+          "text_sha256": "d660b33297326398a560d6fb655eab883a414b9fdc492b079ba1e0375675ed17"
+        },
+        {
+          "source_id": "s2",
+          "statement_index": 2,
+          "quote": "Aria is not ready",
+          "origin": "authored:test",
+          "text_sha256": "2b02bdbcd06b08202f6a0e63469e00f9d76272990b1f8d7f3f362d41b5f33a0d"
+        }
+      ],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "ready",
+              0
+            ],
+            1
+          ],
+          [
+            [
+              "aria",
+              "ready",
+              1
+            ],
+            2
+          ]
+        ],
+        "rules": [],
+        "query": [
+          "aria",
+          "ready",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [
+          {
+            "id": 0,
+            "atom": [
+              "aria",
+              "ready",
+              0
+            ],
+            "source_index": 1,
+            "parents": []
+          },
+          {
+            "id": 1,
+            "atom": [
+              "aria",
+              "ready",
+              1
+            ],
+            "source_index": 2,
+            "parents": []
+          }
+        ],
+        "roots": {
+          "positive": 0,
+          "negative": 1
+        },
+        "checked_status": "conflicting"
+      },
+      "reported": {
+        "answer": "conflicting",
+        "status": "conflicting",
+        "support": [
+          1,
+          2
+        ],
+        "depth": 0
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "b0427139ea680a2559eaa7388569dd9a08442a128f80b5da6e4c1d3c8fac7df3"
+    },
+    "intended_answer": "conflicting",
+    "intended_match": true
+  },
+  {
+    "case": "conjunction",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is bright",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Aria is calm",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s3",
+          "text": "Everything that is bright and calm is ready",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is bright",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s2",
+            "text": "Aria is calm",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s3",
+            "text": "Everything that is bright and calm is ready",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "970eb38bd860136c5f3d874c6a7a18844e3d3cb14a5dfaae424a840cc5feacb2",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [
+        {
+          "source_id": "s1",
+          "statement_index": 1,
+          "quote": "Aria is bright",
+          "origin": "authored:test",
+          "text_sha256": "f9d1d694e9c0f7ea5ead421876bb47b2d3352cb7b87d9ff18affa6cbd9e4f0b5"
+        },
+        {
+          "source_id": "s2",
+          "statement_index": 2,
+          "quote": "Aria is calm",
+          "origin": "authored:test",
+          "text_sha256": "b573a15a1d233a04da6495656e5a558ed8a9a837949a40463d2430f711c9ec7b"
+        },
+        {
+          "source_id": "s3",
+          "statement_index": 3,
+          "quote": "Everything that is bright and calm is ready",
+          "origin": "authored:test",
+          "text_sha256": "74a5f29089b1bbc132db504246512367675043e619e1331e5ddc42d13f333e2c"
+        }
+      ],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "bright",
+              0
+            ],
+            1
+          ],
+          [
+            [
+              "aria",
+              "calm",
+              0
+            ],
+            2
+          ]
+        ],
+        "rules": [
+          [
+            [
+              [
+                "bright",
+                0
+              ],
+              [
+                "calm",
+                0
+              ]
+            ],
+            [
+              [
+                "ready",
+                0
+              ]
+            ],
+            3
+          ]
+        ],
+        "query": [
+          "aria",
+          "ready",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [
+          {
+            "id": 0,
+            "atom": [
+              "aria",
+              "bright",
+              0
+            ],
+            "source_index": 1,
+            "parents": []
+          },
+          {
+            "id": 1,
+            "atom": [
+              "aria",
+              "calm",
+              0
+            ],
+            "source_index": 2,
+            "parents": []
+          },
+          {
+            "id": 2,
+            "atom": [
+              "aria",
+              "ready",
+              0
+            ],
+            "source_index": 3,
+            "parents": [
+              0,
+              1
+            ]
+          }
+        ],
+        "roots": {
+          "positive": 2,
+          "negative": null
+        },
+        "checked_status": "true"
+      },
+      "reported": {
+        "answer": "true",
+        "status": "true",
+        "support": [
+          1,
+          2,
+          3
+        ],
+        "depth": 1
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "4d960d09d465c9f3a15e42da1809492bb824ab56c6e74cc3826e360b1eaa8ae0"
+    },
+    "intended_answer": "true",
+    "intended_match": true
+  },
+  {
+    "case": "derived-conflict",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is a wren",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Every wren is not ready",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s3",
+          "text": "Aria is ready",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is a wren",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s2",
+            "text": "Every wren is not ready",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s3",
+            "text": "Aria is ready",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "8dca403b68ecb791197d2f684496ded067d1e57e7b85d982d8b552dfffcb3e2f",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [
+        {
+          "source_id": "s1",
+          "statement_index": 1,
+          "quote": "Aria is a wren",
+          "origin": "authored:test",
+          "text_sha256": "d935e86e8551988a1ac3227e35b0927881b686b7c5a3563160ea5ac11d9cbc39"
+        },
+        {
+          "source_id": "s2",
+          "statement_index": 2,
+          "quote": "Every wren is not ready",
+          "origin": "authored:test",
+          "text_sha256": "71fe770ddad3551305e1311ee9ff2ea8b7f037d4b228f46b93b45ffc09a55dc3"
+        },
+        {
+          "source_id": "s3",
+          "statement_index": 3,
+          "quote": "Aria is ready",
+          "origin": "authored:test",
+          "text_sha256": "d660b33297326398a560d6fb655eab883a414b9fdc492b079ba1e0375675ed17"
+        }
+      ],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "wren",
+              0
+            ],
+            1
+          ],
+          [
+            [
+              "aria",
+              "ready",
+              0
+            ],
+            3
+          ]
+        ],
+        "rules": [
+          [
+            [
+              [
+                "wren",
+                0
+              ]
+            ],
+            [
+              [
+                "ready",
+                1
+              ]
+            ],
+            2
+          ]
+        ],
+        "query": [
+          "aria",
+          "ready",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [
+          {
+            "id": 0,
+            "atom": [
+              "aria",
+              "wren",
+              0
+            ],
+            "source_index": 1,
+            "parents": []
+          },
+          {
+            "id": 1,
+            "atom": [
+              "aria",
+              "ready",
+              0
+            ],
+            "source_index": 3,
+            "parents": []
+          },
+          {
+            "id": 2,
+            "atom": [
+              "aria",
+              "ready",
+              1
+            ],
+            "source_index": 2,
+            "parents": [
+              0
+            ]
+          }
+        ],
+        "roots": {
+          "positive": 1,
+          "negative": 2
+        },
+        "checked_status": "conflicting"
+      },
+      "reported": {
+        "answer": "conflicting",
+        "status": "conflicting",
+        "support": [
+          1,
+          2,
+          3
+        ],
+        "depth": 1
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "4b9b96dc680b67066b0081a8a8d2d72b3526ac80fed3364e719bd4c192603cfe"
+    },
+    "intended_answer": "conflicting",
+    "intended_match": true
+  },
+  {
+    "case": "direct",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is ready",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is ready",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "996912b551c26de2b145874e6a8f6336be878fcef224b5cfffea17f257663322",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [
+        {
+          "source_id": "s1",
+          "statement_index": 1,
+          "quote": "Aria is ready",
+          "origin": "authored:test",
+          "text_sha256": "d660b33297326398a560d6fb655eab883a414b9fdc492b079ba1e0375675ed17"
+        }
+      ],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "ready",
+              0
+            ],
+            1
+          ]
+        ],
+        "rules": [],
+        "query": [
+          "aria",
+          "ready",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [
+          {
+            "id": 0,
+            "atom": [
+              "aria",
+              "ready",
+              0
+            ],
+            "source_index": 1,
+            "parents": []
+          }
+        ],
+        "roots": {
+          "positive": 0,
+          "negative": null
+        },
+        "checked_status": "true"
+      },
+      "reported": {
+        "answer": "true",
+        "status": "true",
+        "support": [
+          1
+        ],
+        "depth": 0
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "d684c49c98d4f0926f19dd521bbb9a442f4b4d82d3dba56f147eb45ab02f7cad"
+    },
+    "intended_answer": "true",
+    "intended_match": true
+  },
+  {
+    "case": "distractor",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is calm",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Bex is blue",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s3",
+          "text": "Every calm is ready",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is calm",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s2",
+            "text": "Bex is blue",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s3",
+            "text": "Every calm is ready",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "cfea8628e8377a9b813daa5fe39e9daf1a609c697d5795910c1e29b2f35853c7",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [
+        {
+          "source_id": "s1",
+          "statement_index": 1,
+          "quote": "Aria is calm",
+          "origin": "authored:test",
+          "text_sha256": "b573a15a1d233a04da6495656e5a558ed8a9a837949a40463d2430f711c9ec7b"
+        },
+        {
+          "source_id": "s3",
+          "statement_index": 3,
+          "quote": "Every calm is ready",
+          "origin": "authored:test",
+          "text_sha256": "84bf846bac1469c6466cc6e555a0898bdb211fbfd56aadf103dd83431e29cf4c"
+        }
+      ],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "calm",
+              0
+            ],
+            1
+          ],
+          [
+            [
+              "bex",
+              "blue",
+              0
+            ],
+            2
+          ]
+        ],
+        "rules": [
+          [
+            [
+              [
+                "calm",
+                0
+              ]
+            ],
+            [
+              [
+                "ready",
+                0
+              ]
+            ],
+            3
+          ]
+        ],
+        "query": [
+          "aria",
+          "ready",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [
+          {
+            "id": 0,
+            "atom": [
+              "aria",
+              "calm",
+              0
+            ],
+            "source_index": 1,
+            "parents": []
+          },
+          {
+            "id": 1,
+            "atom": [
+              "aria",
+              "ready",
+              0
+            ],
+            "source_index": 3,
+            "parents": [
+              0
+            ]
+          }
+        ],
+        "roots": {
+          "positive": 1,
+          "negative": null
+        },
+        "checked_status": "true"
+      },
+      "reported": {
+        "answer": "true",
+        "status": "true",
+        "support": [
+          1,
+          3
+        ],
+        "depth": 1
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "c6b2f1ba1053d42b85c32e16a4e8c6d8b007c234cc12413170a6701cb30d0bcb"
+    },
+    "intended_answer": "true",
+    "intended_match": true
+  },
+  {
+    "case": "historical-thing-chain-negative",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Nika is glimmering",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Every glimmering thing is amber",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s3",
+          "text": "Every amber thing is visible",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Nika",
+      "predicate": "visible",
+      "negated": true
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Nika is glimmering",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s2",
+            "text": "Every glimmering thing is amber",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s3",
+            "text": "Every amber thing is visible",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Nika",
+        "predicate": "visible",
+        "negated": true
+      },
+      "input_sha256": "5f84d6f3cdd516dee752851d740c4092c5b9506e744909cb4dcbdbdbdd5fd69c",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "nika",
+              "glimmering",
+              0
+            ],
+            1
+          ]
+        ],
+        "rules": [
+          [
+            [
+              [
+                "glimmering thing",
+                0
+              ]
+            ],
+            [
+              [
+                "amber",
+                0
+              ]
+            ],
+            2
+          ],
+          [
+            [
+              [
+                "amber thing",
+                0
+              ]
+            ],
+            [
+              [
+                "visible",
+                0
+              ]
+            ],
+            3
+          ]
+        ],
+        "query": [
+          "nika",
+          "visible",
+          1
+        ]
+      },
+      "proof": {
+        "steps": [],
+        "roots": {
+          "positive": null,
+          "negative": null
+        },
+        "checked_status": "unknown"
+      },
+      "reported": {
+        "answer": "unknown",
+        "status": "unknown",
+        "support": [],
+        "depth": 0
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "2256e843bbbea969b0444c411b500a8769466352a835271d37860c622b5b1bb2"
+    },
+    "intended_answer": "false",
+    "intended_match": false
+  },
+  {
+    "case": "historical-thing-chain-positive",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Nika is glimmering",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Every glimmering thing is amber",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s3",
+          "text": "Every amber thing is visible",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Nika",
+      "predicate": "visible",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Nika is glimmering",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s2",
+            "text": "Every glimmering thing is amber",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s3",
+            "text": "Every amber thing is visible",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Nika",
+        "predicate": "visible",
+        "negated": false
+      },
+      "input_sha256": "98027c7b876ab291a8f71d8f93d9f1c23116657f384b33b2bd3add7cafd26f07",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "nika",
+              "glimmering",
+              0
+            ],
+            1
+          ]
+        ],
+        "rules": [
+          [
+            [
+              [
+                "glimmering thing",
+                0
+              ]
+            ],
+            [
+              [
+                "amber",
+                0
+              ]
+            ],
+            2
+          ],
+          [
+            [
+              [
+                "amber thing",
+                0
+              ]
+            ],
+            [
+              [
+                "visible",
+                0
+              ]
+            ],
+            3
+          ]
+        ],
+        "query": [
+          "nika",
+          "visible",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [],
+        "roots": {
+          "positive": null,
+          "negative": null
+        },
+        "checked_status": "unknown"
+      },
+      "reported": {
+        "answer": "unknown",
+        "status": "unknown",
+        "support": [],
+        "depth": 0
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "9bb9a34aeda71a30150337313ee65432be7f0828a86d7076e0a92cd1c7ef5b56"
+    },
+    "intended_answer": "true",
+    "intended_match": false
+  },
+  {
+    "case": "missing-conjunct",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is bright",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Everything that is bright and calm is ready",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is bright",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s2",
+            "text": "Everything that is bright and calm is ready",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "81c7b99e0c2b3f2e6aab4d891a695bd071e4b691be525f013eba9394c16b98ff",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "bright",
+              0
+            ],
+            1
+          ]
+        ],
+        "rules": [
+          [
+            [
+              [
+                "bright",
+                0
+              ],
+              [
+                "calm",
+                0
+              ]
+            ],
+            [
+              [
+                "ready",
+                0
+              ]
+            ],
+            2
+          ]
+        ],
+        "query": [
+          "aria",
+          "ready",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [],
+        "roots": {
+          "positive": null,
+          "negative": null
+        },
+        "checked_status": "unknown"
+      },
+      "reported": {
+        "answer": "unknown",
+        "status": "unknown",
+        "support": [],
+        "depth": 0
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "fbf9e96c7ab9e90e63c9035755db537fcae908718fdccfa1ebc1c7dfaa9fe492"
+    },
+    "intended_answer": "unknown",
+    "intended_match": true
+  },
+  {
+    "case": "multiple-statements-in-source",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is calm. Aria is ready.",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is calm. Aria is ready.",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "eadb0cf0aa849facfd26180d58b1e62ddeec8688ed5a652dd7ef41e52f57cb02",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [],
+      "parsed": null,
+      "proof": null,
+      "reported": {
+        "status": "unsupported",
+        "answer": null,
+        "support": [],
+        "error": "Each source must contain exactly one premise"
+      },
+      "verification": {
+        "passed": false,
+        "reason": "unsupported",
+        "detail": "Each source must contain exactly one premise"
+      },
+      "certificate_sha256": "7eb6b9d9208aa91e06b890c60ea8ffc8a6c35a5f4000b390681ea48dc65f7d8b"
+    },
+    "intended_answer": null,
+    "intended_match": null
+  },
+  {
+    "case": "negative-query",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is not ready",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": true
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is not ready",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": true
+      },
+      "input_sha256": "ff51d84717f9652b842e6894f282a295bfadf9e3ffb2765cb05d03df7dc808f1",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [
+        {
+          "source_id": "s1",
+          "statement_index": 1,
+          "quote": "Aria is not ready",
+          "origin": "authored:test",
+          "text_sha256": "2b02bdbcd06b08202f6a0e63469e00f9d76272990b1f8d7f3f362d41b5f33a0d"
+        }
+      ],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "ready",
+              1
+            ],
+            1
+          ]
+        ],
+        "rules": [],
+        "query": [
+          "aria",
+          "ready",
+          1
+        ]
+      },
+      "proof": {
+        "steps": [
+          {
+            "id": 0,
+            "atom": [
+              "aria",
+              "ready",
+              1
+            ],
+            "source_index": 1,
+            "parents": []
+          }
+        ],
+        "roots": {
+          "positive": 0,
+          "negative": null
+        },
+        "checked_status": "true"
+      },
+      "reported": {
+        "answer": "true",
+        "status": "true",
+        "support": [
+          1
+        ],
+        "depth": 0
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "a190e5c1b5e424891e5d5d051b7e1af56ea28af1c1c2bfbd959794bdaec1abf3"
+    },
+    "intended_answer": "true",
+    "intended_match": true
+  },
+  {
+    "case": "negative",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is not ready",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is not ready",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "fd8603ba2490ea2ede76bea8d45c38b2b4d87989715857fe93c78e437388afda",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [
+        {
+          "source_id": "s1",
+          "statement_index": 1,
+          "quote": "Aria is not ready",
+          "origin": "authored:test",
+          "text_sha256": "2b02bdbcd06b08202f6a0e63469e00f9d76272990b1f8d7f3f362d41b5f33a0d"
+        }
+      ],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "ready",
+              1
+            ],
+            1
+          ]
+        ],
+        "rules": [],
+        "query": [
+          "aria",
+          "ready",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [
+          {
+            "id": 0,
+            "atom": [
+              "aria",
+              "ready",
+              1
+            ],
+            "source_index": 1,
+            "parents": []
+          }
+        ],
+        "roots": {
+          "positive": null,
+          "negative": 0
+        },
+        "checked_status": "false"
+      },
+      "reported": {
+        "answer": "false",
+        "status": "false",
+        "support": [
+          1
+        ],
+        "depth": 0
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "101bd3075f1d255e3dc875cd0c099adb0378c3beffedd37da1b106073ebe520d"
+    },
+    "intended_answer": "false",
+    "intended_match": true
+  },
+  {
+    "case": "shorter-proof",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is calm",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Every calm is ready",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s3",
+          "text": "Aria is ready",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is calm",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s2",
+            "text": "Every calm is ready",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s3",
+            "text": "Aria is ready",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "8e85ce4574f29faa3f3055f8c0a7ab8af2060734075861ba48669dd1d0fd07f9",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [
+        {
+          "source_id": "s3",
+          "statement_index": 3,
+          "quote": "Aria is ready",
+          "origin": "authored:test",
+          "text_sha256": "d660b33297326398a560d6fb655eab883a414b9fdc492b079ba1e0375675ed17"
+        }
+      ],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "calm",
+              0
+            ],
+            1
+          ],
+          [
+            [
+              "aria",
+              "ready",
+              0
+            ],
+            3
+          ]
+        ],
+        "rules": [
+          [
+            [
+              [
+                "calm",
+                0
+              ]
+            ],
+            [
+              [
+                "ready",
+                0
+              ]
+            ],
+            2
+          ]
+        ],
+        "query": [
+          "aria",
+          "ready",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [
+          {
+            "id": 0,
+            "atom": [
+              "aria",
+              "ready",
+              0
+            ],
+            "source_index": 3,
+            "parents": []
+          }
+        ],
+        "roots": {
+          "positive": 0,
+          "negative": null
+        },
+        "checked_status": "true"
+      },
+      "reported": {
+        "answer": "true",
+        "status": "true",
+        "support": [
+          3
+        ],
+        "depth": 0
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "170e234538f9cccdd1c180581059aeb40ec2f5eee0b9a52535264a370467416b"
+    },
+    "intended_answer": "true",
+    "intended_match": true
+  },
+  {
+    "case": "unconnected-cycle",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is green",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Every amber is violet",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s3",
+          "text": "Every violet is amber",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is green",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s2",
+            "text": "Every amber is violet",
+            "origin": "authored:test"
+          },
+          {
+            "id": "s3",
+            "text": "Every violet is amber",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "a2b3fec5524222b2ea457c4f330465c384039dc826965816baba7c0c938c1fa8",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "green",
+              0
+            ],
+            1
+          ]
+        ],
+        "rules": [
+          [
+            [
+              [
+                "amber",
+                0
+              ]
+            ],
+            [
+              [
+                "violet",
+                0
+              ]
+            ],
+            2
+          ],
+          [
+            [
+              [
+                "violet",
+                0
+              ]
+            ],
+            [
+              [
+                "amber",
+                0
+              ]
+            ],
+            3
+          ]
+        ],
+        "query": [
+          "aria",
+          "ready",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [],
+        "roots": {
+          "positive": null,
+          "negative": null
+        },
+        "checked_status": "unknown"
+      },
+      "reported": {
+        "answer": "unknown",
+        "status": "unknown",
+        "support": [],
+        "depth": 0
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "559bc3de995d1d5a020abb1fed7b94fa1f3cb07fd36a812428c3b0966196e63c"
+    },
+    "intended_answer": "unknown",
+    "intended_match": true
+  },
+  {
+    "case": "unknown",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is calm",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is calm",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "945d5631617b7be97f6426705b77bff3bb405b0ea507bd4f8c31c99441e52376",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [],
+      "parsed": {
+        "facts": [
+          [
+            [
+              "aria",
+              "calm",
+              0
+            ],
+            1
+          ]
+        ],
+        "rules": [],
+        "query": [
+          "aria",
+          "ready",
+          0
+        ]
+      },
+      "proof": {
+        "steps": [],
+        "roots": {
+          "positive": null,
+          "negative": null
+        },
+        "checked_status": "unknown"
+      },
+      "reported": {
+        "answer": "unknown",
+        "status": "unknown",
+        "support": [],
+        "depth": 0
+      },
+      "verification": {
+        "passed": true,
+        "scope": "derivation_relative_to_CAEL_parse",
+        "independent_horn_check": true,
+        "external_truth_verified": false
+      },
+      "certificate_sha256": "442156978840e12e2508992b1ac6e2662c0af091620a6f7a1b9dd6de5dd9b742"
+    },
+    "intended_answer": "unknown",
+    "intended_match": true
+  },
+  {
+    "case": "unsupported-condition",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is calm unless it rains",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is calm unless it rains",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "c19b20354c4190cfb614c5f72485ebf09590d354307763967d10295006d05c52",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [],
+      "parsed": null,
+      "proof": null,
+      "reported": {
+        "status": "unsupported",
+        "answer": null,
+        "support": [],
+        "error": "Disjunction and exceptions are outside this Horn-rule solver"
+      },
+      "verification": {
+        "passed": false,
+        "reason": "unsupported",
+        "detail": "Disjunction and exceptions are outside this Horn-rule solver"
+      },
+      "certificate_sha256": "eedef6a22aa1e062a1b749cde0013583f8c8d6ed29185f9317f6477d820c5baa"
+    },
+    "intended_answer": null,
+    "intended_match": null
+  },
+  {
+    "case": "unsupported-disjunction",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is either calm or blue",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "certificate": {
+      "format": "cael-provenance-v1",
+      "inputs": {
+        "episode_id": "example",
+        "sources": [
+          {
+            "id": "s1",
+            "text": "Aria is either calm or blue",
+            "origin": "authored:test"
+          }
+        ],
+        "entity": "Aria",
+        "predicate": "ready",
+        "negated": false
+      },
+      "input_sha256": "e5aada8670ed645ff0e8ecaa65a5efb0abfc7ba5bb4ea534527d6ace14594227",
+      "engine": {
+        "version": "0.4.0",
+        "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+        "files_sha256": {
+          "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+          "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+        }
+      },
+      "evidence": [],
+      "parsed": null,
+      "proof": null,
+      "reported": {
+        "status": "unsupported",
+        "answer": null,
+        "support": [],
+        "error": "Disjunction and exceptions are outside this Horn-rule solver"
+      },
+      "verification": {
+        "passed": false,
+        "reason": "unsupported",
+        "detail": "Disjunction and exceptions are outside this Horn-rule solver"
+      },
+      "certificate_sha256": "fd8437104c70b91f80c50b5d0ab5f568da8ee5dfdd64f720fdbf81a1d874ce89"
+    },
+    "intended_answer": null,
+    "intended_match": null
+  }
+]

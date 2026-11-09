@@ -1,0 +1,154 @@
+{
+  "at_utc": "2026-11-09T21:27:19.579496+00:00",
+  "status": "real_installed_wheel_validation_passed",
+  "tests": {
+    "run": 79,
+    "passed": 79,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "distinct_episode_requests": 17,
+  "new_authored_requests": 15,
+  "historical_regressions": 2,
+  "intended_answer_agreement": {
+    "matches": 12,
+    "total": 14
+  },
+  "unsupported_boundaries": 3,
+  "full_outputs_equal_across_both_frameworks": true,
+  "framework_scope": [
+    "LangGraph StateGraph/ToolNode/checkpoint/resume",
+    "CrewAI BaseTool and deterministic Flow"
+  ],
+  "distributions": {
+    "langgraph": "1.2.20",
+    "crewai": "1.15.39",
+    "langchain-core": "1.7.6",
+    "pydantic": "2.12.5",
+    "pytest": "9.2.0"
+  },
+  "wheel": {
+    "filename": "cael_provenance_bridge-0.1.0-py3-none-any.whl",
+    "sha256": "ce93d97464f164b88f17dde9f05335a43e14e28e167fdf2b1b631cb85dfb3c55",
+    "engine_and_model_bundled": false
+  },
+  "tested_source_sha256": {
+    "LICENSE": "1236dc6f4d57a9335553cc9bce8cfa022fab71883d9d852b6595ce044f99c1e2",
+    "pyproject.toml": "a5395e62610bda13a98588e4518fd24fa7e9dc810277c5b1c161b3e8e54eea7c",
+    "README.md": "33c5e74b23483f94e93961dc071b0cff1fe898e0b720ff95b6c610567bad6756",
+    ".ruff_cache\\.gitignore": "9e3a60f1e6ec4ae60215c11d54b171392745ec25e9dded433d5bd921363af316",
+    ".ruff_cache\\CACHEDIR.TAG": "5953156d7e0c564a427251316eaf26f8870e6483ae2197f916b630e4f93e31ae",
+    "cael_provenance\\core.py": "09e3a0d78e4fb40670faed9f75de144d2f49ea3118ecc820b98bc5da213e827c",
+    "cael_provenance\\crewai.py": "ab96024a748b93ad369cdf4c7b7fdf49a9c16752cdb268cde791a27684722dde",
+    "cael_provenance\\langgraph.py": "c1973562dd84fb353b0e28ee017a2d30dcf439bb52534b68f2e9838a66a78dad",
+    "cael_provenance\\schema.py": "3f29a4f5e19faefcd5dcad3fe1125a2374d7252fc22aec756c9f9aa8c675a30c",
+    "cael_provenance\\__init__.py": "9f3b30fd1c6f0f18d35761448aa0a398c52a08a095db66ac6001b3f4529e3e56",
+    "tests\\cases.py": "07650b56e3955ee1fb0794fcc304d0ea50ab0d9e4c2a1c56e7327749d5575106",
+    "tests\\conftest.py": "1d31405ddd1d477a2ae5c85276f98924b40d6d5b5592e4ce4b3e56d543d0f832",
+    "tests\\test_frameworks.py": "70b6136b53428a3ec7cbb808b66fd6a0614f7a95b4a1ffa9bb77514c6827c4ed",
+    "tests\\test_provenance.py": "9de9f875e14e7261470f99cde2e951a254f0cd467d570ac5da21f5d62cab8151",
+    "validation\\.gitattributes": "ddbb95083a652e5dee8c14bfb292e08fc5700277844902b4fe2bde606e9f6d6a",
+    "validation\\all_episodes.json": "e98e40c4c3497813533821ee084877e2157a6578440621ff0e0d27d75109cc95",
+    "validation\\chain.json": "fd09dc49e2646f5461bdf799c88c9d2f2930c0ba44a619314408e3bca60e6e49",
+    "validation\\conflict.json": "3e47e5dfb1db5bc3b3b4fc586e90b6b08a7dad448dca2a31a18f5995e482f249",
+    "validation\\pytest.log": "9314de172c80cfeb18dacdad461663361e89a9a9369e9b91460ad6f166f17420",
+    "validation\\receipt.json": "75894e6c110974ab8d246d94743f380963cdd08374a72ee16547f7857fae3b9e",
+    "validation\\REPORT.md": "4a26a60da56109f369de69493b001b49149cc7c885cc80998ed4260f4aba5497",
+    "validation\\unknown.json": "9c90c36a525e9af12f3904b8da44a90f3f25b42a1eb25d5a4a2be0173ac5b9e5",
+    "validation\\unsupported-condition.json": "9f4b7817a6f96d92a77e4f812357581ac26d426f6bcafc455b0611e65c441d59",
+    ".ruff_cache\\0.17.4\\11127111781252331084": "0c06d54a2de8a45477ba1af56a19dde93e8840b1ba240f62653096e445dfdeb4",
+    ".ruff_cache\\0.17.4\\2218457552874533800": "0d38016d9d43d3e6ccbbbd9e3e608b9fefb850ed49b5e7d40b7a055daf63316d"
+  },
+  "complete_case_outputs_sha256": {
+    "chain.json": "fd09dc49e2646f5461bdf799c88c9d2f2930c0ba44a619314408e3bca60e6e49",
+    "conflict.json": "3e47e5dfb1db5bc3b3b4fc586e90b6b08a7dad448dca2a31a18f5995e482f249",
+    "conjunction.json": "29e9de103c8766da7877a751e6024b4a4fe92eda28395201941ebcf4b2efbc69",
+    "crewai-chain.json": "a3c6a6247b6f1b7697962516e3d56ecd8057a9426100d34b05a2ccfdeb137a5a",
+    "crewai-conflict.json": "aec2e6c4e46342bf4987b4a485f09f4018e5b2f8b4435d019709f0bab5398563",
+    "crewai-conjunction.json": "4bf0f941c8cc3ebeaf2789de10ca76d318c2e625222bf8f1056a88fc4f6e3235",
+    "crewai-derived-conflict.json": "776c15309b0531b1d1345d3202df1fb0f4ae6731e80cd8d15fdfaf2daee16bc6",
+    "crewai-direct.json": "1a7e220ad8dc97f393b5d3e34fc338372697b37b0c77aefe2f43bf1bf364f762",
+    "crewai-distractor.json": "3dc243dc782506817493bdf4e8c0e8a5a9f8c9fc82fa2142654e2e21b89994f4",
+    "crewai-historical-thing-chain-negative.json": "293a9f7ae5ef9b912d63b22224a31f4d4adb9c3026906bb675e0ac61fc902be2",
+    "crewai-historical-thing-chain-positive.json": "7660f7c5c7bc6aec14c4cb0b4ab25441ff279c86956eee3fb6785f0df6e67f06",
+    "crewai-missing-conjunct.json": "7add70303358faf2365e2005528da8bee396ac76abc87284a0e84edd0ccadd1b",
+    "crewai-multiple-statements-in-source.json": "b599330bbd0ff0531ab36866d8453fb394a35f7caf5ea65a49fac1c9e994dcb3",
+    "crewai-negative-query.json": "577d52247a9917d7e25066a0aa972aaea0b1f9239c875081c5992ba87de47968",
+    "crewai-negative.json": "967663602299fa8b589d6a3984c124a8bee5bca6673001ee6a37283d074f88a1",
+    "crewai-shorter-proof.json": "fe2cfa9cec64e43e0b18c056cbb148de59f40ca486f3fe5cf7669d727a03ab0d",
+    "crewai-unconnected-cycle.json": "cd9a26bc555321b7b9ee07cfaa3143cd06449ef98218d338d0b9e243eef3eb38",
+    "crewai-unknown.json": "77b908ae8d5f46dd5ffa74b69b3739394c342ecf22de7f6bcf48781387bd7c3f",
+    "crewai-unsupported-condition.json": "e35ebb688acaf42c39410b955d3d691b7916e5e177ee7e2014e1ea133d239840",
+    "crewai-unsupported-disjunction.json": "f6c60e7637c7a61275cdba008f5ed3c75ab85ce759f84833491a4b1cc05aeda1",
+    "derived-conflict.json": "2f4dca91ee17fac884d1ec59b255119f5f891de1805f097304831c0b726ef788",
+    "direct.json": "e048d030b3954eb82e0865ae03b60de9cee64a099f4d68be625239d37e4e6076",
+    "distractor.json": "354c01335bcba585b1d1751e7c00adaf0c747dc80940c8146eca4757bf8d0d0f",
+    "historical-thing-chain-negative.json": "f0a395ff2cc49008c0222d9c0fcf67c6f9ab2872540634b65efe254b9c800b3d",
+    "historical-thing-chain-positive.json": "408b4a0c4ba59763111f9b6fdf0bd39fe951c65e5a5362e20195ebd5041fff03",
+    "langgraph-chain.json": "34d5d4f52a06e11f57c5ae6b55a7726005eb382375fe63d519524fb94a0d3ad4",
+    "langgraph-conflict.json": "909c12be302d94a6b0a1a90cb80601ee7f33675d2ae83856fda03c5de067c974",
+    "langgraph-conjunction.json": "0dc15bd091299e21b3ed45fffeaaf6437eb2795d5308be3fd08322a24d845d67",
+    "langgraph-derived-conflict.json": "a735d0ee840d525be6cc04432257d17e0a3447af76b538332bd9d8ae0596e32c",
+    "langgraph-direct.json": "8ba17f4a46fea348b891c0c86e771f63004b0279afea0984a4b59d4354ab05e9",
+    "langgraph-distractor.json": "109a1e03a540906aa104857796af6b6c9576f0cbc96e911d650223d7031cd486",
+    "langgraph-historical-thing-chain-negative.json": "5f62d3114d25a7abf451edc6e40985cc3a32514e01a24a8489e23092ec3c87ee",
+    "langgraph-historical-thing-chain-positive.json": "b375b8e50d40300b11f4b0d091da24bb327c085f56b7c36a90b5494970704b3d",
+    "langgraph-missing-conjunct.json": "1b8036b0df5a83597019cd369d8dcc21ea80c7c6c30443778dc8e2f6a7555d86",
+    "langgraph-multiple-statements-in-source.json": "511da994becde00c3e9b3314423ca00d092fe6569e19f1521d47863951951acd",
+    "langgraph-negative-query.json": "b7bd348975affbc8f54c651765de36b782b688ffa919b1f5dc8b192edd74a248",
+    "langgraph-negative.json": "f0e5816ca2effd83c106bdd28d51a67ad4924401a21a47d8578b0e5f364d28ad",
+    "langgraph-shorter-proof.json": "499a691d6168479232bc14aa074af48acf5325bbdc8ac01deeab5b9ffaf300a3",
+    "langgraph-unconnected-cycle.json": "b8edd7907b2476a8313abf2386d03f6b6de7e1a90286ed0ecee126e567e3cb1e",
+    "langgraph-unknown.json": "812c7d3bc95b4a39d9a5a520b8636a694beb2cd441410c0be50054a9b25f6377",
+    "langgraph-unsupported-condition.json": "c709c73ea5992d9a2ce1dc968278a91dfddb7f22cc0758ac489225f61c5e514b",
+    "langgraph-unsupported-disjunction.json": "2b87d9d811f4984f3a06cf671b33876253fe8294c6acd501bce9aaa0af76ffec",
+    "missing-conjunct.json": "254d2bbec139588c874e5ae2531f820e25f334ed1e64bf5d3d797b4b3f4ce29c",
+    "multiple-statements-in-source.json": "ebc616bc9ae732e391a012229bc972dd963de92f6f1693611c83e0b6035cf449",
+    "negative-query.json": "971d5a10699f3ac07d82d5b99f23d9136601839977c8dc51280ca3bedfc3405d",
+    "negative.json": "64d7df56d6905d434d16043497a88f326048d571768516120a458d1a4f41bd22",
+    "shorter-proof.json": "175fa25a356d205a9ca0a9b6beeda14b68c1444d49507654e912a05d0925da8e",
+    "unconnected-cycle.json": "53318433b98800a96005194032ca0237a5cfc1e89917b3d86bbd46f9995272fb",
+    "unknown.json": "9c90c36a525e9af12f3904b8da44a90f3f25b42a1eb25d5a4a2be0173ac5b9e5",
+    "unsupported-condition.json": "9f4b7817a6f96d92a77e4f812357581ac26d426f6bcafc455b0611e65c441d59",
+    "unsupported-disjunction.json": "8ed68d456a2577f59c182e2462943e0f0e94acf387fa7ae2e337fc9bab5cdbf6"
+  },
+  "retained_attempts": [
+    {
+      "attempt": 1,
+      "exit_code": 1
+    },
+    {
+      "attempt": 2,
+      "exit_code": 1
+    },
+    {
+      "attempt": 3,
+      "exit_code": 1
+    },
+    {
+      "attempt": 4,
+      "exit_code": 0
+    },
+    {
+      "attempt": 5,
+      "exit_code": 0
+    },
+    {
+      "attempt": 6,
+      "exit_code": 0
+    },
+    {
+      "attempt": 7,
+      "exit_code": 0
+    }
+  ],
+  "limitations": [
+    "Finite proof relative to CAEL parsed premises; not external truth or arbitrary English semantics.",
+    "Caller-declared origins and public hashes do not authenticate authorship or constitute signatures.",
+    "No external model/provider is called; autonomous model/Crew planning is not evaluated.",
+    "Repeated requests across adapters are not extra unique capability cases; tests are not a benchmark.",
+    "Two historical engine parser misses remain unknown rather than being repaired by the bridge.",
+    "The external CAEL engine/model remain under their separate non-commercial personal/research licence."
+  ]
+}

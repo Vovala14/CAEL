@@ -1,0 +1,57 @@
+{
+  "inputs": {
+    "episode_id": "example",
+    "sources": [
+      {
+        "id": "s1",
+        "text": "Aria is calm unless it rains",
+        "origin": "authored:test"
+      }
+    ],
+    "entity": "Aria",
+    "predicate": "ready",
+    "negated": false
+  },
+  "certificate": {
+    "format": "cael-provenance-v1",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is calm unless it rains",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "input_sha256": "c19b20354c4190cfb614c5f72485ebf09590d354307763967d10295006d05c52",
+    "engine": {
+      "version": "0.4.0",
+      "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+      "files_sha256": {
+        "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+        "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+      }
+    },
+    "evidence": [],
+    "parsed": null,
+    "proof": null,
+    "reported": {
+      "status": "unsupported",
+      "answer": null,
+      "support": [],
+      "error": "Disjunction and exceptions are outside this Horn-rule solver"
+    },
+    "verification": {
+      "passed": false,
+      "reason": "unsupported",
+      "detail": "Disjunction and exceptions are outside this Horn-rule solver"
+    },
+    "certificate_sha256": "eedef6a22aa1e062a1b749cde0013583f8c8d6ed29185f9317f6477d820c5baa"
+  },
+  "intended_answer": null,
+  "intended_match": null
+}

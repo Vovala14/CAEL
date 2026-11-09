@@ -1,0 +1,139 @@
+{
+  "inputs": {
+    "episode_id": "example",
+    "sources": [
+      {
+        "id": "s1",
+        "text": "Aria is ready",
+        "origin": "authored:test"
+      },
+      {
+        "id": "s2",
+        "text": "Aria is not ready",
+        "origin": "authored:test"
+      }
+    ],
+    "entity": "Aria",
+    "predicate": "ready",
+    "negated": false
+  },
+  "certificate": {
+    "format": "cael-provenance-v1",
+    "inputs": {
+      "episode_id": "example",
+      "sources": [
+        {
+          "id": "s1",
+          "text": "Aria is ready",
+          "origin": "authored:test"
+        },
+        {
+          "id": "s2",
+          "text": "Aria is not ready",
+          "origin": "authored:test"
+        }
+      ],
+      "entity": "Aria",
+      "predicate": "ready",
+      "negated": false
+    },
+    "input_sha256": "9a7bb0444f8fc59e444383d26c57e434d6bd979abb4fa17c0bc67599fb096cc2",
+    "engine": {
+      "version": "0.4.0",
+      "release_commit": "49359eae9aa197d5b92631c16efb74085180a27c",
+      "files_sha256": {
+        "cael_unified/reasoning_logic.py": "38e21e399a98ea47d25f2b7e5eec0d6735afb31fa046d67f29bdaf208e17eb95",
+        "models/cael-reasoning-v1/model.json": "a7f52da1f5afc6776af91d451a7273a269593642cd5f6d8a2883c4e34fab0bd4"
+      }
+    },
+    "evidence": [
+      {
+        "source_id": "s1",
+        "statement_index": 1,
+        "quote": "Aria is ready",
+        "origin": "authored:test",
+        "text_sha256": "d660b33297326398a560d6fb655eab883a414b9fdc492b079ba1e0375675ed17"
+      },
+      {
+        "source_id": "s2",
+        "statement_index": 2,
+        "quote": "Aria is not ready",
+        "origin": "authored:test",
+        "text_sha256": "2b02bdbcd06b08202f6a0e63469e00f9d76272990b1f8d7f3f362d41b5f33a0d"
+      }
+    ],
+    "parsed": {
+      "facts": [
+        [
+          [
+            "aria",
+            "ready",
+            0
+          ],
+          1
+        ],
+        [
+          [
+            "aria",
+            "ready",
+            1
+          ],
+          2
+        ]
+      ],
+      "rules": [],
+      "query": [
+        "aria",
+        "ready",
+        0
+      ]
+    },
+    "proof": {
+      "steps": [
+        {
+          "id": 0,
+          "atom": [
+            "aria",
+            "ready",
+            0
+          ],
+          "source_index": 1,
+          "parents": []
+        },
+        {
+          "id": 1,
+          "atom": [
+            "aria",
+            "ready",
+            1
+          ],
+          "source_index": 2,
+          "parents": []
+        }
+      ],
+      "roots": {
+        "positive": 0,
+        "negative": 1
+      },
+      "checked_status": "conflicting"
+    },
+    "reported": {
+      "answer": "conflicting",
+      "status": "conflicting",
+      "support": [
+        1,
+        2
+      ],
+      "depth": 0
+    },
+    "verification": {
+      "passed": true,
+      "scope": "derivation_relative_to_CAEL_parse",
+      "independent_horn_check": true,
+      "external_truth_verified": false
+    },
+    "certificate_sha256": "b0427139ea680a2559eaa7388569dd9a08442a128f80b5da6e4c1d3c8fac7df3"
+  },
+  "intended_answer": "conflicting",
+  "intended_match": true
+}

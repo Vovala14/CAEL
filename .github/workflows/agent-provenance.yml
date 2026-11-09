@@ -1,0 +1,48 @@
+name: CAEL agent provenance bridges
+on:
+  push:
+    branches: ['codex/agent-provenance']
+    paths:
+      - 'examples/agent_provenance/**'
+      - '.github/workflows/agent-provenance.yml'
+  pull_request:
+    paths:
+      - 'examples/agent_provenance/**'
+      - '.github/workflows/agent-provenance.yml'
+permissions:
+  contents: read
+jobs:
+  real-frameworks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      CAEL040_ROOT: ${{ github.workspace }}
+      CAEL_PROVENANCE_ARTIFACT_DIR: ${{ runner.temp }}/provenance-output
+      OTEL_SDK_DISABLED: 'true'
+      CREWAI_TELEMETRY_ENABLED: 'false'
+      CREWAI_DISABLE_VERSION_CHECK: 'true'
+      LANGSMITH_TRACING: 'false'
+      ANONYMIZED_TELEMETRY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'langgraph==1.2.20' 'crewai==1.15.39' 'langchain-core==1.7.6' 'pydantic==2.12.5' 'pytest==9.2.0' 'ruff==0.17.4'
+      - run: python -m pip install ./examples/agent_provenance
+      - run: ruff check examples/agent_provenance
+      - run: ruff format --check examples/agent_provenance
+      - run: python -m pytest examples/agent_provenance/tests -q --junitxml=provenance-junit.xml
+      - name: Preserve actual receipts and dependency versions
+        if: always()
+        run: python -m pip freeze > provenance-installed.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: actual-framework-provenance
+          path: |
+            ${{ runner.temp }}/provenance-output
+            provenance-junit.xml
+            provenance-installed.txt

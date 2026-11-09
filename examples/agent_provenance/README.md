@@ -40,7 +40,21 @@ not a negative fact. Unsupported inputs return no verified answer or citations.
 
 ## Install and configure
 
-Use Python 3.10–3.13 for both frameworks. From this bridge's source checkout:
+The adapter is published as
+[cael-provenance-bridge 0.1.0](https://pypi.org/project/cael-provenance-bridge/0.1.0/).
+The downloaded public wheel exactly matches the qualified Linux artifact and
+passes all 79 checks with zero skips after installation. The
+[publication receipt](validation/PYPI_PUBLICATION.json) binds registry metadata,
+the wheel hash, the publishing workflow and installed-wheel validation.
+The earlier qualification receipts remain as historical checkpoints.
+
+Use Python 3.10–3.13 for both frameworks:
+
+```sh
+uv pip install 'cael-provenance-bridge[langgraph,crewai]==0.1.0'
+```
+
+For development from this bridge's source checkout:
 
 ```sh
 uv pip install './examples/agent_provenance[langgraph,crewai,test]'

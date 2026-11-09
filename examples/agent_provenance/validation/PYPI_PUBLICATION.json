@@ -1,0 +1,43 @@
+{
+  "verified_at_utc": "2026-11-09T23:31:44.400598+00:00",
+  "status": "published_registry_metadata_and_file_verified",
+  "project_url": "https://pypi.org/project/cael-provenance-bridge/0.1.0/",
+  "registry_api_url": "https://pypi.org/pypi/cael-provenance-bridge/0.1.0/json",
+  "upload_time_utc": "2026-11-09T23:30:46.166446Z",
+  "filename": "cael_provenance_bridge-0.1.0-py3-none-any.whl",
+  "download_url": "https://files.pythonhosted.org/packages/c2/67/5ad1c379031da39ba71206ff20c3180d7e21acd41712e6d20c8cedbcd635/cael_provenance_bridge-0.1.0-py3-none-any.whl",
+  "sha256": "f44c24a3ed1f971dbff945c9d31f625d6445eadb0f51ee2a254a2add9086a38d",
+  "exactly_matches_qualified_linux_wheel": true,
+  "yanked": false,
+  "engine_and_model_bundled": false,
+  "licence_expression": "MIT",
+  "metadata_sha256": "b9d4db5e5b0c874740504f0712fb891aff7e9dc3225101836a2934295ace258d",
+  "source_commit": "6c732a71e7e95671dd7fe690810f80a19bb5e5cd",
+  "publication_workflow_commit": "bac76e395c5e2664d4d91dc8f25ef8baedcc6d68",
+  "publication_workflow_run": "https://github.com/Vovala14/CAEL/actions/runs/42720972050",
+  "final_receipt_at_utc": "2026-11-09T23:34:29.844158+00:00",
+  "installed_public_wheel_checks": {
+    "run": 79,
+    "passed": 79,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "installed_wheel_source": "public PyPI metadata URL and its verified files.pythonhosted.org wheel",
+  "attempt10_receipt_sha256": "f6bfca4176af1db2d23e8a0355e722b87bbcea6cec9b60912d1a8b9faea9a29d",
+  "identical_complete_certificates_to_prepublication_qualification": 51,
+  "distinct_requests": 17,
+  "intended_answer_agreement": {
+    "matches": 12,
+    "total": 14
+  },
+  "unsupported_boundaries": 3,
+  "historical_parser_misses_retained": 2,
+  "langchain_listing_issue": "https://github.com/langchain-ai/docs/issues/7567",
+  "langchain_listing_status": "submitted_open_waiting_for_maintainer_integration_run_and_generated_PR",
+  "crewai_pull_request": "https://github.com/crewAIInc/crewAI/pull/9305",
+  "crewai_status": "open_draft_awaiting_required_maintainer_AI_label_and_preview_approval",
+  "verification_scope": "finite derivation relative to CAEL parse and trusted original request, not external truth/authorship/signatures",
+  "engine_model_version_licence_changed": false,
+  "live_worker_changed": false
+}

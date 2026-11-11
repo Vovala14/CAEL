@@ -183,6 +183,17 @@ class ImagePromptHelperTests(unittest.TestCase):
         self.assertGreater(len(people), 5)             # not the same prompt every time
         self.assertGreater(len({p.split(', ')[1] for p in people}), 3)
 
+    def test_chat_mode_picture_prompt_takes_follow_up_edits(self):
+        messages = [dict(role='user', content='Draw a woman in a cafe')]
+        first = self.engine.respond(messages, mode='chat', n=1, seed=None)
+        self.assertEqual(first['route'], 'chat/picture-in-chat')
+        messages += [dict(role='assistant', content=first['response']), dict(role='user', content='make it at night')]
+        night = self.engine.respond(messages, mode='chat', n=1, seed=None)
+        self.assertEqual(night['route'], 'chat/picture-in-chat')
+        self.assertIn('a woman in a cafe, at night', night['response'])
+        messages += [dict(role='assistant', content=night['response']), dict(role='user', content='I am tired today')]
+        self.assertNotEqual(self.engine.respond(messages, mode='chat', n=1, seed=None)['route'], 'chat/picture-in-chat')
+
     def test_greeting_is_not_an_image_idea(self):
         self.assertEqual(self.widget_chat('hello')[0], 'Describe the subject or scene you want in the image prompt.')
 

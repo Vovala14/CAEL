@@ -103,7 +103,7 @@ EDIT = (r'(?i)^\s*(?:(?:ok(?:ay)?|now|and|but|also|then|great|nice|cool|good)[,!
         r'(?:make (?:it|her|him|them|the \w+)|turn (?:it|her|him|them) into|change (?:it|the \w+)(?: to)?|put (?:it|her|him|them)|give (?:it|her|him|them)|'
         r'add|remove|without|with|no|more|less|instead|same(?: but)?|at night|at sunset|at dawn|in (?:the )?(?:rain|snow|winter|summer|autumn|spring)|'
         r'in (?:an? )?[\w-]+ style|as (?:an? )?[\w-]+|older|younger|darker|brighter|lighter|bigger|smaller|happier|sadder|closer|wider|from above|close[- ]?up)\b')
-LEAD = r'(?i)^\s*(?:now|but|instead|then|ok(?:ay)?,? now)\b'
+LEAD = r'(?i)^\s*(?:now|instead|ok(?:ay)?,? now)\b'
 
 
 def is_edit(text):

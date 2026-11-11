@@ -56,6 +56,9 @@ def parse(text, forced=False, default_kind='task'):
     return dict(kind=kind,brief=brief,count=count)
 
 
+PICTURE_IN_CHAT = 'Here is a prompt to paste there:'      # the chat-mode reply that hands over an image prompt (assistant.py)
+
+
 def previous_image_brief(messages, default_kind='image'):
     """The scene behind the last image prompt in this conversation, with earlier edits applied in order."""
     from .image_prompt import clean_brief, is_edit, merge_edit
@@ -66,10 +69,12 @@ def previous_image_brief(messages, default_kind='image'):
         if not isinstance(m, dict) or m.get('role') != 'user':
             continue
         reply = messages[i + 1]          # messages[:-1] leaves out the current request, so i + 1 always exists
-        if not isinstance(reply, dict) or reply.get('role') != 'assistant' or not str(reply.get('content', '')).lstrip().startswith('Image prompt:'):
+        said = str(reply.get('content', '')) if isinstance(reply, dict) and reply.get('role') == 'assistant' else ''
+        if not (said.lstrip().startswith('Image prompt:') or PICTURE_IN_CHAT in said or 'use this prompt in any image tool:' in said
+                or 'Here is a prompt to use in an image tool:' in said):
             continue
         try:
-            request = parse(str(m.get('content', '')), True, default_kind)
+            request = parse(str(m.get('content', '')), True, 'image')
         except ValueError:
             continue
         if not request or request['kind'] != 'image' or not request['brief']:

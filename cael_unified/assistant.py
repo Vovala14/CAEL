@@ -842,6 +842,14 @@ class Assistant:
         # A picture request in chat-only mode (the vynly.co widget has no drawing): write the prompt instead.
         if route == 'chat' and mode == 'chat' and route_request(text, 'auto') == 'image' and self.vynly_reply(text, messages) is None:
             return self.picture_in_chat(text, messages, seed)
+        if route == 'chat' and mode == 'chat':
+            # "make it at night" right after a chat-mode picture prompt edits that prompt.
+            from .image_prompt import is_edit
+            from .promptgen import previous_image_brief
+            last_reply = next((str(m.get('content', '')) for m in reversed(messages[:-1]) if isinstance(m, dict) and m.get('role') == 'assistant'), '')
+            if (is_edit(text) and ('prompt to paste there:' in last_reply or 'prompt in any image tool:' in last_reply
+                                   or 'prompt to use in an image tool:' in last_reply) and previous_image_brief(messages)):
+                return self.picture_in_chat(text, messages, seed)
         with self._lock:
             if route == 'image':
                 return self.image_reply(text, n, seed, messages)

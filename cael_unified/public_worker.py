@@ -9,6 +9,7 @@ from dataclasses import dataclass
 import hashlib
 import html
 import hmac
+import os
 from http.cookies import CookieError, SimpleCookie
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
@@ -345,7 +346,8 @@ def handler_for(worker, key, link_file=None):
                                           bundle_sha256=getattr(worker, 'bundle_sha256', None),
                                           chat_backend='unified count language; legacy free-text fallback' if language else 'installed legacy fallback',
                                           language_model=Path(language['path']).parent.name if language else None,
-                                          internet_lookup=True, sources=['Wikipedia', 'Wikidata', 'MET Norway', 'GDELT', 'licensed emoji repositories']))
+                                          internet_lookup=os.environ.get('CAEL_WEB_SEARCH', '1') != '0',
+                                          sources=['Wikipedia', 'Wikidata', 'MET Norway', 'GDELT', 'web search checked against a second independent source', 'licensed emoji repositories']))
             if path == '/sources':
                 return self.send(200, sources_page(), 'text/html; charset=utf-8')
             match = re.fullmatch(r'/api/jobs/([0-9a-f]{32})(?:/images/(\d+))?', path)
@@ -419,6 +421,9 @@ def main():
     parser.add_argument('--bundle')
     parser.add_argument('--state-dir', type=Path, default=ROOT / 'research' / 'shared_021')
     args = parser.parse_args()
+    # 0.4.1: the public worker always answers with the web on (owner's requirement); an inherited
+    # CAEL_WEB_SEARCH=0 from a benchmark shell must not switch it off.
+    os.environ['CAEL_WEB_SEARCH'] = '1'
     args.state_dir.mkdir(parents=True, exist_ok=True)
     key_file = args.state_dir / 'session.key'
     if not key_file.exists():

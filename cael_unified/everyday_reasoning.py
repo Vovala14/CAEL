@@ -286,7 +286,7 @@ def sequences(text):
         if len(set(second)) == 1:
             nxt = xs[-1] + diffs[-1] + second[0]
             return out(f'**{show(nxt)}**.', 'sequence', [f'The gaps grow by {show(second[0])} each time: ' + ', '.join(show(d) for d in diffs) + f', then {show(diffs[-1] + second[0])}.'])
-        if all(round(float(x) ** 0.5) ** 2 == x for x in xs):
+        if all(x >= 0 for x in xs) and all(round(float(x) ** 0.5) ** 2 == x for x in xs):
             roots = [round(float(x) ** 0.5) for x in xs]
             if all(b - a == 1 for a, b in zip(roots, roots[1:])):
                 return out(f'**{(roots[-1] + 1) ** 2}**.', 'sequence', ['These are square numbers: ' + ', '.join(f'{r}²' for r in roots) + '.'])

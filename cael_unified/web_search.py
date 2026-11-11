@@ -79,9 +79,32 @@ def metasearch(query):
         from ddgs import DDGS
     except ImportError:
         return []
-    hits = DDGS(timeout=4, verify=True).text(query, region='us-en', safesearch='moderate', max_results=8, backend='brave,duckduckgo,bing') or []
-    return [Result(h.get('title', ''), h['href'], h.get('body', ''), 'ddgs metasearch')
-            for h in hits if str(h.get('href', '')).startswith('http')][:8]
+    # Each engine is asked on its own: with a combined backend list, one refusing engine fails the whole search.
+    def one(engine):
+        try:
+            return DDGS(timeout=4, verify=True).text(query, region='us-en', safesearch='moderate', max_results=8, backend=engine) or []
+        except Exception:
+            return []
+    # Engines refuse automated queries now and then (measured 2026-11-11: Bing and Yahoo answer most often), so all are
+    # asked at once and whatever arrives is used; if every one refuses, Yahoo and then Bing are asked once more.
+    with ThreadPoolExecutor(max_workers=5) as pool:
+        batches = list(pool.map(one, ('bing', 'yahoo', 'duckduckgo', 'brave', 'mojeek')))
+    for engine in ('yahoo', 'bing'):
+        if any(batches):
+            break
+        batches.append(one(engine))
+    out, urls = [], set()
+    for rank in range(8):                     # interleave engines: each one's top result first
+        for hits in batches:
+            if rank < len(hits):
+                h = hits[rank]
+                url = str(h.get('href', ''))
+                host = (urlparse(url).hostname or '').removeprefix('www.')
+                if not url.startswith('http') or url in urls or host.endswith(('bing.com', 'duckduckgo.com', 'brave.com', 'mojeek.com')):
+                    continue                  # ad and redirect links of the engines themselves
+                urls.add(url)
+                out.append(Result(h.get('title', ''), url, h.get('body', ''), 'ddgs metasearch'))
+    return out[:8]
 
 
 def duckduckgo(query):

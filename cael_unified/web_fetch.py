@@ -14,15 +14,16 @@ MAX_TEXT=120_000
 UA='CAEL/0.3.9-conversation (+https://github.com/Vovala14/CAEL; non-neural)'
 DNS_SLOTS=threading.BoundedSemaphore(4)
 class Blocked(ValueError):pass
+BLOCKS={'p','br','li','h1','h2','h3','h4','h5','h6','tr','td','th','div','section','article','main','dt','dd','figcaption','blockquote','title'}
 class Text(HTMLParser):
     SKIP={'script','style','nav','footer','header','aside','form','noscript','svg','template'}
     def __init__(self):super().__init__();self.parts=[];self.depth=0
     def handle_starttag(self,tag,attrs):
         if tag in self.SKIP:self.depth+=1
-        elif not self.depth and tag in {'p','br','li','h1','h2','h3','tr','div','section'}:self.parts.append('\n')
+        elif not self.depth and tag in BLOCKS:self.parts.append('\n')
     def handle_endtag(self,tag):
         if tag in self.SKIP and self.depth:self.depth-=1
-        elif not self.depth and tag in {'p','li','h1','h2','h3','tr','div','section'}:self.parts.append('\n')
+        elif not self.depth and tag in BLOCKS-{'br'}:self.parts.append('\n')
     def handle_data(self,data):
         if not self.depth:self.parts.append(re.sub(r'\s+',' ',data))
 def resolve_addresses(host,port,timeout):
@@ -93,6 +94,10 @@ def fetch(url,timeout=6):
             charset=response.headers.get_content_charset() or 'utf-8'
             if charset.casefold().replace('_','-') not in ('utf-8','utf8','iso-8859-1','latin-1','windows-1252'):charset='utf-8'
             text=body.decode(charset,errors='replace')
+            # A page sent as Windows-1252 without saying so decodes to replacement marks under UTF-8.
+            if '\ufffd' in text and charset.casefold().replace('_','-') in ('utf-8','utf8'):
+                retry=body.decode('cp1252',errors='replace')
+                if retry.count('\ufffd')<text.count('\ufffd'):text=retry
             if kind!='text/plain':parser=Text();parser.feed(text);text=''.join(parser.parts)
             text=re.sub(r'[ \t]+',' ',text);text=re.sub(r'\n\s*\n+','\n',text).strip()
             return {**result,'status':'read' if text else 'empty','url':url,'bytes':len(body),'text':text[:MAX_TEXT],

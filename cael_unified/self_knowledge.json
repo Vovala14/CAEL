@@ -1,7 +1,10 @@
 {
-  "version": "0.4.0",
+  "version": "0.4.1",
   "changes": [
-    "CAEL 0.4.0 updates the core engines; a website worker can run a separately selected version.",
+    "CAEL 0.4.1 adds conversation upgrades on top of the 0.4.0 core engines; a website worker can run a separately selected version.",
+    "Exact conversation skills: quantities with transfers, rates and what-if follow-ups, clock times with delays, syllogisms and their converse, weekly schedules, changed values, short notes and tone rewrites.",
+    "Chat memory answers questions about what the user said earlier in the conversation and acknowledges new details.",
+    "When CAEL does not know, it can search the web and answers only when a second independent publisher agrees.",
     "Indexed rule-graph propagation, sparse validated world transitions and finite-domain ordering replace earlier core algorithms.",
     "A new non-neural local transition learner infers bounded discrete updates from explicit examples.",
     "Live references are traversed iteratively; retrieval honours requested neighbour counts and deterministic ties."
@@ -12,13 +15,18 @@
     "Retain supported context from the supplied conversation while isolating independent requests."
   ],
   "limitations": [
-    "Four inherited quantity-conversation/possessive-memory regression cases remain; this is not a general chatbot breakthrough.",
+    "In a self-judged 20-conversation comparison CAEL scored about 796 Elo against Qwen3.5-0.8B fixed at 1000 (3 wins, 14 losses, 3 ties); it is not a general chatbot breakthrough.",
+    "Web answers often decline when two sources do not agree, and some follow-ups are still missed.",
     "Finite readers still miss wording and complete context; no general chatbot or Qwen superiority is established.",
     "An inferred local transition is a hypothesis, not proof of a unique general rule.",
     "Inherited weights, protected solvers, image CA kernels and the 0.3.7 public resource bundle are unchanged."
   ],
   "evidence": "Maintainer evaluation on 60 fresh authored positive core cases: 60/60 versus 12/60 for 0.3.9.1, with known-family/adaptive authoring limitations. On all 2,000 official CellARC test tasks, aggregate cell accuracy is 57.31% interpolation and 34.94% extrapolation; entire puzzles correct are 79/1000 and 5/1000. The exact frozen checkpoint and every prediction were reproduced through the unmodified official symbolic harness. This is not an accepted leaderboard rank, a general-chat claim or a Qwen win.",
   "sources": [
+    {
+      "title": "CAEL 0.4.1 release",
+      "url": "https://github.com/Vovala14/CAEL/releases/tag/v0.4.1"
+    },
     {
       "title": "CAEL 0.4.0 release",
       "url": "https://github.com/Vovala14/CAEL/releases/tag/v0.4.0"

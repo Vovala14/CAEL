@@ -1,3 +1,7 @@
+# CAEL 0.4.1: conversation skills, chat memory and checked web answers
+
+Adds exact conversation skills (quantities, rates, clock times, syllogisms, schedules, changed values, notes), chat memory over the conversation, and web answers that require a second independent source, on top of the unchanged 0.4.0 core engines and 0.3.7 resource bundle. Self-judged blind round against Qwen3.5-0.8B: CAEL about 796 Elo (Qwen 1000), 3 wins, 14 losses, 3 ties. Details: RELEASE_0_4_1.md.
+
 # CAEL 0.4.0: core automata and rule induction
 
 CAEL 0.4.0 upgrades actual non-neural symbolic/count/automaton engines: indexed rule propagation, validated sparse world transitions, finite-domain ordering up to twelve objects, iterative live references, deterministic count retrieval and bounded-checker interoperability. A new request-local learner infers finite discrete transitions from examples. Inherited weights, protected solvers, image/CA kernels and the public 0.3.7 resource bundle are byte-identical.

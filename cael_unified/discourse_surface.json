@@ -1,0 +1,617 @@
+{
+  "schema": 1,
+  "method": "annotated finite-surface induction with empirical counts; no neural network",
+  "patterns": [
+    {
+      "intent": "availability",
+      "stance": null,
+      "parts": [
+        "",
+        " am available from ",
+        " until ",
+        ""
+      ],
+      "slots": [
+        "owner",
+        "start",
+        "end"
+      ],
+      "support": 4,
+      "id": "p0"
+    },
+    {
+      "intent": "availability",
+      "stance": null,
+      "parts": [
+        "",
+        " am free between ",
+        " and ",
+        ""
+      ],
+      "slots": [
+        "owner",
+        "start",
+        "end"
+      ],
+      "support": 4,
+      "id": "p1"
+    },
+    {
+      "intent": "availability",
+      "stance": null,
+      "parts": [
+        "",
+        " can join from ",
+        " until ",
+        ""
+      ],
+      "slots": [
+        "owner",
+        "start",
+        "end"
+      ],
+      "support": 4,
+      "id": "p2"
+    },
+    {
+      "intent": "availability",
+      "stance": null,
+      "parts": [
+        "",
+        " can meet from ",
+        " until ",
+        ""
+      ],
+      "slots": [
+        "owner",
+        "start",
+        "end"
+      ],
+      "support": 4,
+      "id": "p3"
+    },
+    {
+      "intent": "availability",
+      "stance": null,
+      "parts": [
+        "",
+        " has time from ",
+        " to ",
+        ""
+      ],
+      "slots": [
+        "owner",
+        "start",
+        "end"
+      ],
+      "support": 4,
+      "id": "p4"
+    },
+    {
+      "intent": "availability",
+      "stance": null,
+      "parts": [
+        "",
+        " is available from ",
+        " until ",
+        ""
+      ],
+      "slots": [
+        "owner",
+        "start",
+        "end"
+      ],
+      "support": 4,
+      "id": "p5"
+    },
+    {
+      "intent": "availability",
+      "stance": null,
+      "parts": [
+        "",
+        " is free between ",
+        " and ",
+        ""
+      ],
+      "slots": [
+        "owner",
+        "start",
+        "end"
+      ],
+      "support": 4,
+      "id": "p6"
+    },
+    {
+      "intent": "choice",
+      "stance": "committed",
+      "parts": [
+        "i decided to ",
+        " rather than ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p7"
+    },
+    {
+      "intent": "choice",
+      "stance": "committed",
+      "parts": [
+        "i have chosen ",
+        " instead of ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p8"
+    },
+    {
+      "intent": "choice",
+      "stance": "committed",
+      "parts": [
+        "i settled on ",
+        " rather than ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p9"
+    },
+    {
+      "intent": "choice",
+      "stance": "committed",
+      "parts": [
+        "i went with ",
+        " rather than ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p10"
+    },
+    {
+      "intent": "choice",
+      "stance": "committed",
+      "parts": [
+        "i've chosen ",
+        " over ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p11"
+    },
+    {
+      "intent": "choice",
+      "stance": "committed",
+      "parts": [
+        "my decision is ",
+        " instead of ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p12"
+    },
+    {
+      "intent": "preference",
+      "stance": "strong",
+      "parts": [
+        "given the choice, i prefer ",
+        " over ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p13"
+    },
+    {
+      "intent": "preference",
+      "stance": "tentative",
+      "parts": [
+        "i am leaning toward ",
+        " over ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p14"
+    },
+    {
+      "intent": "preference",
+      "stance": "tentative",
+      "parts": [
+        "i am more interested in ",
+        " than ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p15"
+    },
+    {
+      "intent": "preference",
+      "stance": "strong",
+      "parts": [
+        "i favor ",
+        " over ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p16"
+    },
+    {
+      "intent": "preference",
+      "stance": "strong",
+      "parts": [
+        "i favour ",
+        " over ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p17"
+    },
+    {
+      "intent": "preference",
+      "stance": "tentative",
+      "parts": [
+        "i lean toward ",
+        " instead of ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p18"
+    },
+    {
+      "intent": "preference",
+      "stance": "strong",
+      "parts": [
+        "i prefer ",
+        " over ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p19"
+    },
+    {
+      "intent": "preference",
+      "stance": "strong",
+      "parts": [
+        "i prefer ",
+        " to ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p20"
+    },
+    {
+      "intent": "preference",
+      "stance": "strong",
+      "parts": [
+        "i would rather ",
+        " than ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p21"
+    },
+    {
+      "intent": "preference",
+      "stance": "strong",
+      "parts": [
+        "i'd rather ",
+        " than ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p22"
+    },
+    {
+      "intent": "preference",
+      "stance": "tentative",
+      "parts": [
+        "i'm leaning toward ",
+        " rather than ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p23"
+    },
+    {
+      "intent": "preference",
+      "stance": "strong",
+      "parts": [
+        "my preference is ",
+        " rather than ",
+        ""
+      ],
+      "slots": [
+        "selected",
+        "rejected"
+      ],
+      "support": 4,
+      "id": "p24"
+    },
+    {
+      "intent": "query_choice",
+      "stance": null,
+      "parts": [
+        "what decision did i make"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p25"
+    },
+    {
+      "intent": "query_choice",
+      "stance": null,
+      "parts": [
+        "what did i choose"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p26"
+    },
+    {
+      "intent": "query_choice",
+      "stance": null,
+      "parts": [
+        "what did i decide to do"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p27"
+    },
+    {
+      "intent": "query_choice",
+      "stance": null,
+      "parts": [
+        "what did i settle on"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p28"
+    },
+    {
+      "intent": "query_choice",
+      "stance": null,
+      "parts": [
+        "what have i chosen"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p29"
+    },
+    {
+      "intent": "query_choice",
+      "stance": null,
+      "parts": [
+        "which option did i go with"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p30"
+    },
+    {
+      "intent": "query_overlap",
+      "stance": null,
+      "parts": [
+        "what is our shared availability"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p31"
+    },
+    {
+      "intent": "query_overlap",
+      "stance": null,
+      "parts": [
+        "what is the overlap"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p32"
+    },
+    {
+      "intent": "query_overlap",
+      "stance": null,
+      "parts": [
+        "what time works for both of us"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p33"
+    },
+    {
+      "intent": "query_overlap",
+      "stance": null,
+      "parts": [
+        "when are we both free"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p34"
+    },
+    {
+      "intent": "query_overlap",
+      "stance": null,
+      "parts": [
+        "when can we meet"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p35"
+    },
+    {
+      "intent": "query_overlap",
+      "stance": null,
+      "parts": [
+        "when is everyone free"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p36"
+    },
+    {
+      "intent": "query_preference",
+      "stance": null,
+      "parts": [
+        "what am i leaning toward"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p37"
+    },
+    {
+      "intent": "query_preference",
+      "stance": null,
+      "parts": [
+        "what am i more interested in"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p38"
+    },
+    {
+      "intent": "query_preference",
+      "stance": null,
+      "parts": [
+        "what do i prefer"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p39"
+    },
+    {
+      "intent": "query_preference",
+      "stance": null,
+      "parts": [
+        "what is my preference"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p40"
+    },
+    {
+      "intent": "query_preference",
+      "stance": null,
+      "parts": [
+        "what option do i favor"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p41"
+    },
+    {
+      "intent": "query_preference",
+      "stance": null,
+      "parts": [
+        "what option do i favour"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p42"
+    },
+    {
+      "intent": "query_preference",
+      "stance": null,
+      "parts": [
+        "what would i rather do"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p43"
+    },
+    {
+      "intent": "query_preference",
+      "stance": null,
+      "parts": [
+        "which one am i leaning toward"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p44"
+    },
+    {
+      "intent": "query_preference",
+      "stance": null,
+      "parts": [
+        "which one sounds better to me"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p45"
+    },
+    {
+      "intent": "query_preference",
+      "stance": null,
+      "parts": [
+        "which option do i prefer"
+      ],
+      "slots": [],
+      "support": 1,
+      "id": "p46"
+    }
+  ],
+  "training_sha256": "da653ba5098709bbadaf19464668dba3400a0beda5814db821b8fd56a59fcdc5",
+  "license": "CC0-1.0"
+}

@@ -149,10 +149,11 @@ class UnifiedHistoryTests(unittest.TestCase):
             self.ask('What about today?', history)
             self.assertEqual(news.call_args.args[1]['topic'], 'canada')
         answer = self.ask('What about Japan in 1945?', history)
-        self.assertEqual(answer['route'], 'chat/web-unsupported-news-period')
+        # 0.4.1: the always-on web check may answer a dated question from two agreeing sources instead
+        self.assertIn(answer['route'], ('chat/web-unsupported-news-period', 'chat/web-checked'))
         history[0]['content'] = 'Canada news last year'
         answer = self.ask('What about Japan?', history)
-        self.assertEqual(answer['route'], 'chat/web-unsupported-news-period')
+        self.assertIn(answer['route'], ('chat/web-unsupported-news-period', 'chat/web-checked'))
         self.assertEqual(self.net.calls, 0)
 
     def test_direct_news_call_cannot_replace_an_explicit_date_with_recent(self):

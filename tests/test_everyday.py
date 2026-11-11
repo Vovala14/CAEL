@@ -77,7 +77,7 @@ class WidgetTests(unittest.TestCase):
         self.assertTrue(self.ask('היי')['response'].startswith('שלום (shalom)!'))
         self.assertTrue(self.ask('hola')['response'].startswith('Hola!'))
         self.assertEqual(self.ask('Как дела у тебя сегодня?')['route'], 'chat/everyday-foreign')
-        self.assertEqual(self.ask('hi')['route'], 'chat/smalltalk-greeting')
+        self.assertIn(self.ask('hi')['route'], ('chat/smalltalk-greeting', 'chat/core-talk-greeting'))   # 0.4.1: chat_core greets first
 
 
 class MemoryWriteTests(unittest.TestCase):

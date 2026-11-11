@@ -97,7 +97,82 @@ def context(messages):
     return None
 
 
+CHECK_IN = re.compile(
+    r"(?:what(?:'s| is|s) (?:up|new|happening)(?: with you| on your side| on your end)?|"
+    r"how(?:'s| is|s) (?:it going|everything|life|things)(?: with you| on your end)?|"
+    r"how (?:are you|have you been)(?: doing| lately| today| this evening| tonight)?|"
+    r"how(?:'s| is|s) your (?:day|evening|morning|weekend)(?: going| been)?|"
+    r"how (?:was|has) your (?:day|evening|morning|weekend)(?: been)?|"
+    r"what (?:are you|have you been) (?:up to|doing)(?: lately| today| tonight)?)")
+
+
+def social_text(text):
+    text = clean(text)
+    text = re.sub(r"^(?:hey|hi|hello|yo)(?: cael)?(?:[,!. ]+)\s*", '', text)
+    return text.strip(' ,.!?')
+
+
+def opening(messages, seed=0):
+    """Complete social acts that must precede generic task/corpus fallbacks.
+
+    Output-format words, topical news, quoted text and mixed task clauses are
+    never treated as social intent. State is reconstructed only from messages.
+    """
+    if (not messages or messages[-1].get('role') != 'user'
+            or not isinstance(messages[-1].get('content'), str)):
+        return None
+    raw = messages[-1]['content'].strip()
+    if not raw or len(raw) > 300 or '\n' in raw or any(x in raw for x in ('```', '{', '}', '"')):
+        return None
+    text = social_text(raw)
+    prior = [m['content'] for m in messages[:-1] if m.get('role') == 'user']
+    previous = next((m['content'] for m in reversed(messages[:-1]) if m.get('role') == 'assistant'), '')
+    recent = '\n'.join(m['content'] for m in messages[-9:-1] if m.get('role') == 'assistant')
+    def out(body, kind):
+        return dict(response=body, route='chat/smalltalk-'+kind, sources=[], details=DETAILS)
+    def ask_day(lead):
+        questions = ["How has your day been?", "What's been on your mind today?", "What are you up to?"]
+        fresh = [q for q in questions if q not in recent]
+        return lead + (' '+random.Random(f'{seed}:{text}').choice(fresh) if fresh else '')
+    # Existing explicit music/movie/etc. exchanges keep their topic-specific
+    # reciprocal policy; no generic status reply replaces it.
+    active = context(messages)
+    social_prior = bool(prior and (
+        CHECK_IN.fullmatch(social_text(prior[-1]))
+        or INVITE.fullmatch(clean(prior[-1]))
+        or re.fullmatch(r'(?:hi|hello|hey|anything new|not much(?:,? just relaxing)?|same old,? same old|just a long day,? honestly)', clean(prior[-1]))
+        or re.search(r"(?i)how (?:has|is|was) your day|what are you up to|what would you like to talk about|what do you like to do to relax", previous)))
+    if CHECK_IN.fullmatch(text):
+        return out(ask_day("I'm here chatting with you and ready to listen."), 'how-are-you')
+    if text in {'anything new', 'any news', "what's new with you", 'whats new with you'}:
+        if prior and not social_prior:
+            return out('Do you mean an update on the topic we were discussing, or just a casual check-in?', 'status-clarify')
+        return out("No personal news from me. I'm here for our conversation.", 'check-in-followup')
+    invitation = re.sub(r' (?:for )?(?:a bit|a while|a little while)$', '', text)
+    if INVITE.fullmatch(invitation):
+        return out(ask_day('Of course. We can just chat.'), 'invite')
+    if re.fullmatch(r"(?:please )?ask me (?:a |something )?(?:light|casual|easy|fun|interesting)(?: question)?", text):
+        fresh = [q for q in FUN if q not in recent]
+        return out(random.Random(f'{seed}:{text}').choice(fresh or FUN), 'fun-question')
+    if social_prior and re.fullmatch(r"(?:you (?:already|keep) asked(?: me)? that|you already asked(?: me)? that|you keep asking(?: me)? (?:that|the same question)|stop repeating (?:yourself|that))", text):
+        return out("Got it. I'll leave that question and move on.", 'repair')
+    if social_prior and RECIPROCAL.fullmatch(text) and active not in TOPICS:
+        return out("I don't have personal experiences or downtime, but I'm here and happy to keep you company.", 'reciprocal')
+    if social_prior and re.fullmatch(r"(?:not much|nothing much|nothing special)(?:,? (?:just )?(?:relaxing|chilling|taking it easy))?", text):
+        return out('A quiet moment, then. We can keep this easygoing.', 'quiet')
+    if social_prior and text in {'same old, same old', 'same old same old'}:
+        return out('An ordinary day, then. We can keep it easygoing.', 'day-followup')
+    if social_prior and re.fullmatch(r"(?:just )?(?:a )?long day(?:,? honestly)?|just tired", text):
+        return out('Sounds like a long one. We can keep the conversation low-key.', 'day-followup')
+    if re.fullmatch(r"i(?:'m| am) bored,? but i (?:don't|do not) want advice", text):
+        return out('Understood. We can just chat without turning it into advice or a plan.', 'listening')
+    return None
+
+
 def reply(messages, seed=0):
+    early = opening(messages, seed)
+    if early is not None:
+        return early
     if not messages or messages[-1].get('role')!='user':return None
     raw=messages[-1]['content'].strip()
     if not raw or len(raw)>240 or '\n' in raw or '```' in raw:return None

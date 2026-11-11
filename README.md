@@ -14,15 +14,17 @@ tags:
 inference: false
 ---
 
-# CAEL 0.4.0
+# CAEL 0.4.1
 
 [![HF downloads (30 days)](https://img.shields.io/huggingface/d/vynly/CAEL-0.4.0?label=HF%20downloads%20%2830%20days%29)](https://huggingface.co/vynly/CAEL-0.4.0)
+
+**0.4.1** adds exact conversation skills, chat memory and web answers checked against a second source on top of the 0.4.0 core engines. In a self-judged 20-conversation comparison it scored about 796 Elo against Qwen3.5-0.8B fixed at 1000, so it is not a match for small LLMs at general chat. See [RELEASE_0_4_1.md](RELEASE_0_4_1.md).
 
 A source-available Python assistant using non-neural symbolic, count and automaton engines. Version 0.4 updates core execution and adds example-induced local discrete transitions. There are no new neural weights or external LLM runtime answers. Finite readers, ambiguity and conversational gaps remain.
 
 ## Install and run
 
-Use Python 3.12. Download and extract [CAEL-0.4.0.zip](https://huggingface.co/vynly/CAEL-0.4.0/resolve/v0.4.0/CAEL-0.4.0.zip), then from the extracted directory:
+Use Python 3.12. Download and extract [CAEL-0.4.1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.1/CAEL-0.4.1.zip) (and, for full chat, [cael-open-chat-v1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.1/cael-open-chat-v1.zip) into `models/`), then from the extracted directory:
 
 ```bash
 python -m pip install -r requirements-unified.txt

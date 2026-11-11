@@ -1,0 +1,77 @@
+{
+  "format": "cael-self-features-v1",
+  "versions": ["0.3.9", "0.3.9.1", "0.4.0", "0.4.1"],
+  "features": {
+    "prompt": {
+      "aliases": ["prompt helper", "prompt writer", "prompt generator", "prompt tool", "prompt generation"],
+      "module": "promptgen",
+      "overview": "My prompt helper turns a rough idea into an image, story or assistant prompt. It keeps your brief and adds a reusable structure.",
+      "quality": "It's useful as a starting point when you want a clearer, more structured prompt. The output is a draft to review, not a guarantee of a better result from another model.",
+      "usage": "Tell me what the prompt is for, the intended tool or audience, the output you want, and any must-keep constraints. You can use the Prompt helper tab, or say: Write an assistant prompt for a bot that summarizes release notes in five bullets.",
+      "architecture": "It uses CAEL's counted, authored structures and integer cellular-automaton grammar. It does not call an LLM, Qwen or ChatGPT to write the prompt.",
+      "limits": "It has finite patterns and can miss wording or add unsuitable boilerplate, so check the final prompt. It does not establish that a target model will follow every instruction.",
+      "images": "The helper writes prompt text; it does not render images itself. On Vynly, use the resulting text in Generate. The image model and its results are a separate step.",
+      "source_files": ["cael_unified/promptgen.py", "cael_unified/assistant.py"]
+    },
+    "memory": {
+      "aliases": ["memory", "conversation memory", "context memory", "context tracking"],
+      "module": "event_memory",
+      "overview": "I can track supported facts, explicit preferences and state changes from the messages supplied in this chat.",
+      "quality": "It's useful for supported updates and references, but I can still miss an ambiguous name, an unfamiliar phrase or a conversation switch.",
+      "usage": "State the fact or change clearly, then ask about it. For example: Nori has 12 shells. Nori gains 3 shells. How many shells does Nori have?",
+      "architecture": "The reader reconstructs a symbolic state and dependency graph from the visible user messages. It does not infer a session identity from your wording.",
+      "limits": "A new chat without this history does not give me these facts. Supported forgetting is not a promise that stored transcripts are erased; transcript storage is a separate site policy.",
+      "source_files": ["cael_unified/event_memory.py", "cael_unified/session_profile.py"]
+    },
+    "math": {
+      "aliases": ["calculator", "arithmetic", "math", "math helper", "calculation helper"],
+      "module": "helper_chat",
+      "overview": "I can do exact arithmetic and supported unit, percentage and quantity calculations.",
+      "quality": "Exact arithmetic is one of my stronger bounded tools. Understanding a word problem is a separate step, and unfamiliar or ambiguous wording can still fail.",
+      "usage": "Give the complete expression or all quantities and units. You can ask me to recheck it or show the steps; I should recompute rather than just repeat the answer.",
+      "architecture": "The calculation tools use bounded symbolic parsers and exact integer or rational operations, without a neural model.",
+      "limits": "I do not solve arbitrary mathematics or prove every interpretation of a word problem. Missing values, mixed units and unsupported conditions need clarification.",
+      "source_files": ["cael_unified/helper_chat.py", "cael_unified/helper_quantities.py", "cael_unified/reasoning_chat.py"]
+    },
+    "code": {
+      "aliases": ["python helper", "code helper", "coding helper", "code generator", "python", "coding"],
+      "module": "codegen.chat",
+      "overview": "I can write or explain some small Python functions from supported contracts and examples, and check supported cases with a bounded interpreter.",
+      "quality": "It's useful for small pure-data tasks that fit my finite compiler and checker. It is not a general software engineer or unrestricted Python runtime.",
+      "usage": "Give the function name, inputs, required result, edge cases and two or three literal examples with expected outputs.",
+      "architecture": "Finite readers compile supported operations, and a bounded AST interpreter checks supported examples. No LLM supplies the code.",
+      "limits": "I cannot safely run arbitrary programs, imports, file operations or server code. Passing a few examples does not prove a function correct for every input.",
+      "source_files": ["cael_unified/codegen/chat.py", "cael_unified/codegen/signature_contract.py", "cael_unified/verify.py"]
+    },
+    "lookup": {
+      "aliases": ["web search", "source lookup", "fact lookup", "public sources", "lookup", "factual lookup"],
+      "module": "web_evidence",
+      "overview": "I can use local reference snapshots and supported public-page readers, with source links. Wikipedia is one source, not my only route.",
+      "quality": "It can help with a specific public factual question, but finding a related page is not the same as finding a passage that answers it.",
+      "usage": "Ask one concrete public question or provide a public source and the exact claim to check. I should distinguish a quoted passage, a search result and an independently checked calculation.",
+      "architecture": "Retrieval and passage readers are lexical and bounded. I do not send your question to another LLM for an answer.",
+      "limits": "I cannot verify every answer or read every website. Access failures, missing context, stale sources and mismatched passages remain possible; a citation is evidence, not proof.",
+      "source_files": ["cael_unified/web_evidence.py", "cael_unified/facts.py", "cael_unified/answer_finder.py"]
+    },
+    "site": {
+      "aliases": ["vynly helper", "site helper", "vynly help", "site help"],
+      "module": "vynly",
+      "overview": "I can explain supported Vynly features and guide you through tasks such as posting or finding the relevant settings.",
+      "quality": "It's useful for documented site instructions. It does not give me access to your account or permission to carry out account actions.",
+      "usage": "Ask a specific site question, such as How do I post? Ordinary factual, math and coding questions should stay outside the site-help route.",
+      "architecture": "The site helper reads local, curated Vynly documentation and applies explicit scope rules.",
+      "limits": "I cannot see private account details or guarantee that every site screen is unchanged. If the documentation does not cover a feature, I should say so.",
+      "source_files": ["cael_unified/vynly.py"]
+    },
+    "grid": {
+      "aliases": ["grid solver", "grid helper", "pattern solver", "2d solver"],
+      "module": "grid_induction",
+      "overview": "The installed local grid helper can infer a finite set of 2D transformations from complete input/output examples.",
+      "quality": "It can handle supported geometry, color mapping and scaling, but this is a small symbolic program language, not a complete ARC solver.",
+      "usage": "Supply the full examples and query grids as JSON, or complete Input, Output and Query blocks. All admitted hypotheses must match all examples.",
+      "architecture": "It searches bounded symbolic transformations and retains ambiguity between differing predicted grids, without a neural network.",
+      "limits": "An example-matching hypothesis is not proof of the hidden rule. General object reasoning and arbitrary transformations remain unsupported; no improved ARC score is established.",
+      "source_files": ["cael_unified/grid_induction.py", "cael_unified/structured_input.py"]
+    }
+  }
+}

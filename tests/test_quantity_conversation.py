@@ -74,12 +74,14 @@ class QuantityConversationTests(unittest.TestCase):
         with patch.object(self.engine._facts,'respond',return_value=dict(route='chat/fixture',response='Fixture astronomy evidence.',sources=[])) as lookup:
             answer=self.turn(messages,'How many planets are in the Solar System?')
         # Not hijacked by the quantity context: answered by the world-facts table, or by the factual lookup.
-        self.assertIn(answer['route'],('chat/fixture','chat/world-fact'))
+        self.assertIn(answer['route'],('chat/fixture','chat/world-fact','chat/web-checked'))   # 0.4.1: or the always-on web check
         if answer['route']=='chat/world-fact':
             self.assertIn('eight',answer['response'])
             lookup.assert_not_called()
-        else:
+        elif answer['route']=='chat/fixture':
             lookup.assert_called_once()
+        else:
+            self.assertRegex(answer['response'],r'(?i)\b(?:8|eight)\b')
 
 
 if __name__=='__main__':unittest.main()

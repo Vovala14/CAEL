@@ -127,7 +127,7 @@ class Assistant:
             if self._prompt is None:
                 from .promptgen import PromptGenerator
                 self._prompt = PromptGenerator()
-            made = self._prompt.respond(text, seed, forced=True, default_kind='image')
+            made = self._prompt.respond(text, seed, forced=True, default_kind='image', messages=messages)
         prompt = (made or {}).get('response', '').split('\n', 1)[-1].strip() if made and made.get('route') == 'chat/prompt-image' else ''
         if VynlyHelp.flagged(messages):
             # The vynly.co widget shows plain text, so no Markdown here.
@@ -851,7 +851,7 @@ class Assistant:
                 if self._prompt is None:
                     from .promptgen import PromptGenerator
                     self._prompt = PromptGenerator()
-                return self._prompt.respond(text,seed,forced=True,default_kind='image' if mode=='prompt' else 'task')
+                return self._prompt.respond(text,seed,forced=True,default_kind='image' if mode=='prompt' else 'task',messages=messages)
             if route == 'story':
                 return self.story_reply(messages,seed,required=True)
             # Questions about vynly.co, where CAEL is the helper chatbot (cael_unified/vynly.py).

@@ -56,6 +56,29 @@ def parse(text, forced=False, default_kind='task'):
     return dict(kind=kind,brief=brief,count=count)
 
 
+def previous_image_brief(messages, default_kind='image'):
+    """The scene behind the last image prompt in this conversation, with earlier edits applied in order."""
+    from .image_prompt import clean_brief, is_edit, merge_edit
+    if not isinstance(messages, list):
+        return ''
+    scene = ''
+    for i, m in enumerate(messages[:-1]):
+        if not isinstance(m, dict) or m.get('role') != 'user':
+            continue
+        reply = messages[i + 1]          # messages[:-1] leaves out the current request, so i + 1 always exists
+        if not isinstance(reply, dict) or reply.get('role') != 'assistant' or not str(reply.get('content', '')).lstrip().startswith('Image prompt:'):
+            continue
+        try:
+            request = parse(str(m.get('content', '')), True, default_kind)
+        except ValueError:
+            continue
+        if not request or request['kind'] != 'image' or not request['brief']:
+            continue
+        brief = clean_brief(request['brief']) or request['brief']
+        scene = merge_edit(scene, request['brief']) if scene and is_edit(request['brief']) else brief
+    return scene
+
+
 class PromptGenerator:
     def __init__(self,path=None):
         config=ROOT/'research/active_models.json'
@@ -64,7 +87,7 @@ class PromptGenerator:
         if entry and digest(path)!=entry['sha256']:raise ValueError('Active prompt model checksum changed')
         self.model=CAEL(path)
 
-    def respond(self,text,seed=0,forced=False,default_kind='task'):
+    def respond(self,text,seed=0,forced=False,default_kind='task',messages=None):
         try:request=parse(text,forced,default_kind)
         except ValueError as error:
             return dict(route='chat/prompt-clarify',response=str(error),sources=[])
@@ -73,7 +96,11 @@ class PromptGenerator:
             return dict(route='chat/prompt-clarify',response='What should the prompt be for? Give me an image idea, a story idea, or an assistant task.',sources=[])
         if request['kind']=='image':
             # A detailed, ready-to-use image prompt built from the idea (cael_unified/image_prompt.py).
-            from .image_prompt import image_prompts
+            from .image_prompt import image_prompts, clean_brief, is_edit, merge_edit
+            # "make it at night" / "now in watercolor" after an image prompt edits that scene instead of starting over.
+            previous=previous_image_brief(messages,default_kind)
+            if previous and is_edit(request['brief']):
+                request['brief']=merge_edit(previous,request['brief'])
             try:prompts,notes=image_prompts(request['brief'],request['count'],seed)
             except ValueError as error:
                 return dict(route='chat/prompt-clarify',response=str(error),sources=[])

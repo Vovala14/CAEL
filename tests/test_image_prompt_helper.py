@@ -149,5 +149,42 @@ class ImagePromptHelperTests(unittest.TestCase):
             answer = self.engine.respond([dict(role='user', content=f'Write a {kind} prompt for a lighthouse keeper')], mode='prompt', seed=19, n=1)
             self.assertEqual(answer['route'], 'chat/prompt-' + ('task' if kind == 'assistant' else kind))
 
+    def widget_chat(self, *turns):
+        """Turns sent the way the vynly.co Prompt helper tab sends them."""
+        messages, replies = [], []
+        for text in turns:
+            messages.append(dict(role='user', content=f'Write an image prompt for {text}'))
+            answer = self.engine.respond(messages, mode='prompt', n=1, seed=None)
+            replies.append(answer['response'])
+            messages.append(dict(role='assistant', content=answer['response']))
+        return replies
+
+    def test_follow_up_edits_keep_the_scene(self):
+        first, night, painted = self.widget_chat('a woman with red hair in a forest', 'make it at night', 'now in watercolor')
+        self.assertIn('a woman with red hair in a forest', night)
+        self.assertIn('at night', night)
+        self.assertNotIn('it at night', night)
+        self.assertIn('a woman with red hair in a forest', painted)
+        self.assertIn('watercolor style', painted)
+        older = self.widget_chat('a man', 'older and smiling')[1]
+        self.assertIn('a man, older and smiling', older)
+
+    def test_remove_drops_the_added_phrase(self):
+        replies = self.widget_chat('a knight', 'add a dragon behind him', 'remove the dragon')
+        self.assertIn('with a dragon behind him', replies[1])
+        self.assertNotRegex(replies[2], r'dragon|behind him')
+
+    def test_additions_follow_the_theme_not_one_generic_tail(self):
+        text, _ = self.prompt('cyberpunk street food stall', 3)
+        self.assertRegex(text, r'neon')
+        self.assertNotIn('ceramic plate', text)
+        self.assertNotIn('daylight', text)
+        people = {self.prompt('a portrait of a man', seed)[0] for seed in range(8)}
+        self.assertGreater(len(people), 5)             # not the same prompt every time
+        self.assertGreater(len({p.split(', ')[1] for p in people}), 3)
+
+    def test_greeting_is_not_an_image_idea(self):
+        self.assertEqual(self.widget_chat('hello')[0], 'Describe the subject or scene you want in the image prompt.')
+
 
 if __name__ == '__main__': unittest.main()

@@ -154,9 +154,9 @@ class Finder:
             for sentence in sentences(intro)[:6]:
                 low = sentence.lower()
                 low_stems = {stem(w) for w in re.findall(r'[a-z0-9]+', low)} | {stem(w) for w in words(title)}
-                if scope_words and not any(w in low_stems for w in scope_words):
-                    continue
-                found = list(re.finditer(r'\b(\d[\d,]*|' + '|'.join(NUMBER_WORDS) + r')\s+(?:[a-z-]+\s+){0,2}(?:' + noun_pattern + r')\b', low))
+                if scope_words and not all(w in low_stems for w in scope_words):
+                    continue        # "half marathon" is not answered by the marathon's distance
+                found = list(re.finditer(r'(?<![\d.,])(\d[\d,.]*\d|\d|' + '|'.join(NUMBER_WORDS) + r')\s+(?:[a-z-]+\s+){0,2}(?:' + noun_pattern + r')\b', low))
                 if found:
                     # "around 270 bones at birth ... around 206 bones by adulthood": the settled (last) figure, with the sentence.
                     return self.reply(f'**{found[-1][1]}**. {sentence}', title, url)

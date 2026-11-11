@@ -41,6 +41,17 @@ def quantity_exchange(context,question,text,response):
     expected=reply(prompt,None)
     if (expected and expected['route'] in ('helper/quantity','helper/quantity-clarify')
             and expected['response']==response):return context,question
+    # The general event engine renders a checked quantity as a bare scalar.
+    # Reconstruct from user evidence only, requiring BOTH independent engines
+    # to agree before accepting that alternate renderer as conversation state.
+    if expected and expected.get('route')=='helper/quantity':
+        from .event_memory import reply as event_reply
+        event=event_reply([dict(role='user',content=context+'. '+question)])
+        proof=(event or {}).get('memory_reasoning',{})
+        value=proof.get('value',{})
+        if (proof.get('complete') and type(value) is dict and event.get('response')==response
+                and str(value.get('value'))==str(expected.get('helper_reasoning',{}).get('value'))):
+            return context,question
     return None
 
 
@@ -75,6 +86,18 @@ def context_from_history(messages):
         elif not WHY.fullmatch(text):
             question=text
     return context.strip(' .\n'),question
+
+
+def quantity_explanation(messages):
+    """A checked scalar/quantity exchange owns its explicit steps follow-up."""
+    from .helper_chat import WHY as HELPER_WHY
+    if not messages or len(messages)<3 or not HELPER_WHY.fullmatch(messages[-1]['content'].strip()):return None
+    context,question=context_from_history(messages)
+    if not context or not question:return None
+    from .helper_quantities import reply as quantities_reply
+    result=quantities_reply('Given: '+context+'. '+question,None,explain=True)
+    if result and result.get('helper_reasoning',{}).get('exact'):return result
+    return None
 
 
 def respond(engine,text,messages=None):

@@ -59,6 +59,7 @@ RELEASE_SUBJECT = (
     r"|your\s+(?:updates|changes))")
 ASK = LEAD + r"(?:(?:please|can you|could you|would you)\s+)*(?:tell me\s+)?"
 PRODUCT_PATTERNS = [
+    (rf"{ASK}(?:what are you good at|what do you do well|can you(?: actually)? answer(?: real)? questions|what kinds? of questions can you answer)", 'capabilities'),
     (rf"{ASK}{WHAT}\s+(?:is\s+)?(?:new|different|improved|updated)\s+(?:in|with|about|for)\s+{RELEASE_SUBJECT}(?:\s+please)?", 'changes'),
     (rf"{ASK}{WHAT}\s+(?:has\s+)?changed\s+(?:in|with|about|for)\s+{RELEASE_SUBJECT}(?:\s+please)?", 'changes'),
     (rf"{ASK}{WHAT}\s+(?:are|were)\s+(?:the\s+)?(?:changes|new features|improvements|updates|fixes)\s+(?:in|to|for|with)\s+{RELEASE_SUBJECT}", 'changes'),
@@ -148,6 +149,10 @@ def reply(messages):
             or messages[-1].get('role') != 'user' or not isinstance(messages[-1].get('content'), str):
         return None
     question = messages[-1]['content']
+    from .self_features import reply as feature_reply
+    feature=feature_reply(messages)
+    if feature is not None:
+        return feature
     k = kind(question)
     context = self_context(messages[:-1])
     if k == 'changes' and not named_product(question) and not context and any(isinstance(m, dict) and m.get('role') == 'user' for m in messages[:-1]):

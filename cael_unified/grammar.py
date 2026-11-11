@@ -42,7 +42,7 @@ USAGE = [
      '("first this, then that").'),
     (r'\bits\b.*\bit\'?s\b|\bit\'s\b.*\bits\b', '**It\'s** means "it is" or "it has" ("It\'s raining"). **Its** shows '
      'possession, like his or her ("The dog wagged its tail").'),
-    (r'\btheir\b.*\bthere\b|\bthere\b.*\btheir\b|\bthey\'?re\b', '**Their** shows possession ("their house"), **there** is a '
+    (r'\btheir\b.*\bthere\b|\bthere\b.*\btheir\b|\bthey\'?re\b(?=.*\b(?:their|there|differen\w*|use|correct|right|spell\w*|grammar|mean\w*)\b)', '**Their** shows possession ("their house"), **there** is a '
      'place or starts a sentence ("over there", "There is a book"), and **they\'re** means "they are" ("They\'re late").'),
     (r'\byour\b.*\byou\'?re\b|\byou\'re\b.*\byour\b', '**Your** shows possession ("your bag"); **you\'re** means "you are" '
      '("You\'re right").'),

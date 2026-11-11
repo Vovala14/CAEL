@@ -18,6 +18,8 @@ HOSTS = frozenset({'en.wikipedia.org', 'www.wikidata.org', 'commons.wikimedia.or
                   'upload.wikimedia.org', 'thumb.wikimedia.org', 'api.met.no', 'api.gdeltproject.org',
                   'raw.githubusercontent.com', 'api.github.com'})
 HOSTS = HOSTS | {'dl.fbaipublicfiles.com', 'datasets-server.huggingface.co', 's3.amazonaws.com'}
+# Wikimedia sister projects (same CC BY-SA 4.0 terms as Wikipedia), read by web_check.py to answer and cross-check.
+HOSTS = HOSTS | {'simple.wikipedia.org', 'en.wikibooks.org', 'en.wikivoyage.org'}
 REPOSITORIES = ('/hfg-gmuend/openmoji/', '/jdecked/twemoji/',
                 '/EmojiTwo/emojitwo/', '/microsoft/fluentui-emoji/',
                 '/hermitdave/FrequencyWords/', '/asaparov/prontoqa/', '/google/BIG-bench/')
@@ -133,7 +135,8 @@ class Network:
                 self.blocked_until[host] = time.time() + delay
                 raise LookupUnavailable('The provider did not return usable data') from error
             except (OSError, ValueError, EOFError, zlib.error) as error:
-                self.blocked_until[host] = time.time() + 30
+                # A single timeout or reset should not silence the provider for the next turns: back off briefly.
+                self.blocked_until[host] = time.time() + 3
                 raise LookupUnavailable('Could not connect to the provider securely') from error
             finally:
                 self.next_request[host] = time.time() + 1

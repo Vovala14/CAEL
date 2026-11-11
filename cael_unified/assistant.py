@@ -175,12 +175,155 @@ class Assistant:
             return self._language.score_endings(context,endings)
 
     def respond(self, messages, n=2, seed=None, mode='auto'):
+        if os.environ.get('CAEL_CHAT_LAYERS') == '0':          # A/B switch: the routes alone, without memory/web layers
+            return self._respond_main(messages, n=n, seed=seed, mode=mode)
+        if mode in ('auto', 'chat'):
+            # Recall ("what's my cat's name?") and CAEL's own preferences are answered from the conversation itself.
+            from . import chat_memory
+            remembered = chat_memory.before(messages)
+            if remembered is not None:
+                return remembered
+            # Exact skills over the conversation: word problems, clock times with delays, syllogisms, schedules,
+            # changed values, short notes and their rewrites, feelings and plans (chat_skills.py).
+            from . import chat_skills
+            skilled = chat_skills.respond(messages)
+            if skilled is not None:
+                return skilled
+        answer = self._respond_main(messages, n=n, seed=seed, mode=mode)
+        if mode in ('auto', 'chat'):
+            # When the reply amounts to "I don't know", or does not address an information question, search the web,
+            # check the answer, then reply (web_check.py).
+            from . import web_check
+            route = str(answer.get('route', ''))
+            if not chat_memory.TRUSTED_MEMORY.search(route) or chat_memory.REFUSAL.search(str(answer.get('response', ''))):
+                skilled = chat_skills.respond(messages, late=True)
+                if skilled is not None:
+                    return dict(skilled, replaced_route=route)
+            answer = chat_memory.from_conversation(messages, answer)
+            if not str(answer.get('route', '')).startswith('chat/memory-'):
+                answer = web_check.improve(messages, answer)
+            # Something the user told CAEL gets a reply built from what they said, not a generic one (chat_memory.py).
+            answer = chat_memory.after(messages, answer)
+            if str(answer.get('route', '')) == 'chat/memory-talk-noted':
+                answer = self._with_detail(messages, answer, n=n, seed=seed, mode=mode)
+        return answer
+
+    def _with_detail(self, messages, noted, n=2, seed=None, mode='auto'):
+        """A detail added after a question ("I work from home, so I'm at my desk most of the time." after "Any tricks to
+        drink more water?"): answer the question again with the detail included, instead of only noting it."""
+        try:
+            from . import chat_memory, web_check
+            users = [i for i, m in enumerate(messages) if m.get('role') == 'user']
+            if len(users) < 2:
+                return noted
+            prev_q = messages[users[-2]]['content'].strip()
+            detail = messages[users[-1]]['content'].strip()
+            if not web_check.ASKS.search(prev_q) or web_check.NOT_WEB.search(prev_q):
+                return noted
+            asked = messages[:users[-1]] + [dict(role='user', content=f"{detail} {prev_q}")]
+            again = self._respond_main(asked, n=n, seed=seed, mode=mode)
+            again = web_check.improve(asked, again)
+            said = str(again.get('response', '')).strip()
+            before = next((m.get('content') or '' for m in reversed(messages[:users[-1]]) if m.get('role') == 'assistant'), '')
+            sim = lambda a, b: len(set(a.lower().split()) & set(b.lower().split())) / max(1, len(set(a.lower().split()) | set(b.lower().split())))
+            if (not said or web_check.DEAD_END.search(said) or chat_memory.GENERIC_REPLY.search(said) or sim(said, before) > 0.5
+                    or str(again.get('route', '')).startswith(('chat/web-checked-none', 'chat/core-fallback', 'chat/memory-'))
+                    or not web_check.addresses(asked, said)):
+                # The same advice again: point to the part of it that the detail bears on ("I water them every day." ->
+                # "The most common reason houseplants struggle is too much water ...").
+                mine = {chat_memory.stem(w) for w in chat_memory.words(detail) if chat_memory.weight(w) > 3}
+                parts = [s for s in re.split(r'(?<=[.!?])\s+', before.split('\n\nSource:')[0]) if s.strip()]
+                hit = [i for i, s in enumerate(parts) if mine & {chat_memory.stem(w) for w in chat_memory.words(s)}]
+                if not hit or not mine:
+                    return noted
+                i = hit[0]
+                text = ' '.join(parts[i:i + 2]).strip()
+                return dict(route='chat/detail-focus', sources=[], replaced_route=noted.get('route'),
+                            response=f"That detail matters. {text}",
+                            details='The part of the previous answer that the added detail bears on (assistant.py).')
+            lead = chat_memory.turned(detail)
+            return dict(again, response=f"Since {lead}, here's what fits better:\n\n{said}", route='chat/detail-' + str(again.get('route', '')),
+                        replaced_route=noted.get('route'))
+        except Exception:
+            return noted
+
+    def _respond_main(self, messages, n=2, seed=None, mode='auto'):
         from . import ltm
         with ltm.request_memory(getattr(self, '_learning_memory', None)):
+            # Complete typed game observations can contain animation batches.
+            # The native reader validates its own cells/memory budget; ordinary
+            # chat and arbitrary repeated history keep their existing limit.
+            if (mode in ('auto','chat') and isinstance(messages,list) and messages and len(messages)<=MAX_MESSAGES
+                    and all(isinstance(m,dict) and m.get('role') in ('user','assistant','system') and isinstance(m.get('content'),str) for m in messages)
+                    and messages[-1]['role']=='user' and sum(len(m['content']) for m in messages)<=2000000
+                    and type(n) is int and 1<=n<=8 and (seed is None or type(seed) is int and 0<=seed<2**31)):
+                from .chat_core import reply as chat_core_reply
+                core=chat_core_reply(messages)
+                if core is not None:
+                    from .emotional_chat import enforce as enforce_preferences
+                    return enforce_preferences(messages,core)
+                from .conversation_skills import reply as conversation_skill_reply
+                skill=conversation_skill_reply(messages)
+                if skill is not None:
+                    from .emotional_chat import enforce as enforce_preferences
+                    return enforce_preferences(messages,skill)
+                from .interval_dialogue import reply as interval_reply
+                interval=interval_reply(messages)
+                if interval is not None:return interval
+                from .temporal_reasoning import reply as temporal_reply
+                temporal=temporal_reply(messages)
+                if temporal is not None:return temporal
+                from .conversation_ledger import reply as ledger_reply
+                ledger=ledger_reply(messages)
+                if ledger is not None:
+                    from .emotional_chat import enforce as enforce_preferences
+                    return enforce_preferences(messages,ledger)
+                from .grounded_chat import reply as grounded_chat_reply
+                grounded=grounded_chat_reply(messages)
+                if grounded is not None:
+                    from .emotional_chat import enforce as enforce_preferences
+                    return enforce_preferences(messages,grounded)
+                from .natural_tasks import reply as natural_task_reply
+                natural=natural_task_reply(messages)
+                if natural is not None:return natural
+                from .problem_dialogue import reply as problem_reply
+                problem=problem_reply(messages)
+                if problem is not None:return problem
+                from .structured_input import reply as typed_reply
+                typed=typed_reply(messages)
+                if typed is not None:return typed
             # Questions about CAEL itself ("What's is CAEL?", "who are you?") get CAEL's own description before any
             # spelling repair, fact route or web lookup can read "CAEL" as someone else (self_identity.py, 0.3.8 fix).
             from . import self_identity
-            answer = self_identity.reply(messages) if mode in ('auto', 'chat') else None
+            valid_request = (mode in ('auto', 'chat') and isinstance(messages, list)
+                    and messages and len(messages) <= MAX_MESSAGES
+                    and all(isinstance(m, dict) and m.get('role') in ('user', 'assistant', 'system')
+                            and isinstance(m.get('content'), str) for m in messages)
+                    and messages[-1]['role'] == 'user'
+                    and sum(len(m['content']) for m in messages) <= MAX_CHARACTERS
+                    and type(n) is int and 1 <= n <= 8
+                    and (seed is None or type(seed) is int and 0 <= seed < 2**31))
+            answer = self_identity.reply(messages) if valid_request else None
+            if answer is None and valid_request:
+                from .self_features import task_request as feature_task
+                feature_request=feature_task(messages)
+                if feature_request is not None:
+                    expanded=messages[:-1]+[dict(messages[-1],content=feature_request['text'])]
+                    answer=self._respond_request(expanded,n=n,seed=seed,mode='prompt')
+                    answer=dict(answer,understood_as=feature_request['text'],
+                        capability_context=dict(feature='prompt',brief=feature_request['brief'],
+                                                example=feature_request['example'],actual_generator_called=True))
+                # A complete social act is not an editing request, public news
+                # search or a merely similar corpus question.
+                from .social_chat import opening as social_opening
+                if answer is None:
+                    answer = social_opening(messages, seed)
+                if answer is None:
+                    from .structured_input import reply as structured_reply
+                    answer = structured_reply(messages)
+                if answer is None:
+                    from .reasoning_chat import quantity_explanation
+                    answer = quantity_explanation(messages)
             if (answer is None and mode in ('auto', 'chat') and isinstance(messages, list)
                     and messages and len(messages)<=MAX_MESSAGES
                     and all(isinstance(m,dict) and m.get('role') in ('user','assistant','system')
@@ -207,6 +350,17 @@ class Assistant:
                 answer=dialogue_reply(messages,lambda history:self._respond_request(history,n=n,seed=seed,mode=mode))
             if answer is None:
                 answer = self._respond_request(messages, n=n, seed=seed, mode=mode)
+        if (mode == 'chat' and isinstance(messages, list) and messages and isinstance(answer, dict)
+                and (unanswered(answer) or re.search(r"(?i)^(?:i could not verify|i want to keep this connected|i need the problem and its rules|"
+                                                      r"i have not interpreted|i'?m following:|oh, i see\. tell me more|got it\. tell me more|unknown\s*$)",
+                                                      str(answer.get('response', '')).strip()))):
+            from .chat_core import fallback as core_fallback
+            try:
+                better = core_fallback(messages)
+            except Exception:
+                better = None
+            if better is not None:
+                answer = dict(better, replaced_route=answer.get('route'))
         if mode in ('auto', 'chat') and isinstance(messages, list):
             # A stated "no questions" request holds on every conversational route (emotional_chat.enforce, 0.3.8).
             from . import emotional_chat

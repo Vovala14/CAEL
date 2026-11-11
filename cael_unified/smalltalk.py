@@ -164,18 +164,10 @@ def learning_hint(verb, topic):
 
 
 def user_name(messages):
-    from .session_profile import Profile
-    preferred = Profile.read(messages).values('preferred name')
-    if len(preferred) == 1:
-        return preferred[0][0]
-    """The most recent name the user gave in this conversation, if any."""
-    for message in reversed(messages):
-        if message.get('role') != 'user':
-            continue
-        match = re.search(r"(?i)\b(?:my name is|call me|i am called|my name's)\s+([A-Za-z][A-Za-z'-]{1,30})", message['content'])
-        if match and match[1].lower() not in ('not', 'a', 'the'):
-            return match[1][:1].upper() + match[1][1:]
-    return None
+    """Share literal source-grounded identity with introductions and recall."""
+    from .grounded_chat import identity
+    names,preferred,_=identity(messages)
+    return preferred[0] if preferred else names[0][0] if len(names)==1 else None
 
 
 def last_bot(messages):

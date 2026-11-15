@@ -1,0 +1,6 @@
+CAEL 0.4.1: chat, helper, emoji and small pictures. Type quit to exit.
+You: How's your week going?
+If you are feeling battered, something is wrong. I would overeat slightly, focusing on quality food at 10am and 3pm. Avoid the usual: trans fats and refined sugars. Make sure you have enough salt (yup, salt), magnesium and healthy fatty acids in your diet. Also make sure you are getting enough sleep. Forego all steady-state aerobic work, though you may want to do a lighter version of your normal lifting routine during your week off. If your significant other or boss are giving you a hard time, I would do my best to avoid them too during your recovery time.
+You: My train leaves at 08:50 and the trip takes 2 hours 35 minutes. When do I arrive?
+You arrive at **11:25** (08:50 + 2 h 35 min).
+You: quit

@@ -132,8 +132,8 @@ training. See [PROTOCOL.md](PROTOCOL.md) and [MODEL_CARD.md](MODEL_CARD.md).
 The family is **CAEL**; this first variant is **CAEL Story 0.1.0**. Future variants
 must report their scope and architecture separately.
 
-Code and model are available for **personal and non-commercial research use**
-under the preserved [license](LICENSE). This is not an OSI open-source license.
+Code and model are **source-available, non-commercial**: personal and research use
+under the preserved [license](LICENSE). It is not an OSI-approved licence.
 See [NOTICE.md](NOTICE.md) for provenance and required attribution to
 [MICA Ember / MICA Flame by Vovala14](https://github.com/Vovala14/Mica-Ai).
 

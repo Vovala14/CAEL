@@ -242,6 +242,29 @@ def joke(text, history_text):
     return GENERIC_JOKES[0]
 
 
+# Need-tokens written as clipped stems ("stud" for study/student), not whole words.
+_CLIPPED = {'motivat', 'procrastinat', 'stud', 'revis', 'hydrat', 'concentrat', 'apolog'}
+_ENDINGS = {
+    's', 'es', 'ed', 'd', 'ing', 'er', 'ers', 'est', 'ion', 'ions', 'y', 'ies', 'ly', 'e', 'al',
+    'ation', 'ations', 'ize', 'ise', 'ised', 'ized', 'ment', 'ments', 'ness', 'ent', 'ents', 'ive', 'en', 'or', 'ors',
+}
+
+
+def covers(word, need):
+    """True when `word` is `need` or an inflection of it.
+
+    A clipped stem may continue into the full word ("student" meets "stud"). A whole word may not
+    swallow a longer different word ("plane" is not "planet", "sea" is not "season").
+    """
+    if word == need:
+        return True
+    if len(need) < 3 or not word.startswith(need):
+        return False
+    if need in _CLIPPED:
+        return True
+    return word[len(need):] in _ENDINGS
+
+
 def about(text, e):
     """The stored answer must be about the things the person named: its text has to mention their rarest noun and
     at least half of their nouns ("water a cactus" is not the drinking-water entry, "cold brew" is not the cold one)."""
@@ -249,7 +272,7 @@ def about(text, e):
     if open_chat.db() is None:
         return True
     s = stems(text)
-    matched = {n for g in e['need'] for n in g if any(w.startswith(n) for w in s)} | (e['keys'] & s)
+    matched = {n for g in e['need'] for n in g if any(covers(w, n) for w in s)} | (e['keys'] & s)
     matched = {m for m in matched if not any(o != m and o.startswith(m) for o in matched)}
     if len(matched) >= 2:
         return True          # two of the entry's own words: the person is asking about this topic
@@ -273,7 +296,7 @@ def best(text, prev=None):
     low = text.lower()
     scored = []
     for i, e in enumerate(E):
-        if all(any(any(w.startswith(n) for w in s) for n in group) for group in e['need']) and about(text, e):
+        if all(any(covers(w, n) for w in s for n in group) for group in e['need']) and about(text, e):
             score = len(e['keys'] & s) + 2 * len(e['need'])
             scored.append((score, -i, e))
     if not scored:
@@ -297,7 +320,7 @@ def reply(messages):
             e = best(t)
             if e:
                 for need, ans in e['follow']:
-                    if any(any(w.startswith(n) for w in s) for n in need[0].split('|')):
+                    if any(covers(w, n) for w in s for n in need[0].split('|')):
                         return ans
                 break
     e = best(last)

@@ -293,6 +293,13 @@ def pronoun_recall(messages):
         return None
     asked = [w for w in words(q) if weight(w) > 4.5]
     if not asked:
+        # Without the open-chat IDF table, weight() falls back to 3 or 4, so this gate never opens and
+        # "What role is it for?" cannot be answered from the user's own sentence. One concrete word that
+        # is not already a category slot ("time", "job") is still the question's content.
+        concrete = [w for w in words(q) if len(w) >= 4 and w not in CATEGORY]
+        if len(concrete) == 1:
+            asked = concrete
+    if not asked:
         return None
     for i, s in reversed(statements(messages)):
         have = {stem(w) for w in words(s)}
@@ -476,8 +483,10 @@ def wiki_page(name, kind=None):
     """(title, short description, lead) of the Wikipedia article for a name, preferring one whose description fits the
     kind ("film", "novel", "city"...). None when offline or nothing fits."""
     import os
-    if os.environ.get('CAEL_WEB_SEARCH', '1') == '0':
-        return None             # web lookups switched off (benchmarks)
+    from . import network
+    # Benchmarks set CAEL_WEB_SEARCH=0 so the real provider is never called. An injected stub is not the web.
+    if os.environ.get('CAEL_WEB_SEARCH', '1') == '0' and isinstance(network.NETWORK, network.Network):
+        return None
     key = (name.lower(), kind)
     if key in _PAGES:
         return _PAGES[key]
@@ -565,7 +574,10 @@ def statement_reply(messages):
         title = m[2]
         page = wiki_page(title, kind)
         if page:
-            out.append(f"Oh, {title}: {('the ' if re.match(r'(?:19|20)\d\d', page[1]) else '') + page[1][0].lower() + page[1][1:]}, right?")
+            # The year pattern stays outside the f-string: an f-string expression cannot contain a backslash on Python 3.11.
+            year = re.match(r'(?:19|20)\d\d', page[1])
+            desc = ('the ' if year else '') + page[1][0].lower() + page[1][1:]
+            out.append(f"Oh, {title}: {desc}, right?")
         else:
             out.append(f"Oh, {title}!")
         out.append('What did you think of it?' if verb in ('watched', 'saw', 'seen', 'read', 'played') or 'finished' in low or 'just' in low

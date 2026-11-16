@@ -360,7 +360,8 @@ def time_reply(messages):
         changed = [n for n in order if n != name and before[n][0] != after[n][0]]
         if changed:
             n = changed[-1]
-            return out('time', f'Yes. Under your rule the {n} {'come' if n.endswith('s') else 'comes'} a fixed time after the {name} ends, so a {extra[name]}-minute longer {name} '
+            verb = 'come' if n.endswith('s') else 'comes'
+            return out('time', f'Yes. Under your rule the {n} {verb} a fixed time after the {name} ends, so a {extra[name]}-minute longer {name} '
                        f'(ending at {show(after[name][1])} instead of {show(before[name][1])}) moves the {n} from {show(before[n][0])} to **{show(after[n][0])}**.')
         return out('time', f'No. The {target} is tied to the {name}\'s start, not its end, so a longer {name} does not move it: it stays at {show(before[target][0])}.')
     name = next((e for e in events if same_event(e, ev_name(re.sub(r'^(?:suppose|if|what if|say)\s+', '', m2[1])))), None)
@@ -1346,11 +1347,22 @@ SKILLS = [availability_reply, time_reply, quantity_reply, order_reply, logic_rep
           writing_reply, talk_reply, explain_reply, knowledge_reply, open_reply, feelings_reply, casual_reply, news_reply, statement_ack]
 
 
+def _owned_elsewhere(text):
+    """A multiple-choice question or a constant-rate problem already has its own route."""
+    if re.search(r'(?m)^\s*[A-D][.)]\s', text):
+        return True
+    labels = [m.group(1) for m in re.finditer(r'(?<![\w])([A-D])[.)]\s+\S', text)]
+    if 2 <= len(labels) <= 4 and labels == list('ABCD'[:len(labels)]):
+        return True
+    # helper_rates.RATE_CUE. "How far does Nori travel?" is a rates clarification, not travel advice.
+    return bool(re.search(r'(?i)\bat\s+(?:an?\s+)?(?:(?:constant|average|variable|changing)\s+)?(?:rate|speed)\s+of\b', text))
+
+
 def reply(messages):
     if not isinstance(messages, list) or not messages or messages[-1].get('role') != 'user':
         return None
     last = messages[-1].get('content', '')
-    if not isinstance(last, str) or len(last) > 2000 or '```' in last or re.search(r'(?m)^\s*[A-D][.)]\s', last):
+    if not isinstance(last, str) or len(last) > 2000 or '```' in last or _owned_elsewhere(last):
         return None
     for skill in SKILLS:
         try:

@@ -26,7 +26,8 @@ def engines(root):
     if existing and Path(existing.__file__).resolve().parent!=root/'cael_unified':raise ValueError('A different CAEL runtime is already imported.')
     sys.path.insert(0,str(root))
     package=importlib.import_module('cael_unified')
-    if package.__version__!='0.4.0':raise ValueError('This prototype targets CAEL 0.4.0.')
+    # 0.4.1 keeps the same reasoning engines this bridge calls. An external 0.4.0 checkout still loads.
+    if package.__version__ not in {'0.4.0','0.4.1'}:raise ValueError('This prototype targets CAEL 0.4.0 or 0.4.1.')
     world=importlib.import_module('cael_unified.reasoning_world')
     logic=importlib.import_module('cael_unified.reasoning_logic')
     path=root/'models/cael-reasoning-v1/model.json'

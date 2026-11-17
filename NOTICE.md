@@ -2,7 +2,7 @@
 
 CAEL (Cellular Automaton Event Language) is a separate model family owned by Vovala14. Version0.1 derives from the locally preserved constrained symbolic event-CA experiment of2026-10-13. It is not the native MICA architecture or a MICA foundation-model release.
 
-The original experiment is retained unchanged outside this repository. Earlier CAEL releases (up to 0.2.9 / 0.3) carried that experiment's licence text verbatim, which named MICA Ember / MICA Flame. CAEL and MICA have the same copyright holder (Vovala14), who now licenses CAEL under its own CAEL Non-Commercial License (LICENSE): free for personal and research use, with commercial use reserved to the copyright holder. CAEL is a separate model family and contains no MICA code, weights or outputs. CAEL is not released under an OSI open-source license.
+The original experiment is retained unchanged outside this repository. Earlier CAEL releases (up to 0.2.9 / 0.3) carried that experiment's licence text verbatim, which named MICA Ember / MICA Flame. CAEL and MICA have the same copyright holder (Vovala14), who now licenses CAEL under its own CAEL Non-Commercial License (LICENSE): free for personal and research use, with commercial use reserved to the copyright holder. CAEL is a separate model family and contains no MICA code, weights or outputs. CAEL is source-available, non-commercial software. It is not released under an OSI-approved licence.
 
 ## Commercial-use policy for third-party material
 

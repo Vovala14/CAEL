@@ -409,6 +409,9 @@ def times(messages):
     if dur is None:
         return None
     ask = sentences(q)[-1]
+    if later and re.match(r'(?i)\s*(?:and |so |but |ok,? |now )?(?:what if|what about|how about|if|suppose)\b', ask) and not re.search(
+            r'(?i)\b(?:when|what time|arrival|arrive|get there|get in|finish|end|done|over|land)\b', ask):
+        ask = sentences(base)[-1]       # "What if it leaves 20 minutes later?": the earlier question still stands
     if not re.search(r'(?i)\b(?:when|what time|arrival|arrive|get there|get in|finish|end|done|over|land)\b', ask):
         return None
     delay, notes = 0, []
@@ -418,10 +421,10 @@ def times(messages):
             if not re.search(r'(?i)\bwhen\b|\bwhat time\b|\barrival\b', t):
                 return None
             continue
-        if re.search(r'(?i)\b(?:delayed|late|later|delay|behind)\b', t):
+        if re.search(r'(?i)\b(?:delayed|late|later|delay|behind|pushed back|put back|moved back|postponed|held up|set back)\b', t):
             delay += d
             notes.append(f'+ {d} min delay')
-        elif re.search(r'(?i)\b(?:early|earlier|ahead)\b', t):
+        elif re.search(r'(?i)\b(?:early|earlier|ahead|brought forward|moved up|moved forward|sooner)\b', t):
             delay -= d
             notes.append(f'− {d} min early')
         elif re.search(r'(?i)\b(?:instead|takes|actually|only)\b', t):
@@ -438,6 +441,9 @@ def times(messages):
     first = t0 + dur
     if delay:
         word = 'delay' if delay > 0 else 'earlier start'
+        if re.search(r'(?i)\b(?:finish|end|over|done)\b', ask):
+            return answer('time', f"With the {abs(delay)}-minute {word}, it starts at {show(t0 + delay, twelve)} and finishes at "
+                                  f"**{show(end, twelve)}** ({show(first, twelve)} {'+' if delay > 0 else '−'} {abs(delay)} min).", 'delay')
         return answer('time', f"With the {abs(delay)}-minute {word}, the new arrival time is **{show(end, twelve)}** "
                               f"({show(first, twelve)} {'+' if delay > 0 else '−'} {abs(delay)} min).", 'delay')
     return answer('time', f"Then you arrive at **{show(end, twelve)}** ({show(t0, twelve)} + {trip.strip()}).", 'arrival')

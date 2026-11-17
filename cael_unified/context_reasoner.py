@@ -839,6 +839,22 @@ def say(value):
     return value[1] if isinstance(value, tuple) else str(value)
 
 
+DAY_RE = re.compile(r'\b(?:on |this |next |last )?(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday|tomorrow|today|tonight)\b', re.I)
+
+
+def with_day(value, clause, q):
+    """'6 pm' -> 'Thursday at 6 pm' when 'when' is asked and the clause names the day."""
+    text = str(value)
+    if not clause or not re.match(r'(?i)\s*when\b', q.low) or DAY_RE.search(text) or not TIME_RE.search(text):
+        return text
+    day = DAY_RE.search(getattr(clause, 'text', '') or '')
+    if not day:
+        return text
+    d = re.sub(r'(?i)^on ', '', day[0].strip())
+    d = d[0].upper() + d[1:] if not d.lower().startswith(('this', 'next', 'last', 'tomorrow', 'today', 'tonight')) else d
+    return f'{d} at {text}'
+
+
 def decide(ctx, q, scored):
     """Pick the answer across matching clauses: latest change/correction wins, plain disagreement is a conflict."""
     if not scored:
@@ -867,8 +883,10 @@ def decide(ctx, q, scored):
     last = distinct[-1]
     marked = {'change', 'correct'} & last[1].flags or any('past' in d[1].flags or d[1].negated for d in distinct[:-1])
     sources = {d[1].source for d in distinct if d[1].source}
-    if marked and not sources:
-        return dict(value=last[2], clause=last[1], score=top, history=[d[2] for d in distinct[:-1]])
+    # an update passed on by someone ("They just emailed to say it's now on Thursday") replaces what was said before, as long
+    # as no earlier report disagrees with it
+    if marked and (not sources or (last[1].source and not any(d[1].source for d in distinct[:-1]))):
+        return dict(value=last[2], clause=last[1], score=top, history=[d[2] for d in distinct[:-1]], history_clauses=[d[1] for d in distinct[:-1]])
     # only clauses with the subject itself compete; facts about others are not a conflict
     if q.subjects and len({d[1].subject for d in distinct if d[1].subject not in (None, 'user') and not d[1].subject.startswith('the ')}) > 1 \
             and not sources:
@@ -1552,6 +1570,11 @@ def answer(messages):
     history = messages[:-1]
     if sum(1 for m in history if m.get('role') == 'user') < 2:
         return None
+    asked = messages[-1]['content']
+    if re.match(r"(?i)\s*(?:and |so |ok,? )?(?:how (?:often|long|much|many|soon) (?:should|do|can|would) (?:i|we)|should (?:i|we)|how (?:do|can|should|would) (?:i|we)|"
+                r"what (?:should|can|could) (?:i|we)|can (?:i|we)|is it (?:ok|okay|safe|worth))\b", asked) and \
+            not re.search(r"(?i)\b(?:did|have|had) (?:i|we) (?:say|said|tell|told|mention)|\bremind me\b|\bi (?:said|told you|mentioned)\b", asked):
+        return None                                  # "How often should I sharpen them?" asks for advice, not for what was said
     ctx = Context(history)
     q = Question(ctx, messages[-1]['content'])
     if not q.wh or q.stranger:
@@ -1588,6 +1611,9 @@ def answer(messages):
     if decision:
         value = say(decision['value'])
         updated = bool(decision.get('history'))
+        value = with_day(value, decision.get('clause'), q)
+        if decision.get('history'):
+            decision['history'] = [with_day(say(h), c, q) for h, c in zip(decision['history'], decision.get('history_clauses') or [None] * len(decision['history']))]
         text = value[0].upper() + value[1:] if q.expect in ('thing',) else value
         note = ''
         if decision.get('history'):

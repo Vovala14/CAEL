@@ -1123,6 +1123,9 @@ def reply(messages):
         general = context_reasoner.answer(messages)
         if general and (general.get('operation') or general.get('conflict')):
             return general                             # an answer combined from several statements beats a single-fact match
+    moved = moved_booking(history, question)
+    if moved:
+        return moved
     reader = read_history(history)
     if reader.store.data or reader.store.plan:
         for handler in (plan_answer, money_answer, relation_answer, name_answer, colour_answer, trip_answer, visit_answer,
@@ -1133,6 +1136,38 @@ def reply(messages):
                     return general                     # never-answered topic, or a change the older handlers do not track
                 return answer(result)
     return general
+
+
+WHEN = (r"(?:on |this |next )?(?:mon|tues|wednes|thurs|fri|satur|sun)day(?: (?:morning|afternoon|evening))?(?: at \d{1,2}(?::\d{2})?\s*(?:am|pm)?)?|"
+        r"(?:tomorrow|today|tonight)(?: at \d{1,2}(?::\d{2})?\s*(?:am|pm)?)?|at \d{1,2}(?::\d{2})?\s*(?:am|pm)")
+MOVED = r"\b(?:instead|rescheduled|moved (?:it )?to|changed (?:it )?to|postponed (?:it )?(?:to|until)|brought (?:it )?forward to)\b"
+
+
+def moved_booking(history, question):
+    """'The plumber is booked for Monday at 9 am.' ... 'She just texted to say she'll come on Wednesday at 2 pm instead.'
+    'When is the plumber coming?' -> Wednesday at 2 pm, with the old time. The later turn names the person only by a
+    pronoun, so the change belongs to the most recent booking told before it whose subject the question names."""
+    if not re.match(r"(?i)\s*(?:so |and |ok,? )?(?:when|what (?:day|time))\b", question):
+        return None
+    users = [m.get('content') or '' for m in history if m.get('role') == 'user']
+    for k in range(len(users) - 1, 0, -1):
+        new = users[k]
+        if not re.search(MOVED, new, re.I) or not re.search(WHEN, new, re.I):
+            continue
+        for old in reversed(users[:k]):
+            when_old = re.search(WHEN, old, re.I)
+            subj = re.match(r"(?i)\s*(?:the|my|our)\s+([a-z]+(?: [a-z]+)?)\s+(?:is|are|'s)\b", old)
+            if not when_old or not subj:
+                continue
+            who = subj[1].lower()
+            if who.split()[-1] not in question.lower():
+                continue
+            when_new = re.search(WHEN, new, re.I)
+            say = lambda m: re.sub(r'(?i)^(?:on |this |next )', '', m[0]).strip()
+            text = f"The {who} is now coming {('on ' if re.match(r'(?i)(?:mon|tues|wednes|thurs|fri|satur|sun)', say(when_new)) else '')}{say(when_new)}. (Before that: {say(when_old)}.)"
+            return dict(response=text, route='chat/context-memory', sources=[], details=DETAILS + ' (a booking moved in a later turn)')
+        break
+    return None
 
 
 def plan_answer(reader, q):

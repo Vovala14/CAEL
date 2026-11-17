@@ -162,6 +162,9 @@ def emotions(text):
             if re.search(r"\b(?:not|never|no longer|hardly)\b", before):
                 continue
             word = match[1].lower()
+            if word == 'down' and re.search(r"(?i)\b(?:let|letting|lets|put|putting|calm|calmed|settle|settled|slow|slowed|sit|sat|lie|lay|write|wrote|break|broke|turn|turned)\s+(?:\w+\s+)?$",
+                                            predicate[:match.start()]):
+                continue                # "I've let him down", "calm down": not a feeling
             if word not in [w for w, _ in results]:
                 results.append((word, WORDS[word]))
     return results[:4]

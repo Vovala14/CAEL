@@ -389,7 +389,7 @@ def reply(text, messages=(), seed=0):
         return out(rng.choice(BORED_IDEAS), 'bored')
     m = OTHERS_NEWS.search(text)
     if m:
-        return out(f"That's wonderful news for your {m[1].lower()}! Please pass on my congratulations. Are you excited too?", 'good-news')
+        return out(f"That's wonderful news for your {re.sub(r' (?:just|recently|finally|has|have)$', '', m[1].lower())}! Please pass on my congratulations. Are you excited too?", 'good-news')
     answer = context_reply(text, list(messages), seed) if messages else None
     if answer:
         return answer

@@ -60,12 +60,18 @@ def stem(word):
 
 @lru_cache(maxsize=1)
 def total_docs():
-    return db().execute('SELECT count(*) FROM doc').fetchone()[0]
+    con = db()
+    return con.execute('SELECT count(*) FROM doc').fetchone()[0] if con is not None else 0
 
 
 @lru_cache(maxsize=50000)
 def idf(term):
-    row = db().execute('SELECT doc FROM vocab WHERE term = ?', (term,)).fetchone()
+    """How informative a word is in the open-chat index; 0 (unknown) when the optional index is not installed, so every
+    caller falls back to its own default weight."""
+    con = db()
+    if con is None:
+        return 0.0
+    row = con.execute('SELECT doc FROM vocab WHERE term = ?', (term,)).fetchone()
     n = row[0] if row else 0
     return math.log((total_docs() + 1) / (n + 1)) if n else 0.0
 
@@ -234,12 +240,16 @@ def qtype(text):
 
 @lru_cache(maxsize=1)
 def site_sizes():
-    return dict(db().execute('SELECT site, n FROM sitesize').fetchall())
+    con = db()
+    return dict(con.execute('SELECT site, n FROM sitesize').fetchall()) if con is not None else {}
 
 
 def site_probs(weighted):
-    """Naive Bayes over title words: which site (or general chat) a question most likely belongs to. Flat prior."""
+    """Naive Bayes over title words: which site (or general chat) a question most likely belongs to. Flat prior.
+    Empty without the optional index (every caller treats that as 'no site preference')."""
     sizes = site_sizes()
+    if not sizes:
+        return {}
     logp = {site: 0.0 for site in sizes}
     for term, w in weighted.items():
         counts = dict(db().execute('SELECT site, n FROM siteterm WHERE term = ?', (term,)).fetchall())

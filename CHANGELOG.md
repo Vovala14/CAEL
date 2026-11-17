@@ -1,3 +1,7 @@
+# CAEL 0.4.2: conversation team, fielded retrieval and the Supporter
+
+Adds a fielded retrieval index (BM25F over title, tags, body and answer, a whole-conversation query with learned word associations and a British/American lexicon, and a confidence gate), conversation coherence that keeps follow-up answers on the user's thing, the Supporter for emotional conversations over several turns, story plots with real rewrites, shares and full-price discounts in the calculator, one-turn recipe scaling, moved bookings, and thank-you notes. Removes the unused chat_v6_7 engine and ten unloaded modules; CAEL now runs without the optional open-chat index. Sealed 20-conversation comparison against Gemma 3 270M IT: CAEL 12 wins, 7 losses, 1 tie (self-judged, not blind). Details: RELEASE_0_4_2.md.
+
 # CAEL 0.4.1: conversation skills, chat memory and checked web answers
 
 Adds exact conversation skills (quantities, rates, clock times, syllogisms, schedules, changed values, notes), chat memory over the conversation, and web answers that require a second independent source, on top of the unchanged 0.4.0 core engines and 0.3.7 resource bundle. Self-judged blind round against Qwen3.5-0.8B: CAEL about 796 Elo (Qwen 1000), 3 wins, 14 losses, 3 ties. Details: RELEASE_0_4_1.md.

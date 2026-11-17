@@ -1,5 +1,5 @@
-"""CAEL 0.4.1: non-neural core engines with checked conversation skills, chat memory and web answers."""
-__version__ = '0.4.1'
+"""CAEL 0.4.2: non-neural conversation team with fielded retrieval, conversation coherence and the Supporter."""
+__version__ = '0.4.2'
 
 
 def __getattr__(name):

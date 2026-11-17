@@ -20,6 +20,12 @@ HOSTS = frozenset({'en.wikipedia.org', 'www.wikidata.org', 'commons.wikimedia.or
 HOSTS = HOSTS | {'dl.fbaipublicfiles.com', 'datasets-server.huggingface.co', 's3.amazonaws.com'}
 # Wikimedia sister projects (same CC BY-SA 4.0 terms as Wikipedia), read by web_check.py to answer and cross-check.
 HOSTS = HOSTS | {'simple.wikipedia.org', 'en.wikibooks.org', 'en.wikivoyage.org'}
+# Stack Exchange's documented public API (content CC BY-SA, attribution given), read by stack_source.py for how-to answers.
+HOSTS = HOSTS | {'api.stackexchange.com'}
+# Seconds between two requests to one host, for all callers together. One second by default. The Wikimedia sites take
+# 0.25 s so that several task agents (meesix.py) can finish their cross-checks side by side; requests to one host
+# still go out one at a time, never in parallel.
+SPACING = {host: 0.25 for host in ('en.wikipedia.org', 'simple.wikipedia.org', 'en.wikibooks.org', 'en.wikivoyage.org', 'www.wikidata.org')}
 REPOSITORIES = ('/hfg-gmuend/openmoji/', '/jdecked/twemoji/',
                 '/EmojiTwo/emojitwo/', '/microsoft/fluentui-emoji/',
                 '/hermitdave/FrequencyWords/', '/asaparov/prontoqa/', '/google/BIG-bench/')
@@ -139,7 +145,7 @@ class Network:
                 self.blocked_until[host] = time.time() + 3
                 raise LookupUnavailable('Could not connect to the provider securely') from error
             finally:
-                self.next_request[host] = time.time() + 1
+                self.next_request[host] = time.time() + SPACING.get(host, 1)
             with self.lock:
                 old = self.cache.pop(url, None)
                 self.cache_bytes -= len(old.body) if old else 0

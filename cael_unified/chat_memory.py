@@ -250,8 +250,13 @@ def situation_recall(messages):
         rare = any(w in have and v >= 7 for w, v in asked.items())       # "anniversary", "night shifts"
         mine = re.search(r"(?i)\b(?:i|my|me|we|our)\b", last)
         if (share >= 0.6 or (share >= 0.5 and (rare or hits)) or (hits and mine and share >= 0.15)) and (best is None or share > best[0]):
-            best = (share, s)
+            best = (share, s, i)
     if not best:
+        return None
+    # a later turn changed it ("She just texted to say she'll come on Thursday at 4 pm instead"): the context reasoner
+    # keeps the latest value, so the first statement must not be read back
+    UPDATE = r"(?i)\b(?:instead|rescheduled|moved (?:it|to)|changed (?:it|to)|now (?:on|at|is)|actually|no longer|cancelled|postponed|brought forward)\b"
+    if any(j > best[2] and re.search(UPDATE, s) for j, s in statements(messages)):
         return None
     return reply('You said ' + turned(best[1]) + '.', 'situation')
 
@@ -291,6 +296,8 @@ def pronoun_recall(messages):
     q = user_messages(messages)[-1][1]
     if '?' not in q or not re.search(r"(?i)\b(?:it|this|that|they|them|she|he)\b", q) or len(q.split()) > 10:
         return None
+    if not re.match(r"(?i)\s*(?:and |so )?(?:what|which|who|where|when)\b", q) or re.search(r"(?i)\b(?:should|could|can|would|how)\b", q):
+        return None                     # "How often should I sharpen them?" asks for advice, not for the user's own words
     asked = [w for w in words(q) if weight(w) > 4.5]
     if not asked:
         # Without the open-chat IDF table, weight() falls back to 3 or 4, so this gate never opens and
@@ -716,6 +723,13 @@ def from_conversation(messages, result):
         q = user_messages(messages)[-1][1]
         if re.search(r"(?i)\b(?:if|instead|would|longer|shorter|later|earlier|then|after|before)\b|\d", q):
             return result        # a what-if or a calculation belongs to the reasoning routes
+        if '?' in q and any(re.search(r"(?i)\b(?:instead|rescheduled|moved (?:it|to)|changed (?:it|to)|postponed|brought forward)\b", s)
+                            for _, s in statements(messages)):
+            # something the user told was changed later: the context reasoner keeps the latest value and the one before
+            from . import context_reasoner
+            latest = context_reasoner.answer(messages)
+            if latest and str(latest.get('response', '')).strip():
+                return dict(latest, replaced_route=result.get('route'))
         found = situation_recall(messages)
     except Exception:
         return result

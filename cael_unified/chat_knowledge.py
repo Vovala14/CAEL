@@ -291,12 +291,19 @@ def about(text, e):
     return covered >= 0.45 * sum(n[0] for n in nouns)
 
 
-def best(text, prev=None):
+def starts(w, n):
+    """A word that is the needed stem or an inflection of it ("planes", "flying"), not another word ("planet" for "plane")."""
+    return w == n or (w.startswith(n) and (len(n) >= 6 or w[len(n):] in ('s', 'es', 'ed', 'd', 'ing', 'er', 'ers', 'r', 'y', 'ies', 'ly', 'e', 'ion', 'ions')))
+
+
+def best(text, prev=None, context=''):
+    from .applicability import conflict
     s = stems(text)
     low = text.lower()
     scored = []
     for i, e in enumerate(E):
-        if all(any(covers(w, n) for w in s for n in group) for group in e['need']) and about(text, e):
+        if all(any(covers(w, n) for w in s for n in group) for group in e['need']) and about(text, e) \
+                and not conflict(context + ' ' + text, e['answer']):
             score = len(e['keys'] & s) + 2 * len(e['need'])
             scored.append((score, -i, e))
     if not scored:
@@ -323,9 +330,9 @@ def reply(messages):
                     if any(covers(w, n) for w in s for n in need[0].split('|')):
                         return ans
                 break
-    e = best(last)
+    e = best(last, context=' '.join(turns[-6:-1]))
     asked = '?' in last or re.search(r'\b(?:suggest|tip|tips|advice|help|explain|tell me|show me|teach me|how do i|how to)\b', last, re.I)
-    if e and (asked or (e['chat'] and len(last.split()) <= 40)):
+    if e and (asked or (e['chat'] and len(last.split()) <= 40 and not re.match(r'(?i)\s*(?:yes|no)\b', e['answer']))):
         return e['answer']
     return None
 

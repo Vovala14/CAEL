@@ -105,7 +105,8 @@ def run():
     # 6. Two pages from one publisher do not confirm each other.
     stub_web(['https://www.catvet.example/purr', 'https://www.catvet.example/purr-2'])
     r = web_check.improve(convo('Why do cats purr?'), DONT_KNOW)
-    assert r['route'] == 'chat/web-checked-none', r
+    # 0.4.2: the passage is given, but as one unconfirmed source and never as a checked answer.
+    assert r['route'] == 'chat/web-single' and 'one source only' in r['response'] and len(r['sources']) == 1, r
     # 7. A site that copied Wikipedia's sentence is not independent support (falls back to the main-article rule).
     stub_web(['https://copy.sample.net/rainbow'])
     r = web_check.improve(convo('How does a rainbow form?', 'Why is it curved?'), DONT_KNOW)

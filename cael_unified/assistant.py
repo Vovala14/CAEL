@@ -174,7 +174,7 @@ class Assistant:
                 self._language=CountLanguage(Path(selected).parent)
             return self._language.score_endings(context,endings)
 
-    def respond(self, messages, n=2, seed=None, mode='auto'):
+    def respond(self, messages, n=2, seed=None, mode='auto', _agents=True, _improve=None):
         # Validate before any fast path reads a message or loads an engine.
         if (not isinstance(messages, list) or not messages or
                 not all(isinstance(m, dict) and m.get('role') in ('user', 'assistant', 'system')
@@ -194,12 +194,25 @@ class Assistant:
             raise ValueError('Unknown assistant mode')
         if os.environ.get('CAEL_CHAT_LAYERS') == '0':          # A/B switch: the routes alone, without memory/web layers
             return self._respond_main(messages, n=n, seed=seed, mode=mode)
+        from . import meesix as _meesix
+        emoji_ask = re.search(r"(?i)^\s*(?:please\s+|can you\s+|could you\s+)?(?:make|draw|create|generate|design|give me|show me)\b[^?]{0,60}\bemojis?\b",
+                              messages[-1]['content'])
+        if mode in ('auto', 'chat') and _agents and os.environ.get('CAEL_MEESIX', '1') != '0' and not getattr(_meesix.INSIDE, 'plain', False) \
+                and not emoji_ask:      # "Make a pizza emoji" is for the emoji maker, not the chat team
+            # The Mr. Meesix agents as a team: Planner, Solver, Generalist (this pipeline), Researchers, Critic,
+            # Counsellor, Editor; one team per task in the message, at most six tasks at a time (team.py, meesix.py).
+            from . import team
+            return team.run(messages, self, n=n, seed=seed, mode=mode)
         if mode in ('auto', 'chat'):
             # Recall ("what's my cat's name?") and CAEL's own preferences are answered from the conversation itself.
-            from . import chat_memory
+            from . import chat_memory, chat_plus
+            # What-if follow-ups, shares, moved appointments, messages to write, hypotheticals put to CAEL (chat_plus.py).
+            plus = chat_plus.before(messages, self)
+            if plus is not None:
+                return plus
             remembered = chat_memory.before(messages)
             if remembered is not None:
-                return remembered
+                return chat_plus.after(messages, remembered)
             # Exact skills over the conversation: word problems, clock times with delays, syllogisms, schedules,
             # changed values, short notes and their rewrites, feelings and plans (chat_skills.py).
             from . import chat_skills
@@ -219,11 +232,21 @@ class Assistant:
                     return dict(skilled, replaced_route=route)
             answer = chat_memory.from_conversation(messages, answer)
             if not str(answer.get('route', '')).startswith('chat/memory-'):
-                answer = web_check.improve(messages, answer)
+                answer = (_improve or web_check.improve)(messages, answer)
             # Something the user told CAEL gets a reply built from what they said, not a generic one (chat_memory.py).
             answer = chat_memory.after(messages, answer)
             if str(answer.get('route', '')) == 'chat/memory-talk-noted':
                 answer = self._with_detail(messages, answer, n=n, seed=seed, mode=mode)
+            # Last pass: recall as a full sentence, a real reply to what the user told CAEL (chat_plus.py).
+            answer = chat_plus.after(messages, answer)
+            if _agents and re.search(r'recall-unknown|fallback$', str(answer.get('route', ''))):
+                # statements and the question about them in one message: answer the question with the statements as told
+                from . import meesix
+                told = meesix.unfold(messages)
+                if told:
+                    again = self.respond(told, n=n, seed=seed, mode=mode, _agents=False)
+                    if not re.search(r'unknown|fallback|clarify|checked-none', str(again.get('route', ''))):
+                        answer = dict(again, replaced_route=answer.get('route'))
         return answer
 
     def _with_detail(self, messages, noted, n=2, seed=None, mode='auto'):

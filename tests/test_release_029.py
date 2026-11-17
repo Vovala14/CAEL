@@ -12,8 +12,8 @@ def test_release_version_agrees():
     from cael_unified.bundle import ROOT
     configured = json.loads((ROOT / 'bundle_config.json').read_text(encoding='utf-8'))['version']
     # The source release and unchanged inherited asset bundle have distinct versions.
-    # 0.4.1 is code-only on top of the published 0.4.0 engines; the pinned asset bundle stays 0.3.7.
-    assert VERSION == __version__ == '0.4.1'
+    # 0.4.2 is code-only on top of the published 0.4.0 engines; the pinned asset bundle stays 0.3.7.
+    assert VERSION == __version__ == '0.4.2'
     assert VERSION != BUNDLE_VERSION
     assert configured == BUNDLE_VERSION and DEFAULT_BUNDLE.name == f'cael-{BUNDLE_VERSION}.cael'
 

@@ -68,13 +68,14 @@ def db():
 @lru_cache(maxsize=1)
 def meta():
     con = db()
-    m = dict(con.execute('SELECT k, v FROM meta').fetchall())
+    m = dict(con.execute('SELECT k, v FROM meta').fetchall()) if con is not None else {}
     return dict(n=float(m.get('docs', 284914)), avg=np.array([float(m.get(f'avg_{f}', 1)) for f in FIELDS]))
 
 
 @lru_cache(maxsize=100000)
 def sdf(s):
-    row = db().execute('SELECT title, tags, body, answer FROM sdf WHERE stem = ?', (s,)).fetchone()
+    con = db()                  # without the optional index every word is treated as rare (no statistics to say otherwise)
+    row = con.execute('SELECT title, tags, body, answer FROM sdf WHERE stem = ?', (s,)).fetchone() if con is not None else None
     return np.array(row if row else (0, 0, 0, 0), dtype=float)
 
 
@@ -89,7 +90,7 @@ def idf(s):
 def associates(word, kind='bt', limit=6):
     try:
         return tuple(db().execute('SELECT other, score FROM assoc WHERE word = ? AND kind = ? ORDER BY score DESC LIMIT ?', (word, kind, limit)).fetchall())
-    except sqlite3.OperationalError:
+    except (sqlite3.OperationalError, AttributeError):
         return ()
 
 
@@ -133,7 +134,7 @@ def other_forms(w):
 def title_phrase_count(phrase):
     try:
         return db().execute('SELECT count(*) FROM (SELECT rowid FROM f WHERE f MATCH ? LIMIT 6)', (f'title : "{phrase}"',)).fetchone()[0]
-    except sqlite3.OperationalError:
+    except (sqlite3.OperationalError, AttributeError):
         return 0
 
 

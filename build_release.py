@@ -7,7 +7,7 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parent
-VERSION = '0.4.1'
+VERSION = '0.4.2'
 BUNDLE_VERSION = '0.3.7'   # code-only release; the model bundle is unchanged
 
 

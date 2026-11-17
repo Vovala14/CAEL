@@ -195,7 +195,10 @@ class Assistant:
         if os.environ.get('CAEL_CHAT_LAYERS') == '0':          # A/B switch: the routes alone, without memory/web layers
             return self._respond_main(messages, n=n, seed=seed, mode=mode)
         from . import meesix as _meesix
-        if mode in ('auto', 'chat') and _agents and os.environ.get('CAEL_MEESIX', '1') != '0' and not getattr(_meesix.INSIDE, 'plain', False):
+        emoji_ask = re.search(r"(?i)^\s*(?:please\s+|can you\s+|could you\s+)?(?:make|draw|create|generate|design|give me|show me)\b[^?]{0,60}\bemojis?\b",
+                              messages[-1]['content'])
+        if mode in ('auto', 'chat') and _agents and os.environ.get('CAEL_MEESIX', '1') != '0' and not getattr(_meesix.INSIDE, 'plain', False) \
+                and not emoji_ask:      # "Make a pizza emoji" is for the emoji maker, not the chat team
             # The Mr. Meesix agents as a team: Planner, Solver, Generalist (this pipeline), Researchers, Critic,
             # Counsellor, Editor; one team per task in the message, at most six tasks at a time (team.py, meesix.py).
             from . import team

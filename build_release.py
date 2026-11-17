@@ -33,7 +33,8 @@ def public_paths():
         relative = path.relative_to(ROOT)
         if relative.as_posix().startswith(('models/cael-image-', 'models/cael-general-')):
             raise ValueError('Picture/portrait model path excluded from this release')
-        if any(part in ('research', 'outputs', '.git', '.venv', 'chat_worker', 'data') for part in relative.parts):
+        # the private local data folder is top-level data/; a public benchmark's own data/ subfolder (CellARC) is not it
+        if any(part in ('research', 'outputs', '.git', '.venv', 'chat_worker') for part in relative.parts) or relative.parts[0] == 'data':
             raise ValueError('Private or local-only path in source archive')
         if path.suffix.lower() in ('.pt', '.safetensors', '.sqlite', '.duckdb', '.cael') or path.name in ('chat_backend.json', 'relay_key.txt', 'ui_token.txt', 'session.key'):
             raise ValueError('Unapproved weight, credential or database in source archive: ' + str(relative))

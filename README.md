@@ -2,16 +2,17 @@
 
 A chat assistant with no neural network: cellular automata, rules and retrieval, on CPU.
 
-[![version 0.4.1](https://img.shields.io/badge/version-0.4.1-blue)](https://github.com/Vovala14/CAEL/releases/tag/v0.4.1)
+[![version 0.4.2](https://img.shields.io/badge/version-0.4.2-blue)](https://github.com/Vovala14/CAEL/releases/tag/v0.4.2)
+[![HF downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.2&query=%24.downloads&label=HF%20downloads&color=blue)](https://huggingface.co/vynly/CAEL-0.4.2)
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
 ![CPU only](https://img.shields.io/badge/CPU-only-green)
 [![license: source-available, non-commercial](https://img.shields.io/badge/license-source--available%2C_non--commercial-blue)](LICENSE)
 
-In a self-judged 20-conversation comparison, CAEL 0.4.1 scored about **796 Elo** against Qwen3.5-0.8B fixed at 1000 (95% interval 611–915; 3 wins / 14 losses / 3 ties). The same development agent wrote the tests and judged them. That is a conflict of interest. CAEL does not match Qwen3.5-0.8B at general chat. See [RELEASE_0_4_1.md](RELEASE_0_4_1.md).
+**0.4.2** adds a fielded retrieval index, conversation coherence across follow-ups, and a Supporter for emotional conversations. In a sealed 20-conversation comparison, CAEL 0.4.2 won **12**, lost 7 and tied 1 against **Gemma 3 270M IT**. The developer of CAEL judged the conversations, which is a conflict of interest, and the judging was not blind. CAEL ran with web lookups on; Gemma ran offline. See [RELEASE_0_4_2.md](RELEASE_0_4_2.md).
 
 ## Quick start
 
-Use Python 3.12. From this checkout, or from the extracted [CAEL-0.4.1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.1/CAEL-0.4.1.zip) release (extract [cael-open-chat-v1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.1/cael-open-chat-v1.zip) into `models/` for the full open-chat index):
+Use Python 3.12. From this checkout, or from the extracted [CAEL-0.4.2.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.2/CAEL-0.4.2.zip) release (extract [cael-open-chat-v1.1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.2/cael-open-chat-v1.1.zip) into `models/` for the full open-chat index and the new fielded index):
 
 ```bash
 python -m pip install -r requirements-unified.txt
@@ -38,13 +39,13 @@ You: quit
 
 | Good at | Still behind |
 | --- | --- |
-| Math and quantities, rates, clock times, schedules, and short logic | Open chat against Qwen3.5-0.8B (about 796 Elo; 3 wins / 14 losses / 3 ties) |
+| Math and quantities, rates, clock times, schedules, short logic, memory updates and emotional support | Practical multi-turn how-to chats, which can fall back to general advice |
 
-Other known gaps, from the same comparison: web lookups that decline when two sources do not agree, generic replies, missed follow-ups, and off-topic retrieved answers. On CellARC, whole puzzles are still rare (79/1000 interpolation, 5/1000 extrapolation).
+Other known gaps: facts outside CAEL's knowledge depend on the web, and some follow-ups still get advice of the right kind but not specific to the case. On CellARC, whole puzzles are still rare (79/1000 interpolation, 5/1000 extrapolation).
 
-## What 0.4.1 is
+## What 0.4.2 is
 
-**0.4.1** adds exact conversation skills, chat memory, and web answers checked against a second source, on top of the 0.4.0 core engines. Open chat can retrieve from about 285,000 human-written answers (Stack Exchange, OpenAssistant, and databricks-dolly-15k). There are no neural weights and no external LLM writes the replies. Finite readers, ambiguity, and conversational gaps remain.
+**0.4.2** answers each turn with a team of small agents: planner, researchers, calculator, memory, writer, critic, and a new Supporter for emotional conversations. A new fielded index (BM25F over title, tags, body and answer, with learned word associations) finds threads about the user's own problem among about 285,000 human-written answers (Stack Exchange, OpenAssistant, and databricks-dolly-15k). A coherence check keeps follow-up answers on the thing the conversation is about. There are no neural weights and no external LLM writes the replies. Finite readers, ambiguity, and conversational gaps remain.
 
 ## Core changes and measured scope
 

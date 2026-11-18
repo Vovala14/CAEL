@@ -18,6 +18,31 @@ def code(text):
     return '```python\n' + text.strip('\n') + '\n```'
 
 
+# code blocks with backslashes, kept out of f-string expressions (Python 3.11 forbids them there)
+_C = [
+    code('''with open('notes.txt', encoding='utf-8') as f:
+    text = f.read()            # the whole file as one string
+
+with open('notes.txt', encoding='utf-8') as f:
+    for line in f:             # one line at a time, good for big files
+        print(line.rstrip('\\n'))'''),
+    code('''with open('notes.txt', 'w', encoding='utf-8') as f:
+    f.write('first line\\n')
+
+with open('notes.txt', 'a', encoding='utf-8') as f:
+    f.write('another line\\n')'''),
+    code('''with open('output.txt', 'w', encoding='utf-8') as f:
+    f.write('Hello\\n')
+    f.write('Second line\\n')'''),
+    code(r'''import re
+
+text = 'Call 555-1234 or 555-9876'
+print(re.findall(r'\d{3}-\d{4}', text))    # ['555-1234', '555-9876']
+m = re.search(r'(\d{3})-(\d{4})', text)
+print(m.group(1))                          # '555'
+print(re.sub(r'\d', '#', text))'''),
+]
+
 # ---------------------------------------------------------------- topics
 # id: (question patterns, needs a Python cue, answer, [(follow-up pattern, answer)])
 T = {}
@@ -75,23 +100,14 @@ with open('data.csv', newline='', encoding='utf-8') as f:
 topic('read_file', [r'\b(?:read|open|load)\b.{0,20}\b(?:text |txt )?file\b(?!.*\bcsv\b)', r'\bread\b.*\bline by line\b'], f"""
 Open it with `with open(...)`, which closes the file for you:
 
-{code('''with open('notes.txt', encoding='utf-8') as f:
-    text = f.read()            # the whole file as one string
-
-with open('notes.txt', encoding='utf-8') as f:
-    for line in f:             # one line at a time, good for big files
-        print(line.rstrip('\\n'))''')}
+{_C[0]}
 
 `f.readlines()` gives a list of lines, each still ending in `\\n`.
 """, [
     (r'\bwrite\b|\bsave\b', f"""
 Open the file with mode `'w'` (replace) or `'a'` (add to the end):
 
-{code('''with open('notes.txt', 'w', encoding='utf-8') as f:
-    f.write('first line\\n')
-
-with open('notes.txt', 'a', encoding='utf-8') as f:
-    f.write('another line\\n')''')}"""),
+{_C[1]}"""),
     (r'\bexist|\bnot found\b|\bmissing\b', f"""
 Check first with `pathlib`, or catch the error:
 
@@ -104,9 +120,7 @@ if Path('notes.txt').exists():
 topic('write_file', [r'\b(?:write|save)\b.{0,30}\b(?:to |into |a )?(?:text |txt )?file\b'], f"""
 Open the file with mode `'w'` to create or replace it, or `'a'` to add to the end:
 
-{code('''with open('output.txt', 'w', encoding='utf-8') as f:
-    f.write('Hello\\n')
-    f.write('Second line\\n')''')}
+{_C[2]}
 
 `print('text', file=f)` also works and adds the newline for you.
 """)
@@ -693,13 +707,7 @@ for path in Path('.').rglob('*.txt'):     # every .txt, including subfolders
 topic('regex', [r'\bregex\b|\bregular expressions?\b|\bre\.(?:search|match|findall|sub)\b'], f"""
 Use the `re` module:
 
-{code(r'''import re
-
-text = 'Call 555-1234 or 555-9876'
-print(re.findall(r'\d{3}-\d{4}', text))    # ['555-1234', '555-9876']
-m = re.search(r'(\d{3})-(\d{4})', text)
-print(m.group(1))                          # '555'
-print(re.sub(r'\d', '#', text))''')}
+{_C[3]}
 
 Write patterns as raw strings (`r'...'`) so backslashes reach `re` unchanged.
 """, needs_python=False)

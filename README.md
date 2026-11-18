@@ -82,12 +82,12 @@ Original structured-run measurements: load 0.973 s, 2000-task inference 1.498 s,
 
 ## Downloads and licences
 
-[![HF downloads (30 days)](https://img.shields.io/huggingface/d/vynly/CAEL-0.4.0?label=HF%20downloads%20%2830%20days%29)](https://huggingface.co/vynly/CAEL-0.4.0)
+[![HF downloads (30 days)](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.3&query=%24.downloads&label=HF%20downloads%20%2830%20days%29&color=blue)](https://huggingface.co/vynly/CAEL-0.4.3)
 
-The live badge reports Hugging Face's counted query-file requests over 30 days, not unique users or all completed installs. `params.json` is a meaningful source and resource download configuration. Direct ZIP and resource clicks are not comprehensively counted; no simulated events or telemetry were added. For a full repository download: `hf download vynly/CAEL-0.4.0 --local-dir CAEL-0.4.0-download`.
+The live badge reports Hugging Face's counted query-file requests over 30 days, not unique users or all completed installs. `params.json` is a meaningful source and resource download configuration. Direct ZIP and resource clicks are not comprehensively counted; no simulated events or telemetry were added. For a full repository download: `hf download vynly/CAEL-0.4.3 --local-dir CAEL-0.4.3-download`.
 
 The Hugging Face model card, including its YAML front matter, is [MODEL_CARD.md](MODEL_CARD.md). Nothing in this repository copies `README.md` to Hugging Face.
 
-CAEL is [source-available, non-commercial](LICENSE) ([same terms on Hugging Face](https://huggingface.co/vynly/CAEL-0.4.0/blob/main/LICENSE)). Upstream resources retain their licences. CellARC is by **Miroslav Lžičař**: [dataset](https://huggingface.co/datasets/mireklzicar/cellarc_100k), [official code](https://github.com/mireklzicar/cellarc), [paper](https://arxiv.org/abs/2511.07908). The actual pinned dataset LICENSE is **CC BY 4.0**, despite the card's MIT tag; byte-preserved data and transformed evaluation files retain attribution. Official source licences are preserved separately. These results are our evaluation, not the author's endorsement. No live Vynly worker change is part of this release.
+CAEL is [source-available, non-commercial](LICENSE) ([same terms on Hugging Face](https://huggingface.co/vynly/CAEL-0.4.3/blob/main/LICENSE)). Upstream resources retain their licences. CellARC is by **Miroslav Lžičař**: [dataset](https://huggingface.co/datasets/mireklzicar/cellarc_100k), [official code](https://github.com/mireklzicar/cellarc), [paper](https://arxiv.org/abs/2511.07908). The actual pinned dataset LICENSE is **CC BY 4.0**, despite the card's MIT tag; byte-preserved data and transformed evaluation files retain attribution. Official source licences are preserved separately. These results are our evaluation, not the author's endorsement. No live Vynly worker change is part of this release.
 
 If this experiment interests you, starring and watching releases is how you'll hear about the next build.

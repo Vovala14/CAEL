@@ -211,8 +211,18 @@ def reply(task):
                 grid_reasoning=dict(engine='native-integer-stream',status='ambiguous',neural=False))
         except local_automata.OutsideDomain as exc:
             native_limit=str(exc)
-        result=solve(task['examples'],task['query'])
-        result.update(engine='legacy-compositional-grid',native_stream_unsupported=native_limit)
+        try:
+            result=solve(task['examples'],task['query'])
+            result.update(engine='legacy-compositional-grid',native_stream_unsupported=native_limit)
+        except Unsupported as legacy:
+            # the wider checked solver family (arc_solver.py): every candidate reproduces all demonstrations; ranked by
+            # description length and pooled over the 8 symmetries; the best answer is given, the second kept as an alternative
+            from . import arc_solver
+            tried=arc_solver.attempts(task['examples'],task['query'],seconds=8.0)
+            if not tried:raise legacy
+            result=dict(prediction=tried[0],alternative=tried[1] if len(tried)>1 else None,engine='arc-solver-mdl-vote',neural=False,
+                assumptions='Shortest checked description among many solver families, pooled over grid symmetries; fitting the demonstrations is not proof of the hidden rule.',
+                native_stream_unsupported=native_limit,legacy_unsupported=str(legacy))
     except (Unsupported,KeyError,TypeError,RecursionError,OverflowError) as exc:
         return dict(route='chat/grid-clarify',response='Please clarify the grid task: '+str(exc),sources=[],
             grid_reasoning=dict(status='unsupported-or-ambiguous',neural=False,engine='legacy-compositional-grid',native_stream_unsupported=locals().get('native_limit')))

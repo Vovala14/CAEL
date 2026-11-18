@@ -2,17 +2,27 @@
 
 A chat assistant with no neural network: cellular automata, rules and retrieval, on CPU.
 
-[![version 0.4.2](https://img.shields.io/badge/version-0.4.2-blue)](https://github.com/Vovala14/CAEL/releases/tag/v0.4.2)
-[![HF downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.2&query=%24.downloads&label=HF%20downloads&color=blue)](https://huggingface.co/vynly/CAEL-0.4.2)
+[![version 0.4.3](https://img.shields.io/badge/version-0.4.3-blue)](https://github.com/Vovala14/CAEL/releases/tag/v0.4.3)
+[![HF downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.3&query=%24.downloads&label=HF%20downloads&color=blue)](https://huggingface.co/vynly/CAEL-0.4.3)
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
 ![CPU only](https://img.shields.io/badge/CPU-only-green)
 [![license: source-available, non-commercial](https://img.shields.io/badge/license-source--available%2C_non--commercial-blue)](LICENSE)
 
-**0.4.2** adds a fielded retrieval index, conversation coherence across follow-ups, and a Supporter for emotional conversations. In a sealed 20-conversation comparison, CAEL 0.4.2 won **12**, lost 7 and tied 1 against **Gemma 3 270M IT**. The developer of CAEL judged the conversations, which is a conflict of interest, and the judging was not blind. CAEL ran with web lookups on; Gemma ran offline. See [RELEASE_0_4_2.md](RELEASE_0_4_2.md).
+**0.4.3** adds new desks to the conversation team, each with authored answers and their follow-ups:
+
+- **Host:** honest answers about CAEL itself, its web access and the time.
+- **Programmer:** Python topics, error explanations and self-verified scripts.
+- **Explainer:** concepts and everyday science.
+- **Coach:** beginner guides and ranked tips.
+- **Ideas desk.**
+
+It also adds a wider Supporter, new calculator sums and a non-neural ARC grid solver (34 of 400 held-out ARC-AGI-1 evaluation tasks).
+
+In a sealed 24-conversation comparison judged with the names hidden, CAEL won **13**, lost 5 and tied 6 against **LFM2-700M**. The developer of CAEL judged it, which is a conflict of interest. CAEL ran with web lookups on; LFM2 ran offline. See [RELEASE_0_4_3.md](RELEASE_0_4_3.md).
 
 ## Quick start
 
-Use Python 3.12. From this checkout, or from the extracted [CAEL-0.4.2.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.2/CAEL-0.4.2.zip) release (extract [cael-open-chat-v1.1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.2/cael-open-chat-v1.1.zip) into `models/` for the full open-chat index and the new fielded index):
+Use Python 3.12. From this checkout, or from the extracted [CAEL-0.4.3.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.3/CAEL-0.4.3.zip) release (extract [cael-open-chat-v1.1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.3/cael-open-chat-v1.1.zip) into `models/` for the full open-chat index and the fielded index):
 
 ```bash
 python -m pip install -r requirements-unified.txt
@@ -39,13 +49,13 @@ You: quit
 
 | Good at | Still behind |
 | --- | --- |
-| Math and quantities, rates, clock times, schedules, short logic, memory updates and emotional support | Practical multi-turn how-to chats, which can fall back to general advice |
+| Math and quantities, rates, clock times, schedules, short logic, memory updates, emotional support, everyday Python questions, explanations and tips with their follow-ups | Practical multi-turn how-to chats outside the authored desks, which can fall back to general advice |
 
-Other known gaps: facts outside CAEL's knowledge depend on the web, and some follow-ups still get advice of the right kind but not specific to the case. On CellARC, whole puzzles are still rare (79/1000 interpolation, 5/1000 extrapolation).
+Other known gaps: facts outside CAEL's knowledge depend on the web, and some follow-ups still get advice of the right kind but not specific to the case. On CellARC, whole puzzles are still rare (79/1000 interpolation, 5/1000 extrapolation). ARC-AGI-2 puzzles stay unsolved (0/120).
 
-## What 0.4.2 is
+## What 0.4.3 is
 
-**0.4.2** answers each turn with a team of small agents: planner, researchers, calculator, memory, writer, critic, and a new Supporter for emotional conversations. A new fielded index (BM25F over title, tags, body and answer, with learned word associations) finds threads about the user's own problem among about 285,000 human-written answers (Stack Exchange, OpenAssistant, and databricks-dolly-15k). A coherence check keeps follow-up answers on the thing the conversation is about. There are no neural weights and no external LLM writes the replies. Finite readers, ambiguity, and conversational gaps remain.
+**0.4.3** answers each turn with a team of small agents: planner, researchers, calculator, memory, writer, critic, the Supporter for emotional conversations, and authored desks for questions about CAEL itself, Python, explanations, tips and ideas. A new fielded index (BM25F over title, tags, body and answer, with learned word associations) finds threads about the user's own problem among about 285,000 human-written answers (Stack Exchange, OpenAssistant, and databricks-dolly-15k). A coherence check keeps follow-up answers on the thing the conversation is about. There are no neural weights and no external LLM writes the replies. Finite readers, ambiguity, and conversational gaps remain.
 
 ## Core changes and measured scope
 

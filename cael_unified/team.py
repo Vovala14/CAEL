@@ -642,7 +642,9 @@ def problem_help(board, messages):
             opener = "That sounds exhausting, and it's very common at this age."
         elif re.search(r"\b(?:partner|husband|wife|boyfriend|girlfriend|flatmate|roommate|neighbou?r)\b", ' '.join(subj) or low):
             opener = "That sounds rough, especially night after night." if re.search(r"\bnights?\b|snor", low) else "That sounds frustrating."
-        elif kind('plant', 'herb', 'vegetable', 'flower', 'tree', 'shrub', 'grass') or re.search(r"\b(?:lawn|seedlings?|succulents?)\b", ' '.join(subj)):
+        elif (kind('plant', 'herb', 'vegetable', 'flower', 'tree', 'shrub', 'grass') or re.search(r"\b(?:lawn|seedlings?|succulents?)\b", ' '.join(subj))) and \
+                re.search(r"\b(?:plants?|leaf|leaves|lawn|grass|flowers?|trees?|bush|shrubs?|hedge|seedlings?|soil|garden|herbs?|succulents?|"
+                          r"tomato\w*|courgettes?|roses?|basil|orchids?|cactus|fern|ivy|moss|weeds?)\b", low):
             opener = "Good that you've spotted it; plants often recover if you act early."
         elif kind('animal', 'pet', 'bird', 'rodent', 'dog', 'cat'):
             opener = "Poor thing. It's worth keeping an eye on." if re.search(r"\b(?:sick|ill|losing|not eating|isn'?t eating|limp|bleed|lump)\b", low) else \
@@ -731,6 +733,31 @@ def single(messages, engine, options):
         from . import coherence
         if os.environ.get('CAEL_COHERENCE', '1') != '0':
             draft = coherence.keep_on_topic(messages, board, draft)
+            # still general advice (or still off the thing) for a practical follow-up: ask the follow-up on its own, about the
+            # thing by name ("How do I clean them?" -> "How do I clean my car brakes?"), the way a person would look it up
+            ask = coherence.resolved_question(messages)
+            if ask and (str(draft.get('route', '')) in ('chat/advice-schema', 'chat/team-last-resort') or coherence.off_topic(messages, draft)
+                        or coherence.repeated(messages, str(draft.get('response', '')))):
+                alone = [m for m in messages if m.get('role') == 'system'] + [dict(role='user', content=ask)]
+                b2 = Board(alone)
+                plan(b2)
+                again = _single(alone, engine, options, b2)
+                if again and coherence.QUOTING.match(str(again.get('route', ''))) and not coherence.off_topic(messages, again) \
+                        and not coherence.repeated(messages, str(again.get('response', ''))):
+                    draft = dict(again, coherence=f'the follow-up asked on its own: "{ask}"', replaced_route=draft.get('route'))
+    except Exception:
+        pass
+    try:
+        # never the same answer twice in a row: say so and ask which part to go into (a repeat reads as not listening)
+        said = [m.get('content') or '' for m in messages[:-1] if m.get('role') == 'assistant']
+        new = str(draft.get('response', '')).strip()
+        route = str(draft.get('route', ''))
+        looked_up = QUOTED.match(route) or route.startswith(('chat/concept', 'chat/core-', 'chat/web-', 'chat/local-', 'chat/advice-schema'))
+        if looked_up and said and new and len(new) > 40 and new[:80] == said[-1].strip()[:80]:
+            draft = dict(route='chat/no-repeat', sources=[], replaced_route=draft.get('route'),
+                         details='The draft repeated the previous reply word for word (team.single).',
+                         response="I don't have more on that than what I just said, and I'd rather not repeat it. "
+                                  "Which part would you like me to go into, or is there a more specific question I can try?")
     except Exception:
         pass
     return draft
@@ -738,15 +765,48 @@ def single(messages, engine, options):
 
 def _single(messages, engine, options, board):
     """One task through the team."""
+    try:
+        # questions about CAEL itself and the clock (about_me.py): true answers, never a definition of "internet" or "time"
+        from . import about_me
+        me = board.do('Host', about_me.respond, messages)
+        if me is not None:
+            return sign(board, me, 'the Host')
+    except Exception:
+        pass
+    if not board.is_question:
+        try:
+            # "My phone contract is $38 a month." told without a question: the Calculator converts it (not a told problem)
+            from . import calc_agent
+            rated = calc_agent.stated_rate(messages)
+            if rated is not None:
+                return sign(board, rated, 'the Calculator')
+        except Exception:
+            pass
     if not board.is_question:
         # something felt ("I'm dreading it", "I feel like I've let him down") is answered as a feeling first, before the
         # diary notes the day it falls on
         try:
+            # once the Supporter has taken a situation (it replied before), it carries the conversation on: the next thing
+            # told is answered in that situation, not with a fresh generic acknowledgement
+            from . import support as _support
+            said = [m.get('content') or '' for m in messages[:-1] if m.get('role') == 'assistant']
+            ours = said and any(said[-1].startswith(t[:40]) for d in (_support.ACK, _support.LEAD_DO) for t in d.values()) or \
+                (said and any(said[-1].startswith(c['ack'][:30]) for c in _support.CHILD.values()))
+            # ... and a situation it recognises in what was just told (a loved one's surgery, a pet put down, a builder who took the
+            # money) is its from the first turn, before a generic acknowledgement or a diary note
+            if ours or _support.claims(messages):
+                held = board.do('Supporter', _support.respond, messages)
+                if held is not None:
+                    return sign(board, held, 'the Supporter')
+        except Exception:
+            pass
+        try:
             from . import empath
             if empath.LOW.search(board.last) or empath.NERVES.search(board.last):
                 felt = board.do('Listener', empath.respond, messages)
-                if felt is not None:
-                    return sign(board, felt, 'the Listener')
+                said = [m.get('content') or '' for m in messages[:-1] if m.get('role') == 'assistant']
+                if felt is not None and not (said and said[-1][:40] == str(felt.get('response', ''))[:40]):
+                    return sign(board, felt, 'the Listener')    # (never the same words twice: the Supporter goes on from there)
         except Exception:
             pass
     try:
@@ -755,6 +815,47 @@ def _single(messages, engine, options, board):
         held = board.do('Supporter', support.respond, messages)
         if held is not None:
             return sign(board, held, 'the Supporter')
+    except Exception:
+        pass
+    try:
+        # Python questions, error messages and changes to code just written (python_answers.py): checked, authored answers,
+        # before any search that would quote a forum thread on the question's few words
+        from . import python_answers
+        coded = board.do('Programmer', python_answers.respond, messages)
+        if coded is not None:
+            return sign(board, coded, 'the Programmer')
+    except Exception:
+        pass
+    try:
+        # "Give me three ideas for ...", "The second one sounds good, what would we need?", "Tell me a fun fact" (ideas.py)
+        from . import ideas
+        thought = board.do('Ideas', ideas.respond, messages)
+        if thought is not None:
+            return sign(board, thought, 'the Ideas desk')
+    except Exception:
+        pass
+    try:
+        # "Explain inflation in simple terms", "Why do onions make you cry?" and their follow-ups: the authored explanations
+        # (concepts.py, chat_core.EXPLAIN) before a web search that quotes a forum thread on the question's few words
+        from . import concepts, beginner, tips
+        known = (board.do('Explainer', concepts.respond, messages) or board.do('Coach', tips.respond, messages)
+                 or board.do('Coach', beginner.respond, messages))
+        if known is not None:
+            return sign(board, known, 'the Explainer' if str(known.get('route', '')).startswith('chat/concept') else 'the Coach')
+        if board.is_question or re.search(r"(?i)^\s*(?:explain|tell me (?:about|why|how))\b", board.last):
+            from .chat_core import explain_reply
+            told = board.do('Explainer', explain_reply, messages)
+            if told is not None and str(told.get('response', '')).strip():
+                return sign(board, told, 'the Explainer')
+    except Exception:
+        pass
+    try:
+        # the next question about an everyday problem told earlier ("Is it the pads?", "How do I clean them?"): what a person who
+        # knows the subject says (followup_kb.py), before a search on the follow-up's few words
+        from . import followup_kb
+        known = board.do('Advisor', followup_kb.respond, messages)
+        if known is not None:
+            return sign(board, known, 'the Advisor')
     except Exception:
         pass
     helped = problem_help(board, messages)

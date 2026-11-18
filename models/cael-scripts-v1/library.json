@@ -1,0 +1,3212 @@
+{
+ "version": 1,
+ "note": "CAEL-written scripts from Python practice on the MBPP training split (2026-11-17, research/python_training_20261117). Each passed a test its search had not seen. Some fit by coincidence; they are used only as fallback building blocks that must reproduce a user's examples.",
+ "scripts": [
+  {
+   "name": "is_not_prime",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "2 < n",
+   "description": "Write a python function to identify non-prime numbers.",
+   "tests": [
+    [
+     "(2,)",
+     "False"
+    ],
+    [
+     "(10,)",
+     "True"
+    ],
+    [
+     "(35,)",
+     "True"
+    ]
+   ],
+   "origin": 3,
+   "round": 0
+  },
+  {
+   "name": "heap_queue_largest",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "sorted(items, reverse=True)[:n]",
+   "description": "Write a function to find the largest integers from a given list of numbers using heap queue algorithm.",
+   "tests": [
+    [
+     "([25, 35, 22, 85, 14, 65, 75, 22, 58], 3)",
+     "[85, 75, 65]"
+    ],
+    [
+     "([25, 35, 22, 85, 14, 65, 75, 22, 58], 2)",
+     "[85, 75]"
+    ],
+    [
+     "([25, 35, 22, 85, 14, 65, 75, 22, 58], 5)",
+     "[85, 75, 65, 58, 35]"
+    ]
+   ],
+   "origin": 4,
+   "round": 0
+  },
+  {
+   "name": "square_nums",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "[x ** 2 for x in items]",
+   "description": "Write a function to find squares of individual elements in a list using lambda function.",
+   "tests": [
+    [
+     "([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],)",
+     "[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]"
+    ],
+    [
+     "([10, 20, 30],)",
+     "[100, 400, 900]"
+    ],
+    [
+     "([12, 15],)",
+     "[144, 225]"
+    ]
+   ],
+   "origin": 8,
+   "round": 0
+  },
+  {
+   "name": "find_Rotations",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "len(set(s))",
+   "description": "Write a python function to find the minimum number of rotations required to get the same string.",
+   "tests": [
+    [
+     "('aaaa',)",
+     "1"
+    ],
+    [
+     "('ab',)",
+     "2"
+    ],
+    [
+     "('abc',)",
+     "3"
+    ]
+   ],
+   "origin": 9,
+   "round": 0
+  },
+  {
+   "name": "small_nnum",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "sorted(items)[:n]",
+   "description": "Write a function to get the n smallest items from a dataset.",
+   "tests": [
+    [
+     "([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100], 2)",
+     "[10, 20]"
+    ],
+    [
+     "([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100], 5)",
+     "[10, 20, 20, 40, 50]"
+    ],
+    [
+     "([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100], 3)",
+     "[10, 20, 20]"
+    ]
+   ],
+   "origin": 10,
+   "round": 0
+  },
+  {
+   "name": "reverse_words",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "' '.join(s.split()[::-1])",
+   "description": "Write a function to reverse words in a given string.",
+   "tests": [
+    [
+     "('python program',)",
+     "'program python'"
+    ],
+    [
+     "('java language',)",
+     "'language java'"
+    ],
+    [
+     "('indian man',)",
+     "'man indian'"
+    ]
+   ],
+   "origin": 604,
+   "round": 0
+  },
+  {
+   "name": "max_of_nth",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "max(items)[n]",
+   "description": "Write a function to find the maximum of nth column from the given tuple list.",
+   "tests": [
+    [
+     "([(5, 6, 7), (1, 3, 5), (8, 9, 19)], 2)",
+     "19"
+    ],
+    [
+     "([(6, 7, 8), (2, 4, 6), (9, 10, 20)], 1)",
+     "10"
+    ],
+    [
+     "([(7, 8, 9), (3, 5, 7), (10, 11, 21)], 1)",
+     "11"
+    ]
+   ],
+   "origin": 611,
+   "round": 0
+  },
+  {
+   "name": "cummulative_sum",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "sum((sum(x) for x in items))",
+   "description": "Write a function to find the cumulative sum of all the values that are present in the given tuple list.",
+   "tests": [
+    [
+     "([(1, 3), (5, 6, 7), (2, 6)],)",
+     "30"
+    ],
+    [
+     "([(2, 4), (6, 7, 8), (3, 7)],)",
+     "37"
+    ],
+    [
+     "([(3, 5), (7, 8, 9), (4, 8)],)",
+     "44"
+    ]
+   ],
+   "origin": 614,
+   "round": 0
+  },
+  {
+   "name": "move_num",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "''.join(sorted(s, key=lambda x: x.isdigit()))",
+   "description": "Write a function to move all the numbers in it to the given string.",
+   "tests": [
+    [
+     "('I1love143you55three3000thousand',)",
+     "'Iloveyouthreethousand1143553000'"
+    ],
+    [
+     "('Avengers124Assemble',)",
+     "'AvengersAssemble124'"
+    ],
+    [
+     "('Its11our12path13to14see15things16do17things',)",
+     "'Itsourpathtoseethingsdothings11121314151617'"
+    ]
+   ],
+   "origin": 619,
+   "round": 0
+  },
+  {
+   "name": "largest_subset",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "sum(items) % n",
+   "description": "Write a function to find the largest subset where each pair is divisible.",
+   "tests": [
+    [
+     "([1, 3, 6, 13, 17, 18], 6)",
+     "4"
+    ],
+    [
+     "([10, 5, 3, 15, 20], 5)",
+     "3"
+    ],
+    [
+     "([18, 1, 3, 6, 13, 17], 6)",
+     "4"
+    ]
+   ],
+   "origin": 620,
+   "round": 0
+  },
+  {
+   "name": "nth_nums",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "[x ** n for x in items]",
+   "description": "Write a function to find the n-th power of individual elements in a list using lambda function.",
+   "tests": [
+    [
+     "([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2)",
+     "[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]"
+    ],
+    [
+     "([10, 20, 30], 3)",
+     "[1000, 8000, 27000]"
+    ],
+    [
+     "([12, 15], 5)",
+     "[248832, 759375]"
+    ]
+   ],
+   "origin": 623,
+   "round": 0
+  },
+  {
+   "name": "replace_spaces",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "'%20'.join(s.split())",
+   "description": "Write a function to replace all spaces in the given string with character * list item * list item * list item * list item '%20'.",
+   "tests": [
+    [
+     "('My Name is Dawood',)",
+     "'My%20Name%20is%20Dawood'"
+    ],
+    [
+     "('I am a Programmer',)",
+     "'I%20am%20a%20Programmer'"
+    ],
+    [
+     "('I love Coding',)",
+     "'I%20love%20Coding'"
+    ]
+   ],
+   "origin": 628,
+   "round": 0
+  },
+  {
+   "name": "move_zero",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "sorted(items, key=lambda x: not bool(x))",
+   "description": "Write a python function to move all zeroes to the end of the given list.",
+   "tests": [
+    [
+     "([1, 0, 2, 0, 3, 4],)",
+     "[1, 2, 3, 4, 0, 0]"
+    ],
+    [
+     "([2, 3, 2, 0, 0, 4, 0, 5, 0],)",
+     "[2, 3, 2, 4, 5, 0, 0, 0, 0]"
+    ],
+    [
+     "([0, 1, 0, 1, 1],)",
+     "[1, 1, 1, 0, 0]"
+    ]
+   ],
+   "origin": 632,
+   "round": 0
+  },
+  {
+   "name": "even_Power_Sum",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "sum(((x + x) ** 2 ** 2 for x in range(1, n + 1)))",
+   "description": "Write a python function to find the sum of fourth power of first n even natural numbers.",
+   "tests": [
+    [
+     "(2,)",
+     "272"
+    ],
+    [
+     "(3,)",
+     "1568"
+    ],
+    [
+     "(4,)",
+     "5664"
+    ]
+   ],
+   "origin": 634,
+   "round": 0
+  },
+  {
+   "name": "sample_nam",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "len(''.join((x for x in items if not x.islower())))",
+   "description": "Write a function to sum the length of the names of a given list of names after removing the names that start with a lowercase letter.",
+   "tests": [
+    [
+     "(['sally', 'Dylan', 'rebecca', 'Diana', 'Joanne', 'keith'],)",
+     "16"
+    ],
+    [
+     "(['php', 'res', 'Python', 'abcd', 'Java', 'aaa'],)",
+     "10"
+    ],
+    [
+     "(['abcd', 'Python', 'abba', 'aba'],)",
+     "6"
+    ]
+   ],
+   "origin": 639,
+   "round": 0
+  },
+  {
+   "name": "remove_similar_row",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "set([tuple(x) for x in items][1:])",
+   "description": "Write a function to remove similar rows from the given tuple matrix.",
+   "tests": [
+    [
+     "([[(4, 5), (3, 2)], [(2, 2), (4, 6)], [(3, 2), (4, 5)]],)",
+     "{((2, 2), (4, 6)), ((3, 2), (4, 5))}"
+    ],
+    [
+     "([[(5, 6), (4, 3)], [(3, 3), (5, 7)], [(4, 3), (5, 6)]],)",
+     "{((3, 3), (5, 7)), ((4, 3), (5, 6))}"
+    ],
+    [
+     "([[(6, 7), (5, 4)], [(4, 4), (6, 8)], [(5, 4), (6, 7)]],)",
+     "{((4, 4), (6, 8)), ((5, 4), (6, 7))}"
+    ]
+   ],
+   "origin": 642,
+   "round": 0
+  },
+  {
+   "name": "reverse_Array_Upto_K",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "list(dict.fromkeys(items[:n][::-1] + items))",
+   "description": "Write a python function to reverse an array upto a given position.",
+   "tests": [
+    [
+     "([1, 2, 3, 4, 5, 6], 4)",
+     "[4, 3, 2, 1, 5, 6]"
+    ],
+    [
+     "([4, 5, 6, 7], 2)",
+     "[5, 4, 6, 7]"
+    ],
+    [
+     "([9, 8, 7, 6, 5], 3)",
+     "[7, 8, 9, 6, 5]"
+    ]
+   ],
+   "origin": 644,
+   "round": 0
+  },
+  {
+   "name": "check_subset",
+   "params": [
+    "tup",
+    "tup2"
+   ],
+   "kinds": [
+    [
+     "tuple"
+    ],
+    [
+     "tuple"
+    ]
+   ],
+   "expression": "max(tup) in tup2",
+   "description": "Write a function to check if one tuple is a subset of another tuple.",
+   "tests": [
+    [
+     "((10, 4, 5, 6), (5, 10))",
+     "True"
+    ],
+    [
+     "((1, 2, 3, 4), (5, 6))",
+     "False"
+    ],
+    [
+     "((7, 8, 9, 10), (10, 8))",
+     "True"
+    ]
+   ],
+   "origin": 651,
+   "round": 0
+  },
+  {
+   "name": "rectangle_perimeter",
+   "params": [
+    "n",
+    "m"
+   ],
+   "kinds": [
+    [
+     "num"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "2 * (n + m)",
+   "description": "Write a function to find the perimeter of a rectangle.",
+   "tests": [
+    [
+     "(10, 20)",
+     "60"
+    ],
+    [
+     "(10, 5)",
+     "30"
+    ],
+    [
+     "(4, 2)",
+     "12"
+    ]
+   ],
+   "origin": 654,
+   "round": 0
+  },
+  {
+   "name": "fifth_Power_Sum",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "sum((x * x ** 2 ** 2 for x in range(1, n + 1)))",
+   "description": "Write a python function to find the sum of fifth power of n natural numbers.",
+   "tests": [
+    [
+     "(2,)",
+     "33"
+    ],
+    [
+     "(4,)",
+     "1300"
+    ],
+    [
+     "(3,)",
+     "276"
+    ]
+   ],
+   "origin": 655,
+   "round": 0
+  },
+  {
+   "name": "move_last",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "list(dict.fromkeys((items + items)[1:]))",
+   "description": "Write a python function to shift first element to the end of given list.",
+   "tests": [
+    [
+     "([1, 2, 3, 4],)",
+     "[2, 3, 4, 1]"
+    ],
+    [
+     "([2, 3, 4, 1, 5, 0],)",
+     "[3, 4, 1, 5, 0, 2]"
+    ],
+    [
+     "([5, 4, 3, 2, 1],)",
+     "[4, 3, 2, 1, 5]"
+    ]
+   ],
+   "origin": 665,
+   "round": 0
+  },
+  {
+   "name": "replace",
+   "params": [
+    "s",
+    "t"
+   ],
+   "kinds": [
+    [
+     "str"
+    ],
+    [
+     "str"
+    ]
+   ],
+   "expression": "s.replace(t + t, t)",
+   "description": "Write a python function to replace multiple occurence of character by single.",
+   "tests": [
+    [
+     "('peep', 'e')",
+     "'pep'"
+    ],
+    [
+     "('Greek', 'e')",
+     "'Grek'"
+    ],
+    [
+     "('Moon', 'o')",
+     "'Mon'"
+    ]
+   ],
+   "origin": 668,
+   "round": 0
+  },
+  {
+   "name": "convert",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "int(''.join((str(x) for x in items)))",
+   "description": "Write a python function to convert a list of multiple integers into a single integer.",
+   "tests": [
+    [
+     "([1, 2, 3],)",
+     "123"
+    ],
+    [
+     "([4, 5, 6],)",
+     "456"
+    ],
+    [
+     "([7, 8, 9],)",
+     "789"
+    ]
+   ],
+   "origin": 673,
+   "round": 0
+  },
+  {
+   "name": "remove_duplicate",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "' '.join(s.split()[:-1])",
+   "description": "Write a function to remove duplicate words from a given string using collections module.",
+   "tests": [
+    [
+     "('Python Exercises Practice Solution Exercises',)",
+     "'Python Exercises Practice Solution'"
+    ],
+    [
+     "('Python Exercises Practice Solution Python',)",
+     "'Python Exercises Practice Solution'"
+    ],
+    [
+     "('Python Exercises Practice Solution Practice',)",
+     "'Python Exercises Practice Solution'"
+    ]
+   ],
+   "origin": 674,
+   "round": 0
+  },
+  {
+   "name": "remove_spaces",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "''.join(s.split())",
+   "description": "Write a python function to remove spaces from a given string.",
+   "tests": [
+    [
+     "('a b c',)",
+     "'abc'"
+    ],
+    [
+     "('1 2 3',)",
+     "'123'"
+    ],
+    [
+     "(' b c',)",
+     "'bc'"
+    ]
+   ],
+   "origin": 678,
+   "round": 0
+  },
+  {
+   "name": "access_key",
+   "params": [
+    "d",
+    "n"
+   ],
+   "kinds": [
+    [
+     "dict"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "list(d)[n]",
+   "description": "Write a function to access dictionary key’s element by index.",
+   "tests": [
+    [
+     "({'physics': 80, 'math': 90, 'chemistry': 86}, 0)",
+     "'physics'"
+    ],
+    [
+     "({'python': 10, 'java': 20, 'C++': 30}, 2)",
+     "'C++'"
+    ],
+    [
+     "({'program': 15, 'computer': 45}, 1)",
+     "'computer'"
+    ]
+   ],
+   "origin": 679,
+   "round": 0
+  },
+  {
+   "name": "increasing_trend",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "items == sorted(items)",
+   "description": "Write a python function to check whether a sequence of numbers has an increasing trend or not.",
+   "tests": [
+    [
+     "([1, 2, 3, 4],)",
+     "True"
+    ],
+    [
+     "([4, 3, 2, 1],)",
+     "False"
+    ],
+    [
+     "([0, 1, 4, 9],)",
+     "True"
+    ]
+   ],
+   "origin": 680,
+   "round": 0
+  },
+  {
+   "name": "sum_Square",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "bool(n % 2)",
+   "description": "Write a python function to check whether the given number can be represented by sum of two squares or not.",
+   "tests": [
+    [
+     "(25,)",
+     "True"
+    ],
+    [
+     "(24,)",
+     "False"
+    ],
+    [
+     "(17,)",
+     "True"
+    ]
+   ],
+   "origin": 683,
+   "round": 0
+  },
+  {
+   "name": "remove_multiple_spaces",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "' '.join(s.split())",
+   "description": "Write a function to remove multiple spaces in a string by using regex.",
+   "tests": [
+    [
+     "('Google      Assistant',)",
+     "'Google Assistant'"
+    ],
+    [
+     "('Quad      Core',)",
+     "'Quad Core'"
+    ],
+    [
+     "('ChromeCast      Built-in',)",
+     "'ChromeCast Built-in'"
+    ]
+   ],
+   "origin": 693,
+   "round": 0
+  },
+  {
+   "name": "extract_unique",
+   "params": [
+    "d"
+   ],
+   "kinds": [
+    [
+     "dict"
+    ]
+   ],
+   "expression": "sorted(set(sum(list(d.values()), [])))",
+   "description": "Write a function to extract unique values from the given dictionary values.",
+   "tests": [
+    [
+     "({'msm': [5, 6, 7, 8], 'is': [10, 11, 7, 5], 'best': [6, 12, 10, 8], 'for': [1, 2, 5]},)",
+     "[1, 2, 5, 6, 7, 8, 10, 11, 12]"
+    ],
+    [
+     "({'Built': [7, 1, 9, 4], 'for': [11, 21, 36, 14, 9], 'ISP': [4, 1, 21, 39, 47], 'TV': [1, 32, 38]},)",
+     "[1, 4, 7, 9, 11, 14, 21, 32, 36, 38, 39, 47]"
+    ],
+    [
+     "({'F': [11, 13, 14, 17], 'A': [12, 11, 15, 18], 'N': [19, 21, 15, 36], 'G': [37, 36, 35]},)",
+     "[11, 12, 13, 14, 15, 17, 18, 19, 21, 35, 36, 37]"
+    ]
+   ],
+   "origin": 694,
+   "round": 0
+  },
+  {
+   "name": "check_greater",
+   "params": [
+    "tup",
+    "tup2"
+   ],
+   "kinds": [
+    [
+     "tuple"
+    ],
+    [
+     "tuple"
+    ]
+   ],
+   "expression": "tup[-1] in tup2",
+   "description": "Write a function to check if each element of the second tuple is greater than its corresponding index in the first tuple.",
+   "tests": [
+    [
+     "((10, 4, 5), (13, 5, 18))",
+     "True"
+    ],
+    [
+     "((1, 2, 3), (2, 1, 4))",
+     "False"
+    ],
+    [
+     "((4, 5, 6), (5, 6, 7))",
+     "True"
+    ]
+   ],
+   "origin": 695,
+   "round": 0
+  },
+  {
+   "name": "count_even",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "max(items) // 3",
+   "description": "Write a function to find number of even elements in the given list using lambda function.",
+   "tests": [
+    [
+     "([1, 2, 3, 5, 7, 8, 9, 10],)",
+     "3"
+    ],
+    [
+     "([10, 15, 14, 13, -18, 12, -20],)",
+     "5"
+    ],
+    [
+     "([1, 2, 4, 8, 9],)",
+     "3"
+    ]
+   ],
+   "origin": 697,
+   "round": 0
+  },
+  {
+   "name": "sort_dict_item",
+   "params": [
+    "d"
+   ],
+   "kinds": [
+    [
+     "dict"
+    ]
+   ],
+   "expression": "dict(sorted(d.items(), key=lambda x: sum(x[0])))",
+   "description": "Write a function to sort dictionary items by tuple product of keys for the given dictionary with tuple keys.",
+   "tests": [
+    [
+     "({(5, 6): 3, (2, 3): 9, (8, 4): 10, (6, 4): 12},)",
+     "{(2, 3): 9, (6, 4): 12, (5, 6): 3, (8, 4): 10}"
+    ],
+    [
+     "({(6, 7): 4, (3, 4): 10, (9, 5): 11, (7, 5): 13},)",
+     "{(3, 4): 10, (7, 5): 13, (6, 7): 4, (9, 5): 11}"
+    ],
+    [
+     "({(7, 8): 5, (4, 5): 11, (10, 6): 12, (8, 6): 14},)",
+     "{(4, 5): 11, (8, 6): 14, (7, 8): 5, (10, 6): 12}"
+    ]
+   ],
+   "origin": 698,
+   "round": 0
+  },
+  {
+   "name": "sort_sublists",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "sorted(items, key=lambda x: (len(x), x))",
+   "description": "Write a function to sort a list of lists by length and value.",
+   "tests": [
+    [
+     "([[2], [0], [1, 3], [0, 7], [9, 11], [13, 15, 17]],)",
+     "[[0], [2], [0, 7], [1, 3], [9, 11], [13, 15, 17]]"
+    ],
+    [
+     "([[1], [2, 3], [4, 5, 6], [7], [10, 11]],)",
+     "[[1], [7], [2, 3], [10, 11], [4, 5, 6]]"
+    ],
+    [
+     "([['python'], ['java', 'C', 'C++'], ['DBMS'], ['SQL', 'HTML']],)",
+     "[['DBMS'], ['python'], ['SQL', 'HTML'], ['java', 'C', 'C++']]"
+    ]
+   ],
+   "origin": 705,
+   "round": 0
+  },
+  {
+   "name": "front_and_rear",
+   "params": [
+    "tup"
+   ],
+   "kinds": [
+    [
+     "tuple"
+    ]
+   ],
+   "expression": "list(zip(tup, tup[::-1]))[0]",
+   "description": "Write a function to access the initial and last data of the given tuple record.",
+   "tests": [
+    [
+     "((10, 4, 5, 6, 7),)",
+     "(10, 7)"
+    ],
+    [
+     "((1, 2, 3, 4, 5),)",
+     "(1, 5)"
+    ],
+    [
+     "((6, 7, 8, 9, 10),)",
+     "(6, 10)"
+    ]
+   ],
+   "origin": 710,
+   "round": 0
+  },
+  {
+   "name": "product_Equal",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "bool(n % 2)",
+   "description": "Write a python function to check whether the product of digits of a number at even and odd places is equal or not.",
+   "tests": [
+    [
+     "(2841,)",
+     "True"
+    ],
+    [
+     "(1234,)",
+     "False"
+    ],
+    [
+     "(1212,)",
+     "False"
+    ]
+   ],
+   "origin": 711,
+   "round": 0
+  },
+  {
+   "name": "rombus_perimeter",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "n * 2 ** 2",
+   "description": "Write a function to find the perimeter of a rombus.",
+   "tests": [
+    [
+     "(10,)",
+     "40"
+    ],
+    [
+     "(5,)",
+     "20"
+    ],
+    [
+     "(4,)",
+     "16"
+    ]
+   ],
+   "origin": 716,
+   "round": 0
+  },
+  {
+   "name": "alternate_elements",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "items[::2]",
+   "description": "Write a function to create a list taking alternate elements from another given list.",
+   "tests": [
+    [
+     "(['red', 'black', 'white', 'green', 'orange'],)",
+     "['red', 'white', 'orange']"
+    ],
+    [
+     "([2, 0, 3, 4, 0, 2, 8, 3, 4, 2],)",
+     "[2, 3, 0, 8, 4]"
+    ],
+    [
+     "([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],)",
+     "[1, 3, 5, 7, 9]"
+    ]
+   ],
+   "origin": 718,
+   "round": 0
+  },
+  {
+   "name": "add_dict_to_tuple",
+   "params": [
+    "tup",
+    "d"
+   ],
+   "kinds": [
+    [
+     "tuple"
+    ],
+    [
+     "dict"
+    ]
+   ],
+   "expression": "tup + tuple([d])",
+   "description": "Write a function to add a dictionary to the tuple.",
+   "tests": [
+    [
+     "((4, 5, 6), {'MSAM': 1, 'is': 2, 'best': 3})",
+     "(4, 5, 6, {'MSAM': 1, 'is': 2, 'best': 3})"
+    ],
+    [
+     "((1, 2, 3), {'UTS': 2, 'is': 3, 'Worst': 4})",
+     "(1, 2, 3, {'UTS': 2, 'is': 3, 'Worst': 4})"
+    ],
+    [
+     "((8, 9, 10), {'POS': 3, 'is': 4, 'Okay': 5})",
+     "(8, 9, 10, {'POS': 3, 'is': 4, 'Okay': 5})"
+    ]
+   ],
+   "origin": 720,
+   "round": 0
+  },
+  {
+   "name": "find_first_occurrence",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "items.index(n)",
+   "description": "Write a function to find the index of the first occurrence of a given number in a sorted array.",
+   "tests": [
+    [
+     "([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5)",
+     "1"
+    ],
+    [
+     "([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5)",
+     "2"
+    ],
+    [
+     "([2, 4, 1, 5, 6, 6, 8, 9, 9, 9], 6)",
+     "4"
+    ]
+   ],
+   "origin": 733,
+   "round": 0
+  },
+  {
+   "name": "left_insertion",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "max(items[:n][:-1])",
+   "description": "Write a function to locate the left insertion point for a specified value in sorted order.",
+   "tests": [
+    [
+     "([1, 2, 4, 5], 6)",
+     "4"
+    ],
+    [
+     "([1, 2, 4, 5], 3)",
+     "2"
+    ],
+    [
+     "([1, 2, 4, 5], 7)",
+     "4"
+    ]
+   ],
+   "origin": 736,
+   "round": 0
+  },
+  {
+   "name": "all_Characters_Same",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "s == s[::-1]",
+   "description": "Write a python function to check whether all the characters are same or not.",
+   "tests": [
+    [
+     "('python',)",
+     "False"
+    ],
+    [
+     "('aaa',)",
+     "True"
+    ],
+    [
+     "('data',)",
+     "False"
+    ]
+   ],
+   "origin": 741,
+   "round": 0
+  },
+  {
+   "name": "sort_numeric_strings",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "sorted([int(x) for x in items])",
+   "description": "Write a function to sort a given list of strings of numbers numerically.",
+   "tests": [
+    [
+     "(['4', '12', '45', '7', '0', '100', '200', '-12', '-500'],)",
+     "[-500, -12, 0, 4, 7, 12, 45, 100, 200]"
+    ],
+    [
+     "(['2', '3', '8', '4', '7', '9', '8', '2', '6', '5', '1', '6', '1', '2', '3', '4', '6', '9', '1', '2'],)",
+     "[1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 6, 6, 6, 7, 8, 8, 9, 9]"
+    ],
+    [
+     "(['1', '3', '5', '7', '1', '3', '13', '15', '17', '5', '7 ', '9', '1', '11'],)",
+     "[1, 1, 1, 3, 3, 5, 5, 7, 7, 9, 11, 13, 15, 17]"
+    ]
+   ],
+   "origin": 749,
+   "round": 0
+  },
+  {
+   "name": "add_tuple",
+   "params": [
+    "items",
+    "tup"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "tuple"
+    ]
+   ],
+   "expression": "items + sorted(tup)",
+   "description": "Write a function to add the given tuple to the given list.",
+   "tests": [
+    [
+     "([5, 6, 7], (9, 10))",
+     "[5, 6, 7, 9, 10]"
+    ],
+    [
+     "([6, 7, 8], (10, 11))",
+     "[6, 7, 8, 10, 11]"
+    ],
+    [
+     "([7, 8, 9], (11, 12))",
+     "[7, 8, 9, 11, 12]"
+    ]
+   ],
+   "origin": 750,
+   "round": 0
+  },
+  {
+   "name": "count_reverse_pairs",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "min(str(len(items) ** 2))",
+   "description": "Write a function to count the pairs of reverse strings in the given string list.",
+   "tests": [
+    [
+     "(['julia', 'best', 'tseb', 'for', 'ailuj'],)",
+     "'2'"
+    ],
+    [
+     "(['geeks', 'best', 'for', 'skeeg'],)",
+     "'1'"
+    ],
+    [
+     "(['makes', 'best', 'sekam', 'for', 'rof'],)",
+     "'2'"
+    ]
+   ],
+   "origin": 757,
+   "round": 0
+  },
+  {
+   "name": "is_polite",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "n + len(str(n ** 2 ** 2))",
+   "description": "Write a function to find nth polite number.",
+   "tests": [
+    [
+     "(7,)",
+     "11"
+    ],
+    [
+     "(4,)",
+     "7"
+    ],
+    [
+     "(9,)",
+     "13"
+    ]
+   ],
+   "origin": 765,
+   "round": 0
+  },
+  {
+   "name": "pair_wise",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "list(zip(items, items[1:]))",
+   "description": "Write a function to iterate over all pairs of consecutive items in a given list.",
+   "tests": [
+    [
+     "([1, 1, 2, 3, 3, 4, 4, 5],)",
+     "[(1, 1), (1, 2), (2, 3), (3, 3), (3, 4), (4, 4), (4, 5)]"
+    ],
+    [
+     "([1, 5, 7, 9, 10],)",
+     "[(1, 5), (5, 7), (7, 9), (9, 10)]"
+    ],
+    [
+     "([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],)",
+     "[(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 8), (8, 9), (9, 10)]"
+    ]
+   ],
+   "origin": 766,
+   "round": 0
+  },
+  {
+   "name": "check_expression",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "s < s[:-1][-1]",
+   "description": "Write a function to check if the given expression is balanced or not.",
+   "tests": [
+    [
+     "('{()}[{}]',)",
+     "True"
+    ],
+    [
+     "('{()}[{]',)",
+     "False"
+    ],
+    [
+     "('{()}[{}][]({})',)",
+     "True"
+    ]
+   ],
+   "origin": 771,
+   "round": 0
+  },
+  {
+   "name": "mul_even_odd",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "min(items, key=lambda x: x % 2)",
+   "description": "Write a function to find the product of first even and odd number of a given list.",
+   "tests": [
+    [
+     "([1, 3, 5, 7, 4, 1, 6, 8],)",
+     "4"
+    ],
+    [
+     "([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],)",
+     "2"
+    ],
+    [
+     "([1, 5, 7, 9, 10],)",
+     "10"
+    ]
+   ],
+   "origin": 784,
+   "round": 0
+  },
+  {
+   "name": "tuple_str_int",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "tuple([int(max(x)) for x in s.split()])",
+   "description": "Write a function to convert tuple string to integer tuple.",
+   "tests": [
+    [
+     "('(7, 8, 9)',)",
+     "(7, 8, 9)"
+    ],
+    [
+     "('(1, 2, 3)',)",
+     "(1, 2, 3)"
+    ],
+    [
+     "('(4, 5, 6)',)",
+     "(4, 5, 6)"
+    ]
+   ],
+   "origin": 785,
+   "round": 0
+  },
+  {
+   "name": "right_insertion",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "max(items[:n][:-1])",
+   "description": "Write a function to locate the right insertion point for a specified value in sorted order.",
+   "tests": [
+    [
+     "([1, 2, 4, 5], 6)",
+     "4"
+    ],
+    [
+     "([1, 2, 4, 5], 3)",
+     "2"
+    ],
+    [
+     "([1, 2, 4, 5], 7)",
+     "4"
+    ]
+   ],
+   "origin": 786,
+   "round": 0
+  },
+  {
+   "name": "new_tuple",
+   "params": [
+    "items",
+    "s"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "str"
+    ]
+   ],
+   "expression": "tuple(items + s.split())",
+   "description": "Write a function to create a new tuple from the given string and list.",
+   "tests": [
+    [
+     "(['WEB', 'is'], 'best')",
+     "('WEB', 'is', 'best')"
+    ],
+    [
+     "(['We', 'are'], 'Developers')",
+     "('We', 'are', 'Developers')"
+    ],
+    [
+     "(['Part', 'is'], 'Wrong')",
+     "('Part', 'is', 'Wrong')"
+    ]
+   ],
+   "origin": 788,
+   "round": 0
+  },
+  {
+   "name": "return_sum",
+   "params": [
+    "d"
+   ],
+   "kinds": [
+    [
+     "dict"
+    ]
+   ],
+   "expression": "sum(list(d.values()))",
+   "description": "Write function to find the sum of all items in the given dictionary.",
+   "tests": [
+    [
+     "({'a': 100, 'b': 200, 'c': 300},)",
+     "600"
+    ],
+    [
+     "({'a': 25, 'b': 18, 'c': 45},)",
+     "88"
+    ],
+    [
+     "({'a': 36, 'b': 39, 'c': 49},)",
+     "124"
+    ]
+   ],
+   "origin": 796,
+   "round": 0
+  },
+  {
+   "name": "remove_all_spaces",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "''.join(s.split())",
+   "description": "Write a function to remove all whitespaces from a string.",
+   "tests": [
+    [
+     "('python  program',)",
+     "'pythonprogram'"
+    ],
+    [
+     "('python   programming    language',)",
+     "'pythonprogramminglanguage'"
+    ],
+    [
+     "('python                     program',)",
+     "'pythonprogram'"
+    ]
+   ],
+   "origin": 800,
+   "round": 0
+  },
+  {
+   "name": "check_smaller",
+   "params": [
+    "tup",
+    "tup2"
+   ],
+   "kinds": [
+    [
+     "tuple"
+    ],
+    [
+     "tuple"
+    ]
+   ],
+   "expression": "max(tup2) in tup",
+   "description": "Write a function to check if each element of second tuple is smaller than its corresponding index in first tuple.",
+   "tests": [
+    [
+     "((1, 2, 3), (2, 3, 4))",
+     "False"
+    ],
+    [
+     "((4, 5, 6), (3, 4, 5))",
+     "True"
+    ],
+    [
+     "((11, 12, 13), (10, 11, 12))",
+     "True"
+    ]
+   ],
+   "origin": 809,
+   "round": 0
+  },
+  {
+   "name": "road_rd",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "s.replace('road'[1:], 'rd.'[1:])",
+   "description": "Write a function to abbreviate 'road' as 'rd.' in a given string.",
+   "tests": [
+    [
+     "('ravipadu Road',)",
+     "'ravipadu Rd.'"
+    ],
+    [
+     "('palnadu Road',)",
+     "'palnadu Rd.'"
+    ],
+    [
+     "('eshwar enclave Road',)",
+     "'eshwar enclave Rd.'"
+    ]
+   ],
+   "origin": 812,
+   "round": 0
+  },
+  {
+   "name": "rombus_area",
+   "params": [
+    "n",
+    "m"
+   ],
+   "kinds": [
+    [
+     "num"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "(n - m) ** 2",
+   "description": "Write a function to find the area of a rombus.",
+   "tests": [
+    [
+     "(10, 20)",
+     "100"
+    ],
+    [
+     "(10, 5)",
+     "25"
+    ],
+    [
+     "(4, 2)",
+     "4"
+    ]
+   ],
+   "origin": 814,
+   "round": 0
+  },
+  {
+   "name": "clear_tuple",
+   "params": [
+    "tup"
+   ],
+   "kinds": [
+    [
+     "tuple"
+    ]
+   ],
+   "expression": "tup[len(tup):]",
+   "description": "Write a function to clear the values of the given tuples.",
+   "tests": [
+    [
+     "((1, 5, 3, 6, 8),)",
+     "()"
+    ],
+    [
+     "((2, 1, 4, 5, 6),)",
+     "()"
+    ],
+    [
+     "((3, 2, 5, 6, 8),)",
+     "()"
+    ]
+   ],
+   "origin": 816,
+   "round": 0
+  },
+  {
+   "name": "check_monthnum_number",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "n == 2",
+   "description": "Write a function to check whether the given month number contains 28 days or not.",
+   "tests": [
+    [
+     "(2,)",
+     "True"
+    ],
+    [
+     "(1,)",
+     "False"
+    ],
+    [
+     "(3,)",
+     "False"
+    ]
+   ],
+   "origin": 820,
+   "round": 0
+  },
+  {
+   "name": "access_elements",
+   "params": [
+    "items",
+    "other"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "list"
+    ]
+   ],
+   "expression": "[items[x] for x in other]",
+   "description": "Write a python function to access multiple elements of specified index from a given list.",
+   "tests": [
+    [
+     "([2, 3, 8, 4, 7, 9], [0, 3, 5])",
+     "[2, 4, 9]"
+    ],
+    [
+     "([1, 2, 3, 4, 5], [1, 2])",
+     "[2, 3]"
+    ],
+    [
+     "([1, 0, 2, 3], [0, 1])",
+     "[1, 0]"
+    ]
+   ],
+   "origin": 825,
+   "round": 0
+  },
+  {
+   "name": "sum_column",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "sum((x[n] for x in items))",
+   "description": "Write a function to sum a specific column of a list in a given list of lists.",
+   "tests": [
+    [
+     "([[1, 2, 3, 2], [4, 5, 6, 2], [7, 8, 9, 5]], 0)",
+     "12"
+    ],
+    [
+     "([[1, 2, 3, 2], [4, 5, 6, 2], [7, 8, 9, 5]], 1)",
+     "15"
+    ],
+    [
+     "([[1, 2, 3, 2], [4, 5, 6, 2], [7, 8, 9, 5]], 3)",
+     "9"
+    ]
+   ],
+   "origin": 827,
+   "round": 0
+  },
+  {
+   "name": "second_frequent",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "max(sorted(set(items))[:-1])",
+   "description": "Write a function to find out the second most repeated (or frequent) string in the given sequence.",
+   "tests": [
+    [
+     "(['aaa', 'bbb', 'ccc', 'bbb', 'aaa', 'aaa'],)",
+     "'bbb'"
+    ],
+    [
+     "(['abc', 'bcd', 'abc', 'bcd', 'bcd', 'bcd'],)",
+     "'abc'"
+    ],
+    [
+     "(['cdma', 'gsm', 'hspa', 'gsm', 'cdma', 'cdma'],)",
+     "'gsm'"
+    ]
+   ],
+   "origin": 829,
+   "round": 0
+  },
+  {
+   "name": "Sum_of_Inverse_Divisors",
+   "params": [
+    "n",
+    "m"
+   ],
+   "kinds": [
+    [
+     "num"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "round(m / n, 2)",
+   "description": "Write a python function to find sum of inverse of divisors.",
+   "tests": [
+    [
+     "(6, 12)",
+     "2"
+    ],
+    [
+     "(9, 13)",
+     "1.44"
+    ],
+    [
+     "(1, 4)",
+     "4"
+    ]
+   ],
+   "origin": 851,
+   "round": 0
+  },
+  {
+   "name": "remove_negs",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "[x for x in items if str(x).isdigit()]",
+   "description": "Write a python function to remove negative numbers from a list.",
+   "tests": [
+    [
+     "([1, -2, 3, -4],)",
+     "[1, 3]"
+    ],
+    [
+     "([1, 2, 3, -4],)",
+     "[1, 2, 3]"
+    ],
+    [
+     "([4, 5, -6, 7, -8],)",
+     "[4, 5, 7]"
+    ]
+   ],
+   "origin": 852,
+   "round": 0
+  },
+  {
+   "name": "find_Min_Swaps",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "sum(items + items[::n])",
+   "description": "Write a python function to find minimum adjacent swaps required to sort binary array.",
+   "tests": [
+    [
+     "([1, 0, 1, 0], 4)",
+     "3"
+    ],
+    [
+     "([0, 1, 0], 3)",
+     "1"
+    ],
+    [
+     "([0, 0, 1, 1, 0], 5)",
+     "2"
+    ]
+   ],
+   "origin": 856,
+   "round": 0
+  },
+  {
+   "name": "listify_list",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "[list(x) for x in items]",
+   "description": "Write a function to list out the list of given strings individually using map function.",
+   "tests": [
+    [
+     "(['Red', 'Blue', 'Black', 'White', 'Pink'],)",
+     "[['R', 'e', 'd'], ['B', 'l', 'u', 'e'], ['B', 'l', 'a', 'c', 'k'], ['W', 'h', 'i', 't', 'e'], ['P', 'i', 'n', 'k']]"
+    ],
+    [
+     "(['python'],)",
+     "[['p', 'y', 't', 'h', 'o', 'n']]"
+    ],
+    [
+     "([' red ', 'green', ' black', 'blue ', ' orange', 'brown'],)",
+     "[[' ', 'r', 'e', 'd', ' '], ['g', 'r', 'e', 'e', 'n'], [' ', 'b', 'l', 'a', 'c', 'k'], ['b', 'l', 'u', 'e', ' '], [' ', 'o', 'r', 'a', 'n', 'g', 'e'], ['b', 'r', 'o', 'w', 'n']]"
+    ]
+   ],
+   "origin": 857,
+   "round": 0
+  },
+  {
+   "name": "count_list",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "len(items) ** 2",
+   "description": "Write a function to count number of lists in a given list of lists and square the count.",
+   "tests": [
+    [
+     "([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]],)",
+     "25"
+    ],
+    [
+     "([[1, 3], [5, 7], [9, 11], [13, 15, 17]],)",
+     "16"
+    ],
+    [
+     "([[2, 4], [[6, 8], [4, 5, 8]], [10, 12, 14]],)",
+     "9"
+    ]
+   ],
+   "origin": 858,
+   "round": 0
+  },
+  {
+   "name": "palindrome_lambda",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "[x for x in items if x == x[::-1]]",
+   "description": "Write a function to find palindromes in a given list of strings using lambda function.",
+   "tests": [
+    [
+     "(['php', 'res', 'Python', 'abcd', 'Java', 'aaa'],)",
+     "['php', 'aaa']"
+    ],
+    [
+     "(['abcd', 'Python', 'abba', 'aba'],)",
+     "['abba', 'aba']"
+    ],
+    [
+     "(['abcd', 'abbccbba', 'abba', 'aba'],)",
+     "['abbccbba', 'abba', 'aba']"
+    ]
+   ],
+   "origin": 864,
+   "round": 0
+  },
+  {
+   "name": "ntimes_list",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "[x * n for x in items]",
+   "description": "Write a function to print n-times a list using map function.",
+   "tests": [
+    [
+     "([1, 2, 3, 4, 5, 6, 7], 3)",
+     "[3, 6, 9, 12, 15, 18, 21]"
+    ],
+    [
+     "([1, 2, 3, 4, 5, 6, 7], 4)",
+     "[4, 8, 12, 16, 20, 24, 28]"
+    ],
+    [
+     "([1, 2, 3, 4, 5, 6, 7], 10)",
+     "[10, 20, 30, 40, 50, 60, 70]"
+    ]
+   ],
+   "origin": 865,
+   "round": 0
+  },
+  {
+   "name": "sum_positivenum",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "len(''.join((x * ' ' for x in items)))",
+   "description": "Write a function to calculate the sum of the positive numbers of a given list of numbers using lambda function.",
+   "tests": [
+    [
+     "([2, 4, -6, -9, 11, -12, 14, -5, 17],)",
+     "48"
+    ],
+    [
+     "([10, 15, -14, 13, -18, 12, -20],)",
+     "50"
+    ],
+    [
+     "([19, -65, 57, 39, 152, -639, 121, 44, 90, -190],)",
+     "522"
+    ]
+   ],
+   "origin": 870,
+   "round": 0
+  },
+  {
+   "name": "check_Concat",
+   "params": [
+    "s",
+    "t"
+   ],
+   "kinds": [
+    [
+     "str"
+    ],
+    [
+     "str"
+    ]
+   ],
+   "expression": "s.endswith(t)",
+   "description": "Write a python function to check if the string is a concatenation of another string.",
+   "tests": [
+    [
+     "('abcabcabc', 'abc')",
+     "True"
+    ],
+    [
+     "('abcab', 'abc')",
+     "False"
+    ],
+    [
+     "('aba', 'ab')",
+     "False"
+    ]
+   ],
+   "origin": 874,
+   "round": 0
+  },
+  {
+   "name": "sort_String",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "''.join(sorted(s))",
+   "description": "Write a python function to sort the given string.",
+   "tests": [
+    [
+     "('cba',)",
+     "'abc'"
+    ],
+    [
+     "('data',)",
+     "'aadt'"
+    ],
+    [
+     "('zxy',)",
+     "'xyz'"
+    ]
+   ],
+   "origin": 877,
+   "round": 0
+  },
+  {
+   "name": "parallelogram_perimeter",
+   "params": [
+    "n",
+    "m"
+   ],
+   "kinds": [
+    [
+     "num"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "n * (m + m)",
+   "description": "Write a function to caluclate perimeter of a parallelogram.",
+   "tests": [
+    [
+     "(10, 20)",
+     "400"
+    ],
+    [
+     "(15, 20)",
+     "600"
+    ],
+    [
+     "(8, 9)",
+     "144"
+    ]
+   ],
+   "origin": 882,
+   "round": 0
+  },
+  {
+   "name": "sum_num",
+   "params": [
+    "tup"
+   ],
+   "kinds": [
+    [
+     "tuple"
+    ]
+   ],
+   "expression": "sum(tup) / len(tup)",
+   "description": "Write a function to add all the numbers in a list and divide it with the length of the list.",
+   "tests": [
+    [
+     "((8, 2, 3, 0, 7),)",
+     "4.0"
+    ],
+    [
+     "((-10, -20, -30),)",
+     "-20.0"
+    ],
+    [
+     "((19, 15, 18),)",
+     "17.333333333333332"
+    ]
+   ],
+   "origin": 886,
+   "round": 0
+  },
+  {
+   "name": "is_odd",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "bool(n % 2)",
+   "description": "Write a python function to check whether the given number is odd or not using bitwise operator.",
+   "tests": [
+    [
+     "(5,)",
+     "True"
+    ],
+    [
+     "(6,)",
+     "False"
+    ],
+    [
+     "(7,)",
+     "True"
+    ]
+   ],
+   "origin": 887,
+   "round": 0
+  },
+  {
+   "name": "reverse_list_lists",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "[x[::-1] for x in items]",
+   "description": "Write a function to reverse each list in a given list of lists.",
+   "tests": [
+    [
+     "([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]],)",
+     "[[4, 3, 2, 1], [8, 7, 6, 5], [12, 11, 10, 9], [16, 15, 14, 13]]"
+    ],
+    [
+     "([[1, 2], [2, 3], [3, 4]],)",
+     "[[2, 1], [3, 2], [4, 3]]"
+    ],
+    [
+     "([[10, 20], [30, 40]],)",
+     "[[20, 10], [40, 30]]"
+    ]
+   ],
+   "origin": 889,
+   "round": 0
+  },
+  {
+   "name": "remove_spaces_t892",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "' '.join(s.split())",
+   "description": "Write a function to remove multiple spaces in a string.",
+   "tests": [
+    [
+     "('python  program',)",
+     "'python program'"
+    ],
+    [
+     "('python   programming    language',)",
+     "'python programming language'"
+    ],
+    [
+     "('python                     program',)",
+     "'python program'"
+    ]
+   ],
+   "origin": 892,
+   "round": 0
+  },
+  {
+   "name": "Extract",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "[max(x) for x in items]",
+   "description": "Write a python function to get the last element of each sublist.",
+   "tests": [
+    [
+     "([[1, 2, 3], [4, 5], [6, 7, 8, 9]],)",
+     "[3, 5, 9]"
+    ],
+    [
+     "([['x', 'y', 'z'], ['m'], ['a', 'b'], ['u', 'v']],)",
+     "['z', 'm', 'b', 'v']"
+    ],
+    [
+     "([[1, 2, 3], [4, 5]],)",
+     "[3, 5]"
+    ]
+   ],
+   "origin": 893,
+   "round": 0
+  },
+  {
+   "name": "sort_list_last",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "sorted(items, key=lambda x: x[::-1])",
+   "description": "Write a function to sort a list in increasing order by the last element in each tuple from a given list of non-empty tuples.",
+   "tests": [
+    [
+     "([(2, 5), (1, 2), (4, 4), (2, 3), (2, 1)],)",
+     "[(2, 1), (1, 2), (2, 3), (4, 4), (2, 5)]"
+    ],
+    [
+     "([(9, 8), (4, 7), (3, 5), (7, 9), (1, 2)],)",
+     "[(1, 2), (3, 5), (4, 7), (9, 8), (7, 9)]"
+    ],
+    [
+     "([(20, 50), (10, 20), (40, 40)],)",
+     "[(10, 20), (40, 40), (20, 50)]"
+    ]
+   ],
+   "origin": 896,
+   "round": 0
+  },
+  {
+   "name": "check",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "items != n",
+   "description": "Write a python function to check whether an array can be sorted or not by picking only the corner elements.",
+   "tests": [
+    [
+     "([3, 2, 1, 2, 3, 4], 6)",
+     "True"
+    ],
+    [
+     "([2, 1, 4, 5, 1], 5)",
+     "True"
+    ],
+    [
+     "([1, 2, 2, 1, 2, 3], 6)",
+     "True"
+    ]
+   ],
+   "origin": 899,
+   "round": 0
+  },
+  {
+   "name": "match_num",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "s < s[:-1][-1]",
+   "description": "Write a function where a string will start with a specific number.",
+   "tests": [
+    [
+     "('5-2345861',)",
+     "True"
+    ],
+    [
+     "('6-2345861',)",
+     "False"
+    ],
+    [
+     "('78910',)",
+     "False"
+    ]
+   ],
+   "origin": 900,
+   "round": 0
+  },
+  {
+   "name": "end_num",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "not s.isalpha()",
+   "description": "Write a function to check for a number at the end of a string.",
+   "tests": [
+    [
+     "('abcdef',)",
+     "False"
+    ],
+    [
+     "('abcdef7',)",
+     "True"
+    ],
+    [
+     "('abc',)",
+     "False"
+    ]
+   ],
+   "origin": 913,
+   "round": 0
+  },
+  {
+   "name": "rearrange_numbs",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "sorted(items, key=lambda x: -1 / x)",
+   "description": "Write a function to rearrange positive and negative numbers in a given array using lambda function.",
+   "tests": [
+    [
+     "([-1, 2, -3, 5, 7, 8, 9, -10],)",
+     "[2, 5, 7, 8, 9, -10, -3, -1]"
+    ],
+    [
+     "([10, 15, 14, 13, -18, 12, -20],)",
+     "[10, 12, 13, 14, 15, -20, -18]"
+    ],
+    [
+     "([-20, 20, -10, 10, -30, 30],)",
+     "[10, 20, 30, -30, -20, -10]"
+    ]
+   ],
+   "origin": 915,
+   "round": 0
+  },
+  {
+   "name": "remove_tuple",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "str([x for x in items if x != x[::-1]])",
+   "description": "Write a function to remove all tuples with all none values in the given tuple list.",
+   "tests": [
+    [
+     "([(None, 2), (None, None), (3, 4), (12, 3), (None,)],)",
+     "'[(None, 2), (3, 4), (12, 3)]'"
+    ],
+    [
+     "([(None, None), (None, None), (3, 6), (17, 3), (None, 1)],)",
+     "'[(3, 6), (17, 3), (None, 1)]'"
+    ],
+    [
+     "([(1, 2), (2, None), (3, None), (24, 3), (None, None)],)",
+     "'[(1, 2), (2, None), (3, None), (24, 3)]'"
+    ]
+   ],
+   "origin": 920,
+   "round": 0
+  },
+  {
+   "name": "max_of_two",
+   "params": [
+    "n",
+    "m"
+   ],
+   "kinds": [
+    [
+     "num"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "max(n, m)",
+   "description": "Write a function to find maximum of two numbers.",
+   "tests": [
+    [
+     "(10, 20)",
+     "20"
+    ],
+    [
+     "(19, 15)",
+     "19"
+    ],
+    [
+     "(-10, -20)",
+     "-10"
+    ]
+   ],
+   "origin": 924,
+   "round": 0
+  },
+  {
+   "name": "sum_series",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "sum((x for x in range(1, n + 1))) ** 2",
+   "description": "Write a function to calculate the sum of series 1³+2³+3³+….+n³.",
+   "tests": [
+    [
+     "(7,)",
+     "784"
+    ],
+    [
+     "(5,)",
+     "225"
+    ],
+    [
+     "(15,)",
+     "14400"
+    ]
+   ],
+   "origin": 931,
+   "round": 0
+  },
+  {
+   "name": "series_sum",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "sum((x ** 2 for x in range(1, n + 1)))",
+   "description": "Write a function to calculate the sum of series 1²+2²+3²+….+n².",
+   "tests": [
+    [
+     "(6,)",
+     "91"
+    ],
+    [
+     "(7,)",
+     "140"
+    ],
+    [
+     "(12,)",
+     "650"
+    ]
+   ],
+   "origin": 935,
+   "round": 0
+  },
+  {
+   "name": "sorted_models",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "sorted(items, key=lambda x: min(list(x.items())))",
+   "description": "Write a function to sort a list of dictionaries using lambda function.",
+   "tests": [
+    [
+     "([{'make': 'Nokia', 'model': 216, 'color': 'Black'}, {'make': 'Mi Max', 'model': 2, 'color': 'Gold'}, {'make': 'Samsung', 'model': 7, 'color': 'Blue'}],)",
+     "[{'make': 'Nokia', 'model': 216, 'color': 'Black'}, {'make': 'Samsung', 'model': 7, 'color': 'Blue'}, {'make': 'Mi Max', 'model': 2, 'color': 'Gold'}]"
+    ],
+    [
+     "([{'make': 'Vivo', 'model': 20, 'color': 'Blue'}, {'make': 'oppo', 'model': 17, 'color': 'Gold'}, {'make': 'Apple', 'model': 11, 'color': 'red'}],)",
+     "[{'make': 'Vivo', 'model': 20, 'color': 'Blue'}, {'make': 'oppo', 'model': 17, 'color': 'Gold'}, {'make': 'Apple', 'model': 11, 'color': 'red'}]"
+    ],
+    [
+     "([{'make': 'micromax', 'model': 40, 'color': 'grey'}, {'make': 'poco', 'model': 60, 'color': 'blue'}],)",
+     "[{'make': 'poco', 'model': 60, 'color': 'blue'}, {'make': 'micromax', 'model': 40, 'color': 'grey'}]"
+    ]
+   ],
+   "origin": 939,
+   "round": 0
+  },
+  {
+   "name": "count_elim",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "sum([x for x in range(len(items))][:-1][:-1])",
+   "description": "Write a function to count the elements in a list until an element is a tuple.",
+   "tests": [
+    [
+     "([10, 20, 30, (10, 20), 40],)",
+     "3"
+    ],
+    [
+     "([10, (20, 30), (10, 20), 40],)",
+     "1"
+    ],
+    [
+     "([(10, (20, 30, (10, 20), 40))],)",
+     "0"
+    ]
+   ],
+   "origin": 941,
+   "round": 0
+  },
+  {
+   "name": "combine_lists",
+   "params": [
+    "items",
+    "other"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "list"
+    ]
+   ],
+   "expression": "sorted(items + other)",
+   "description": "Write a function to combine two given sorted lists using heapq module.",
+   "tests": [
+    [
+     "([1, 3, 5, 7, 9, 11], [0, 2, 4, 6, 8, 10])",
+     "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]"
+    ],
+    [
+     "([1, 3, 5, 6, 8, 9], [2, 5, 7, 11])",
+     "[1, 2, 3, 5, 5, 6, 7, 8, 9, 11]"
+    ],
+    [
+     "([1, 3, 7], [2, 4, 6])",
+     "[1, 2, 3, 4, 6, 7]"
+    ]
+   ],
+   "origin": 943,
+   "round": 0
+  },
+  {
+   "name": "num_position",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "s.find(min(s.split()))",
+   "description": "Write a function to separate and print the numbers and their position of a given string.",
+   "tests": [
+    [
+     "('there are 70 flats in this apartment',)",
+     "10"
+    ],
+    [
+     "('every adult have 32 teeth',)",
+     "17"
+    ],
+    [
+     "('isha has 79 chocolates in her bag',)",
+     "9"
+    ]
+   ],
+   "origin": 944,
+   "round": 0
+  },
+  {
+   "name": "len_log",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "len(items[0])",
+   "description": "Write a python function to find the length of the shortest word.",
+   "tests": [
+    [
+     "(['win', 'lose', 'great'],)",
+     "3"
+    ],
+    [
+     "(['a', 'ab', 'abc'],)",
+     "1"
+    ],
+    [
+     "(['12', '12', '1234'],)",
+     "2"
+    ]
+   ],
+   "origin": 947,
+   "round": 0
+  },
+  {
+   "name": "subset",
+   "params": [
+    "items",
+    "n"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "min(items) ** 2 % n",
+   "description": "Write a python function to find the minimun number of subsets with distinct elements.",
+   "tests": [
+    [
+     "([1, 2, 3, 4], 4)",
+     "1"
+    ],
+    [
+     "([5, 6, 9, 3, 4, 3, 4], 7)",
+     "2"
+    ],
+    [
+     "([1, 2, 3], 3)",
+     "1"
+    ]
+   ],
+   "origin": 953,
+   "round": 0
+  },
+  {
+   "name": "is_abundant",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "chr(n ** 3).isalpha()",
+   "description": "Write a function to find out, if the given number is abundant.",
+   "tests": [
+    [
+     "(12,)",
+     "True"
+    ],
+    [
+     "(13,)",
+     "False"
+    ],
+    [
+     "(9,)",
+     "False"
+    ]
+   ],
+   "origin": 955,
+   "round": 0
+  },
+  {
+   "name": "Average",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "sum(items) / len(items)",
+   "description": "Write a python function to find the average of a list.",
+   "tests": [
+    [
+     "([15, 9, 55, 41, 35, 20, 62, 49],)",
+     "35.75"
+    ],
+    [
+     "([4, 5, 1, 2, 9, 7, 10, 8],)",
+     "5.75"
+    ],
+    [
+     "([1, 2, 3],)",
+     "2"
+    ]
+   ],
+   "origin": 959,
+   "round": 0
+  },
+  {
+   "name": "word_len",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "s[1:] < s",
+   "description": "Write a python function to check whether the length of the word is even or not.",
+   "tests": [
+    [
+     "('program',)",
+     "False"
+    ],
+    [
+     "('solution',)",
+     "True"
+    ],
+    [
+     "('data',)",
+     "True"
+    ]
+   ],
+   "origin": 964,
+   "round": 0
+  },
+  {
+   "name": "remove_empty",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "items[1:][1:]",
+   "description": "Write a function to remove an empty tuple from a list of tuples.",
+   "tests": [
+    [
+     "([(), (), ('',), ('a', 'b'), ('a', 'b', 'c'), 'd'],)",
+     "[('',), ('a', 'b'), ('a', 'b', 'c'), 'd']"
+    ],
+    [
+     "([(), (), ('',), 'python', 'program'],)",
+     "[('',), 'python', 'program']"
+    ],
+    [
+     "([(), (), ('',), 'java'],)",
+     "[('',), 'java']"
+    ]
+   ],
+   "origin": 966,
+   "round": 0
+  },
+  {
+   "name": "min_of_two",
+   "params": [
+    "n",
+    "m"
+   ],
+   "kinds": [
+    [
+     "num"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "min(n, m)",
+   "description": "Write a function to find minimum of two numbers.",
+   "tests": [
+    [
+     "(10, 20)",
+     "10"
+    ],
+    [
+     "(19, 15)",
+     "15"
+    ],
+    [
+     "(-10, -20)",
+     "-20"
+    ]
+   ],
+   "origin": 970,
+   "round": 0
+  },
+  {
+   "name": "left_rotate",
+   "params": [
+    "s",
+    "n"
+   ],
+   "kinds": [
+    [
+     "str"
+    ],
+    [
+     "num"
+    ]
+   ],
+   "expression": "s[n:] + s[:n]",
+   "description": "Write a python function to left rotate the string.",
+   "tests": [
+    [
+     "('python', 2)",
+     "'thonpy'"
+    ],
+    [
+     "('bigdata', 3)",
+     "'databig'"
+    ],
+    [
+     "('hadoop', 1)",
+     "'adooph'"
+    ]
+   ],
+   "origin": 973,
+   "round": 0
+  },
+  {
+   "name": "min_sum_path",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "sum((min(x) for x in items))",
+   "description": "Write a function to find the minimum total path sum in the given triangle.",
+   "tests": [
+    [
+     "([[2], [3, 9], [1, 6, 7]],)",
+     "6"
+    ],
+    [
+     "([[2], [3, 7], [8, 5, 6]],)",
+     "10"
+    ],
+    [
+     "([[3], [6, 4], [5, 2, 7]],)",
+     "9"
+    ]
+   ],
+   "origin": 974,
+   "round": 0
+  },
+  {
+   "name": "Split",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "[x for x in items if not sum_Square(x)]",
+   "description": "Write a python function to find even numbers from a mixed list.",
+   "tests": [
+    [
+     "([1, 2, 3, 4, 5],)",
+     "[2, 4]"
+    ],
+    [
+     "([4, 5, 6, 7, 8, 0, 1],)",
+     "[4, 6, 8, 0]"
+    ],
+    [
+     "([8, 12, 15, 19],)",
+     "[8, 12]"
+    ]
+   ],
+   "origin": 629,
+   "round": 1
+  },
+  {
+   "name": "count_same_pair",
+   "params": [
+    "items",
+    "other"
+   ],
+   "kinds": [
+    [
+     "list"
+    ],
+    [
+     "list"
+    ]
+   ],
+   "expression": "len(palindrome_lambda(list(zip(items, other))))",
+   "description": "Write a function to count the same pair in two given lists using map function.",
+   "tests": [
+    [
+     "([1, 2, 3, 4, 5, 6, 7, 8], [2, 2, 3, 1, 2, 6, 7, 9])",
+     "4"
+    ],
+    [
+     "([0, 1, 2, -1, -5, 6, 0, -3, -2, 3, 4, 6, 8], [2, 1, 2, -1, -5, 6, 4, -3, -2, 3, 4, 6, 8])",
+     "11"
+    ],
+    [
+     "([2, 4, -6, -9, 11, -12, 14, -5, 17], [2, 1, 2, -1, -5, 6, 4, -3, -2, 3, 4, 6, 8])",
+     "1"
+    ]
+   ],
+   "origin": 723,
+   "round": 1
+  },
+  {
+   "name": "tuple_to_dict",
+   "params": [
+    "tup"
+   ],
+   "kinds": [
+    [
+     "tuple"
+    ]
+   ],
+   "expression": "dict(alternate_elements(pair_wise(list(tup))))",
+   "description": "Write a function to convert the given tuple to a key-value dictionary using adjacent elements.",
+   "tests": [
+    [
+     "((1, 5, 7, 10, 13, 5),)",
+     "{1: 5, 7: 10, 13: 5}"
+    ],
+    [
+     "((1, 2, 3, 4, 5, 6),)",
+     "{1: 2, 3: 4, 5: 6}"
+    ],
+    [
+     "((7, 8, 9, 10, 11, 12),)",
+     "{7: 8, 9: 10, 11: 12}"
+    ]
+   ],
+   "origin": 740,
+   "round": 1
+  },
+  {
+   "name": "remove_even",
+   "params": [
+    "items"
+   ],
+   "kinds": [
+    [
+     "list"
+    ]
+   ],
+   "expression": "[x for x in items if sum_Square(x)]",
+   "description": "Write a python function to remove even numbers from a given list.",
+   "tests": [
+    [
+     "([1, 3, 5, 2],)",
+     "[1, 3, 5]"
+    ],
+    [
+     "([5, 6, 7],)",
+     "[5, 7]"
+    ],
+    [
+     "([1, 2, 3, 4],)",
+     "[1, 3]"
+    ]
+   ],
+   "origin": 824,
+   "round": 1
+  },
+  {
+   "name": "check_Even_Parity",
+   "params": [
+    "n"
+   ],
+   "kinds": [
+    [
+     "num"
+    ]
+   ],
+   "expression": "not sum_Square(n)",
+   "description": "Write a python function to check for even parity of a given number.",
+   "tests": [
+    [
+     "(10,)",
+     "True"
+    ],
+    [
+     "(11,)",
+     "False"
+    ],
+    [
+     "(18,)",
+     "True"
+    ]
+   ],
+   "origin": 855,
+   "round": 1
+  },
+  {
+   "name": "check_monthnumb",
+   "params": [
+    "s"
+   ],
+   "kinds": [
+    [
+     "str"
+    ]
+   ],
+   "expression": "sum_Square(len(s))",
+   "description": "Write a function to check whether the given month name contains 31 days or not.",
+   "tests": [
+    [
+     "('February',)",
+     "False"
+    ],
+    [
+     "('January',)",
+     "True"
+    ],
+    [
+     "('March',)",
+     "True"
+    ]
+   ],
+   "origin": 866,
+   "round": 1
+  }
+ ]
+}

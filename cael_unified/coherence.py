@@ -16,6 +16,7 @@ on every reply the team gives:
      honest short answer that keeps the subject.
 No model; word matching on the index's own vocabulary.
 """
+import os
 import re
 
 from . import web_check as wc
@@ -46,7 +47,12 @@ def thing_forms(messages):
                 parts = (thing_of(t) or '').split()     # the whole named phrase ("holly bush")
             except Exception:
                 parts = []
-            parts = parts or thing_and_problem([t])[0]
+            tp = thing_and_problem([t])
+            parts = parts or tp[0]
+            trouble = {w.lower() for w in (tp[1] or [])} if len(tp) > 1 and isinstance(tp[1], (list, tuple, set)) else set()
+            # "My car brakes squeak": the thing is the brakes, the squeak is the trouble
+            parts = [w for w in parts if w.lower() not in trouble and not re.fullmatch(r"(?i)(?:squeak|squeal|smell|leak|drip|rattl|creak|buzz|hum|click|"
+                                                                                        r"grind|stick|ach|hurt|itch|bark|bit|scratch)\w*", w)] or parts
         if parts:
             # the most telling word of the thing: "holly" in "holly bush" (not "bush", which bush beans share)
             from .retrieval import idf
@@ -75,13 +81,50 @@ def sources_of(reply):
     return titles
 
 
+# kinds that share words but not answers: a car's brakes are not a bike's rim brakes, a cat is not a dog
+KINDS = [(re.compile(r"(?i)\b(?:car|van|truck|lorry|suv|vehicle|motorbike|motorcycle)\b"), re.compile(r"(?i)\b(?:bicycles?|bikes?|rims?|cyclists?|mtb|mountain ?bikes?)\b")),
+         (re.compile(r"(?i)\b(?:bicycles?|bikes?|cycling)\b"), re.compile(r"(?i)\b(?:car|vehicle|engine|ignition|clutch|gearbox|steering wheel|mot)\b")),
+         (re.compile(r"(?i)\b(?:cat|cats|kitten|kitty)\b"), re.compile(r"(?i)\b(?:dog|dogs|puppy|pup|canine)\b")),
+         (re.compile(r"(?i)\b(?:dog|dogs|puppy|pup)\b"), re.compile(r"(?i)\b(?:cat|cats|kitten|feline)\b"))]
+SITE_TALK = re.compile(r"(?i)\b(?:stack exchange|stackexchange|stack overflow|wikipedia|reddit|quora) (?:is|was) (?:a|an|the)\b|question-and-answer \(q&a\) websites")
+EXPLAINING = re.compile(r'^chat/(?:core-explain|explain)$')
+
+
+def wrong_kind(turns, body):
+    said = ' '.join(turns)
+    for mine, other in KINDS:
+        if mine.search(said) and not other.search(said) and other.search(body[:900]):
+            return other.search(body[:900])[0]
+    return None
+
+
+def repeated(messages, reply):
+    said = [str(m.get('content') or '') for m in messages[:-1] if m.get('role') == 'assistant']
+    head = reply.strip()[:120]
+    return bool(head) and any(s.strip()[:120] == head for s in said)
+
+
 def off_topic(messages, draft):
     """Why a reply leaves the conversation's thing, or None."""
     route = str(draft.get('route', ''))
     reply = str(draft.get('response', ''))
     turns = wc.user_turns(messages)
-    if len(turns) < 2 or not (QUOTING.match(route) or route == 'chat/advice-schema'):
+    if len(turns) < 2:
         return None
+    if SITE_TALK.search(reply) and not re.search(r"(?i)stack|wikipedia|reddit|quora", ' '.join(turns)):
+        return 'a passage about the website the answer came from, not an answer'
+    if EXPLAINING.match(route) and told_first(turns) and not re.search(r"(?i)^\s*(?:what (?:is|are|does)|why|how (?:does|do) (?:\w+ )?work)\b", turns[-1]):
+        if repeated(messages, reply):
+            return 'the same explanation again, not an answer to the follow-up'
+        if re.search(r"(?i)^\s*(?:is|are|can|could|should|do|does|will|how (?:can|do|should) i)\b", turns[-1]):
+            return 'a general explanation, not an answer to the follow-up'
+    if not (QUOTING.match(route) or route == 'chat/advice-schema'):
+        return None
+    if repeated(messages, reply) and len(turns) >= 3:
+        return 'the same answer as before, for a different question'
+    kind = wrong_kind(turns, reply.split('\n\nSource:')[0])
+    if kind:
+        return f'advice about a {kind.lower()}, not what the user has'
     parts, forms = thing_forms(messages)
     if not forms:
         return None
@@ -114,6 +157,15 @@ def off_topic(messages, draft):
         if not mentions(stems_of(body), forms):
             return f'the answer does not mention the {parts[-1]}'
     return None
+
+
+def told_first(turns):
+    """The conversation opened by telling a problem ("My bread always comes out flat")."""
+    try:
+        from .team import told_problem
+        return bool(told_problem(turns[0]))
+    except Exception:
+        return False
 
 
 def expected_class(messages):
@@ -157,6 +209,44 @@ SAME_ASK = {'prune': ['trim', 'trimming', 'shape', 'cut', 'pruning'], 'pruning':
             'often': ['frequency', 'often'], 'safe': ['safety', 'dangerous', 'toxic'], 'cause': ['causes', 'why', 'reason']}
 
 
+def named_thing(turns):
+    """The thing as the user named it, with its owner words: "my car brakes" -> "my car brakes", "the brakes on my bicycle"
+    -> "my bicycle brakes", "our kitchen sink drain" -> "our kitchen sink drain"."""
+    first = turns[0]
+    m = re.search(r"(?i)\bthe ([a-z]+) on (my|our) ([a-z]+)\b", first)
+    if m:
+        return f'{m[2].lower()} {m[3].lower()} {m[1].lower()}'
+    m = re.search(r"(?i)\b(my|our)\s+((?:[a-z]+\s+){0,2}[a-z]+?)(?=\s+(?:is|are|has|have|keeps?|won'?t|doesn'?t|don'?t|always|(?:squeak|squeal|smell|leak|drip|rattle|creak)s?|"
+                  r"make|makes|stopped|started|get|gets|look|looks|turn|turned|went|came|comes|come)\b)", first)
+    if m:
+        return f'{m[1].lower()} {m[2].lower()}'
+    return None
+
+
+def resolved_question(messages):
+    """A follow-up question in a conversation about a told problem, with its 'it/them' replaced by the thing named:
+    "How do I clean them?" after "My car brakes squeak" -> "How do I clean my car brakes?". None when nothing to resolve."""
+    turns = wc.user_turns(messages)
+    if len(turns) < 2 or not turns[-1].strip().endswith('?') or not told_first(turns):
+        return None
+    named = named_thing(turns)
+    last = turns[-1].strip()
+    if not named or len(last.split()) > 14:
+        return None
+    told = re.sub(r"(?i)^\s*(?:my|our)\b", lambda m: m[0].lower(), turns[0].strip().rstrip('.!'))
+    told = told[:1].lower() + told[1:]
+    m = re.match(r"(?i)^\s*(?:is|could|might|would) (?:it|that) (?:be )?(?:the|my|a|an) ([a-z]+(?: [a-z]+)?)\s*\?$", last)
+    if m:
+        return f"Is it the {m[1]} when {told}?"                # "Is it the pads?" -> "Is it the pads when my car brakes squeak…?"
+    if re.match(r"(?i)^\s*what (?:causes|is causing|could cause|would cause) (?:it|that|this)\s*\?$", last):
+        return f"What causes {told}?"
+    if re.search(r"(?i)\b(?:them|it|they|these|those)\b", last):
+        return re.sub(r"(?i)\b(?:them|it|they|these|those)\b", named, last, count=1)
+    if re.search(r"(?i)^\s*(?:is|could|can|should|do|does|will)\b.*\b(?:the|my|our)\s+[a-z]+\s*\?$", last):
+        return f"{last.rstrip('?')} on {named}?"              # "Is it the pads?" was caught above; "Could the filter be blocked?" stays
+    return None
+
+
 def thread_answer(messages, board, forms):
     """The index searched with the whole conversation; only threads whose title names the thing and one of the follow-up's
     own words are read, and their advice is put together (web_check.compose)."""
@@ -165,14 +255,35 @@ def thread_answer(messages, board, forms):
     asked = question_forms(turns[-1])
     if not asked:
         return None
+    m = NEW_THING.search(turns[-1])
+    if m:
+        # "Is my yeast dead?" in a bread conversation: a thread about the yeast is about the conversation too
+        new = {s for s in stems_of(m[1]) if s in asked} - stems_of('it them that this one ones')
+        if new:
+            forms = set(forms) | new
+            asked = (asked - new) or asked
     plan = dict(board.search or {})
     plan.setdefault('shape', 'steps')
-    # what the user first told about the thing, and the follow-up itself: the turns in between would blur the search
-    focus = [dict(role='user', content=turns[0]), dict(role='assistant', content='ok'), dict(role='user', content=turns[-1])]
-    try:
-        hits = rv.search(focus, plan, k=40)
-    except Exception:
-        return None
+    # first the follow-up asked about the thing itself ("How do I clean them?" -> "How do I clean my car brakes?"), the way a
+    # person would mean it; then what the user first told plus the follow-up (the turns in between would blur the search)
+    hits, seen = [], set()
+    queries = []
+    named = named_thing(turns)
+    if named:
+        q = re.sub(r"(?i)\b(?:them|it|they|these|those|ones)\b", named, turns[-1], count=1)
+        if q == turns[-1]:
+            q = f'{turns[-1].rstrip("?")} {named}?'
+        queries.append([dict(role='user', content=q)])
+    queries.append([dict(role='user', content=turns[0]), dict(role='assistant', content='ok'), dict(role='user', content=turns[-1])])
+    for focus in queries:
+        try:
+            for h in rv.search(focus, plan, k=40):
+                key = h.doc.get('title')
+                if key not in seen:
+                    seen.add(key)
+                    hits.append(h)
+        except Exception:
+            continue
     from . import open_chat as oc
     kept = []
     for rank, h in enumerate(hits):
@@ -184,6 +295,10 @@ def thread_answer(messages, board, forms):
         if len(body) < 80 or oc.answer_quality(body) < 0.4:
             continue
         site = h.doc.get('site') or ''
+        if wrong_kind(turns, f"{title} {site} {body}"):
+            continue                        # a bicycle thread for a car's brakes
+        if os.environ.get('CAEL_COHERENCE_DEBUG'):
+            print('  kept:', title)
         name = f'Stack Exchange ({site})' if h.doc.get('source') == 'se' else {'oasst': 'OpenAssistant', 'dolly': 'Dolly'}.get(h.doc.get('source'), 'stored answer')
         kept.append((10.0 - 0.3 * len(kept), title, [], name, '', body))
         if len(kept) >= 3:
@@ -191,6 +306,11 @@ def thread_answer(messages, board, forms):
     if not kept:
         return None
     got = wc.compose(kept, dict(plan, need=list(plan.get('need') or []) + sorted(forms)[:1], want=sorted(asked)[:3]), messages)
+    if not got:
+        # every kept title already names the thing and the follow-up's words: the answers need not repeat them
+        got = wc.compose(kept, dict(plan, need=[], want=sorted(asked)[:3], title_asked=True), messages)
+    if os.environ.get('CAEL_COHERENCE_DEBUG'):
+        print('  composed:', bool(got), got and off_topic(messages, got), str((got or {}).get('response', ''))[:200])
     if got and not off_topic(messages, got):
         return got
     return None
@@ -220,6 +340,17 @@ def replace(messages, board, why):
 
 def keep_on_topic(messages, board, draft):
     why = off_topic(messages, draft)
+    turns = wc.user_turns(messages)
+    if not why and str(draft.get('route', '')) == 'chat/advice-schema' and len(turns) >= 2 and turns[-1].strip().endswith('?'):
+        # a practical follow-up ("How do I clean them?"): people who asked the same about the same thing beat general advice
+        try:
+            _, forms = thing_forms(messages)
+            got = thread_answer(messages, board, forms) if forms else None
+        except Exception:
+            got = None
+        if got:
+            return dict(got, coherence='threads about the thing that ask the same, before general advice', replaced_route=draft.get('route'), team=draft.get('team'))
+        return draft
     if not why:
         return draft
     better = replace(messages, board, why)

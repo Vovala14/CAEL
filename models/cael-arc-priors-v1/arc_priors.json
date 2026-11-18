@@ -1,0 +1,18 @@
+{
+ "note": "Cost adjustment per solver family = -0.5*log2((right+1)/(offered+2)) on 816 clean mdlARC practice puzzles (practice3.jsonl), 2026-11-18. Neural-assisted training data, disclosed.",
+ "prior": {
+  "recolour": 0.181,
+  "program": 0.024,
+  "mirror": 0.076,
+  "tile": 0.05,
+  "crop": 0.208,
+  "local": 0.037,
+  "induction": 0.058,
+  "native": 0.035,
+  "self": 0.292,
+  "fill": 0.208,
+  "split": 0.208,
+  "symmetry": 0.292,
+  "denoise": 0.292
+ }
+}

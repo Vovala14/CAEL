@@ -1463,9 +1463,12 @@ def compose(kept, plan, messages):
             words |= {f for w in list(words) for f in spelled_stems(w)}
             own_hit = sum(v for w, v in own.items() if w in words or spelled_stems(w) & words)
             scene_hit = sum(v for w, v in scene.items() if w in words)
-            if follow and not own_hit and not (scene_hit and ADVICE_CUE.search(x)):
+            # threads whose titles already ask the user's follow-up (coherence.thread_answer): their advice is on point even when a
+            # sentence doesn't repeat the question's words ("Pour a kettle of boiling water down it" for "How do I clean it?")
+            titled = bool(plan.get('title_asked') and ADVICE_CUE.search(x))
+            if follow and not own_hit and not (scene_hit and ADVICE_CUE.search(x)) and not titled:
                 continue
-            if not own_hit and not scene_hit:
+            if not own_hit and not scene_hit and not titled:
                 continue
             sc = 0.25 * own_hit + 0.12 * scene_hit + (0.8 if ADVICE_CUE.search(x) else 0) + (0.5 if cue and re.search(cue, x, re.I) else 0) - ANCHOR * rank
             if re.match(r"(?i)\s*(?:i|we|my|our|in my|when i|everyone|someone|he|she)\b", x) and not re.search(r"(?i)\b(?:recommend|suggest|would|always|found that|use|try)\b", x):

@@ -707,13 +707,18 @@ def save_for(messages):
     last = turns[-1]
     ask = re.search(r'(?i)\bhow (?:many|long)\s*(days|weeks|months|years)?\b', last)
     target = re.findall(MONEY, last)
-    if not ask or not re.search(r'(?i)\b(?:save|saving|afford|put by|put aside|reach|pay (?:for|off|back)|buy)\b', last):
+    if not ask or not re.search(r'(?i)\b(?:save|saved|saving|afford|put by|put aside|reach|pay (?:for|off|back)|buy)\b', last):
         return None
     rate = None
+    # a saving rate CAEL worked out itself ("**$450 a month** saved") comes first: the user's turn may only hold the income
+    said = next((m.get('content') or '' for m in reversed(messages[:-1]) if m.get('role') == 'assistant'), '')
+    bold = re.search(r'\*\*(' + MONEY + r')\s+(?:a|per)\s+(day|week|month|year)\*\*\s*saved', said)
+    if bold:
+        rate = (F(bold[1][1:].replace(',', '').strip()), bold[1][0], bold[2].lower(), None, 'save')
     for t in reversed(turns):
-        rate = a_rate(t)
         if rate:
             break
+        rate = a_rate(t)
     if not rate:
         return None
     amount, sign, period, share, _ = rate
@@ -777,6 +782,8 @@ def percent_change(text):
     up = re.search(r'(?i)\b' + UP + r'\b', after + ' ' + before)
     if bool(down) == bool(up):
         return None
+    if re.search(r'(?i)\bup ?front\b|\bdown ?payment\b|\bdeposit\b|\bin advance\b|\b(?:i|we|you) (?:pay|paid|put down)\b', after + ' ' + before):
+        return None                         # "I pay 30% up front" is a share of the price (percent_of), not a 30% rise
     if re.search(r'(?i)\b(?:of it|of that|of (?:his|her|my|our|their)|saves?|spends?|puts?|keeps?|gives?)\b', before + after) and not re.search(
             r'(?i)\b(?:price|cost|quote|bill|premium|rent|fee|fare|charge)s?\b', text):
         return None                         # a share of an amount ("saves 60% of it") is another sum (rate_share)
@@ -802,6 +809,107 @@ def percent_change(text):
     if re.search(r'(?i)\bhow much (?:more|less|extra|cheaper|would (?:i|we) save|do (?:i|we) save)\b|\bthe difference\b|\bsave\b', q):
         return reply(f'**{show(part, sign)}** {"more" if up else "less"}.', work)
     return reply(f'**{show(new, sign)}**.', work)
+
+
+def rate_convert(messages):
+    """'How much is that a year?' (or per month / week / day) after a stated rate: the same cost in the asked period."""
+    turns = user_turns(messages)
+    last = turns[-1]
+    ask = re.search(r'(?i)\b(?:a|per|each|every|in a)\s+(year|month|week|day)\b|\b(yearly|monthly|weekly|daily|annually)\b', last)
+    if not ask or re.search(MONEY, last) or len(turns) < 2 or not re.search(r'(?i)\bhow much\b|\bwhat(?:\'s| is)\b', last):
+        return None
+    rate = a_rate(turns[-2])
+    if not rate or rate[3] is not None:
+        return None
+    amount, sign, period = rate[0], rate[1], rate[2]
+    to = (ask[1] or {'yearly': 'year', 'annually': 'year', 'monthly': 'month', 'weekly': 'week', 'daily': 'day'}[ask[2].lower()]).lower()
+    days = {'year': F(365), 'month': F(365, 12), 'week': F(7), 'day': F(1)}
+    per_year = {'year': 1, 'month': 12, 'week': 52, 'day': 365}
+    if to == period:
+        return None
+    value = amount * per_year[period] / per_year[to] if {period, to} <= {'year', 'month', 'week'} else amount * days[to] / days[period]
+    return reply(f'**{show(value, sign)} a {to}**.', f'{show(amount, sign)} a {period} × {per_year[period]} ÷ {per_year[to]} = {show(value, sign)} a {to}.'
+                 if {period, to} <= {'year', 'month', 'week'} else f'{show(amount, sign)} a {period} → {show(value, sign)} a {to}.')
+
+
+def tip_after(messages):
+    """'And if we add a 15% tip?' after a bill or a split: the same sum with the tip, per person when it was a split."""
+    last = user_turns(messages)[-1]
+    pct = re.search(r'(?i)(\d+(?:\.\d+)?)\s*(?:%|percent|per cent)\s*(?:tip|service|gratuity)|(?:tip|service charge|gratuity) of (\d+(?:\.\d+)?)\s*(?:%|percent)', last)
+    if not pct or re.search(MONEY, last):
+        return None
+    got = last_result(messages)
+    if not got or not got[1]:
+        return None
+    rate = F(pct[1] or pct[2])
+    said = next((m.get('content') or '' for m in reversed(messages[:-1]) if m.get('role') == 'assistant'), '')
+    each = re.search(r'\*\*[^*]+\*\*\s*each|÷\s*(\d+)\s*=', said)
+    n = re.search(r'÷\s*(\d+)\s*=', said)
+    value, sign = got[0], got[1]
+    with_tip = value * (1 + rate / 100)
+    if each and n:
+        k = int(n[1])
+        return reply(f'**{show(with_tip, sign)} each** with a {show(rate)}% tip ({show(with_tip * k, sign)} in total).',
+                     f'{show(value, sign)} × {show(1 + rate / 100)} = {show(with_tip, sign)} each; × {k} = {show(with_tip * k, sign)}.')
+    return reply(f'**{show(with_tip, sign)}** with a {show(rate)}% tip.', f'{show(value, sign)} × {show(rate)}% = {show(value * rate / 100, sign)} tip; '
+                 f'{show(value, sign)} + {show(value * rate / 100, sign)} = {show(with_tip, sign)}.')
+
+
+def stated_rate(messages):
+    """'My gym membership is $540 a year.' told without a question: the same cost per month and per week, so the follow-up
+    'How much is that per month?' already has its answer, and nothing else misreads it as a problem."""
+    last = user_turns(messages)[-1].strip()
+    if '?' in last or len(last) > 140 or len(re.findall(MONEY, last)) != 1:
+        return None
+    m = re.search(r'(?i)(' + MONEY + r')\s*(?:a|per|each|every)\s+(year|month|week)\b|(' + MONEY + r')\s+(yearly|monthly|weekly|annually)\b', last)
+    if not m or not re.search(r'(?i)\b(?:is|are|costs?|comes? to|pay|paying|spend|earn|get|rent|bill|subscription|membership|fee)\b', last):
+        return None
+    money = m[1] or m[3]
+    period = (m[2] or {'yearly': 'year', 'annually': 'year', 'monthly': 'month', 'weekly': 'week'}[m[4].lower()]).lower()
+    amount, sign = F(money[1:].replace(',', '').strip()), money[0]
+    per_year = amount * {'year': 1, 'month': 12, 'week': 52}[period]
+    parts = {'year': per_year, 'month': per_year / 12, 'week': per_year / 52}
+    others = [f'{show(parts[p], sign)} a {p}' for p in ('year', 'month', 'week') if p != period]
+    return reply(f'**{show(amount, sign)} a {period}** works out at {others[0]}, or {others[1]}.',
+                 f'{show(amount, sign)} a {period} = {show(per_year, sign)} a year; ÷ 12 = {show(parts["month"], sign)} a month; ÷ 52 = {show(parts["week"], sign)} a week.')
+
+
+def earn_spend(messages):
+    """'I earn $3,200 a month and spend $2,750. How much do I save each month?'"""
+    last = user_turns(messages)[-1]
+    if not re.search(r'(?i)\b(?:save|saving|left over|left|spare|surplus)\b', last):
+        return None
+    inc = re.search(r'(?i)\b(?:earn|make|take home|get paid|income (?:is|of)|salary (?:is|of)|bring in)\s+(?:about |around )?(' + MONEY + r')', last)
+    out = re.search(r'(?i)\b(?:spend|outgoings (?:are|of)|bills (?:are|come to)|expenses (?:are|of)|costs? (?:are|of)?)\s+(?:about |around )?(' + MONEY + r')', last)
+    if not inc or not out:
+        return None
+    period = re.search(r'(?i)\b(?:a|per|each|every)\s+(week|month|year)\b', last)
+    period = period[1].lower() if period else 'month'
+    a = F(inc[1][1:].replace(',', '').strip())
+    b = F(out[1][1:].replace(',', '').strip())
+    sign = inc[1][0]
+    left = a - b
+    word = 'saved' if left >= 0 else 'short'
+    return reply(f'**{show(abs(left), sign)} a {period}** {word}.', f'{show(a, sign)} − {show(b, sign)} = {show(left, sign)} a {period}.')
+
+
+def pay_over(messages):
+    """'If I pay that over 5 months, how much is each payment?' after an amount: that amount ÷ 5 (not a yearly figure ÷ 12)."""
+    last = user_turns(messages)[-1]
+    over = OVER.search(last)
+    if not over or re.search(MONEY, last) or REST.search(last) or not val(over[1]):
+        return None
+    got = last_result(messages)
+    if not got or not got[1]:
+        return None
+    k = val(over[1])
+    unit = over[2].lower()
+    unit = unit[:-1] if unit.endswith('s') else unit
+    if unit in ('instalment', 'installment'):
+        unit = 'payment'
+    each = got[0] / k
+    note = ' (rounded to the cent)' if (each * 100).denominator != 1 else ''
+    return reply(f'**{show(each, got[1])} per {unit}** for {show(k)} {unit}s{note}.', f'{show(got[0], got[1])} ÷ {show(k)} = {show(each, got[1])}.')
 
 
 def per_period(messages):
@@ -1022,9 +1130,13 @@ def percent_of(messages):
     if not re.search(r'(?i)\bhow much\b', last) or re.search(r'(?i)\b(?:off|discount|increase|rise|rises|rose|went up|go up|tip|interest|vat|tax)\b', last):
         return None
     pm = re.search(PCT_OF, last, re.I)
-    if not pm:
-        return None
-    p = F(pm[1]) / 100
+    if pm:
+        p, shown_p = F(pm[1]) / 100, pm[1] + '%'
+    else:
+        pm = re.search(FRACTION_OF, last)
+        if not pm or not re.search(r'(?i)\b(?:up ?front|now|deposit|down|first|of)\b', last[pm.end():pm.end() + 40]):
+            return None
+        p, shown_p = FRACTIONS[pm[1].lower().replace('-', ' ')], pm[1].lower()
     base, money, how = None, None, ''
     after = last[pm.end():]
     if re.match(r'(?i)\s*of (?:what (?:we|i|you|they) (?:paid|spent|put down|gave)|that|it|this)\b', after):
@@ -1056,9 +1168,58 @@ def percent_of(messages):
     left = bool(re.search(r'(?i)\b' + KEEP_VERB + r'\b', last[:pm.start() + 30])) and re.search(r'(?i)\b(?:back|left|get|remain|return)', last)
     if left:
         part = base * (1 - p)
-        return reply(f'**{show(part, money)}** back.', f'{show(base, money)} − {pm[1]}% ({show(base * p, money)}) = {show(part, money)}.')
+        return reply(f'**{show(part, money)}** back.', f'{show(base, money)} − {shown_p} ({show(base * p, money)}) = {show(part, money)}.')
     part = base * p
-    return reply(f'**{show(part, money)}**.', f'{pm[1]}% of {show(base, money)} = {show(base, money)} × {show(p)} = {show(part, money)}.')
+    times = f'× {show(p)}' if p.denominator in (1, 2, 4, 5, 10, 20, 25, 50, 100) or not isinstance(p, F) else         (f'÷ {p.denominator}' if p.numerator == 1 else f'× {p.numerator} ÷ {p.denominator}')
+    return reply(f'**{show(part, money)}**.', f'{shown_p} of {show(base, money)} = {show(base, money)} {times} = {show(part, money)}.')
+
+
+FRACTIONS = {'a half': F(1, 2), 'half': F(1, 2), 'a third': F(1, 3), 'one third': F(1, 3), 'two thirds': F(2, 3), 'a quarter': F(1, 4),
+             'one quarter': F(1, 4), 'three quarters': F(3, 4), 'a fifth': F(1, 5), 'one fifth': F(1, 5), 'a tenth': F(1, 10)}
+FRACTION_OF = re.compile(r'(?i)\b(a half|half|a third|one third|two[- ]thirds|a quarter|one quarter|three[- ]quarters|a fifth|one fifth|a tenth)\b')
+REST = re.compile(r"(?i)\b(?:the rest|the remainder|(?:is|are|'s) (?:still )?left(?: to pay| over)?|(?:what|how much) (?:still )?remains|the remaining(?: amount| balance| cost)?|what'?s left|what is left|the balance|the leftover|left to pay|still (?:to pay|owe|owing)|outstanding|(?:will|do|would) (?:i|we) owe|(?:i|we)'?ll owe|"
+                  r"(?:pay|due|owe) (?:when|on|at) (?:i |we )?(?:collect|pick(?:ing)? (?:it |them )?up|collection|completion|delivery|the end))\b")
+OVER = re.compile(r'(?i)\bover (?:the next )?(' + N + r') (months?|weeks?|years?|payments?|instal?ments?|days?)\b')
+
+
+def rest_share(messages):
+    """'If we split the rest equally between 4 people…' after a 15% deposit of $2,400: ($2,400 − $360) ÷ 4. Also 'pay the
+    remainder over 8 months': the rest divided by the months."""
+    last = user_turns(messages)[-1]
+    if not REST.search(last) or re.search(MONEY, last):
+        return None
+    got = last_result(messages)
+    if not got or not got[1]:
+        return None
+    paid, money = got[0], got[1]
+    base = None
+    for t in reversed(user_turns(messages)[:-1]):
+        amounts = [val(re.sub(r'[^\d.,]', '', a)) for a in re.findall(MONEY, t)]
+        bigger = [a for a in amounts if a and a > paid]
+        if bigger:
+            base = bigger[0]
+            break
+    if base is None:
+        return None
+    rest = base - paid
+    first = f'{show(base, money)} − {show(paid, money)} = {show(rest, money)} left'
+    over = OVER.search(last)
+    n = people(last) if SPLIT.search(last) or re.search(r'(?i)\b(?:between|among|each)\b', last) else None
+    if over and val(over[1]):
+        k = val(over[1])
+        unit = over[2].lower()
+        unit = unit[:-1] if unit.endswith('s') else unit
+        each = rest / k
+        note = ' (rounded to the cent)' if (each * 100).denominator != 1 else ''
+        return reply(f'**{show(each, money)} per {unit}** for {show(k)} {unit}s{note}.', f'{first}; {show(rest, money)} ÷ {show(k)} = {show(each, money)}.')
+    if n and n >= 2:
+        each = rest / n
+        note = ' (rounded to the cent)' if (each * 100).denominator != 1 else ''
+        return reply(f'**{show(each, money)} each**, the remaining {show(rest, money)} split equally between the {n} of you{note}.',
+                     f'{first}; {show(rest, money)} ÷ {n} = {show(each, money)}.')
+    if re.search(r"(?i)\bhow much\b|\bwhat(?:'s| is| remains)\b|\?\s*$", last):
+        return reply(f'**{show(rest, money)}** left to pay.', first + '.')
+    return None
 
 
 def respond(messages):
@@ -1066,7 +1227,7 @@ def respond(messages):
     if not messages or messages[-1].get('role') != 'user':
         return None
     last = messages[-1]['content']
-    for solver in (lambda: per_year(messages), lambda: each_clock(last), lambda: clock_sum(last), lambda: recipe_scale(messages), lambda: add_delay(messages), lambda: after_cut(messages), lambda: percent_change(last), lambda: per_period(messages), lambda: rate_share(last), lambda: split_part(messages), lambda: save_for(messages), lambda: discount(messages), lambda: percent_of(messages), lambda: time_zone(messages),lambda: convert(messages), lambda: before_start(messages), lambda: tiered(last), lambda: area(last), lambda: tip(last), lambda: options(messages), lambda: split(messages), lambda: each_price(messages),
+    for solver in (lambda: rest_share(messages), lambda: tip_after(messages), lambda: earn_spend(messages), lambda: stated_rate(messages), lambda: rate_convert(messages), lambda: pay_over(messages), lambda: per_year(messages), lambda: each_clock(last), lambda: clock_sum(last), lambda: recipe_scale(messages), lambda: add_delay(messages), lambda: after_cut(messages), lambda: percent_change(last), lambda: per_period(messages), lambda: rate_share(last), lambda: split_part(messages), lambda: save_for(messages), lambda: discount(messages), lambda: percent_of(messages), lambda: time_zone(messages),lambda: convert(messages), lambda: before_start(messages), lambda: tiered(last), lambda: area(last), lambda: tip(last), lambda: options(messages), lambda: split(messages), lambda: each_price(messages),
                    lambda: paid_hours(messages), lambda: change(messages), lambda: scale(messages), lambda: instead(messages), lambda: more_facts(messages)):
         try:
             got = solver()

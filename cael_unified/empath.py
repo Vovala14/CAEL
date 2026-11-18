@@ -64,6 +64,8 @@ def respond(messages):
         return out("That's completely understandable. Big news can bring fear as well as joy, and it's okay if it doesn't feel like pure excitement "
                    "right now, whatever everyone else says. You don't have to have it all worked out today. What feels most overwhelming at the moment?",
                    'news that frightens')
+    if NERVES.search(last) and re.search(r"(?i)\bresults?\b[^.?!]*\b(?:out|come|coming|due)\b|\bwaiting (?:for|to hear)\b|\b(?:scared|worried|afraid) (?:that )?i (?:failed|didn'?t)\b", last):
+        return None                 # waiting for a result, not nerves before an event: the Supporter's "waiting" situation
     if NERVES.search(last):
         recent = ' '.join(users[-3:]).lower()
         event = re.search(r"\b(presentation|speech|talk|interview|exam|test|audition|performance|recital|meeting|toast|first day|driving test|date)\b", recent)
@@ -116,6 +118,8 @@ def respond(messages):
         return out("Congratulations, that's brilliant news! All that preparation paid off. How are you feeling, and when do you start?"
                    if re.search(r"(?i)\b(?:job|offer|promotion|place)\b", last) else "Congratulations, that's brilliant news! How are you going to celebrate?",
                    'good news')
+    if PENDING.search(last) and re.search(r"(?i)\b(?:biopsy|scan|mri|x-?ray|mammogram|smear|blood (?:test|work)|lump|cancer|consultant|hospital|clinic|gp)\b", last):
+        return None                 # medical results: the Supporter's "health_wait" situation, never "especially when it went well"
     if PENDING.search(last):
         return out("Fingers crossed for you. Waiting to hear is often the hardest part, especially when it went well. Do you know when they'll "
                    "let you know?", 'waiting for a result')

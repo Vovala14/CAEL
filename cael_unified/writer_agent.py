@@ -215,6 +215,11 @@ def thank_note(req, tone='neutral'):
     child = req['child']
     pron = {'daughter': 'she', 'son': 'he'}.get(child, 'they')
     verb = 'comes' if pron != 'they' else 'come'
+    if tone == 'casual':
+        first = name if child else f"[{role.capitalize()}'s name]"
+        body = (f"Just wanted to say thanks so much for {why}. {pron.capitalize()} loves it, and it's made a big difference."
+                if child else f"Thanks so much for {why}, you're a star! I really owe you one.")
+        return f"Hi {first},\n\n{body}\n\nCheers,\n[Your name]"
     if tone == 'friendly':
         body = (f"I just wanted to say a huge thank you for {why}. You've made such a difference: {pron} {verb} home happy and talking about "
                 f"{'school' if 'school' in why else 'it'}, and that means the world to us.\n\nThank you for your patience, your kindness and everything you do."
@@ -300,8 +305,10 @@ def respond(messages):
             req = thank_parse(t)
             if req:
                 mode = TONES[tone[1].lower()]
+                if tone[1].lower() in ('casual', 'informal', 'relaxed', 'chatty') or re.search(r'(?i)\bless (?:formal|stiff|serious)\b', last):
+                    mode = 'casual'             # casual is not warmer: shorter, plainer, "Hi" and "Cheers"
                 lead = {'formal': "Here's a more formal version:", 'friendly': "Here's a warmer version:" if 'warm' in tone[1].lower() else "Here's a friendlier version:",
-                        'short': "Here's a shorter version:", 'firm': "Here's a more direct version:"}[mode]
+                        'casual': "Here's a more casual version:", 'short': "Here's a shorter version:", 'firm': "Here's a more direct version:"}[mode]
                 return out(f"{lead}\n\n{thank_note(req, mode if mode != 'firm' else 'formal')}", 'thank-you rewrite')
             if parse(t):
                 break

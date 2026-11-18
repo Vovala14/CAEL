@@ -27,6 +27,7 @@ INSIDE = threading.local()      # .task is True on a thread that is one of the s
 PRONOUN = re.compile(r"(?i)\b(?:it|its|they|them|their|that|this|those|these|he|she|him|her|his|one|ones|there|then|same)\b")
 LEAD = re.compile(r"(?i)^\s*(?:also|and|oh|plus|next|then|second(?:ly)?|third(?:ly)?|finally|lastly|one more(?: thing)?|another (?:thing|question)|"
                   r"by the way|btw|separately|unrelated|on another note|last (?:one|question)|quick question|while (?:i'm|you're) at it)\b[,:;.!\s-]*")
+OPTION = re.compile(r'(?m)^\s*[A-D][).]\s+\S')
 WEAK = re.compile(r'fallback|unknown|clarify|unsupported|checked-none|insufficient|failed|last-resort')
 FOLLOW = re.compile(r"(?i)^\s*(?:and|or|but|so)?\s*(?:what about|how about|what if|and if|and for|and in|and at|and with|why is that|why not|how so|really)\b")
 ASK = re.compile(r"(?i)\b(?:what|who|whom|whose|when|where|why|how|which|is|are|was|were|do|does|did|can|could|should|would|will|"
@@ -35,6 +36,11 @@ ASK = re.compile(r"(?i)\b(?:what|who|whom|whose|when|where|why|how|which|is|are|
 
 def specialists(messages):
     """The exact solvers, in order. A dict reply, or None when none of them is sure."""
+    # A question with lettered options (A) ... B) ...) belongs to the multiple-choice path, which picks
+    # one of the options. The arithmetic solver read chains like "Every kind_1 is a kind_2." as sums
+    # and replied with a number, so no option was chosen at all.
+    if len(OPTION.findall(messages[-1].get('content') or '')) >= 2:
+        return None
     # The established sharing and rates helpers keep their problems: they ask "whole items or fractions?" and refuse
     # unsafe input, and their follow-ups depend on their own replies.
     from . import helper_groups, helper_rates

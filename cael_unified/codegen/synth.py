@@ -311,9 +311,10 @@ def compositions(total, parts):
             yield (first,) + rest
 
 
-def grow(bank, cost, costs, budget, on_new=None):
-    """Add every expression of exactly this cost built from cheaper ones."""
-    for name, tag, arg_kinds, fn, template, _ in OPS:
+def grow(bank, cost, costs, budget, on_new=None, ops=None):
+    """Add every expression of exactly this cost built from cheaper ones.
+    ops defaults to OPS; a script library (script_library.py) adds CAEL's own helpers."""
+    for name, tag, arg_kinds, fn, template, _ in (ops or OPS):
         op_cost = costs[name]
         remaining = cost - op_cost
         arity = len(arg_kinds)
@@ -361,6 +362,14 @@ def iterables(params, inputs):
             found.append((f'range(len({name}))', 2, [list(range(len(v))) for v in column], 'iter:positions'))
             if k == 'str':
                 found.append((f'{name}.split()', 2, [v.split() for v in column], 'iter:words'))
+            if k in ('list', 'tuple', 'str') and all(len(v) >= 2 for v in column):
+                # neighbouring pairs: (x[0], x[1]) is one element and the next
+                found.append((f'zip({name}, {name}[1:])', 3, [list(zip(v, v[1:])) for v in column], 'iter:adjacent'))
+            for j in range(i + 1, len(params)):
+                other = [ex[j] for ex in inputs]
+                if {kind(v) for v in other} <= {'list', 'tuple', 'str'} and len({kind(v) for v in other}) == 1:
+                    # two sequences element by element
+                    found.append((f'zip({name}, {params[j]})', 2, [list(zip(a, b)) for a, b in zip(column, other)], 'iter:zip'))
         elif k == 'dict':
             found.append((f'{name}.items()', 2, [list(v.items()) for v in column], 'iter:items'))
             found.append((name, 1, [list(v) for v in column], 'iter:each'))
@@ -386,7 +395,7 @@ def const_token(value):
     return 'const:' + repr(value)
 
 
-def constants(description, inputs, costs=None, hand=True):
+def constants(description, inputs, costs=None, hand=True, outputs=()):
     """Small literals as {(type, value): (value, cost, token)}. Arbitrary numbers are
     expensive so a program cannot just memorise an example; numbers and quoted
     text from the description are cheap."""
@@ -408,6 +417,9 @@ def constants(description, inputs, costs=None, hand=True):
         put(float(number) if '.' in number else int(number), costs.get('const:number', 1), 'const:number')
     for quoted in re.findall(r"'([^']{1,12})'|\"([^\"]{1,12})\"", description):
         put(quoted[0] or quoted[1], costs.get('const:quoted', 1), 'const:quoted')
+    # Answer words taken from the example outputs ('YES', 'Found a match!') were tried on the MBPP
+    # training split (2026-11-18) and only bought coincidental fits such as `'Found a match!' if s < 'b'`,
+    # so they are not offered. `outputs` is kept in the signature for that record.
     if hand:
         if 'vowel' in text:
             put('aeiou', 2, const_token('aeiou'))
@@ -448,7 +460,7 @@ def uniform_costs(cost=2):
 
 
 def synthesize(inputs, outputs, description='', costs=None, seconds=3.0, max_expressions=600_000, max_cost=16, inner_cost=8,
-               rank=None, window=2, hand=True, collect=0, max_candidates=400):
+               rank=None, window=2, hand=True, collect=0, max_candidates=400, library=None):
     """Return (expression source, parameter names, stats) or (None, names, stats).
 
     The cheapest expression matching every example wins, except that one which
@@ -462,9 +474,13 @@ def synthesize(inputs, outputs, description='', costs=None, seconds=3.0, max_exp
     collect=k keeps searching k cost levels past the first fit that uses every
     parameter and records all fits in stats['candidates'] (cost, uses all, source,
     tokens); rank(candidate) -> score then picks among them, lowest first.
+
+    library: extra operations shaped like OPS, normally CAEL's own verified
+    scripts (script_library.Library.ops()); they are tried like built-ins.
     """
     costs = dict(costs or {})
-    for name, *_, base in OPS:
+    ops = OPS + list(library or ())
+    for name, *_, base in ops:
         costs.setdefault(name, base)
     for name, *_, base in HIGHER:
         costs.setdefault(name, base)
@@ -491,7 +507,7 @@ def synthesize(inputs, outputs, description='', costs=None, seconds=3.0, max_exp
             if len(found) >= max_candidates:
                 raise StopIteration
 
-    literals = list(constants(description, inputs, costs, hand).values())
+    literals = list(constants(description, inputs, costs, hand, outputs).values())
     try:
         for i, name in enumerate(params):
             values = tuple(ex[i] for ex in inputs)
@@ -512,6 +528,9 @@ def synthesize(inputs, outputs, description='', costs=None, seconds=3.0, max_exp
                 continue
             ib = Bank()
             ib.add(1, 'x', tuple(it.flat))
+            if it.token in ('iter:zip', 'iter:adjacent'):
+                ib.add(2, 'x[0]', tuple(e[0] for e in it.flat))
+                ib.add(2, 'x[1]', tuple(e[1] for e in it.flat))
             for i, name in enumerate(params):
                 ib.add(2, name, tuple(inputs[e][i] for e in it.owner))
             for value, cost, token in literals:
@@ -520,7 +539,7 @@ def synthesize(inputs, outputs, description='', costs=None, seconds=3.0, max_exp
             inner_budget = Budget(seconds / 8, max_expressions // 10)
             try:
                 for c in range(2, inner_cost + 1):
-                    grow(ib, c, costs, inner_budget)
+                    grow(ib, c, costs, inner_budget, ops=ops)
             except TimeoutError:
                 pass
             inner.append((it, ib))
@@ -531,7 +550,7 @@ def synthesize(inputs, outputs, description='', costs=None, seconds=3.0, max_exp
             if first_complete and cost > first_complete[0] + collect:
                 break
             level[0] = stats['cost'] = cost
-            grow(bank, cost, costs, budget, check)
+            grow(bank, cost, costs, budget, check, ops=ops)
             for name, tag, has_body, has_cond, aggregate, template, _ in HIGHER:
                 rest = cost - costs[name]
                 for it, ib in inner:

@@ -126,7 +126,31 @@ EXPLAIN_DETAILS = ('Read from the Python syntax tree (ast) and, for short pure e
                    'safe built-ins. Concept notes and recipes are short hand-written references.')
 
 
+OWN_SCRIPTS = re.compile(r"(?i)\b(?:what|which|how many|show me|list)\b.{0,30}\bscripts?\b.{0,40}\b(?:you(?:'ve| have)? (?:written|wrote|made|kept)|for yourself|your own)\b"
+                         r"|\byour (?:own )?(?:python )?(?:script|helper) library\b")
+
+
+def own_scripts_reply():
+    from .script_library import load as scripts
+    library = scripts()
+    if not len(library):
+        return dict(response="I haven't kept any scripts of my own yet: my Python practice library is empty.", route='chat/code-own-scripts',
+                    sources=[], details='CAEL script library (models/cael-scripts-v1).')
+    names = list(library.scripts)
+    built_on = [n for n in names if library.scripts[n].get('round', 0) > 0]
+    lines = [f'During Python practice I wrote and kept **{len(names)} scripts** for myself. Each one is a function my program '
+             'search found for a practice task and that also passed a test the search had not seen. When I write new code, '
+             'I can call these as building blocks.']
+    if built_on:
+        lines.append(f'{len(built_on)} of them were written in later practice rounds, on top of earlier scripts.')
+    lines.append('Some of them: ' + ', '.join(f'`{n}`' for n in names[:12]) + ('.' if len(names) <= 12 else ', …'))
+    return dict(response='\n\n'.join(lines), route='chat/code-own-scripts', sources=[],
+                details='CAEL script library (models/cael-scripts-v1): CAEL-written, verified functions; non-neural.')
+
+
 def reply(text, seed=0, messages=None):
+    if OWN_SCRIPTS.search(text):
+        return own_scripts_reply()
     from .request_contract import guard
     contract = guard(text)
     if contract is not None:
@@ -223,6 +247,9 @@ def reply(text, seed=0, messages=None):
         answer = from_description(text, out)
         if answer is not None:
             return answer
+        # Stored scripts are never handed out from a description alone: some fit their three
+        # practice tests by coincidence (is_not_prime became `2 < n`). They are only used as
+        # building blocks that must reproduce the user's own examples.
         from .. import ltm, rules
         rule = ltm.memory().find_rule(text)
         if rule is not None:
@@ -236,19 +263,30 @@ def reply(text, seed=0, messages=None):
     # The description is the text before the first example, which may share its line.
     first = re.search(r'\b' + re.escape(name) + r'\s*\(', text)
     description = text[:first.start()] if first else text
+    from .script_library import load as scripts
+    library = scripts()
     expr, params, stats = synthesize([c[0] for c in cases], [c[1] for c in cases], description,
                                      costs(model(), description), seconds=8.0, inner_cost=10)
+    if expr is None and len(library):
+        # CAEL's own scripts only when the ordinary search finds nothing: offered first, as cheap
+        # building blocks, they produced coincidental fits (MBPP development 31 -> 26 solved).
+        expr, params, stats = synthesize([c[0] for c in cases], [c[1] for c in cases], description,
+                                         costs(model(), description), seconds=6.0, inner_cost=10, library=library.ops())
     if expr is None:
         return out(f'I could not find a function that fits all {len(cases)} examples within my search limits '
                    f'({stats["expressions"]:,} candidate expressions tried). I can only build fairly short one-line functions; '
                    'loops with state, recursion and multi-step algorithms are beyond me for now. Simpler examples may help.', 'not-found')
-    code = render(name, params, expr)
+    helpers = library.uses(expr)
+    code = library.render(name, params, expr)
     note = (f'It returns the expected result for all {len(cases)} of your examples. I built it by searching over small '
             'Python operations, so please test it on other inputs too.')
+    if helpers:
+        note += (' It calls ' + ', '.join(f'`{h}`' for h in helpers) + (', a script' if len(helpers) == 1 else ', scripts') +
+                 ' I wrote for myself during Python practice and kept because it passed a test it had not seen.')
     if not stats.get('uses_all_parameters', True):
         note += ' Note: it does not use every argument, so it may only fit your examples by coincidence. More examples would help.'
     # Hypothesis testing (rules.py): re-derive the function with one example hidden and check it predicts that example.
-    if len(cases) >= 3:
+    if len(cases) >= 3 and not helpers:
         from .. import rules
         learned = rules.learn(name, cases, description, lambda d: costs(model(), d))
         if learned and learned['validated']:

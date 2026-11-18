@@ -1185,7 +1185,7 @@ def explain_reply(messages):
                         if re.search(fp, last):
                             return out('explain', ft)
     for pattern, text, follow in EXPLAIN:
-        if re.search(pattern, last) and re.search(r'\b(?:why|how|explain|what makes|does|is|what is|what\'s)\b', last):
+        if re.search(pattern, last) and re.search(r'\b(?:why|how|explain|what makes|what causes|does|is|what is|what\'s)\b', last):
             extra = ''
             if re.search(r'\bbeginner|simple|plain|child|kid\b', last):
                 extra = ''
@@ -1193,8 +1193,9 @@ def explain_reply(messages):
                 if re.search(fp, last) and re.search(r'\bexample\b|\bwould\b|\bif\b', last) and len(turns) > 1:
                     return out('explain', ft)
             return out('explain', text + extra)
-    if len(turns) > 1:
-        for t in reversed(turns[:-1]):
+    if len(turns) > 1 and len(last.split()) <= 16:
+        # a short follow-up ("Why is it sometimes snow instead?") takes its subject from a recent question
+        for t in reversed(turns[:-1][-3:]):
             tl = t.lower()
             for pattern, text, follow in EXPLAIN:
                 if re.search(pattern, tl):
@@ -1264,6 +1265,9 @@ for i, (pattern, text, follow) in enumerate(EXPLAIN):
         EXPLAIN[i] = (pattern, text, follow + [(r'salt|similar reason|same reason',
                      'Not quite the same reason. Ice floats because of density (frozen water is less dense than liquid water). Salt melts ice for a different reason: '
                      'dissolved salt lowers the freezing point, so salty water stays liquid below 0 °C and keeps melting the ice around it. Both are about how water molecules behave, but one is about density and the other about freezing temperature.')])
+
+from .everyday_science import ENTRIES as _SCIENCE  # noqa: E402  rain, snow, thunder, sky colour, seasons... with their follow-ups
+EXPLAIN[:0] = _SCIENCE
 
 
 def fallback(messages):

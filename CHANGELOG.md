@@ -1,3 +1,22 @@
+# CAEL 0.4.3: new chat desks and an ARC grid solver
+
+Adds authored desks to the conversation team:
+
+- the Host, with honest answers about CAEL, its web access and the time and date;
+- the Programmer, with 83 Python topics, 31 error explanations, changes to the code just written and a library of 106 self-verified scripts;
+- the Explainer, with 18 concepts and 22 everyday-science explanations, each with follow-ups;
+- the Coach, with beginner guides, habits and ranked tips;
+- the Ideas desk.
+
+Also new: calculator sums for deposits, remainders, monthly splits, rates and savings goals; a wider Supporter that recognises serious situations without a feeling word; and a non-neural ARC solver.
+
+Results:
+
+- ARC-AGI-1 evaluation: 34 of 400 held out, up from 5.
+- Sealed, blind-shuffled comparison against LFM2-700M on 24 conversations: CAEL 13 wins, 5 losses, 6 ties. Self-judged by the developer (a conflict of interest); p ≈ 0.10.
+
+Details: RELEASE_0_4_3.md.
+
 # CAEL 0.4.2: conversation team, fielded retrieval and the Supporter
 
 Adds a fielded retrieval index (BM25F over title, tags, body and answer, a whole-conversation query with learned word associations and a British/American lexicon, and a confidence gate), conversation coherence that keeps follow-up answers on the user's thing, the Supporter for emotional conversations over several turns, story plots with real rewrites, shares and full-price discounts in the calculator, one-turn recipe scaling, moved bookings, and thank-you notes. Removes the unused chat_v6_7 engine and ten unloaded modules; CAEL now runs without the optional open-chat index. Sealed 20-conversation comparison against Gemma 3 270M IT: CAEL 12 wins, 7 losses, 1 tie (self-judged, not blind). Details: RELEASE_0_4_2.md.

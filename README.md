@@ -38,6 +38,26 @@ Compare your run task by task with [results/arc_agi_1_evaluation_0.4.4.jsonl](re
 The solver was developed on the training set only. The evaluation set was scored at several milestones, though never
 used to fix anything, so a run on a set CAEL has never seen (for example ConceptARC) is especially welcome.
 
+## Dataset: CAEL Verified Reasoning
+
+[![HF dataset](https://img.shields.io/badge/HF%20dataset-cael--verified--reasoning-blue)](https://huggingface.co/datasets/vynly/cael-verified-reasoning)
+
+CAEL's exact solvers also generate training data for other models:
+[**vynly/cael-verified-reasoning**](https://huggingface.co/datasets/vynly/cael-verified-reasoning). It holds 2,000,000
+reasoning problems whose answers are computed, not guessed, plus a 1,427-item hard evaluation split.
+- **Areas:** arithmetic, dates and times, logic and line-ups, conflicting sources, chat memory, unanswerable questions,
+  ARC-style grids, and multi-step composites.
+- **Each row** has step-by-step working and a difficulty from 1 to 5.
+- **Licence:** CC BY 4.0.
+- **Verifier:** [`datasets/verified_reasoning/verify.py`](datasets/verified_reasoning/verify.py) checks any model's reply
+  against a row, so it can serve as an RL reward.
+- **Generator:** [`datasets/verified_reasoning/generate.py`](datasets/verified_reasoning/generate.py) makes as many fresh
+  problems as you want:
+
+```bash
+python datasets/verified_reasoning/generate.py --out mydata --n 100000 --seed 123
+```
+
 ## Quick start
 
 Use Python 3.12. From this checkout, or from the extracted [CAEL-0.4.4.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.4/CAEL-0.4.4.zip) release (extract [cael-open-chat-v1.1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.4/cael-open-chat-v1.1.zip) into `models/` for the full open-chat index and the fielded index):

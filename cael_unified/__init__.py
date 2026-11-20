@@ -1,5 +1,5 @@
-"""CAEL 0.4.3: non-neural conversation team with authored Programmer, Explainer, Coach and Supporter desks, fielded retrieval and an ARC grid solver."""
-__version__ = '0.4.3'
+"""CAEL 0.4.4: non-neural conversation team with a think-first swarm (exact readers, checks and votes), a constraint solver and an extended ARC grid solver."""
+__version__ = '0.4.4'
 
 
 def __getattr__(name):

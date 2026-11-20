@@ -389,10 +389,14 @@ def single(messages, seed=0):
 
 def reply(messages, seed=0):
     """Answer the whole message, or each of its clauses when every clause is recognised."""
+    text = messages[-1]['content'].strip()
+    # 0.4.4: "I'm writing to Liana. Which collection should I ask about?" is a question, not news of an activity
+    asks = re.search(r"(?i)\b(?:which|what|who|whose|where|when|how many|how much)\b[^?]*\?", text)
     whole = single(messages, seed)
     if whole is not None:
+        if asks and whole['route'].endswith('activity'):
+            return None
         return whole
-    text = messages[-1]['content'].strip()
     clauses = [c for c in re.split(r'\s*[.!?;,]+\s*', text) if c.strip()]
     if not 1 < len(clauses) <= 4 or len(text) > 160:
         return None
@@ -401,6 +405,8 @@ def reply(messages, seed=0):
         answer = single(messages[:-1] + [dict(messages[-1], content=clause)], seed)
         if answer is None:
             return None  # A clause needs another route; never answer only part of a message.
+        if asks and answer['route'].endswith('activity'):
+            return None
         parts.append(answer)
     kinds = [p['route'].rsplit('-', 1)[-1] for p in parts]
     if 'mood' in kinds or 'how-are-you' in ' '.join(p['route'] for p in parts):

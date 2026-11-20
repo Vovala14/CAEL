@@ -123,6 +123,26 @@ FOLLOW = [
     (re.compile(r"(?i)\b(?:is|are) (?:it|that|this|they|these|those) (?:bad|good|dangerous|a problem|harmful|safe|risky|worth it|a good idea)\b|\bany (?:side effects|risks?)\b|\bshould i (?:worry|be worried)\b"), 4),
     (re.compile(r"(?i)\b(?:how )?(?:does|do|will|would|could) (?:it|that|this|they) affect (?:me|us|my|our)\b|\bwhat does (?:it|that) mean for (?:me|us)\b|\bwhat should i do\b|\bhow does (?:it|that) impact\b"), 5),
 ]
+# follow-ups particular to one concept, checked before the general ones: 'Could Earth fall into one?' after black holes
+EXTRA = {
+    'black_hole': [
+        (re.compile(r"(?i)\b(?:earth|we|our planet|the planet)\b.{0,25}\b(?:fall|fell|get|be|go|sucked|pulled|swallowed)\b.{0,15}\b(?:in|into)\b|\bswallow (?:the )?earth\b|\bdanger(?:ous)? (?:to|for) (?:us|earth)\b"),
+         "No. There is no black hole anywhere near us: the nearest known is over a thousand light years away, and the one at the centre of our galaxy is "
+         "about 26,000 light years away. Earth orbits the Sun, and the Sun can't become a black hole either: it isn't massive enough. "
+         "Even if the Sun were swapped for a black hole of the same mass, Earth would keep orbiting it exactly as now (it would just get very cold)."),
+        (re.compile(r"(?i)\b(?:sun)\b.{0,25}\b(?:become|turn into|end up)\b"),
+         "No. Only stars more than about 20 times the Sun's mass end as black holes. In about 5 billion years the Sun will swell into a red giant, "
+         "then shrink to a white dwarf, a hot Earth-sized ember that slowly cools."),
+        (re.compile(r"(?i)\bwhat (?:would )?happens? (?:if|when) (?:you|i|someone|a person|an astronaut)\b.{0,20}\b(?:fall|fell|went|go|get)\b|\bfall(?:ing)? into (?:a|one|it)\b"),
+         "Near a small black hole you'd be stretched head to toe by the difference in gravity between your feet and your head (astronomers call it "
+         "spaghettification) long before reaching the edge. Near a giant one you could cross the event horizon without feeling anything special, "
+         "but you could never get back out or send a signal. To someone watching from far away, you would seem to slow down and fade at the edge."),
+        (re.compile(r"(?i)\bhow (?:do|can|did) (?:we|they|scientists|astronomers) (?:see|find|know|detect|spot|photograph)\b|\bif (?:light|nothing) can'?t escape\b"),
+         "Not directly, since no light escapes. Astronomers see what they do to things nearby: stars whipping round an invisible mass, gas heated to "
+         "millions of degrees glowing as it spirals in, and ripples in space-time (gravitational waves) when two black holes merge. In 2019 and 2022 "
+         "the Event Horizon Telescope photographed the shadows of two black holes against their glowing gas."),
+    ],
+}
 ASK = re.compile(r"(?i)\b(?:what (?:is|are|'s)|explain|what does .{1,30} mean|tell me about|how (?:does|do) .{1,30} work|how .{1,20} works?|in simple terms|why (?:do|does|is|are) we (?:need|have|use)|simply|eli5|describe)\b")
 
 
@@ -175,6 +195,10 @@ def respond(messages):
                 previous = next((n for n, row in C.items() if any(said.strip()[:50] == r[:50] for r in row[1:])), None)
                 break
         if previous:
+            for pattern, answer in EXTRA.get(previous, ()):
+                if pattern.search(text):
+                    return dict(route='chat/concept-followup', response=answer, sources=[],
+                                details=f'Authored concept explanation ({previous}; concepts.py).')
             for pattern, field in FOLLOW:
                 if pattern.search(text):
                     return dict(route='chat/concept-followup', response=C[previous][field], sources=[],

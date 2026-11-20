@@ -2,27 +2,45 @@
 
 A chat assistant with no neural network: cellular automata, rules and retrieval, on CPU.
 
-[![version 0.4.3](https://img.shields.io/badge/version-0.4.3-blue)](https://github.com/Vovala14/CAEL/releases/tag/v0.4.3)
-[![HF downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.3&query=%24.downloads&label=HF%20downloads&color=blue)](https://huggingface.co/vynly/CAEL-0.4.3)
+[![version 0.4.4](https://img.shields.io/badge/version-0.4.4-blue)](https://github.com/Vovala14/CAEL/releases/tag/v0.4.4)
+[![HF downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.4&query=%24.downloads&label=HF%20downloads&color=blue)](https://huggingface.co/vynly/CAEL-0.4.4)
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
 ![CPU only](https://img.shields.io/badge/CPU-only-green)
 [![license: source-available, non-commercial](https://img.shields.io/badge/license-source--available%2C_non--commercial-blue)](LICENSE)
 
-**0.4.3** adds new desks to the conversation team, each with authored answers and their follow-ups:
+**0.4.4** makes CAEL think before it answers, with a swarm, and with no neural network anywhere:
 
-- **Host:** honest answers about CAEL itself, its web access and the time.
-- **Programmer:** Python topics, error explanations and self-verified scripts.
-- **Explainer:** concepts and everyday science.
-- **Coach:** beginner guides and ranked tips.
-- **Ideas desk.**
+- **Chat:** nine exact readers (everyday sums and dates, constraint logic, sources that disagree, chat memory,
+  explanations) each propose an answer to several readings of the question. Each proposal is checked (answer type, and
+  whether the number can be derived from the user's own numbers), the checked answers vote, and a final guard replaces
+  off-topic replies with an honest "I can't work this out".
+- **ARC-AGI-1:** a non-neural grid solver solves **62 of 400 evaluation tasks (15.5%, pass@2)** in 10 seconds per task
+  on a CPU. It uses 53 solver programs, augment-and-vote over 8 symmetries, a union swarm of drawing specialists,
+  and a leave-one-out self-check. Per-task results ship with the release, and one command reproduces them (see below).
 
-It also adds a wider Supporter, new calculator sums and a non-neural ARC grid solver (34 of 400 held-out ARC-AGI-1 evaluation tasks).
+Release notes: [RELEASE_0_4_4.md](RELEASE_0_4_4.md). Architecture: [ARCHITECTURE_0_4_4.md](ARCHITECTURE_0_4_4.md).
 
-In a sealed 24-conversation comparison judged with the names hidden, CAEL won **13**, lost 5 and tied 6 against **LFM2-700M**. The developer of CAEL judged it, which is a conflict of interest. CAEL ran with web lookups on; LFM2 ran offline. See [RELEASE_0_4_3.md](RELEASE_0_4_3.md).
+## Reproduce the ARC result
+
+```bash
+python -m pip install -r requirements-unified.txt
+git clone https://github.com/fchollet/ARC-AGI
+python evaluate_arc.py --data ARC-AGI/data/evaluation --out results/my_arc_eval
+```
+
+| Set | Solved (pass@2, 10 s per task, CPU) |
+|---|---:|
+| ARC-AGI-1 evaluation | **62 / 400** |
+| ARC-AGI-1 training (development set) | 152 / 400 |
+| ARC-AGI-2 evaluation | 0 / 120 |
+
+Compare your run task by task with [results/arc_agi_1_evaluation_0.4.4.jsonl](results/arc_agi_1_evaluation_0.4.4.jsonl).
+The solver was developed on the training set only. The evaluation set was scored at several milestones, though never
+used to fix anything, so a run on a set CAEL has never seen (for example ConceptARC) is especially welcome.
 
 ## Quick start
 
-Use Python 3.12. From this checkout, or from the extracted [CAEL-0.4.3.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.3/CAEL-0.4.3.zip) release (extract [cael-open-chat-v1.1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.3/cael-open-chat-v1.1.zip) into `models/` for the full open-chat index and the fielded index):
+Use Python 3.12. From this checkout, or from the extracted [CAEL-0.4.4.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.4/CAEL-0.4.4.zip) release (extract [cael-open-chat-v1.1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.4/cael-open-chat-v1.1.zip) into `models/` for the full open-chat index and the fielded index):
 
 ```bash
 python -m pip install -r requirements-unified.txt
@@ -49,13 +67,13 @@ You: quit
 
 | Good at | Still behind |
 | --- | --- |
-| Math and quantities, rates, clock times, schedules, short logic, memory updates, emotional support, everyday Python questions, explanations and tips with their follow-ups | Practical multi-turn how-to chats outside the authored desks, which can fall back to general advice |
+| Math and quantities, rates, clock times, dates, line-up and if-then logic, sources that disagree, memory updates, emotional support, everyday Python questions, explanations and tips with their follow-ups | Problem types the hand-written readers were not written for (they get an honest refusal); practical multi-turn how-to chats outside the authored desks |
 
 Other known gaps: facts outside CAEL's knowledge depend on the web, and some follow-ups still get advice of the right kind but not specific to the case. On CellARC, whole puzzles are still rare (79/1000 interpolation, 5/1000 extrapolation). ARC-AGI-2 puzzles stay unsolved (0/120).
 
-## What 0.4.3 is
+## How CAEL answers
 
-**0.4.3** answers each turn with a team of small agents: planner, researchers, calculator, memory, writer, critic, the Supporter for emotional conversations, and authored desks for questions about CAEL itself, Python, explanations, tips and ideas. A new fielded index (BM25F over title, tags, body and answer, with learned word associations) finds threads about the user's own problem among about 285,000 human-written answers (Stack Exchange, OpenAssistant, and databricks-dolly-15k). A coherence check keeps follow-up answers on the thing the conversation is about. There are no neural weights and no external LLM writes the replies. Finite readers, ambiguity, and conversational gaps remain.
+CAEL answers each turn with a team of small agents: planner, researchers, calculator, memory, writer, critic, the Supporter for emotional conversations, and authored desks for questions about CAEL itself, Python, explanations, tips and ideas. A new fielded index (BM25F over title, tags, body and answer, with learned word associations) finds threads about the user's own problem among about 285,000 human-written answers (Stack Exchange, OpenAssistant, and databricks-dolly-15k). A coherence check keeps follow-up answers on the thing the conversation is about. There are no neural weights and no external LLM writes the replies. Finite readers, ambiguity, and conversational gaps remain.
 
 ## Core changes and measured scope
 
@@ -76,18 +94,18 @@ Authored confirmation: 60/60 positive answers versus 12/60 for unchanged 0.3.9.1
 
 The exact frozen candidate was run through the **unmodified official CellARC symbolic evaluation harness**. Every prediction and full reply matches the original recorded run. No test-based solver change, training or validation fitting, metadata or gold input, or omitted failure. This rerun is a reproduction on viewed tasks, not additional unseen evidence. Eight interpolation clarifications count fully wrong. Many cells use empirical or backoff guesses; exact extrapolation remains weak.
 
-Download [cellarc-evidence.zip](https://huggingface.co/vynly/CAEL-0.4.0/resolve/v0.4.0/cellarc-evidence.zip), or see the [full public evidence and exact script](https://github.com/Vovala14/CAEL/tree/v0.4.0/benchmarks/core_040), including [reproduction instructions](https://github.com/Vovala14/CAEL/blob/v0.4.0/benchmarks/core_040/REPRODUCE.md). Official leaderboard inclusion is subject to maintainer review; no accepted rank, Qwen win, or unrestricted architectural superiority is claimed. Other models were not rerun, and published LLM scores use smaller subsets and different protocols.
+Download [cellarc-evidence.zip](https://huggingface.co/vynly/CAEL-0.4.0/resolve/v0.4.0/cellarc-evidence.zip), or see the [full public evidence and exact script](https://github.com/Vovala14/CAEL/tree/v0.4.0/benchmarks/core_040), including [reproduction instructions](https://github.com/Vovala14/CAEL/blob/v0.4.0/benchmarks/core_040/REPRODUCE.md). Official leaderboard inclusion is subject to maintainer review; no accepted rank or architectural superiority is claimed.
 
 Original structured-run measurements: load 0.973 s, 2000-task inference 1.498 s, peak full process 109.13 MiB on one shared Windows host. The official harness has additional import overhead, including Torch and neural baseline definitions; no neural model is instantiated by the CAEL solver. These measurements are not an optimized-neural efficiency comparison.
 
 ## Downloads and licences
 
-[![HF downloads (30 days)](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.3&query=%24.downloads&label=HF%20downloads%20%2830%20days%29&color=blue)](https://huggingface.co/vynly/CAEL-0.4.3)
+[![HF downloads (30 days)](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.4&query=%24.downloads&label=HF%20downloads%20%2830%20days%29&color=blue)](https://huggingface.co/vynly/CAEL-0.4.4)
 
-The live badge reports Hugging Face's counted query-file requests over 30 days, not unique users or all completed installs. `params.json` is a meaningful source and resource download configuration. Direct ZIP and resource clicks are not comprehensively counted; no simulated events or telemetry were added. For a full repository download: `hf download vynly/CAEL-0.4.3 --local-dir CAEL-0.4.3-download`.
+The live badge reports Hugging Face's counted query-file requests over 30 days, not unique users or all completed installs. `params.json` is a meaningful source and resource download configuration. Direct ZIP and resource clicks are not comprehensively counted; no simulated events or telemetry were added. For a full repository download: `hf download vynly/CAEL-0.4.4 --local-dir CAEL-0.4.4-download`.
 
 The Hugging Face model card, including its YAML front matter, is [MODEL_CARD.md](MODEL_CARD.md). Nothing in this repository copies `README.md` to Hugging Face.
 
-CAEL is [source-available, non-commercial](LICENSE) ([same terms on Hugging Face](https://huggingface.co/vynly/CAEL-0.4.3/blob/main/LICENSE)). Upstream resources retain their licences. CellARC is by **Miroslav Lžičař**: [dataset](https://huggingface.co/datasets/mireklzicar/cellarc_100k), [official code](https://github.com/mireklzicar/cellarc), [paper](https://arxiv.org/abs/2511.07908). The actual pinned dataset LICENSE is **CC BY 4.0**, despite the card's MIT tag; byte-preserved data and transformed evaluation files retain attribution. Official source licences are preserved separately. These results are our evaluation, not the author's endorsement. No live Vynly worker change is part of this release.
+CAEL is [source-available, non-commercial](LICENSE) ([same terms on Hugging Face](https://huggingface.co/vynly/CAEL-0.4.4/blob/main/LICENSE)). Upstream resources retain their licences. CellARC is by **Miroslav Lžičař**: [dataset](https://huggingface.co/datasets/mireklzicar/cellarc_100k), [official code](https://github.com/mireklzicar/cellarc), [paper](https://arxiv.org/abs/2511.07908). The actual pinned dataset LICENSE is **CC BY 4.0**, despite the card's MIT tag; byte-preserved data and transformed evaluation files retain attribution. Official source licences are preserved separately. These results are our evaluation, not the author's endorsement. No live Vynly worker change is part of this release.
 
 If this experiment interests you, starring and watching releases is how you'll hear about the next build.

@@ -398,6 +398,16 @@ def respond(messages, thing=None):
             or re.search(r"(?i)^\s*(?:who|when|where|which|what year|how many|how much)\b", last) and not re.search(r"(?i)\b(?:i|we|my|our|it|she|he|they)\b", last) \
             or re.search(r"\d", last) and re.search(r"(?i)\bhow (?:much|many|long)\b|\bwhat time\b|\bcheaper\b", last):
         return None                         # writing, a fact or a sum: other agents do those
+    # 0.4.4: a question that asks for one value (which one, what time or date or order, how many, who, is X on)
+    # with no trouble or request for help told anywhere is not advice: "Reading left to right, what's the lineup?" about
+    # jars got baking tips, "What's the least we can spend?" on plant pots got watering tips.
+    q = re.split(r",\s*", (re.findall(r"[^.!?]*\?", last) or [last])[-1])[-1]       # "Reading left to right, what's the lineup?"
+    if re.search(r"(?i)^\s*(?:and\s+|so\s+)?(?:which|who|whose|where|how many|how much|what(?:'s| is| are| was| were)? (?:the )?(?:time|day|date|order|"
+                 r"line-?up|number|name|colou?r|age|total|weekday|month|year|room|exact)|what (?:day|time|date|number|name|month|year|age)|is [a-z]+ (?:on|off|lit|open|closed)|"
+                 r"could (?:it|he|she|this|that)|does (?:that|this)(?: alone)? (?:prove|mean)|can we (?:work out|tell))\b", q.strip()) \
+            and not re.search(r"(?i)\b(?:help|fix|stop|keeps?|won'?t|doesn'?t work|broken|problem|advice|tips?|should i|how (?:do|can|should) i|what should|"
+                              r"best way|recommend|struggl|worried|annoy|upset)\b", ' '.join(turns[-4:])):
+        return None
     if not thing:
         try:
             from .team import thing_of

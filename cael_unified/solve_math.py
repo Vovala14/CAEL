@@ -840,6 +840,9 @@ def solve(text):
         return None
     if re.search(r'\b(my|his|her|your) (phone number|number|pin|code|password|address|postcode|zip)\b|\b(19|20)\d\d\b', t, re.I):
         return None
+    if re.search(r'(?i)\b(?:receive[sd]?|get|gets|got|find|finds|found|buy|buys|bought|lose|loses|lost|give|gives|gave|spend|spends|spent|'
+                 r'eat|eats|ate|use|uses|used|sell|sells|sold)\s+(?:away\s+)?(?:some|a few|several|many|a lot|lots|more|a bunch|loads)\b(?!\s+of\s+\d)', t):
+        return None                     # "receive some": a change of unknown size, so the total cannot be known
     for fn in (clock, relations, rectangle):
         try:
             r = fn(t)

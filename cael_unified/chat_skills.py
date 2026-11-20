@@ -436,7 +436,8 @@ def times(messages):
     h, m = divmod(dur, 60)
     trip = (f'{h} h' if h else '') + (f' {m:02d} min' if m and h else f'{m} min' if m else '')
     if not later:
-        verb = 'It ends at' if re.search(r'(?i)\b(?:end|finish|over|done)\b', ask) else 'You land at' if re.search(r'(?i)\bland\b', ask) else 'You arrive at'
+        verb = 'It ends at' if re.search(r'(?i)\b(?:end|finish|over|done)\b', ask) else 'You land at' if re.search(r'(?i)\bland\b', ask) else \
+            'It now starts at' if re.search(r'(?i)\b(?:pushed back|moved back|delayed|postponed|put back)\b', base) else 'You arrive at'
         return answer('time', f"{verb} **{show(end, twelve)}** ({show(t0, twelve)} + {trip.strip()}).", 'arrival')
     first = t0 + dur
     if delay:

@@ -532,8 +532,10 @@ def values_in(s, title, kind, type_word, noun, unit, cue, asked_stems, special, 
         for m in re.finditer(r'(?i)\b(' + NUM + r')((?:\s+[a-z-]+){0,2}?)\s+([a-z]+)\b', s):
             before = s[:m.start()].rstrip().rsplit(' ', 1)[-1].lower()
             if wc.stem(m[3].lower()) == n and not re.search(r'(?i)\b(?:of|in|and|to|than|or)\b', m[2]) and before not in (
-                    'the', 'these', 'those', 'all', 'his', 'her', 'their', 'its', 'other', 'first', 'last', 'top', 'only', 'least', 'to', 'another', 'than', 'every'):
-                out.append(m[1].lower())
+                    'the', 'these', 'those', 'all', 'his', 'her', 'their', 'its', 'other', 'first', 'last', 'top', 'only', 'least', 'to', 'another', 'than', 'every') \
+                    and not (m[1].lower() in ('one', 'a', 'an', '1') and before not in (
+                        'has', 'have', 'had', 'having', 'with', 'contains', 'contain', 'is', 'are', 'was', 'only', 'just', 'possesses')):
+                out.append(m[1].lower())    # "the length of one side", "sharing one side" name a side; they do not count the sides
         return out, in_lead and title_stems <= asked_stems
     if kind == 'measure':
         if cue and not re.search(r'(?i)\b(?:' + cue + r')', s):

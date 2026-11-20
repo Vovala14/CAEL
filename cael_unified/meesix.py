@@ -12,6 +12,7 @@ No model is involved: an agent is a plain function call on a worker thread. The 
 work at the same time: the pipeline is safe to call from several threads (the public worker already does), so a
 message with three look-ups waits for the slowest one, not for the sum of the three.
 """
+import os
 import re
 import threading
 import time
@@ -43,6 +44,23 @@ def specialists(messages):
         return None
     # The established sharing and rates helpers keep their problems: they ask "whole items or fractions?" and refuse
     # unsafe input, and their follow-ups depend on their own replies.
+    # 0.4.4: the exact word-problem solvers (word_math.py) go first. Each reads one shape of question completely or refuses,
+    # so where they answer, the older general solver (which misread "my friend gave me 7 more" as a loss) is not asked.
+    if os.environ.get('CAEL_WORD_MATH_FIRST', '1') != '0':
+        try:
+            from . import word_math
+            got = word_math.respond(messages)
+        except Exception:
+            got = None
+        if got:
+            return got
+        try:
+            from . import recall_did        # "Where did I park?" from "I parked on level 3."
+            got = recall_did.respond(messages)
+        except Exception:
+            got = None
+        if got:
+            return got
     from . import helper_groups, helper_rates
     for helper in (helper_groups, helper_rates):
         try:

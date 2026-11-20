@@ -19,7 +19,7 @@ except ImportError:            # lets the module load (and be tested) where Harb
             self.logs_dir = Path(logs_dir) if logs_dir else None
 
 
-VERSION = '0.4.3-dev'
+VERSION = '0.4.4-dev'
 
 
 class CaelAgent(BaseAgent):

@@ -1,3 +1,29 @@
+# CAEL 0.4.4: a thinking swarm and an extended ARC solver
+
+**Chat thinks before it answers, as a swarm** (`think.py`):
+- Nine exact readers each propose an answer to several readings of the question (as asked, all turns as one, number
+  words as digits, statements apart).
+- Each proposal is checked: the answer type must fit, and a word problem's number must be derivable from the stated
+  numbers.
+- The checked proposals vote; when two fully checked answers disagree, CAEL asks which reading was meant.
+
+**New readers:**
+- `everyday_exact` and `everyday_more`: about 65 everyday shapes, such as money, rates, clocks, calendars,
+  corrections, newer or retracted sources, and the latest value of a fact.
+- `constraint_logic`: line-ups by exhaustive search, and if-then rules.
+- `explain_more`: about 60 short explanations.
+
+**A final answer guard** replaces off-topic replies to the user's own situation with an honest "I can't work this out".
+
+**ARC:**
+- 37 new families in `arc_solver.py`;
+- a union swarm of drawing specialists, a leave-one-out self-check, wider two-step search, and a fit cache.
+- Results: ARC-AGI-1 evaluation **62/400** (pass@2, 10 s per task, CPU), ARC-AGI-1 training 152/400, ARC-AGI-2
+  evaluation 0/120.
+- New `evaluate_arc.py` reproduces the ARC numbers, and the per-task results are in `results/`.
+
+Details: RELEASE_0_4_4.md.
+
 # CAEL 0.4.3: new chat desks and an ARC grid solver
 
 Adds authored desks to the conversation team:

@@ -748,6 +748,13 @@ def single(messages, engine, options):
     except Exception:
         pass
     try:
+        # a looked-up passage or advice may answer only when it supplies what was asked about the thing named (evidence.py)
+        from . import evidence
+        if os.environ.get('CAEL_EVIDENCE_CHECK', '1') != '0':
+            draft = evidence.check(messages, draft)
+    except Exception:
+        pass
+    try:
         # never the same answer twice in a row: say so and ask which part to go into (a repeat reads as not listening)
         said = [m.get('content') or '' for m in messages[:-1] if m.get('role') == 'assistant']
         new = str(draft.get('response', '')).strip()
@@ -771,6 +778,30 @@ def _single(messages, engine, options, board):
         me = board.do('Host', about_me.respond, messages)
         if me is not None:
             return sign(board, me, 'the Host')
+    except Exception:
+        pass
+    try:
+        # jokes, a recipe step said on its own, and common myths (common_asks.py), before any page search
+        from . import common_asks
+        common = board.do('Host', common_asks.respond, messages)
+        if common is not None:
+            return sign(board, common, 'the Host')
+    except Exception:
+        pass
+    try:
+        # word problems, puzzles and rules about individuals worked out exactly (reasoner.py), and follow-ups on its last result
+        from . import reasoner
+        worked = board.do('Reasoner', reasoner.respond, messages)
+        if worked is not None:
+            return sign(board, worked, 'the Reasoner')
+    except Exception:
+        pass
+    try:
+        # an everyday situation and its short follow-ups, which keep their subject from the earlier turns (situations.py)
+        from . import situations
+        handled = board.do('Coach', situations.respond, messages)
+        if handled is not None:
+            return sign(board, handled, 'the Coach')
     except Exception:
         pass
     if not board.is_question:
@@ -991,6 +1022,15 @@ def _single(messages, engine, options, board):
             more = prefer_schema(board, messages, dict(more, rank_prob=0.5))
             board.note('Researcher (pages)', 'read on in the thread quoted before')
             return sign(board, dict(more, replaced_route=route), 'Researcher (pages)')
+    try:
+        # a story sum the quantity helpers could not read ("He gives 1 to Sue and buys 4 more"): the Reasoner follows it
+        # step by step, only after every other desk, so their checked answers and explanations come first
+        from . import reasoner
+        told = board.do('Reasoner', reasoner.story_reply, messages)
+    except Exception:
+        told = None
+    if told:
+        return sign(board, dict(told, replaced_route=route), 'the Reasoner')
     if board.is_question and not board.numeric:
         try:
             from . import advice_schemas
@@ -1008,10 +1048,57 @@ def run(messages, engine, **options):
     """Answer the last user message with the team. A message with several separate tasks gets one team per task, at most
     six tasks at a time (meesix.run)."""
     last = messages[-1]['content']
+    if os.environ.get('CAEL_EXACT_FIRST', '1') != '0':
+        try:
+            # 0.4.4: exact readers for everyday reasoning over the whole conversation (pack
+            # costs, tills, shares owed, rates, clock and calendar sums, labelled accounts with rules, corrections and
+            # withdrawals, renamed things, hidden or future outcomes, false premises). Each reads one shape completely or
+            # stays silent, so it goes first: before it, keywords sent these to advice templates or web pages.
+            # Think first, as a swarm (think.py): every exact reader proposes an answer to several readings of the
+            # question, each proposal is checked (answer type; a sum must be derivable from the stated numbers), and
+            # the best-supported checked answer is given. Nothing checked: the usual pipeline answers.
+            from . import think
+            exact = think.run(messages)
+            if exact is not None:
+                board = Board(messages)
+                for a in (exact.get('think') or {}).get('answers', [])[:3]:
+                    board.note('Thinker', f'{a["answer"]!r}: support {a["support"]} from {", ".join(a["readers"])} ({a["check"]})')
+                return sign(board, exact, 'the Thinker')
+        except Exception:
+            pass
+    try:
+        # "Why?" after "The capital of Italy is **Rome**." means "Why is Rome the capital of Italy?" (common_asks.py)
+        from . import common_asks
+        meant = common_asks.why_question(messages)
+        if meant:
+            answered = run(messages[:-1] + [dict(messages[-1], content=meant)], engine, **options)
+            return dict(common_asks.why_checked(meant, answered), asked_as=meant)
+    except Exception:
+        pass
+    try:
+        # labelled accounts or parts and one question: one reader per part, merged by the swarm rules (swarm.py);
+        # checked before the task split, which would read "Witness 1: ... Witness 2: ..." as separate tasks
+        from . import swarm
+        merged = swarm.chat_reply(messages) if os.environ.get('CAEL_SWARM_DESK', '1') != '0' else None
+        if merged is not None:
+            board = Board(messages)
+            readers = (merged.get('swarm') or {}).get('readers') or []
+            board.note('Swarm', f'had {len(readers)} readers ({", ".join(readers)}) each read one part, then merged their claims')
+            return sign(board, merged, 'the Swarm')
+    except Exception:
+        pass
     if len(meesix.tasks_of(last)) > 1:
         done = meesix.run(messages, engine, **options)
         if done is not None:
             return done
+    try:
+        # several readings of one message worked on at once, the best-grounded reply picked by rules (swarm_compute.py)
+        from . import swarm_compute
+        combined = swarm_compute.run(messages, single, engine, options)
+        if combined is not None:
+            return combined
+    except Exception:
+        pass
     return single(messages, engine, options)
 
 

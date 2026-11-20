@@ -201,8 +201,9 @@ class Assistant:
                 and not emoji_ask:      # "Make a pizza emoji" is for the emoji maker, not the chat team
             # The Mr. Meesix agents as a team: Planner, Solver, Generalist (this pipeline), Researchers, Critic,
             # Counsellor, Editor; one team per task in the message, at most six tasks at a time (team.py, meesix.py).
-            from . import team
-            return team.run(messages, self, n=n, seed=seed, mode=mode)
+            from . import answer_guard, team
+            # the last check: a loose or misread reply to the user's own situation becomes an honest "can't work this out"
+            return answer_guard.check(messages, team.run(messages, self, n=n, seed=seed, mode=mode))
         if mode in ('auto', 'chat'):
             # Recall ("what's my cat's name?") and CAEL's own preferences are answered from the conversation itself.
             from . import chat_memory, chat_plus
@@ -463,6 +464,16 @@ class Assistant:
                 and all(isinstance(m,dict) and m.get('role') in ('user','assistant','system') and isinstance(m.get('content'),str) for m in messages)
                 and messages[-1]['role']=='user' and sum(len(m['content']) for m in messages)<=8_000_000
                 and type(n) is int and 1<=n<=8 and (seed is None or type(seed) is int and 0<=seed<2**31)):
+            # Labelled accounts or parts ("Witness 1: ... Witness 2: ... Where is Sam?"): each part gets its own reader
+            # and the swarm rules merge them (swarm.py). Separate accounts that differ are reported, not read as one
+            # timeline where the last speaker wins.
+            try:
+                from .swarm import chat_reply as swarm_reply
+                merged_reply=swarm_reply(messages) if os.environ.get('CAEL_SWARM_DESK','1')!='0' else None
+            except Exception:
+                merged_reply=None
+            if merged_reply is not None:
+                return merged_reply
             from .event_memory import reply as event_reply
             recalled=event_reply(messages)
             if recalled is not None:

@@ -110,6 +110,47 @@ NAME = re.compile(r"(?i)\bwhat(?:'s| is) your name\b|\bwho am i (?:talking|speak
 SEE = re.compile(r"(?i)\b(?:can|do) " + YOU + r" (?:see|read|look at|open|understand) (?:images?|pictures?|photos?|files?|pdfs?|attachments?|videos?)\b")
 
 
+CLOCK_IN = r"(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm|a\.m\.|p\.m\.)?"
+CONVERT = re.compile(r"(?i)\b(?:at\s+)?" + CLOCK_IN + r"\s*(?:o'clock\s*)?(?:\w+\s+){0,2}?in ([a-z][a-z .'-]{1,24}?)\b[,.?]?\s*(?:\w+\s+){0,6}?(?:in|for|to) ([a-z][a-z .'-]{1,24}?)\s*(?:time)?\s*\??\s*$")
+
+
+def city_key(name):
+    name = re.sub(r"^(?:the city of |central )", "", name.strip(" .'?").lower())
+    return name if name in CITIES else None
+
+
+def convert(m, text):
+    """'My meeting is at 3pm in London. What time is that in New York?': the given clock time moved between two cities."""
+    a, b = city_key(m[4]), city_key(re.sub(r'(?i)^.*\b(?:in|for|to) ', '', m[5]))     # 'for me in Sydney': the last place named
+    if not a or not b or a == b or not re.search(r"(?i)\bwhat time\b|\bwhen\b|\bconvert\b|\bwhat(?:'s| is) .{0,12}\b(?:in|for)\b|\btime (?:is|will) (?:that|it)\b", text):
+        return None
+    h, mi, ap = int(m[1]), int(m[2] or 0), (m[3] or '').lower().replace('.', '')
+    if h > 23 or mi > 59 or (ap and not 1 <= h <= 12):
+        return None
+    if not ap and not m[2] and not re.search(r"(?i)\bat\s+\d", text):
+        return None                     # a bare number that is not a time
+    if ap == 'pm' and h != 12:
+        h += 12
+    if ap == 'am' and h == 12:
+        h = 0
+    now = dt.datetime.now(dt.timezone.utc)
+    _, ha = city_time(a, now)
+    _, hb = city_time(b, now)
+    minutes = h * 60 + mi + round((hb - ha) * 60)
+    day = '' if 0 <= minutes < 24 * 60 else (' the next day' if minutes >= 24 * 60 else ' the day before')
+    minutes %= 24 * 60
+    t = dt.datetime(2000, 1, 1, minutes // 60, minutes % 60)
+    diff = hb - ha
+    ahead = f"{b.title()} is {fmt_hours(abs(diff))} {'ahead of' if diff > 0 else 'behind'} {a.title()}" if diff else f"{a.title()} and {b.title()} are on the same time"
+    return reply(f"**{clock(t)}**{day} in {b.title()}. {ahead} at the moment ({offset_text(ha)} and {offset_text(hb)}), "
+                 "using today's summer-time rules; around a clock change the gap can differ by an hour for a week or two.", 'city-convert')
+
+
+def fmt_hours(h):
+    whole, rest = int(h), round((h % 1) * 60)
+    return (f"{whole} hour" + ('' if whole == 1 else 's')) + (f" {rest} minutes" if rest else '') if whole else f"{rest} minutes"
+
+
 def reply(text, kind):
     return dict(route='chat/about-' + kind, response=text, sources=[], details='About CAEL itself (about_me.py): true statements about how it works; the time is the machine clock.')
 
@@ -125,6 +166,11 @@ def respond(messages):
                          "For everyday things (sums, writing, Python, advice) I answer from my own rules and notes without searching.", 'internet')
         return reply("Not right now: web search is switched off here, so I'm answering only from my own rules and notes. I can still work things out, "
                      "write, help with Python and give everyday advice.", 'internet')
+    c = CONVERT.search(text)
+    if c:
+        got = convert(c, text)
+        if got is not None:
+            return got
     m = IN_CITY.search(text)
     if m and re.search(r"(?i)\bwhat(?:'s| is)? the time\b|\bwhat time\b|\btime is it\b|\blocal time\b|\bcurrent time\b", text):
         city = m[1].strip(" .'?").lower()
@@ -139,7 +185,7 @@ def respond(messages):
         hours = now.utcoffset().total_seconds() / 3600
         return reply(f"It's **{clock(now)}** on {day_text(now)} where I'm running ({offset_text(hours)}). "
                      "If you're in a different time zone, tell me your city and I'll convert it.", 'time')
-    if DATE_NOW.search(text):
+    if DATE_NOW.search(text) and not re.search(r'(?i)\b(?:yesterday|tomorrow|today|day before|day after)\b[^?]*\b(?:was|is|will be)\s+(?:a\s+)?(?:mon|tues|wednes|thurs|fri|satur|sun)day\b', text):
         now = dt.datetime.now().astimezone()
         return reply(f"Today is **{day_text(now)}** (by the clock where I'm running; near midnight it may already be a different day where you are).", 'date')
     if MEMORY.search(text):

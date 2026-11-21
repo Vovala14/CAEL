@@ -320,6 +320,49 @@ FOLLOW_TIME = re.compile(r'(?i)^\s*(?:and |but |what )?(?:if|about|with)?\b.*?\b
 FOLLOW_NUM = re.compile(r'(?i)^\s*(?:and |but |ok,? |so )?(?:what )?(?:if|about|then)\b')
 
 
+SHIFT_PLUS = re.compile(r"(?i)\b(?:later|late|delay|delays|delayed|longer|more|extra|another|additional|added|add|behind|pushed back|held up|held)\b")
+SHIFT_MINUS = re.compile(r"(?i)\b(?:earlier|early|sooner|less|fewer|shorter|ahead|faster|quicker)\b")
+NEGATED = re.compile(r"(?i)\b(?:not|no|never|isn't|wasn't|aren't|won't|didn't|rather than|instead of)\s+(?:\w+\s+)?$")
+
+
+# "the earlier 09:40", "my later train", "an earlier message": the word describes a thing, it does not move the time
+ATTRIBUTIVE = re.compile(r"(?i)\b(?:the|a|an|my|your|our|their|his|her|its|this|that|these|those)\s+$")
+
+
+def shift_words(text):
+    """Live direction words as (position, +1/-1): negated ("not earlier") and attributive ("the earlier 09:40") uses
+    are dropped."""
+    found = []
+    for rx, sign in ((SHIFT_PLUS, 1), (SHIFT_MINUS, -1)):
+        for m in rx.finditer(text):
+            head = text[:m.start()]
+            if not NEGATED.search(head) and not ATTRIBUTIVE.search(head):
+                found.append((m.start(), m.end(), sign))
+    return found
+
+
+def shift_direction(text, t):
+    """+1 later, -1 earlier, 0 unclear. The live direction word nearest the amount, in the amount's own clause, decides
+    ("delayed 20 minutes from the earlier 09:40" -> later); a tie in distance between opposite words is unclear. If the
+    clause has none, the whole message decides, and opposite words there are unclear."""
+    start, end = t.start(1), t.end(2)
+    lo = max([text.rfind(p, 0, start) for p in '.;!?,'] + [-1]) + 1
+    hi = min([i for i in (text.find(p, end) for p in '.;!?,') if i >= 0] + [len(text)])
+    near = [(min(abs(s - end), abs(start - e)), sign) for s, e, sign in shift_words(text[lo:hi])
+            for s, e in [(s + lo, e + lo)]]
+    if re.search(r'(?i)\b(?:later|earlier|sooner|more|less|longer|shorter)\s+or\s+(?:later|earlier|sooner|more|less|longer|shorter)\b', text[lo:hi]) \
+            and len({sign for _, sign in near}) == 2:
+        return 0                                            # "20 minutes later or earlier?": the user is asking which
+    if near:
+        best = min(d for d, _ in near)
+        signs = {sign for d, sign in near if d == best}
+        return signs.pop() if len(signs) == 1 else 0
+    signs = {sign for _, _, sign in shift_words(text)}
+    if len(signs) == 2:
+        return 0
+    return signs.pop() if signs else 1                      # "what if 20 minutes?" after a time: add, as before
+
+
 def follow(messages):
     text = (messages[-1].get('content') or '').strip()
     if len(text.split()) > 16 or len(messages) < 3:
@@ -333,7 +376,14 @@ def follow(messages):
             amount = {'a': 1, 'an': 1, 'half a': 0.5, 'half an': 0.5}.get(t[1].lower(), None)
             amount = float(t[1]) if amount is None else amount
             minutes = amount * (60 if t[2].lower().startswith('h') else 1)
-            sign = -1 if re.search(r'(?i)\b(?:earlier|less|fewer|sooner|shorter)\b', text) else 1
+            sign = shift_direction(text, t)
+            if sign == 0:                                   # signals point both ways: ask, don't pick one
+                d = fmt(minutes) + ' minutes' if minutes % 60 else fmt(minutes / 60) + (' hour' if minutes == 60 else ' hours')
+                later = (h * 60 + mi + minutes) % (24 * 60)
+                earlier = (h * 60 + mi - minutes) % (24 * 60)
+                return out(f'Do you mean {d} later (**{int(later // 60):02d}:{int(round(later % 60)):02d}**) or {d} earlier '
+                           f'(**{int(earlier // 60):02d}:{int(round(earlier % 60)):02d}**) than {h:02d}:{mi:02d}?',
+                           'time-followup-ask', 'Asked which way to move the last clock time')
             total = (h * 60 + mi + sign * minutes) % (24 * 60)
             hh, mm = int(total // 60), int(round(total % 60))
             dur = (f'{fmt(minutes / 60)} hour' + ('' if minutes == 60 else 's')) if minutes % 60 == 0 else f'{fmt(minutes)} minutes'

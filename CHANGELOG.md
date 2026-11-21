@@ -24,6 +24,15 @@
 
 Details: RELEASE_0_4_4.md.
 
+**Fix after release (same version, 2026-11-21):** a follow-up that moves the last clock time ("delayed by 20 minutes")
+could go the wrong way. Any "earlier", "less" or "sooner" anywhere in the message made it subtract, so 10:25 became
+10:05 instead of 10:45. The reader now:
+- takes the direction from the word nearest the amount;
+- ignores negated words ("not earlier") and descriptive ones ("the earlier 09:40");
+- asks only when the user leaves the direction open.
+
+Regression tests are in `tests/test_time_followup_direction.py`.
+
 # CAEL 0.4.3: new chat desks and an ARC grid solver
 
 Adds authored desks to the conversation team:

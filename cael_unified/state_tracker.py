@@ -368,7 +368,9 @@ def _locations(turns, q, asked):
                 for g in got:
                     where[g[3].lower()] = cnum(g[1])
                     item = item or g[2]
-                steps.append('start: ' + ', '.join(f'{cnum(g[1])} {re.search(r"(?i)\b(in|on|at|inside)\s+\S+\s+" + g[3] + r"\b", g[0])[1].lower()} the {g[3].lower()}' for g in got))
+                def prep_of(g):
+                    return re.search(r'(?i)\b(in|on|at|inside)\s+\S+\s+' + re.escape(g[3]) + r'\b', g[0])[1].lower()
+                steps.append('start: ' + ', '.join(f'{cnum(g[1])} {prep_of(g)} the {g[3].lower()}' for g in got))
                 continue
             if re.search(r'(?i)\b(?:moved?|ate|took|added|removed|gave)\b', c) and re.search(r'\d|\b(?:one|two|three|four|five|six|seven|eight|nine|ten)\b', low):
                 return None     # a change we can't read

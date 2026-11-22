@@ -429,7 +429,8 @@ def acknowledge(messages, reply):
     name = re.match(r"(?i)my name is (?P<n>[A-Z][a-z]+)(?:\s+and\s+(?P<rest>.+))?$", last.rstrip('.!'))
     if name:
         rest = name['rest']
-        return dict(route='chat/followup-noted', sources=[], response=f'Nice to meet you, {name["n"]}!' + (f' Got it: {you_form("I " + rest if not re.match(r"(?i)i\b", rest) else rest)}.' if rest else ''))
+        told = you_form('I ' + rest if rest and not re.match(r'(?i)i\b', rest) else rest) if rest else ''
+        return dict(route='chat/followup-noted', sources=[], response=f'Nice to meet you, {name["n"]}!' + (f' Got it: {told}.' if rest else ''))
     keep = ' I\'ll keep that in mind.' if re.search(r'(?i)allergic|vegetarian|vegan|intoleran|can\'t eat|don\'t eat', last) else ''
     return dict(route='chat/followup-noted', sources=[], response='Got it: ' + '. '.join(you_form(s) for s in sents) + '.' + keep)
 
@@ -651,7 +652,8 @@ def next_message(messages):
         if n and out_text and len(out_text.split()) > int(n[1]):
             out_text = ' '.join(out_text.split()[:int(n[1])]).rstrip(',;') + '.'
     elif verb.startswith('count'):
-        out_text = f'{len(re.findall(r"[A-Za-z0-9][A-Za-z0-9\'’-]*", text))} words.'
+        n_words = len(re.findall(r"[A-Za-z0-9][A-Za-z0-9'’-]*", text))
+        out_text = f'{n_words} words.'
     elif verb.startswith(('repeat',)):
         out_text = text
     elif verb.startswith('reverse'):

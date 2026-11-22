@@ -113,8 +113,9 @@ class GroupHelperTests(unittest.TestCase):
             self.assertNotIn('value', answer['helper_reasoning'])
 
     def test_unknown_quantities_extra_events_and_unit_mismatches_refuse(self):
+        # 2026-11-22: "4 boxes with 6 apples each, eats 3" is now answered (21) by story_math's count stories, so it left
+        # this list of refusals; see tests/test_check_fixes_20261122.py.
         controls = (
-            'Mira has 4 boxes with 6 apples each. Mira eats 3 apples. How many apples does Mira have?',
             'Mira has 4 boxes with 6 apples each. How many apples does Sam have?',
             'Mira has 4 boxes with 6 apples each. How many pears does Mira have?',
             'Mira has 4 boxes. Each bag contains 6 apples. How many apples does Mira have?',

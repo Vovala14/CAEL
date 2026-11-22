@@ -113,6 +113,10 @@ def word_problem(text):
         factor = {'twice': 2, 'three times': 3, 'four times': 4, 'half': Fraction(1, 2)}.get(m.group(2)) or Fraction(m.group(3))
         base = Fraction(m.group(6))
         return out(f'**{show(base * factor)}**.', 'word-problem', [f'{m.group(5).capitalize()} is {show(base)}, so {m.group(1).capitalize()} is {show(factor)} x {show(base)} = {show(base * factor)}'])
+    # Any linear equation in one letter, with coefficients: "Solve 3x - 7 = 20", "2(x + 1) = x + 9" (2026-11-22).
+    got = linear_equation(text)
+    if got:
+        return got
     # "If x + 3 = 10, what is x?"
     m = re.search(r'([a-z])\s*([+\-*/x×])\s*' + NUM + r'\s*=\s*' + NUM, t) or re.search(NUM + r'\s*([+\-*/x×])\s*([a-z])\s*=\s*' + NUM, t)
     if m and re.search(r'what is ([a-z])\b|solve|find ([a-z])\b', t):
@@ -124,6 +128,38 @@ def word_problem(text):
             value = {'+': b - a, '-': a - b, '*': b / a, 'x': b / a, '×': b / a, '/': a / b}[op]
         return out(f'**{var} = {show(value)}**.', 'equation', [f'Undo the {op} on both sides: {var} = {show(value)}'])
     return None
+
+
+def linear_equation(text):
+    """Solve one linear equation in one letter exactly (sympy, symbolic). None unless it reads cleanly."""
+    if not re.search(r'(?i)\b(?:solve|find|what\s+is|work\s+out|value\s+of)\b', text):
+        return None
+    t = text.replace('$', ' ').replace('−', '-').replace('×', '*').replace('÷', '/')
+    m = re.search(r'(?<![\w=])([0-9a-z+\-*/(). ^]*[a-z][0-9a-z+\-*/(). ^]*?)\s*=\s*([0-9a-z+\-*/(). ^]+?)(?=\s*(?:[,;?]|\.\s|\.$|$|\bthen\b|\band\b|\bfor\b))', t)
+    if not m:
+        return None
+    lhs, rhs = m[1].strip(), m[2].strip()
+    letters = set(re.findall(r'[a-z]', lhs + rhs))
+    if len(letters) != 1 or re.search(r'[a-z]{2,}', lhs + rhs):
+        return None
+    var = letters.pop()
+    try:
+        from sympy import Eq, Symbol, solve as ssolve, Poly
+        from sympy.parsing.sympy_parser import parse_expr, standard_transformations, implicit_multiplication_application, convert_xor
+        tr = standard_transformations + (implicit_multiplication_application, convert_xor)
+        x = Symbol(var)
+        a, b = parse_expr(lhs, local_dict={var: x}, transformations=tr), parse_expr(rhs, local_dict={var: x}, transformations=tr)
+        if Poly(a - b, x).degree() != 1:
+            return None
+        sol = ssolve(Eq(a, b), x)
+    except Exception:
+        return None
+    if len(sol) != 1:
+        return None
+    v = Fraction(str(sol[0]))
+    side = show(Fraction(str(a.subs(x, sol[0]))))
+    steps = [f'{lhs} = {rhs}', f'{var} = {show(v)}', f'check: with {var} = {show(v)} both sides equal {side}']
+    return out(f'**{var} = {show(v)}**.', 'equation', steps)
 
 
 def same_time(text):

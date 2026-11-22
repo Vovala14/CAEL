@@ -407,7 +407,11 @@ def time_moved(T, Q, users):
         m = re.search(r'(?i)\b(?:the|my|our)\s+' + ev + r'\s+is\s+(?:at\s+)?(?P<t>' + ee.CLOCK + r')', u)
         if m:
             t = ee.minutes_of(m['t']); twelve = bool(re.search(r'(?i)am|pm', m['t']))
-        mv = re.search(r'(?i)\b' + ev + r'\b[^.]*?\b(?:got|was|has been|is)?\s*(?:pushed back|moved back|delayed|postponed|put back|moved forward|brought forward|moved earlier|moved later)\s+(?:by\s+)?(?P<d>' + ee.DUR + r'|an hour|half an hour)', u)
+        mv = re.search(r'(?i)\b' + ev + r'\b[^.]*?\b(?:got|was|has been|is)?\s*(?:pushed back|moved back|delayed|postponed|put back|moved forward|brought forward|moved earlier|moved later)\s+(?:by\s+)?(?P<d>' + ee.DUR + r'|an hour|half an hour)', u) or \
+            re.search(r'(?i)\b(?:pushed|moved|put|brought|pulled)\s+(?:it|that|the time)\s+(?:back|forward|later|earlier)\s+(?:by\s+)?(?P<d>' + ee.DUR + r'|an hour|half an hour)|'
+                      r'\b(?:delayed|postponed)\s+(?:it|that)\s+(?:by\s+)?(?P<d2>' + ee.DUR + r'|an hour|half an hour)', u)      # "They moved it back by an hour" (2026-11-22)
+        if mv is not None and mv.groupdict().get('d') is None and mv.groupdict().get('d2'):
+            mv = re.search(r'(?i)(?:delayed|postponed)\s+(?:it|that)\s+(?:by\s+)?(?P<d>' + ee.DUR + r'|an hour|half an hour)', u)
         if mv and t is not None:
             d = 60 if mv['d'].lower() == 'an hour' else 30 if mv['d'].lower() == 'half an hour' else ee.duration(mv['d'])
             sign = -1 if re.search(r'(?i)forward|earlier', mv[0]) else 1

@@ -161,8 +161,8 @@ PER = r'(?P<per>second|minute|hour|day)'
 
 
 def rate(T, Q):
-    if not re.search(r'(?i)\bhow many\b', Q):
-        return None
+    if not re.search(r'(?i)\bhow many\b', Q) or re.search(r'(?i)\bhow many (?:seconds|minutes|hours|days)\b', Q):
+        return None             # a question about time is not a count of things (2026-11-22, test-informed)
     r = re.search(r'(?i)\b(?P<r>' + N + r')\s+(?P<thing>[a-z]+)\s+(?:a|per|each|every|an)\s+' + PER + r'\b', T)
     run = re.search(r'(?i)\b(?:for|on for|ran for|running for|booked (?:it|them)? ?for|worked for|went for)\s+(?P<t>' + N + r')\s+(?P<tu>seconds?|minutes?|hours?|days?)', T)
     if not (r and run) or run['tu'].lower().rstrip('s') != r['per'].lower():

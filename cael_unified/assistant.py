@@ -201,9 +201,11 @@ class Assistant:
                 and not emoji_ask:      # "Make a pizza emoji" is for the emoji maker, not the chat team
             # The Mr. Meesix agents as a team: Planner, Solver, Generalist (this pipeline), Researchers, Critic,
             # Counsellor, Editor; one team per task in the message, at most six tasks at a time (team.py, meesix.py).
-            from . import answer_guard, team
+            from . import answer_guard, followups, team
             # the last check: a loose or misread reply to the user's own situation becomes an honest "can't work this out"
-            return answer_guard.check(messages, team.run(messages, self, n=n, seed=seed, mode=mode))
+            pipeline = lambda msgs: answer_guard.check(msgs, team.run(msgs, self, n=n, seed=seed, mode=mode))
+            # follow-ups (corrections, what-if, "how did you get that?", thanks, ...) are rewritten first (followups.py)
+            return followups.handle(messages, pipeline)
         if mode in ('auto', 'chat'):
             # Recall ("what's my cat's name?") and CAEL's own preferences are answered from the conversation itself.
             from . import chat_memory, chat_plus

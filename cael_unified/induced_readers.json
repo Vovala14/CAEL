@@ -1,0 +1,1768 @@
+{
+"about": "Learned automatically by tools/induce.py from the verified-reasoning generator; each reader was right on every fresh problem it matched.",
+"train_seed": 11,
+"check_seed": 97,
+"readers": [
+{
+"id": "i1",
+"task": "shift_pay",
+"template": "I worked from {CLOCK} to {CLOCK} with an unpaid {NUM}-minute break. I am paid {MONEY} per hour. How much did I earn?",
+"regex": "I\\s+worked\\s+from\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\s+to\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\s+with\\s+an\\s+unpaid\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\-minute\\s+break\\.\\s+I\\s+am\\s+paid\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+per\\s+hour\\.\\s+How\\s+much\\s+did\\s+I\\s+earn\\?",
+"slots": [
+"CLOCK",
+"CLOCK",
+"NUM",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"/",
+[
+"*",
+[
+"slot",
+3
+],
+[
+"-",
+[
+"span",
+[
+"slot",
+0
+],
+[
+"slot",
+1
+]
+],
+[
+"slot",
+2
+]
+]
+],
+[
+"const",
+60
+]
+]
+]
+],
+"support": 545,
+"checked": 546
+},
+{
+"id": "i2",
+"task": "newest",
+"template": "The leaflet printed in {NUM} says the gate opened at {CLOCK}. The website updated in {NUM} says the gate opened at {CLOCK}. Which is the current information?",
+"regex": "The\\s+leaflet\\s+printed\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+gate\\s+opened\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\.\\s+The\\s+website\\s+updated\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+gate\\s+opened\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\.\\s+Which\\s+is\\s+the\\s+current\\s+information\\?",
+"slots": [
+"NUM",
+"CLOCK",
+"NUM",
+"CLOCK"
+],
+"answer": [
+[
+"hole",
+"clock24",
+[
+"slot",
+3
+]
+]
+],
+"support": 20,
+"checked": 23
+},
+{
+"id": "i3",
+"task": "hidden_outcome",
+"template": "{NAME} rolled a die behind a screen. What number is showing?",
+"regex": "\\s*([A-Z][a-z]+)\\s+rolled\\s+a\\s+die\\s+behind\\s+a\\s+screen\\.\\s+What\\s+number\\s+is\\s+showing\\?",
+"slots": [
+"NAME"
+],
+"answer": [
+[
+"lit",
+"Cannot be determined"
+]
+],
+"support": 26,
+"checked": 22
+},
+{
+"id": "i4",
+"task": "newest",
+"template": "The leaflet printed in {NUM} says the bell rang twice. The website updated in {NUM} says the bell rang once. Which is the current information?",
+"regex": "The\\s+leaflet\\s+printed\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+bell\\s+rang\\s+twice\\.\\s+The\\s+website\\s+updated\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+bell\\s+rang\\s+once\\.\\s+Which\\s+is\\s+the\\s+current\\s+information\\?",
+"slots": [
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"lit",
+"once"
+]
+],
+"support": 5,
+"checked": 3
+},
+{
+"id": "i6",
+"task": "days_between",
+"template": "How many days are there from {DATE} to {DATE}?",
+"regex": "How\\s+many\\s+days\\s+are\\s+there\\s+from\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+to\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\?",
+"slots": [
+"DATE",
+"DATE"
+],
+"answer": [
+[
+"hole",
+"number",
+[
+"-",
+[
+"slot",
+1
+],
+[
+"slot",
+0
+]
+]
+],
+[
+"lit",
+" days"
+]
+],
+"support": 661,
+"checked": 617
+},
+{
+"id": "i7",
+"task": "weekday_after",
+"template": "The notice went up on a {WD}. The change takes effect exactly {NUM} week and {NUM} days later. Which weekday is that?",
+"regex": "The\\s+notice\\s+went\\s+up\\s+on\\s+a\\s+(\\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\b)\\.\\s+The\\s+change\\s+takes\\s+effect\\s+exactly\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+week\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+days\\s+later\\.\\s+Which\\s+weekday\\s+is\\s+that\\?",
+"slots": [
+"WD",
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"weekday",
+[
+"+",
+[
+"slot",
+2
+],
+[
+"slot",
+0
+]
+]
+]
+],
+"support": 22,
+"checked": 23
+},
+{
+"id": "i8",
+"task": "weekday_of_date",
+"template": "Which weekday is {DATE}?",
+"regex": "Which\\s+weekday\\s+is\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\?",
+"slots": [
+"DATE"
+],
+"answer": [
+[
+"hole",
+"weekday",
+[
+"-",
+[
+"slot",
+0
+],
+[
+"ceil",
+[
+"/",
+[
+"slot",
+0
+],
+[
+"*",
+[
+"slot",
+0
+],
+[
+"slot",
+0
+]
+]
+]
+]
+]
+]
+],
+"support": 338,
+"checked": 322
+},
+{
+"id": "i9",
+"task": "date_plus_period",
+"template": "My lease begins on {DATE} and lasts {NUM} days. On what date does it end?",
+"regex": "My\\s+lease\\s+begins\\s+on\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+and\\s+lasts\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+days\\.\\s+On\\s+what\\s+date\\s+does\\s+it\\s+end\\?",
+"slots": [
+"DATE",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"date",
+[
+"+",
+[
+"slot",
+0
+],
+[
+"slot",
+1
+]
+]
+]
+],
+"support": 25,
+"checked": 29
+},
+{
+"id": "i10",
+"task": "pay_minus_spending",
+"template": "{NAME} earns {MONEY} an hour. They worked {NUM} hours on {WD} and {NUM} hours on {WD}, then spent {MONEY}. How much of that pay is left?",
+"regex": "\\s*([A-Z][a-z]+)\\s+earns\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+an\\s+hour\\.\\s+They\\s+worked\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+hours\\s+on\\s+(\\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\b)\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+hours\\s+on\\s+(\\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\b),\\s+then\\s+spent\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\.\\s+How\\s+much\\s+of\\s+that\\s+pay\\s+is\\s+left\\?",
+"slots": [
+"NAME",
+"MONEY",
+"NUM",
+"WD",
+"NUM",
+"WD",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"-",
+[
+"*",
+[
+"slot",
+1
+],
+[
+"+",
+[
+"slot",
+4
+],
+[
+"slot",
+2
+]
+]
+],
+[
+"slot",
+6
+]
+]
+]
+],
+"support": 473,
+"checked": 456
+},
+{
+"id": "i11",
+"task": "packs",
+"template": "{ITEM} are only sold in {ITEM} of {NUM}, at {MONEY} a {ITEM}. I need {NUM} {ITEM}. What is the least I can spend?",
+"regex": "\\s*([a-z]+(?: [a-z]+)?)\\s+are\\s+only\\s+sold\\s+in\\s+([a-z]+(?: [a-z]+)?)\\s+of\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b),\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+a\\s+([a-z]+(?: [a-z]+)?)\\.\\s+I\\s+need\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\.\\s+What\\s+is\\s+the\\s+least\\s+I\\s+can\\s+spend\\?",
+"slots": [
+"ITEM",
+"ITEM",
+"NUM",
+"MONEY",
+"ITEM",
+"NUM",
+"ITEM"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"*",
+[
+"slot",
+3
+],
+[
+"ceil",
+[
+"/",
+[
+"slot",
+5
+],
+[
+"slot",
+2
+]
+]
+]
+]
+]
+],
+"support": 144,
+"checked": 528
+},
+{
+"id": "i12",
+"task": "contradiction",
+"template": "My {ITEM} is completely empty and contains {NUM} {ITEM}. How many {ITEM} are in it?",
+"regex": "My\\s+([a-z]+(?: [a-z]+)?)\\s+is\\s+completely\\s+empty\\s+and\\s+contains\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\.\\s+How\\s+many\\s+([a-z]+(?: [a-z]+)?)\\s+are\\s+in\\s+it\\?",
+"slots": [
+"ITEM",
+"NUM",
+"ITEM",
+"ITEM"
+],
+"answer": [
+[
+"lit",
+"Contradictory premise"
+]
+],
+"support": 8,
+"checked": 8
+},
+{
+"id": "i13",
+"task": "change",
+"template": "We ordered {NUM} {ITEM} at {MONEY} each and {NUM} {ITEM} at {MONEY} each. I pay with a {MONEY} note. How much change should I get?",
+"regex": "We\\s+ordered\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\.\\s+I\\s+pay\\s+with\\s+a\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+note\\.\\s+How\\s+much\\s+change\\s+should\\s+I\\s+get\\?",
+"slots": [
+"NUM",
+"ITEM",
+"MONEY",
+"NUM",
+"ITEM",
+"MONEY",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"-",
+[
+"-",
+[
+"slot",
+6
+],
+[
+"*",
+[
+"slot",
+5
+],
+[
+"slot",
+3
+]
+]
+],
+[
+"*",
+[
+"slot",
+0
+],
+[
+"slot",
+2
+]
+]
+]
+]
+],
+"support": 43,
+"checked": 42
+},
+{
+"id": "i14",
+"task": "recipe_scaling",
+"template": "A recipe for {NUM} people needs {NUM} g of {ITEM}. How much {ITEM} for {NUM} people?",
+"regex": "A\\s+recipe\\s+for\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+people\\s+needs\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+g\\s+of\\s+([a-z]+(?: [a-z]+)?)\\.\\s+How\\s+much\\s+([a-z]+(?: [a-z]+)?)\\s+for\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+people\\?",
+"slots": [
+"NUM",
+"NUM",
+"ITEM",
+"ITEM",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"number",
+[
+"/",
+[
+"*",
+[
+"slot",
+4
+],
+[
+"slot",
+1
+]
+],
+[
+"slot",
+0
+]
+]
+],
+[
+"lit",
+" g"
+]
+],
+"support": 344,
+"checked": 322
+},
+{
+"id": "i15",
+"task": "hidden_outcome",
+"template": "{NAME} spun a wheel with {NUM} numbers while I looked away. Where did it stop?",
+"regex": "\\s*([A-Z][a-z]+)\\s+spun\\s+a\\s+wheel\\s+with\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+numbers\\s+while\\s+I\\s+looked\\s+away\\.\\s+Where\\s+did\\s+it\\s+stop\\?",
+"slots": [
+"NAME",
+"NUM"
+],
+"answer": [
+[
+"lit",
+"Cannot be determined"
+]
+],
+"support": 38,
+"checked": 24
+},
+{
+"id": "i16",
+"task": "duration_minutes",
+"template": "My recording starts at {CLOCK} and stops at {CLOCK}. How many minutes long is it?",
+"regex": "My\\s+recording\\s+starts\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\s+and\\s+stops\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\.\\s+How\\s+many\\s+minutes\\s+long\\s+is\\s+it\\?",
+"slots": [
+"CLOCK",
+"CLOCK"
+],
+"answer": [
+[
+"hole",
+"number",
+[
+"span",
+[
+"slot",
+0
+],
+[
+"slot",
+1
+]
+]
+],
+[
+"lit",
+" minutes"
+]
+],
+"support": 341,
+"checked": 371
+},
+{
+"id": "i17",
+"task": "missing_info",
+"template": "The {ITEM} leaves at {CLOCK}. At what time does it arrive?",
+"regex": "The\\s+([a-z]+(?: [a-z]+)?)\\s+leaves\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\.\\s+At\\s+what\\s+time\\s+does\\s+it\\s+arrive\\?",
+"slots": [
+"ITEM",
+"CLOCK"
+],
+"answer": [
+[
+"lit",
+"Cannot be determined"
+]
+],
+"support": 193,
+"checked": 188
+},
+{
+"id": "i18",
+"task": "rate_with_idle_time",
+"template": "The {ITEM} makes {NUM} {ITEM} a minute while it runs. It was booked for {NUM} minutes but stood idle for {NUM} of them. How many {ITEM} did it make?",
+"regex": "The\\s+([a-z]+(?: [a-z]+)?)\\s+makes\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+a\\s+minute\\s+while\\s+it\\s+runs\\.\\s+It\\s+was\\s+booked\\s+for\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+minutes\\s+but\\s+stood\\s+idle\\s+for\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+of\\s+them\\.\\s+How\\s+many\\s+([a-z]+(?: [a-z]+)?)\\s+did\\s+it\\s+make\\?",
+"slots": [
+"ITEM",
+"NUM",
+"ITEM",
+"NUM",
+"NUM",
+"ITEM"
+],
+"answer": [
+[
+"hole",
+"number",
+[
+"*",
+[
+"slot",
+1
+],
+[
+"-",
+[
+"slot",
+3
+],
+[
+"slot",
+4
+]
+]
+]
+]
+],
+"support": 338,
+"checked": 447
+},
+{
+"id": "i19",
+"task": "weekday_after",
+"template": "The notice went up on a {WD}. The change takes effect exactly {NUM} weeks and {NUM} days later. Which weekday is that?",
+"regex": "The\\s+notice\\s+went\\s+up\\s+on\\s+a\\s+(\\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\b)\\.\\s+The\\s+change\\s+takes\\s+effect\\s+exactly\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+weeks\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+days\\s+later\\.\\s+Which\\s+weekday\\s+is\\s+that\\?",
+"slots": [
+"WD",
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"weekday",
+[
+"+",
+[
+"slot",
+0
+],
+[
+"slot",
+2
+]
+]
+]
+],
+"support": 163,
+"checked": 167
+},
+{
+"id": "i21",
+"task": "work_minus_break",
+"template": "My shift runs from {CLOCK} to {CLOCK} with a {NUM}-minute break. How long do I actually work?",
+"regex": "My\\s+shift\\s+runs\\s+from\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\s+to\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\s+with\\s+a\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\-minute\\s+break\\.\\s+How\\s+long\\s+do\\s+I\\s+actually\\s+work\\?",
+"slots": [
+"CLOCK",
+"CLOCK",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"number",
+[
+"floor",
+[
+"/",
+[
+"-",
+[
+"span",
+[
+"slot",
+0
+],
+[
+"slot",
+1
+]
+],
+[
+"slot",
+2
+]
+],
+[
+"const",
+60
+]
+]
+]
+],
+[
+"lit",
+" h "
+],
+[
+"hole",
+"number",
+[
+"%",
+[
+"-",
+[
+"span",
+[
+"slot",
+0
+],
+[
+"slot",
+1
+]
+],
+[
+"slot",
+2
+]
+],
+[
+"const",
+60
+]
+]
+],
+[
+"lit",
+" min"
+]
+],
+"support": 379,
+"checked": 405
+},
+{
+"id": "i22",
+"task": "too_few_clues",
+"template": "I picked a whole number strictly between {NUM} and {NUM}. It is odd. Which number is it?",
+"regex": "I\\s+picked\\s+a\\s+whole\\s+number\\s+strictly\\s+between\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\.\\s+It\\s+is\\s+odd\\.\\s+Which\\s+number\\s+is\\s+it\\?",
+"slots": [
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"lit",
+"Cannot be determined"
+]
+],
+"support": 78,
+"checked": 87
+},
+{
+"id": "i24",
+"task": "rental_due",
+"template": "I rent a {ITEM} from {DATE} to {DATE} at {MONEY} per night. I already paid a {MONEY} deposit that counts towards the total. How much is still due?",
+"regex": "I\\s+rent\\s+a\\s+([a-z]+(?: [a-z]+)?)\\s+from\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+to\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+per\\s+night\\.\\s+I\\s+already\\s+paid\\s+a\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+deposit\\s+that\\s+counts\\s+towards\\s+the\\s+total\\.\\s+How\\s+much\\s+is\\s+still\\s+due\\?",
+"slots": [
+"ITEM",
+"DATE",
+"DATE",
+"MONEY",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"-",
+[
+"*",
+[
+"slot",
+3
+],
+[
+"-",
+[
+"slot",
+2
+],
+[
+"slot",
+1
+]
+]
+],
+[
+"slot",
+4
+]
+]
+]
+],
+"support": 575,
+"checked": 505
+},
+{
+"id": "i27",
+"task": "change",
+"template": "I bought {NUM} {ITEM} at {MONEY} each and {NUM} {ITEM} at {MONEY} each. If I hand over {MONEY} what change do I get back?",
+"regex": "I\\s+bought\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\.\\s+If\\s+I\\s+hand\\s+over\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+what\\s+change\\s+do\\s+I\\s+get\\s+back\\?",
+"slots": [
+"NUM",
+"ITEM",
+"MONEY",
+"NUM",
+"ITEM",
+"MONEY",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"-",
+[
+"-",
+[
+"slot",
+6
+],
+[
+"*",
+[
+"slot",
+5
+],
+[
+"slot",
+3
+]
+]
+],
+[
+"*",
+[
+"slot",
+0
+],
+[
+"slot",
+2
+]
+]
+]
+]
+],
+"support": 48,
+"checked": 36
+},
+{
+"id": "i28",
+"task": "change",
+"template": "My {ITEM} had {NUM} {ITEM} at {MONEY} each and {NUM} {ITEM} at {MONEY} each. If I hand over {MONEY} what change do I get back?",
+"regex": "My\\s+([a-z]+(?: [a-z]+)?)\\s+had\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\.\\s+If\\s+I\\s+hand\\s+over\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+what\\s+change\\s+do\\s+I\\s+get\\s+back\\?",
+"slots": [
+"ITEM",
+"NUM",
+"ITEM",
+"MONEY",
+"NUM",
+"ITEM",
+"MONEY",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"-",
+[
+"-",
+[
+"slot",
+7
+],
+[
+"*",
+[
+"slot",
+6
+],
+[
+"slot",
+4
+]
+]
+],
+[
+"*",
+[
+"slot",
+3
+],
+[
+"slot",
+1
+]
+]
+]
+]
+],
+"support": 37,
+"checked": 44
+},
+{
+"id": "i29",
+"task": "date_plus_period",
+"template": "The warranty begins on {DATE} and lasts {NUM} days. On what date does it end?",
+"regex": "The\\s+warranty\\s+begins\\s+on\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+and\\s+lasts\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+days\\.\\s+On\\s+what\\s+date\\s+does\\s+it\\s+end\\?",
+"slots": [
+"DATE",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"date",
+[
+"+",
+[
+"slot",
+1
+],
+[
+"slot",
+0
+]
+]
+]
+],
+"support": 37,
+"checked": 39
+},
+{
+"id": "i31",
+"task": "date_plus_period",
+"template": "My lease begins on {DATE} and lasts {NUM} weeks. On what date does it end?",
+"regex": "My\\s+lease\\s+begins\\s+on\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+and\\s+lasts\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+weeks\\.\\s+On\\s+what\\s+date\\s+does\\s+it\\s+end\\?",
+"slots": [
+"DATE",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"date",
+[
+"+",
+[
+"slot",
+0
+],
+[
+"*",
+[
+"const",
+7
+],
+[
+"slot",
+1
+]
+]
+]
+]
+],
+"support": 39,
+"checked": 30
+},
+{
+"id": "i32",
+"task": "change",
+"template": "I bought {NUM} {ITEM} at {MONEY} each and {NUM} {ITEM} at {MONEY} each. I pay with a {MONEY} note. How much change should I get?",
+"regex": "I\\s+bought\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\.\\s+I\\s+pay\\s+with\\s+a\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+note\\.\\s+How\\s+much\\s+change\\s+should\\s+I\\s+get\\?",
+"slots": [
+"NUM",
+"ITEM",
+"MONEY",
+"NUM",
+"ITEM",
+"MONEY",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"-",
+[
+"-",
+[
+"slot",
+6
+],
+[
+"*",
+[
+"slot",
+5
+],
+[
+"slot",
+3
+]
+]
+],
+[
+"*",
+[
+"slot",
+2
+],
+[
+"slot",
+0
+]
+]
+]
+]
+],
+"support": 50,
+"checked": 64
+},
+{
+"id": "i33",
+"task": "change",
+"template": "My {ITEM} had {NUM} {ITEM} at {MONEY} each and {NUM} {ITEM} at {MONEY} each. I pay with a {MONEY} note. How much change should I get?",
+"regex": "My\\s+([a-z]+(?: [a-z]+)?)\\s+had\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\.\\s+I\\s+pay\\s+with\\s+a\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+note\\.\\s+How\\s+much\\s+change\\s+should\\s+I\\s+get\\?",
+"slots": [
+"ITEM",
+"NUM",
+"ITEM",
+"MONEY",
+"NUM",
+"ITEM",
+"MONEY",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"-",
+[
+"-",
+[
+"slot",
+7
+],
+[
+"*",
+[
+"slot",
+6
+],
+[
+"slot",
+4
+]
+]
+],
+[
+"*",
+[
+"slot",
+3
+],
+[
+"slot",
+1
+]
+]
+]
+]
+],
+"support": 43,
+"checked": 47
+},
+{
+"id": "i34",
+"task": "weekday_of_date",
+"template": "What day of the week was {DATE}?",
+"regex": "What\\s+day\\s+of\\s+the\\s+week\\s+was\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\?",
+"slots": [
+"DATE"
+],
+"answer": [
+[
+"hole",
+"weekday",
+[
+"-",
+[
+"slot",
+0
+],
+[
+"ceil",
+[
+"/",
+[
+"slot",
+0
+],
+[
+"*",
+[
+"slot",
+0
+],
+[
+"slot",
+0
+]
+]
+]
+]
+]
+]
+],
+"support": 320,
+"checked": 315
+},
+{
+"id": "i35",
+"task": "duration_minutes",
+"template": "My recording starts at {CLOCK} and stops at {CLOCK} the next day. How many minutes long is it?",
+"regex": "My\\s+recording\\s+starts\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\s+and\\s+stops\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\s+the\\s+next\\s+day\\.\\s+How\\s+many\\s+minutes\\s+long\\s+is\\s+it\\?",
+"slots": [
+"CLOCK",
+"CLOCK"
+],
+"answer": [
+[
+"hole",
+"number",
+[
+"span",
+[
+"slot",
+0
+],
+[
+"slot",
+1
+]
+]
+],
+[
+"lit",
+" minutes"
+]
+],
+"support": 104,
+"checked": 111
+},
+{
+"id": "i36",
+"task": "emptied",
+"template": "The drawer held exactly {NUM} {ITEM}. I took out all {NUM} and put nothing back. What colour is the {ITEM} still in the drawer?",
+"regex": "The\\s+drawer\\s+held\\s+exactly\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\.\\s+I\\s+took\\s+out\\s+all\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+and\\s+put\\s+nothing\\s+back\\.\\s+What\\s+colour\\s+is\\s+the\\s+([a-z]+(?: [a-z]+)?)\\s+still\\s+in\\s+the\\s+drawer\\?",
+"slots": [
+"NUM",
+"ITEM",
+"NUM",
+"ITEM"
+],
+"answer": [
+[
+"lit",
+"There is none"
+]
+],
+"support": 104,
+"checked": 108
+},
+{
+"id": "i37",
+"task": "date_plus_period",
+"template": "My membership starts on {DATE} and lasts {NUM} weeks. On what date does it end?",
+"regex": "My\\s+membership\\s+starts\\s+on\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+and\\s+lasts\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+weeks\\.\\s+On\\s+what\\s+date\\s+does\\s+it\\s+end\\?",
+"slots": [
+"DATE",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"date",
+[
+"+",
+[
+"slot",
+0
+],
+[
+"*",
+[
+"const",
+7
+],
+[
+"slot",
+1
+]
+]
+]
+]
+],
+"support": 30,
+"checked": 33
+},
+{
+"id": "i40",
+"task": "date_plus_period",
+"template": "The trial period starts on {DATE} and lasts {NUM} days. On what date does it end?",
+"regex": "The\\s+trial\\s+period\\s+starts\\s+on\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+and\\s+lasts\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+days\\.\\s+On\\s+what\\s+date\\s+does\\s+it\\s+end\\?",
+"slots": [
+"DATE",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"date",
+[
+"+",
+[
+"slot",
+0
+],
+[
+"slot",
+1
+]
+]
+]
+],
+"support": 39,
+"checked": 28
+},
+{
+"id": "i41",
+"task": "date_plus_period",
+"template": "The trial period starts on {DATE} and lasts {NUM} weeks. On what date does it end?",
+"regex": "The\\s+trial\\s+period\\s+starts\\s+on\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+and\\s+lasts\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+weeks\\.\\s+On\\s+what\\s+date\\s+does\\s+it\\s+end\\?",
+"slots": [
+"DATE",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"date",
+[
+"+",
+[
+"slot",
+0
+],
+[
+"*",
+[
+"slot",
+1
+],
+[
+"const",
+7
+]
+]
+]
+]
+],
+"support": 35,
+"checked": 38
+},
+{
+"id": "i42",
+"task": "newest",
+"template": "The website updated in {NUM} says the visitor count was {NUM}. The leaflet printed in {NUM} says the visitor count was {NUM}. Which is the current information?",
+"regex": "The\\s+website\\s+updated\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+visitor\\s+count\\s+was\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\.\\s+The\\s+leaflet\\s+printed\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+visitor\\s+count\\s+was\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\.\\s+Which\\s+is\\s+the\\s+current\\s+information\\?",
+"slots": [
+"NUM",
+"NUM",
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"number",
+[
+"slot",
+1
+]
+]
+],
+"support": 27,
+"checked": 29
+},
+{
+"id": "i43",
+"task": "newest",
+"template": "The leaflet printed in {NUM} says the visitor count was {NUM}. The website updated in {NUM} says the visitor count was {NUM}. Which is the current information?",
+"regex": "The\\s+leaflet\\s+printed\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+visitor\\s+count\\s+was\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\.\\s+The\\s+website\\s+updated\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+visitor\\s+count\\s+was\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\.\\s+Which\\s+is\\s+the\\s+current\\s+information\\?",
+"slots": [
+"NUM",
+"NUM",
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"number",
+[
+"slot",
+3
+]
+]
+],
+"support": 24,
+"checked": 31
+},
+{
+"id": "i44",
+"task": "hidden_outcome",
+"template": "{NAME} shuffled a deck and put it face down. Which {ITEM} is on top?",
+"regex": "\\s*([A-Z][a-z]+)\\s+shuffled\\s+a\\s+deck\\s+and\\s+put\\s+it\\s+face\\s+down\\.\\s+Which\\s+([a-z]+(?: [a-z]+)?)\\s+is\\s+on\\s+top\\?",
+"slots": [
+"NAME",
+"ITEM"
+],
+"answer": [
+[
+"lit",
+"Cannot be determined"
+]
+],
+"support": 19,
+"checked": 26
+},
+{
+"id": "i45",
+"task": "hidden_outcome",
+"template": "{NAME} drew a {ITEM} from a {ITEM} of {NUM} mixed colours without looking. What colour is it?",
+"regex": "\\s*([A-Z][a-z]+)\\s+drew\\s+a\\s+([a-z]+(?: [a-z]+)?)\\s+from\\s+a\\s+([a-z]+(?: [a-z]+)?)\\s+of\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+mixed\\s+colours\\s+without\\s+looking\\.\\s+What\\s+colour\\s+is\\s+it\\?",
+"slots": [
+"NAME",
+"ITEM",
+"ITEM",
+"NUM"
+],
+"answer": [
+[
+"lit",
+"Cannot be determined"
+]
+],
+"support": 25,
+"checked": 25
+},
+{
+"id": "i46",
+"task": "date_plus_period",
+"template": "The warranty begins on {DATE} and lasts {NUM} weeks. On what date does it end?",
+"regex": "The\\s+warranty\\s+begins\\s+on\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+and\\s+lasts\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+weeks\\.\\s+On\\s+what\\s+date\\s+does\\s+it\\s+end\\?",
+"slots": [
+"DATE",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"date",
+[
+"+",
+[
+"slot",
+0
+],
+[
+"*",
+[
+"slot",
+1
+],
+[
+"const",
+7
+]
+]
+]
+]
+],
+"support": 41,
+"checked": 36
+},
+{
+"id": "i47",
+"task": "hidden_outcome",
+"template": "{NAME} hid a coin in {NUM} of {NUM} {ITEM} and shuffled them. Which cup is it under?",
+"regex": "\\s*([A-Z][a-z]+)\\s+hid\\s+a\\s+coin\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+of\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+and\\s+shuffled\\s+them\\.\\s+Which\\s+cup\\s+is\\s+it\\s+under\\?",
+"slots": [
+"NAME",
+"NUM",
+"NUM",
+"ITEM"
+],
+"answer": [
+[
+"lit",
+"Cannot be determined"
+]
+],
+"support": 22,
+"checked": 26
+},
+{
+"id": "i48",
+"task": "hidden_outcome",
+"template": "{NAME} flipped a coin and covered it. Is it heads or tails?",
+"regex": "\\s*([A-Z][a-z]+)\\s+flipped\\s+a\\s+coin\\s+and\\s+covered\\s+it\\.\\s+Is\\s+it\\s+heads\\s+or\\s+tails\\?",
+"slots": [
+"NAME"
+],
+"answer": [
+[
+"lit",
+"Cannot be determined"
+]
+],
+"support": 21,
+"checked": 23
+},
+{
+"id": "i49",
+"task": "change",
+"template": "At the café I got {NUM} {ITEM} at {MONEY} each and {NUM} {ITEM} at {MONEY} each. I pay with a {MONEY} note. How much change should I get?",
+"regex": "At\\s+the\\s+café\\s+I\\s+got\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\.\\s+I\\s+pay\\s+with\\s+a\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+note\\.\\s+How\\s+much\\s+change\\s+should\\s+I\\s+get\\?",
+"slots": [
+"NUM",
+"ITEM",
+"MONEY",
+"NUM",
+"ITEM",
+"MONEY",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"-",
+[
+"-",
+[
+"slot",
+6
+],
+[
+"*",
+[
+"slot",
+3
+],
+[
+"slot",
+5
+]
+]
+],
+[
+"*",
+[
+"slot",
+0
+],
+[
+"slot",
+2
+]
+]
+]
+]
+],
+"support": 43,
+"checked": 39
+},
+{
+"id": "i50",
+"task": "newest",
+"template": "The leaflet printed in {NUM} says the delivery came at {CLOCK}. The website updated in {NUM} says the delivery came at {CLOCK}. Which is the current information?",
+"regex": "The\\s+leaflet\\s+printed\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+delivery\\s+came\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\.\\s+The\\s+website\\s+updated\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+delivery\\s+came\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\.\\s+Which\\s+is\\s+the\\s+current\\s+information\\?",
+"slots": [
+"NUM",
+"CLOCK",
+"NUM",
+"CLOCK"
+],
+"answer": [
+[
+"hole",
+"clock24",
+[
+"slot",
+3
+]
+]
+],
+"support": 18,
+"checked": 28
+},
+{
+"id": "i51",
+"task": "too_few_clues",
+"template": "I picked a whole number strictly between {NUM} and {NUM}. It is even. Which number is it?",
+"regex": "I\\s+picked\\s+a\\s+whole\\s+number\\s+strictly\\s+between\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\.\\s+It\\s+is\\s+even\\.\\s+Which\\s+number\\s+is\\s+it\\?",
+"slots": [
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"lit",
+"Cannot be determined"
+]
+],
+"support": 71,
+"checked": 73
+},
+{
+"id": "i52",
+"task": "newest",
+"template": "The website updated in {NUM} says the delivery came at {CLOCK}. The leaflet printed in {NUM} says the delivery came at {CLOCK}. Which is the current information?",
+"regex": "The\\s+website\\s+updated\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+delivery\\s+came\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\.\\s+The\\s+leaflet\\s+printed\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+delivery\\s+came\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\.\\s+Which\\s+is\\s+the\\s+current\\s+information\\?",
+"slots": [
+"NUM",
+"CLOCK",
+"NUM",
+"CLOCK"
+],
+"answer": [
+[
+"hole",
+"clock24",
+[
+"slot",
+1
+]
+]
+],
+"support": 20,
+"checked": 18
+},
+{
+"id": "i53",
+"task": "newest",
+"template": "The website updated in {NUM} says the bell rang once. The leaflet printed in {NUM} says the bell rang {NUM} times. Which is the current information?",
+"regex": "The\\s+website\\s+updated\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+bell\\s+rang\\s+once\\.\\s+The\\s+leaflet\\s+printed\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+bell\\s+rang\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+times\\.\\s+Which\\s+is\\s+the\\s+current\\s+information\\?",
+"slots": [
+"NUM",
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"lit",
+"once"
+]
+],
+"support": 6,
+"checked": 2
+},
+{
+"id": "i54",
+"task": "date_plus_period",
+"template": "My membership starts on {DATE} and lasts {NUM} days. On what date does it end?",
+"regex": "My\\s+membership\\s+starts\\s+on\\s+(\\b(?:\\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{4}|(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}, \\d{4})\\b)\\s+and\\s+lasts\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+days\\.\\s+On\\s+what\\s+date\\s+does\\s+it\\s+end\\?",
+"slots": [
+"DATE",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"date",
+[
+"+",
+[
+"slot",
+0
+],
+[
+"slot",
+1
+]
+]
+]
+],
+"support": 31,
+"checked": 30
+},
+{
+"id": "i55",
+"task": "change",
+"template": "At the café I got {NUM} {ITEM} at {MONEY} each and {NUM} {ITEM} at {MONEY} each. If I hand over {MONEY} what change do I get back?",
+"regex": "At\\s+the\\s+café\\s+I\\s+got\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\.\\s+If\\s+I\\s+hand\\s+over\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+what\\s+change\\s+do\\s+I\\s+get\\s+back\\?",
+"slots": [
+"NUM",
+"ITEM",
+"MONEY",
+"NUM",
+"ITEM",
+"MONEY",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"-",
+[
+"-",
+[
+"slot",
+6
+],
+[
+"*",
+[
+"slot",
+5
+],
+[
+"slot",
+3
+]
+]
+],
+[
+"*",
+[
+"slot",
+0
+],
+[
+"slot",
+2
+]
+]
+]
+]
+],
+"support": 53,
+"checked": 39
+},
+{
+"id": "i56",
+"task": "change",
+"template": "We ordered {NUM} {ITEM} at {MONEY} each and {NUM} {ITEM} at {MONEY} each. If I hand over {MONEY} what change do I get back?",
+"regex": "We\\s+ordered\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+([a-z]+(?: [a-z]+)?)\\s+at\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+each\\.\\s+If\\s+I\\s+hand\\s+over\\s+([$€£]\\d[\\d,]*(?:\\.\\d+)?)\\s+what\\s+change\\s+do\\s+I\\s+get\\s+back\\?",
+"slots": [
+"NUM",
+"ITEM",
+"MONEY",
+"NUM",
+"ITEM",
+"MONEY",
+"MONEY"
+],
+"answer": [
+[
+"hole",
+"money",
+[
+"-",
+[
+"-",
+[
+"slot",
+6
+],
+[
+"*",
+[
+"slot",
+5
+],
+[
+"slot",
+3
+]
+]
+],
+[
+"*",
+[
+"slot",
+2
+],
+[
+"slot",
+0
+]
+]
+]
+]
+],
+"support": 46,
+"checked": 54
+},
+{
+"id": "i62",
+"task": "newest",
+"template": "The leaflet printed in {NUM} says the bell rang {NUM} times. The website updated in {NUM} says the bell rang twice. Which is the current information?",
+"regex": "The\\s+leaflet\\s+printed\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+bell\\s+rang\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+times\\.\\s+The\\s+website\\s+updated\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+bell\\s+rang\\s+twice\\.\\s+Which\\s+is\\s+the\\s+current\\s+information\\?",
+"slots": [
+"NUM",
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"lit",
+"twice"
+]
+],
+"support": 7,
+"checked": 4
+},
+{
+"id": "i63",
+"task": "weekday_after",
+"template": "The notice went up on a {WD}. The change takes effect exactly {NUM} weeks and {NUM} day later. Which weekday is that?",
+"regex": "The\\s+notice\\s+went\\s+up\\s+on\\s+a\\s+(\\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\\b)\\.\\s+The\\s+change\\s+takes\\s+effect\\s+exactly\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+weeks\\s+and\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+day\\s+later\\.\\s+Which\\s+weekday\\s+is\\s+that\\?",
+"slots": [
+"WD",
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"hole",
+"weekday",
+[
+"+",
+[
+"slot",
+2
+],
+[
+"slot",
+0
+]
+]
+]
+],
+"support": 36,
+"checked": 35
+},
+{
+"id": "i64",
+"task": "newest",
+"template": "The website updated in {NUM} says the gate opened at {CLOCK}. The leaflet printed in {NUM} says the gate opened at {CLOCK}. Which is the current information?",
+"regex": "The\\s+website\\s+updated\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+gate\\s+opened\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\.\\s+The\\s+leaflet\\s+printed\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+gate\\s+opened\\s+at\\s+(\\b\\d{1,2}:\\d{2}(?: ?[ap]m)?\\b)\\.\\s+Which\\s+is\\s+the\\s+current\\s+information\\?",
+"slots": [
+"NUM",
+"CLOCK",
+"NUM",
+"CLOCK"
+],
+"answer": [
+[
+"hole",
+"clock24",
+[
+"slot",
+1
+]
+]
+],
+"support": 32,
+"checked": 29
+},
+{
+"id": "i65",
+"task": "newest",
+"template": "The website updated in {NUM} says the bell rang {NUM} times. The leaflet printed in {NUM} says the bell rang once. Which is the current information?",
+"regex": "The\\s+website\\s+updated\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+bell\\s+rang\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+times\\.\\s+The\\s+leaflet\\s+printed\\s+in\\s+(\\b\\d[\\d,]*(?:\\.\\d+)?\\b|\\b(?:(?:twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)(?:-(?:one|two|three|four|five|six|seven|eight|nine))?|seventeen|thirteen|fourteen|eighteen|nineteen|fifteen|sixteen|eleven|twelve|three|seven|eight|zero|four|five|nine|one|two|six|ten)\\b)\\s+says\\s+the\\s+bell\\s+rang\\s+once\\.\\s+Which\\s+is\\s+the\\s+current\\s+information\\?",
+"slots": [
+"NUM",
+"NUM",
+"NUM"
+],
+"answer": [
+[
+"lit",
+"three times"
+]
+],
+"support": 9,
+"checked": 2
+}
+]
+}

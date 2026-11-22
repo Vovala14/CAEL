@@ -189,11 +189,33 @@ POEMS = [
 ]
 
 
+POEM_ASK2 = re.compile(r'(?i)\b(?:write|compose|make|give)\b.{0,30}?\b(poem|haiku|limerick|sonnet|rhyme|verse)\b.*?\b(?:about|on|for)\s+(?:a |an |the |my )?'
+                       r'([A-Za-z][A-Za-z \-]{1,40}?)(?:\s+in\s+the\s+style\s+of\s+([A-Z][\w.]*(?:\s+[A-Z][\w.]*){0,3}))?\s*[?.!]*\s*$')
+FORM_LINES = {'haiku': 3, 'limerick': 5, 'sonnet': 14}
+
+
 def poem(text, seed=0):
     match = POEM_ASK.search(text)
-    if not match:
+    m2 = None if match else POEM_ASK2.search(text)
+    if not match and not m2:
         return None
-    topic = (match[1] or 'the evening').strip().lower()
+    if m2:          # "a 250-word haiku about binary search trees in the style of Hemingway" (2026-11-23)
+        form, topic, style = m2[1].lower(), m2[2].strip().lower(), (m2[3] or '').rstrip('.') or None
+        words = re.search(r'(?i)\b(\d+)[-\s]word', text)
+        note = ''
+        if form in FORM_LINES and words:
+            note = (f'A {form} is {FORM_LINES[form]} lines' + (' of 5, 7 and 5 syllables' if form == 'haiku' else '') +
+                    f', so it can\'t run to {words[1]} words. Here is a real {form} instead' + (f', plain and spare in the manner of {style}' if style else '') + ':\n\n')
+        topic = re.sub(r'^(?:the|a|an|my)\s+', '', topic)
+        adj, adj2, verb, place, plural = FEELING.get(topic, ('quiet', 'plain', 'waits', 'window', 'hours'))
+        if form == 'haiku':
+            lines = f'{topic.capitalize()}, {adj}.\nIt {verb.rstrip("s") if verb.endswith("ss") else verb} by the {place}, {adj2}.\nThen the {plural} pass.'
+            return out(f'{note}{lines}', 'poem', 'Written by filling hand-written verse patterns with words that suit the topic; not a language model.')
+        match = None
+        text_topic = topic
+    else:
+        text_topic = None
+    topic = (text_topic or (match[1] if match else None) or 'the evening').strip().lower()
     topic = re.sub(r'^(?:the|a|an|my)\s+', '', topic)
     adj, adj2, verb, place, plural = FEELING.get(topic, ('quiet', 'gentle', 'waits', 'window', 'hours'))
     template = random.Random(seed).choice(POEMS)

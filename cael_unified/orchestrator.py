@@ -229,6 +229,9 @@ def classify(route, response):
         if short:
             return 'short', short
     short = short_answer(response)
+    solved = re.fullmatch(r'\s*[a-z]\s*=\s*(-?\d[\d,]*(?:\.\d+)?)\s*', short or '')
+    if solved:          # "x = 9" from an equation step passes its value on (2026-11-22)
+        return 'number', solved[1].replace(',', '')
     if short and not route.startswith(('chat/smalltalk', 'chat/local')):
         number = number_in(short)
         return ('number', number) if number and NUMBER.fullmatch(short.replace(',', '').split()[0]) else ('short', short)

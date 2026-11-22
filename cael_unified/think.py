@@ -35,7 +35,7 @@ NUMWORDS = {'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'si
             'eleven': 11, 'twelve': 12, 'thirteen': 13, 'fourteen': 14, 'fifteen': 15, 'sixteen': 16, 'seventeen': 17, 'eighteen': 18,
             'nineteen': 19, 'twenty': 20, 'thirty': 30, 'forty': 40, 'fifty': 50, 'sixty': 60, 'seventy': 70, 'eighty': 80, 'ninety': 90,
             'hundred': 100, 'dozen': 12, 'once': 1, 'twice': 2, 'half': Fraction(1, 2), 'quarter': Fraction(1, 4)}
-WEIGHT = {'explain_more': 1.0, 'everyday_exact': 1.0, 'everyday_more': 1.0, 'constraint_logic': 0.95, 'word_math': 0.9, 'recall_did': 0.9, 'swarm': 0.9, 'solve_logic': 0.8, 'solve_math': 0.6}
+WEIGHT = {'relations': 1.0, 'staffing': 1.0, 'time_engine': 1.0, 'state_tracker': 1.0, 'story_math': 1.0, 'number_puzzle': 1.0, 'missing_info': 1.0, 'scoped_facts': 1.0, 'everyday_choice': 1.0, 'consistency': 1.0, 'induced': 1.0, 'everyday_hard': 1.0, 'explain_more': 1.0, 'everyday_exact': 1.0, 'everyday_more': 1.0, 'constraint_logic': 0.95, 'word_math': 0.9, 'recall_did': 0.9, 'swarm': 0.9, 'solve_logic': 0.8, 'solve_math': 0.6}
 ABSTAIN = re.compile(r"(?i)\b(?:can'?t (?:be )?(?:tell|know|worked out)|no way to know|didn'?t tell me|haven'?t told me|nobody can know|"
                      r"don'?t establish|not settled|not necessarily|there isn'?t one|can'?t know|isn'?t known|not known|"
                      r"can'?t be answered|contradict\w*|can'?t be determined|nobody can know|didn'?t exist|false premise)\b")
@@ -56,6 +56,23 @@ def readings(messages):
         digits = [dict(m, content=pat.sub(lambda x: str(small[x[1].lower()]), m['content'])) if m.get('role') == 'user' else m for m in messages]
         got.append(('number words as digits', digits))
     try:
+        # rules learned automatically (tools/autofix.py) map wordings the readers miss onto ones they read (2026-11-22)
+        from . import learned_rewrites
+        base = got[-1][1] if got[-1][0] == 'number words as digits' else messages
+        changed = False
+        new = []
+        for m in base:
+            if m.get('role') == 'user':
+                t, used = learned_rewrites.rewrite(m['content'])
+                changed = changed or bool(used)
+                new.append(dict(m, content=t))
+            else:
+                new.append(m)
+        if changed:
+            got.append(('learned rewrites', new))
+    except Exception:
+        pass
+    try:
         from . import meesix
         unfolded = meesix.unfold(messages)
         if unfolded:
@@ -66,8 +83,8 @@ def readings(messages):
 
 
 def proposers():
-    from . import constraint_logic, everyday_exact, everyday_more, explain_more, recall_did, solve_logic, solve_math, swarm, word_math
-    return [('everyday_exact', everyday_exact.respond), ('everyday_more', everyday_more.respond), ('constraint_logic', constraint_logic.respond),
+    from . import constraint_logic, everyday_exact, everyday_hard, everyday_more, explain_more, induced_readers, recall_did, relations, solve_logic, staffing, state_tracker, story_math, time_engine, number_puzzle, missing_info, scoped_facts, everyday_choice, consistency, solve_math, swarm, word_math
+    return [('relations', relations.respond), ('staffing', staffing.respond), ('time_engine', time_engine.respond), ('state_tracker', state_tracker.respond), ('story_math', story_math.respond), ('number_puzzle', number_puzzle.respond), ('missing_info', missing_info.respond), ('scoped_facts', scoped_facts.respond), ('everyday_choice', everyday_choice.respond), ('consistency', consistency.respond), ('induced', induced_readers.respond), ('everyday_hard', everyday_hard.respond), ('everyday_exact', everyday_exact.respond), ('everyday_more', everyday_more.respond), ('constraint_logic', constraint_logic.respond),
             ('explain_more', explain_more.respond),
             ('word_math', word_math.respond), ('recall_did', recall_did.respond),
             ('swarm', swarm.chat_reply), ('solve_logic', solve_logic.respond), ('solve_math', solve_math.respond)]
@@ -227,13 +244,18 @@ def run(messages):
         return None
     try:        # the sharing, rates and quantity helpers keep their problems (they ask "whole items or fractions?",
         # refuse unsafe input, and their follow-ups depend on their own replies), as in meesix.specialists
-        from . import helper_groups, helper_quantities, helper_rates
+        from . import everyday_hard, helper_groups, induced_readers, helper_quantities, helper_rates
         last = users[-1]['content']
+        from . import story_math as _sm, state_tracker as _st, time_engine as _te
+        if everyday_hard.respond(messages) is not None or induced_readers.respond(messages) is not None or                 (_sm.respond(messages) or {}).get('route') == 'chat/story-math-count' or _st.respond(messages) is not None or _te.respond(messages) is not None:
+            raise LookupError       # a harder shape read completely: the swarm decides, not a helper's question (2026-11-22)
         if helper_groups.reply(last, messages) is not None or helper_rates.reply(last, messages) is not None:
             return None
         kept = helper_quantities.reply(last, messages)
         if kept is not None and kept.get('route') == 'helper/quantity':
             return None
+    except LookupError:
+        pass
     except Exception:
         pass
     t = qtype(q)
@@ -266,15 +288,15 @@ def run(messages):
         prev = g['readers'].get(p['reader'], 0)
         g['readers'][p['reader']] = max(prev, WEIGHT.get(p['reader'], 0.5) * p['score'])
         g['readings'].add(p['reading'])
-        if g['best'] is None or (p['reader'] in ('everyday_exact', 'everyday_more', 'constraint_logic'), p['score'], p['reading'] == 'as asked') > \
-                (g['best']['reader'] in ('everyday_exact', 'everyday_more', 'constraint_logic'), g['best']['score'], g['best']['reading'] == 'as asked'):
+        if g['best'] is None or (p['reader'] in ('relations', 'staffing', 'time_engine', 'state_tracker', 'story_math', 'number_puzzle', 'missing_info', 'scoped_facts', 'everyday_choice', 'consistency', 'induced', 'everyday_hard', 'everyday_exact', 'everyday_more', 'constraint_logic'), p['score'], p['reading'] == 'as asked') > \
+                (g['best']['reader'] in ('relations', 'staffing', 'time_engine', 'state_tracker', 'story_math', 'number_puzzle', 'missing_info', 'scoped_facts', 'everyday_choice', 'consistency', 'induced', 'everyday_hard', 'everyday_exact', 'everyday_more', 'constraint_logic'), g['best']['score'], g['best']['reading'] == 'as asked'):
             g['best'] = p
     for g in groups.values():
         g['support'] = sum(g['readers'].values()) + 0.1 * (len(g['readings']) - 1)
     ranked = sorted(groups.items(), key=lambda kv: -kv[1]['support'])
     key, top = ranked[0]
     best = top['best']
-    trusted = best['reader'] in ('everyday_exact', 'everyday_more', 'constraint_logic', 'explain_more') or len(top['readers']) >= 2 or (best['score'] >= 1.2 and best['reader'] in ('word_math', 'recall_did', 'swarm'))
+    trusted = best['reader'] in ('relations', 'staffing', 'time_engine', 'state_tracker', 'story_math', 'number_puzzle', 'missing_info', 'scoped_facts', 'everyday_choice', 'consistency', 'induced', 'everyday_hard', 'everyday_exact', 'everyday_more', 'constraint_logic', 'explain_more') or len(top['readers']) >= 2 or (best['score'] >= 1.2 and best['reader'] in ('word_math', 'recall_did', 'swarm'))
     if not trusted:
         return None
     if len(ranked) > 1:

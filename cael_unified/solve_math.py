@@ -916,4 +916,9 @@ def respond(messages):
         return None
     if not reply:
         return None
+    # money is worked in "$" inside; show the user's own currency when they used only one (2026-11-22, test-informed)
+    told = ' '.join(m.get('content', '') for m in messages if m.get('role') == 'user')
+    used = {c for c in '$£€' if c in told}
+    if len(used) == 1 and used != {'$'}:
+        reply = reply.replace('$', used.pop())
     return dict(route='chat/solve-math', response=reply, reasoning=True)

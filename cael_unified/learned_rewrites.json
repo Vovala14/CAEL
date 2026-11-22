@@ -1,0 +1,41 @@
+{
+ "about": "Learned automatically by tools/autofix.py; each rule fixed at least one paraphrase and broke none of the checked problems.",
+ "seeds": "C:/Users/vlavrik/PycharmProjects/CAEL/research/autofix_20261122/seeds_train.jsonl",
+ "rules": [
+  {
+   "id": "r2",
+   "pattern": "\\bisn't\\b",
+   "replace": "is not",
+   "learned_from": [
+    "hard-C2:is not->isn't"
+   ],
+   "fixed": [
+    "hard-C2:is not->isn't"
+   ]
+  },
+  {
+   "id": "r5",
+   "pattern": "\\bthree\\b",
+   "replace": "3",
+   "learned_from": [
+    "hard-C7:3->three"
+   ],
+   "fixed": [
+    "hard-C7:3->three"
+   ]
+  },
+  {
+   "id": "r7",
+   "pattern": "\\bpublished\\b",
+   "replace": "printed",
+   "learned_from": [
+    "gen-newest-61:printed->published",
+    "gen-newest-495:printed->published"
+   ],
+   "fixed": [
+    "gen-newest-61:printed->published",
+    "gen-newest-495:printed->published"
+   ]
+  }
+ ]
+}

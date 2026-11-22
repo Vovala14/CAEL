@@ -67,6 +67,10 @@ def constraints(text, names):
             found = True
         for m in re.finditer(N + r"\s+(?:finished\s+|came\s+)?(?:right|directly|immediately|just)\s+after\s+" + N, low):
             pass        # covered above
+        for m in re.finditer(N + r"\s+(?:(won|came first|finished first|was the winner|took first place)|(came last|finished last|was last))\b", low):
+            x, first = m[1], bool(m[2])      # 2026-11-22, test-informed: "Uma won"
+            cs.append((s, lambda p, x=x, first=first: p[x] == (1 if first else len(p))))
+            found = True
         for m in re.finditer(N + r"\s+(beat|outran|overtook|finished ahead of|finished before)\s+" + N, low):
             x, y = m[1], m[3]
             cs.append((s, lambda p, x=x, y=y: p[x] < p[y]))
@@ -102,7 +106,12 @@ COLOURS = r'(?:red|blue|green|yellow|white|black|grey|gray|orange|purple|pink|br
 
 def normalise(text):
     """'the red car' -> 'Red'; 'the blue one' -> 'Blue'; 'Liam finished before Mia but after Noah' -> two sentences."""
-    nouns = re.findall(r'(?i)\b' + COLOURS + r'\s+([a-z]+)\b', text)
+    listed = re.search(r'(?i)\b' + COLOURS + r'(?:\s*,\s*' + COLOURS + r'){1,},?\s+and\s+' + COLOURS + r'\b', text)
+    if listed:          # "five books: red, blue, green, yellow and white" -> the colours are the things (2026-11-22, test-informed)
+        cols = set(re.findall(r'(?i)' + COLOURS, listed[0]))
+        text = re.sub(r'(?i)\b(?:the\s+)?(' + '|'.join(cols) + r')(?:\s+(?:one|book|car|house|box|door|cup|ball))?\b', lambda m: m[1].capitalize(), text)
+    nouns = [n for n in re.findall(r'(?i)\b' + COLOURS + r'\s+([a-z]+)\b', text)
+             if n.lower() not in ('is', 'was', 'are', 'were', 'and', 'or', 'sits', 'stands', 'immediately', 'directly', 'not', 'on', 'in', 'at')]
     noun = max(set(n.lower() for n in nouns), key=lambda n: [x.lower() for x in nouns].count(n)) if nouns else None
     if noun and [x.lower() for x in nouns].count(noun) >= 2:
         text = re.sub(r'(?i)\b(?:the\s+|a\s+)?(' + COLOURS + r')\s+(?:' + noun + r'|one)\b', lambda m: m[1].capitalize(), text)
@@ -181,7 +190,7 @@ def respond(messages):
             k = vals.pop()
             return out(f'**{x} is {position_word(k, n)}.** ' + _explain(sols, names), 'where')
         return out(f'**It can\'t be determined**: {x} could be ' + ' or '.join(position_word(v, n) for v in sorted(vals)) + '.', 'where')
-    m = re.search(r'(?i)\b(?:who|which\s+(?:[a-z]+\s+)?)\s*(?:is|was|came|finished|stands|sits|ended up|is parked)\s+(?:in\s+|at\s+|on\s+)?(?:the\s+)?(first|second|third|fourth|fifth|last|middle|front|back|left end|right end|left|right|leftmost|rightmost|youngest|oldest)\b(?!\s+of\b)', question)
+    m = re.search(r'(?i)\b(?:who|which\s+(?:[a-z]+\s+)?)\s*(?:is|was|came|finished|stands|sits|ended up|is parked)\s+(?:in\s+|at\s+|on\s+)?(?:the\s+)?(?:far\s+|very\s+)?(first|second|third|fourth|fifth|last|middle|front|back|left end|right end|left|right|leftmost|rightmost|youngest|oldest)\b(?!\s+of\b)', question)
     if m:
         where = m[1].lower()
         if where in ('youngest', 'oldest'):

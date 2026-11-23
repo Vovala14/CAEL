@@ -33,6 +33,73 @@ could go the wrong way. Any "earlier", "less" or "sooner" anywhere in the messag
 
 Regression tests are in `tests/test_time_followup_direction.py`.
 
+**Fixes after release (same version, 2026-11-22 to 23):**
+
+*Chat follow-ups* (`followups.py`):
+- **Corrections:** "Sorry, it was 5, not 3" and "Actually it leaves at 09:10" are applied to the earlier turn.
+- **What-if:** "And for 14 people?" and "What about 20%?" rework the previous question.
+- **Questions about the last answer:** "How did you get that?", "Are you sure?", "In one sentence" and "More simply".
+- **Questions about the chat:** "What was my first question?".
+- **Statements:** plain statements get "Got it: …".
+- **Settings:** "Set my … to …", "Scratch that, change it to …" and "Update that, use X as my … instead" are
+  confirmed.
+- **Next-message instructions:** "Summarize my next message in one sentence" and "State the main problem in my next
+  message in five words or fewer".
+- **Venting:** "Just let me vent, no questions or advice" gets a reply that only listens.
+- **Small talk:** thanks, good-luck wishes, tips for an upcoming event, and reassurance after a setback.
+
+*New solvers* (trusted readers in the thinking swarm):
+- **`relations.py`:** orders, schedules, races, round tables (including clockwise) and who-has-what matching.
+- **`staffing.py`:** gives each job to a different person from what each can do.
+- **`time_engine.py`:**
+  - the next departure;
+  - the latest or earliest of listed times;
+  - free windows across time zones, and two clocks on different offsets;
+  - the time between two clock times;
+  - "move it back / forward N hours", with "I meant earlier / later";
+  - ordinal weekdays, working days, and ages on a later date.
+- **`state_tracker.py`:**
+  - ordered-list edits, statuses that flip, and swapped values;
+  - counts per place, including named places ("Bay A", "top shelf"), "moves 9 to the bottom shelf" with no "from", and
+    removals such as "borrows" and "checks out";
+  - who has what after "X lent Y her bike" or "X lent his charger to Y";
+  - the latest instruction in a chat;
+  - the latest email, web address or phone number given.
+- **`story_math.py`:**
+  - word problems replayed on a running amount with units;
+  - count stories such as "3 boxes with 12 bolts each, used 9" or "Out of four 15-roll trays, twenty-two were sold".
+- **`number_puzzle.py`:** codes and numbers from bounds, kind and digit rules.
+- **`missing_info.py`:** says what is missing when only comparisons are given, when a random choice hasn't happened
+  yet, when records hide who it was, or when a count doesn't fit the shape.
+- **`scoped_facts.py`:** the latest statement that applies to the case asked about, with scoped and withdrawn notices.
+- **`everyday_choice.py`:** the option that meets every requirement, pay per use or a pass, the smallest unused
+  number, and per-batch rounding.
+- **`consistency.py`:** "All X are …" against one member, using an opposites table plus "non-", "un-" and "not".
+- **`everyday_hard.py`:** 39 readers for everyday sums, calendar questions, puzzles, chat memory, sources and trick
+  questions.
+- **`induced_readers.py`:** 52 readers learned from verified examples (`induced_readers.json`).
+- **`learned_rewrites.py`:** 3 learned rewording rules (`learned_rewrites.json`).
+
+*Changes to existing readers:*
+- Linear equations with coefficients are solved exactly ("3x - 7 = 20" gives x = 9), and the result feeds a following
+  "then …" step.
+- The line-up solver reads colours as the things in a row, "X won" and "the far right".
+- The rate reader no longer answers questions about time.
+- Seven new short explanations.
+- Haiku, limerick and sonnet requests are read even with a style or word count, and a word count a form can't have
+  gets a note.
+
+*Answer guard:*
+- **Kind of reply:** a reply of the wrong kind is replaced by an honest decline. That covers a template for a writing
+  request, non-JSON for a JSON request, and "I can't access live data" for a question that needs no live data.
+- **Topic:** template, forum and code replies must be about the request, sharing its distinctive words or the names in
+  its code.
+- **Statements:** a statement that mentions the weather no longer triggers a weather lookup.
+
+Tests: `tests/test_followups.py`, `tests/test_everyday_hard.py`, `tests/test_induced_readers.py`, `tests/test_relations.py`,
+`tests/test_time_engine.py`, `tests/test_state_tracker.py`, `tests/test_story_math.py`, `tests/test_number_puzzle.py`,
+`tests/test_missing_info.py`, `tests/test_scoped_facts.py`, `tests/test_everyday_choice.py` and `tests/test_check_fixes_20261122.py`.
+
 # CAEL 0.4.3: new chat desks and an ARC grid solver
 
 Adds authored desks to the conversation team:

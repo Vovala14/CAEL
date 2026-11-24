@@ -3,12 +3,12 @@
     git clone https://github.com/fchollet/ARC-AGI
     python evaluate_arc.py --data ARC-AGI/data/evaluation --out results/my_arc_run
 
-Rules (the same as the published 0.4.4 numbers):
+Rules (the same as the published 0.4.5 numbers):
 - pass@2: for each test input the solver may give two grids; a task counts as solved only if every test output is
   matched exactly by one of its two grids;
 - the solver sees only the demonstration pairs and the test inputs; the test outputs are read by this parent process
   after the solver has answered;
-- each task runs in its own process with a wall-clock limit (default 10 s, CPU only), and a task that runs over counts
+- each task runs in its own process with a wall-clock limit (default 60 s, CPU only; 0.4.4 used 10 s), and a task that runs over counts
   as unsolved.
 
 Writes <out>.jsonl (one row per task) and <out>.summary.json, and prints the total.
@@ -18,6 +18,9 @@ import json
 import multiprocessing as mp
 import os
 import sys
+
+for _v in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS'):
+    os.environ.setdefault(_v, '1')   # one numpy thread per task: tasks already run side by side
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -59,7 +62,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--data', required=True, help='folder of ARC task .json files')
     ap.add_argument('--out', default='results/arc_run', help='output path prefix')
-    ap.add_argument('--seconds', type=float, default=10.0, help='wall-clock limit per task (default 10)')
+    ap.add_argument('--seconds', type=float, default=60.0, help='wall-clock limit per task (default 60; 0.4.4 used 10)')
     ap.add_argument('--workers', type=int, default=max(1, (os.cpu_count() or 2) - 2), help='tasks run side by side')
     ap.add_argument('--limit', type=int, default=None, help='only the first N tasks (for a quick check)')
     args = ap.parse_args()

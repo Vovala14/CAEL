@@ -2,23 +2,26 @@
 
 A chat assistant with no neural network: cellular automata, rules and retrieval, on CPU.
 
-[![version 0.4.4](https://img.shields.io/badge/version-0.4.4-blue)](https://github.com/Vovala14/CAEL/releases/tag/v0.4.4)
-[![HF downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.4&query=%24.downloads&label=HF%20downloads&color=blue)](https://huggingface.co/vynly/CAEL-0.4.4)
+[![version 0.4.5](https://img.shields.io/badge/version-0.4.5-blue)](https://github.com/Vovala14/CAEL/releases/tag/v0.4.5)
+[![HF downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.5&query=%24.downloads&label=HF%20downloads&color=blue)](https://huggingface.co/vynly/CAEL-0.4.5)
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
 ![CPU only](https://img.shields.io/badge/CPU-only-green)
 [![license: source-available, non-commercial](https://img.shields.io/badge/license-source--available%2C_non--commercial-blue)](LICENSE)
 
-**0.4.4** makes CAEL think before it answers, with a swarm, and with no neural network anywhere:
+**0.4.5** adds chess, story reasoning and word problems, and widens the ARC solver, still with no neural network:
 
-- **Chat:** nine exact readers (everyday sums and dates, constraint logic, sources that disagree, chat memory,
-  explanations) each propose an answer to several readings of the question. Each proposal is checked (answer type, and
-  whether the number can be derived from the user's own numbers), the checked answers vote, and a final guard replaces
-  off-topic replies with an honest "I can't work this out".
-- **ARC-AGI-1:** a non-neural grid solver solves **62 of 400 evaluation tasks (15.5%, pass@2)** in 10 seconds per task
-  on a CPU. It uses 53 solver programs, augment-and-vote over 8 symmetries, a union swarm of drawing specialists,
-  and a leave-one-out self-check. Per-task results ship with the release, and one command reproduces them (see below).
+- **Chess in chat:** play CAEL's own non-neural engine ("let's play chess"), get the best move for a position, rank
+  every legal move, or review a game. The engine beat Cyber Chess AI on its "Hard Pro" level (checkmate in 28 moves),
+  and won games against ChatGPT 6.1 Terra (2–0) and Grok 4.7 (1–0). Play it in your browser:
+  [vynly/cael-chess](https://huggingface.co/spaces/vynly/cael-chess).
+- **Stories:** a world model reads who moved where and who has what, then answers from that state. On the bAbI test
+  split, the score went from 241/500 to **494/500**.
+- **Word problems:** question-guided arithmetic ignores numbers that don't matter. On the SVAMP test split, the score
+  went from 58/300 to **70/300**, with no previously correct answer lost.
+- **ARC-AGI-1:** a compositional program search and a per-cell rule learner were added. The solver now solves **83 of 400
+  evaluation tasks (20.75%, pass@2)**, at 60 seconds per task on a CPU.
 
-Release notes: [RELEASE_0_4_4.md](RELEASE_0_4_4.md). Architecture: [ARCHITECTURE_0_4_4.md](ARCHITECTURE_0_4_4.md).
+Release notes: [RELEASE_0_4_5.md](RELEASE_0_4_5.md). Architecture (0.4.4 base): [ARCHITECTURE_0_4_4.md](ARCHITECTURE_0_4_4.md).
 
 ## Reproduce the ARC result
 
@@ -28,15 +31,16 @@ git clone https://github.com/fchollet/ARC-AGI
 python evaluate_arc.py --data ARC-AGI/data/evaluation --out results/my_arc_eval
 ```
 
-| Set | Solved (pass@2, 10 s per task, CPU) |
+| Set | Solved (pass@2, 60 s per task, CPU) |
 |---|---:|
-| ARC-AGI-1 evaluation | **62 / 400** |
-| ARC-AGI-1 training (development set) | 152 / 400 |
-| ARC-AGI-2 evaluation | 0 / 120 |
+| ARC-AGI-1 evaluation | **83 / 400** |
+| ARC-AGI-1 training (development set) | 192 / 400 |
+| ARC-AGI-2 evaluation | 1 / 120 |
 
-Compare your run task by task with [results/arc_agi_1_evaluation_0.4.4.jsonl](results/arc_agi_1_evaluation_0.4.4.jsonl).
-The solver was developed on the training set only. The evaluation set was scored at several milestones, though never
-used to fix anything, so a run on a set CAEL has never seen (for example ConceptARC) is especially welcome.
+Compare your run task by task with [results/arc_agi_1_evaluation_0.4.5.jsonl](results/arc_agi_1_evaluation_0.4.5.jsonl).
+- The solver was developed on the training set only.
+- The evaluation set was scored at milestones but never used to fix anything, so a run on a set CAEL has never seen
+  (for example ConceptARC) is especially welcome.
 
 ## Dataset: CAEL Verified Reasoning
 
@@ -60,7 +64,7 @@ python datasets/verified_reasoning/generate.py --out mydata --n 100000 --seed 12
 
 ## Quick start
 
-Use Python 3.12. From this checkout, or from the extracted [CAEL-0.4.4.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.4/CAEL-0.4.4.zip) release (extract [cael-open-chat-v1.1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.4/cael-open-chat-v1.1.zip) into `models/` for the full open-chat index and the fielded index):
+Use Python 3.12. From this checkout, or from the extracted [CAEL-0.4.5.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.5/CAEL-0.4.5.zip) release (extract [cael-open-chat-v1.1.zip](https://github.com/Vovala14/CAEL/releases/download/v0.4.5/cael-open-chat-v1.1.zip) into `models/` for the full open-chat index and the fielded index):
 
 ```bash
 python -m pip install -r requirements-unified.txt
@@ -89,7 +93,7 @@ You: quit
 | --- | --- |
 | Math and quantities, rates, clock times, dates, line-up and if-then logic, sources that disagree, memory updates, emotional support, everyday Python questions, explanations and tips with their follow-ups | Problem types the hand-written readers were not written for (they get an honest refusal); practical multi-turn how-to chats outside the authored desks |
 
-Other known gaps: facts outside CAEL's knowledge depend on the web, and some follow-ups still get advice of the right kind but not specific to the case. On CellARC, whole puzzles are still rare (79/1000 interpolation, 5/1000 extrapolation). ARC-AGI-2 puzzles stay unsolved (0/120).
+Other known gaps: facts outside CAEL's knowledge depend on the web, and some follow-ups still get advice of the right kind but not specific to the case. On CellARC, whole puzzles are still rare (79/1000 interpolation, 5/1000 extrapolation). ARC-AGI-2 puzzles are almost entirely unsolved (1/120).
 
 ## How CAEL answers
 
@@ -120,12 +124,12 @@ Original structured-run measurements: load 0.973 s, 2000-task inference 1.498 s,
 
 ## Downloads and licences
 
-[![HF downloads (30 days)](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.4&query=%24.downloads&label=HF%20downloads%20%2830%20days%29&color=blue)](https://huggingface.co/vynly/CAEL-0.4.4)
+[![HF downloads (30 days)](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.5&query=%24.downloads&label=HF%20downloads%20%2830%20days%29&color=blue)](https://huggingface.co/vynly/CAEL-0.4.5)
 
-The live badge reports Hugging Face's counted query-file requests over 30 days, not unique users or all completed installs. `params.json` is a meaningful source and resource download configuration. Direct ZIP and resource clicks are not comprehensively counted; no simulated events or telemetry were added. For a full repository download: `hf download vynly/CAEL-0.4.4 --local-dir CAEL-0.4.4-download`.
+The live badge reports Hugging Face's counted query-file requests over 30 days, not unique users or all completed installs. `params.json` is a meaningful source and resource download configuration. Direct ZIP and resource clicks are not comprehensively counted; no simulated events or telemetry were added. For a full repository download: `hf download vynly/CAEL-0.4.5 --local-dir CAEL-0.4.5-download`.
 
 The Hugging Face model card, including its YAML front matter, is [MODEL_CARD.md](MODEL_CARD.md). Nothing in this repository copies `README.md` to Hugging Face.
 
-CAEL is [source-available, non-commercial](LICENSE) ([same terms on Hugging Face](https://huggingface.co/vynly/CAEL-0.4.4/blob/main/LICENSE)). Upstream resources retain their licences. CellARC is by **Miroslav Lžičař**: [dataset](https://huggingface.co/datasets/mireklzicar/cellarc_100k), [official code](https://github.com/mireklzicar/cellarc), [paper](https://arxiv.org/abs/2511.07908). The actual pinned dataset LICENSE is **CC BY 4.0**, despite the card's MIT tag; byte-preserved data and transformed evaluation files retain attribution. Official source licences are preserved separately. These results are our evaluation, not the author's endorsement. No live Vynly worker change is part of this release.
+CAEL is [source-available, non-commercial](LICENSE) ([same terms on Hugging Face](https://huggingface.co/vynly/CAEL-0.4.5/blob/main/LICENSE)). Upstream resources retain their licences. CellARC is by **Miroslav Lžičař**: [dataset](https://huggingface.co/datasets/mireklzicar/cellarc_100k), [official code](https://github.com/mireklzicar/cellarc), [paper](https://arxiv.org/abs/2511.07908). The actual pinned dataset LICENSE is **CC BY 4.0**, despite the card's MIT tag; byte-preserved data and transformed evaluation files retain attribution. Official source licences are preserved separately. These results are our evaluation, not the author's endorsement. No live Vynly worker change is part of this release.
 
 If this experiment interests you, starring and watching releases is how you'll hear about the next build.

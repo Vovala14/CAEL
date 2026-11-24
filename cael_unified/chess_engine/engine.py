@@ -15,8 +15,8 @@ from . import core
 from .core import MAXMOVES, MAXPLY, HISTLEN, MATE, MATE_BOUND, INF
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PARAMS_FILE = os.path.join(HERE, "data", "params.json")
-BOOK_FILE = os.path.join(HERE, "data", "book.json")
+PARAMS_FILE = os.path.join(HERE, "tables", "params.json")
+BOOK_FILE = os.path.join(HERE, "tables", "book.json")
 
 MAX_TURN_MS = 29500  # hard ceiling: no CAEL turn takes longer than 30 seconds
 PROMO = {2: "n", 3: "b", 4: "r", 5: "q"}
@@ -160,7 +160,7 @@ class Engine:
         self.style = style
         self.threads = max(1, int(threads))
         self.workers = []
-        style_w = os.path.join(HERE, "data", f"params_{style}.json") if style else None
+        style_w = os.path.join(HERE, "tables", f"params_{style}.json") if style else None
         if params is not None:
             self.P = params
         elif style_w and os.path.exists(style_w):
@@ -177,7 +177,7 @@ class Engine:
         if use_book and os.path.exists(BOOK_FILE):
             with open(BOOK_FILE) as f:
                 self.book = json.load(f)
-        style_b = os.path.join(HERE, "data", f"book_{style}.json") if style else None
+        style_b = os.path.join(HERE, "tables", f"book_{style}.json") if style else None
         if use_book and style_b and os.path.exists(style_b):
             with open(style_b) as f:
                 self.style_book = json.load(f)

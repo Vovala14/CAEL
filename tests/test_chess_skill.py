@@ -56,3 +56,12 @@ def test_review_finds_the_blunder():
 def test_not_chess_stays_silent():
     assert C.reply("what's the weather today", []) is None
     assert C.reply('I moved to e4 street last year', []) is None
+
+
+def test_engine_ships_its_tuned_weights_and_book():
+    # a release must carry the fitted weights and the opening book, not fall back to the PeSTO defaults
+    import os
+    from cael_unified.chess_engine import engine as E
+    assert os.path.exists(E.PARAMS_FILE) and os.path.exists(E.BOOK_FILE)
+    e = E.Engine(hash_mb=1)
+    assert e.book is not None and len(e.P) == 978

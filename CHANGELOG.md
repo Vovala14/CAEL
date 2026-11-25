@@ -1,3 +1,34 @@
+# CAEL 0.4.5: chess, a story world model, question-guided arithmetic, and a wider ARC solver
+
+**Exact skills run first** (`Assistant.respond`; switch them off with `CAEL_EXACT_SKILLS=0`). Each one stays silent unless
+it fully understood the request.
+- `chess_skill.py` and `chess_engine/`: play chess against CAEL's non-neural engine, get the best move or rank every
+  move for a FEN, or review a game. The game state lives in the chat. The skill needs `numba` and `chess`.
+- `world_model.py`: short stories become a state (moves, objects, giving, pronouns, time words, facts, a map, motives),
+  and questions are answered from it. bAbI test, 25 per task: 241 → 494/500.
+- `question_math.py`: word problems with distracting numbers. It reads what the question asks for, then uses only the
+  matching numbers. Only rule kinds that were reliable on the SVAMP train split may answer. SVAMP test: 58 → 70/300,
+  0 lost.
+
+**ARC** (`arc_solver.py`):
+- New modules:
+  - `arc_dsl.py`: a program search over about 350 grid operations, up to 3 deep, with a colour mapping, lookups,
+    per-part mapping, period repair, and reshape-then-cell-rules.
+  - `arc_cellrules.py`: decision trees over about 110 cell features, with copy-aware splits, a smallest-tree search and
+    leave-one-out.
+- `evaluate_arc.py` now uses 60 s per task by default (0.4.4 used 10 s) and one numpy thread per task.
+- Results:
+  - ARC-AGI-1 evaluation: 62 → 83/400;
+  - ARC-AGI-1 training: 152 → 192/400;
+  - ARC-AGI-2 evaluation: 1/120.
+
+**Results files:**
+- `results/arc_agi_1_*_0.4.5.jsonl`;
+- `results/reasoning_0.4.5.json`;
+- `results/chess_0.4.5/` (game records).
+
+Details: RELEASE_0_4_5.md.
+
 # CAEL 0.4.4: a thinking swarm and an extended ARC solver
 
 **Chat thinks before it answers, as a swarm** (`think.py`):

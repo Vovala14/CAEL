@@ -12,3 +12,7 @@ httpx>=0.27,<1
 lxml==6.1.3
 
 primp==2.0.1
+
+# chess skill (cael_unified/chess_skill.py): non-neural engine and move notation
+numba>=0.60,<1
+chess>=1.10,<2

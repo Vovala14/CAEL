@@ -1,0 +1,13 @@
+{
+ "babi_test_25_per_task": {
+  "questions": 500,
+  "exact_skills_off": 241,
+  "exact_skills_on": 494
+ },
+ "svamp_test": {
+  "questions": 300,
+  "exact_skills_off": 58,
+  "exact_skills_on": 70
+ },
+ "notes": "Measured once on the test splits, web search off, a fresh session per question. \"off\" = CAEL_EXACT_SKILLS=0, the 0.4.4 behaviour for these questions. bAbI: Facebook bAbI tasks (Muennighoff/babi on Hugging Face, CC BY 3.0), 25 per task. SVAMP: ChilleD/SVAMP test split (MIT)."
+}

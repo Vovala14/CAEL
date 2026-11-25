@@ -192,6 +192,16 @@ class Assistant:
             raise ValueError('Request is empty')
         if mode not in ('auto', 'chat', 'emoji', 'image', 'prompt', 'story'):
             raise ValueError('Unknown assistant mode')
+        if mode in ('auto', 'chat') and not messages[-1]['content'].lstrip().startswith('```') \
+                and os.environ.get('CAEL_EXACT_SKILLS', '1') != '0':      # A/B switch for the exact skills below
+            # Exact skills first; each stays silent unless it fully understood the request:
+            # a short story with a question, read into a world state (world_model.py), chess (chess_skill.py), and
+            # question-guided arithmetic for the word-problem shapes it measures reliable on (question_math.py).
+            from . import chess_skill, question_math, world_model
+            for skill in (world_model, chess_skill, question_math):
+                answer = skill.reply(messages[-1]['content'], messages)
+                if answer is not None:
+                    return answer
         if os.environ.get('CAEL_CHAT_LAYERS') == '0':          # A/B switch: the routes alone, without memory/web layers
             return self._respond_main(messages, n=n, seed=seed, mode=mode)
         from . import meesix as _meesix

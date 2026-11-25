@@ -2419,6 +2419,21 @@ def attempts(train, query, seconds=8.0, views=(0, 1, 2, 3, 4, 5, 6, 7)):
     best_cost = {}
     makers = {}
     started = time.monotonic()
+    # The general learners (a compositional program search and per-cell rule trees) see the task once; they handle
+    # symmetry themselves, so each of their answers counts as if every view had found it.
+    general = []
+    if os.environ.get('CAEL_ARC_GENERAL', '1') != '0':
+        from . import arc_cellrules, arc_dsl
+        ins, outs = [p['input'] for p in train], [p['output'] for p in train]
+        for maker, run in (('cell', lambda: arc_cellrules.solve(list(zip(ins, outs)), [query])),
+                           ('dsl', lambda: arc_dsl.search(ins, outs, [query], seconds=min(12.0, seconds * 0.4)))):
+            try:
+                for cost, name, preds in run()[:4]:
+                    general.append((cost, maker + ':' + name, grid(preds[0])))
+            except Exception:
+                pass
+        seconds = max(1.0, seconds - (time.monotonic() - started))
+        started = time.monotonic()
     per_view = seconds / max(1, len(views))
     for k in views:
         if time.monotonic() - started > seconds:
@@ -2438,13 +2453,18 @@ def attempts(train, query, seconds=8.0, views=(0, 1, 2, 3, 4, 5, 6, 7)):
                 makers.setdefault(back, origin[p])
         for back, v in view.items():
             score[back] += v
+    for cost, name, p in general:     # several learners agreeing on one answer each add their weight
+        if p == q:
+            continue
+        score[p] += len(views) / (1.0 + cost) * (1.0 if len(train) >= 3 else 0.5)   # unverified on 2 pairs
+        best_cost[p] = min(best_cost.get(p, 99), cost)
     ranked = sorted(score, key=lambda g: (-score[g], best_cost[g]))
     # Think before answering: when several different answers compete, each of the leading ones is checked by holding out
     # one demonstration at a time; a rule that predicts the held-out demonstrations generalises, one that only memorised
     # them does not. The check reorders the leaders; it never adds an answer.
     if len(ranked) > 1 and os.environ.get('CAEL_ARC_THINK', '1') != '0':
         for g in ranked[:4]:
-            left = seconds * 1.15 - (time.monotonic() - started)
+            left = seconds * 0.95 - (time.monotonic() - started)   # the whole call stays inside its budget
             if left <= 0.3 or g not in makers:
                 continue
             solver, name = makers[g]

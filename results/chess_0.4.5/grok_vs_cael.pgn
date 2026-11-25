@@ -1,0 +1,9 @@
+[Event "CAEL Chess"]
+[Site "huggingface.co/spaces/vynly/cael-chess"]
+[Date "2026.11.24"]
+[White "Grok"]
+[Black "CAEL (all master games)"]
+[Result "0-1"]
+[Termination "White resigned"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be2 e5 7. Nb3 Be7 8. O-O O-O 9. Be3 Be6 10. Qd2 Nbd7 11. a4 Rc8 12. Rfd1 Nb6 0-1

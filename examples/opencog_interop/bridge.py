@@ -27,7 +27,7 @@ def engines(root):
     sys.path.insert(0,str(root))
     package=importlib.import_module('cael_unified')
     # 0.4.1 to 0.4.4 keep the same reasoning engines this bridge calls. An external 0.4.0 checkout still loads.
-    if package.__version__ not in {'0.4.0','0.4.1','0.4.2','0.4.3','0.4.4'}:raise ValueError('This prototype targets CAEL 0.4.0 to 0.4.4.')
+    if package.__version__ not in {'0.4.0','0.4.1','0.4.2','0.4.3','0.4.4','0.4.5'}:raise ValueError('This prototype targets CAEL 0.4.0 to 0.4.5.')
     world=importlib.import_module('cael_unified.reasoning_world')
     logic=importlib.import_module('cael_unified.reasoning_logic')
     path=root/'models/cael-reasoning-v1/model.json'

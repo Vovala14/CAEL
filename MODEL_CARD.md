@@ -15,6 +15,10 @@ tags:
 inference: false
 ---
 
+<p align="center">
+  <img src="https://huggingface.co/vynly/CAEL-0.4.5/resolve/main/assets/cael-logo.png" alt="CAEL logo" width="720">
+</p>
+
 # CAEL 0.4.5
 
 [![HF downloads (30 days)](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fvynly%2FCAEL-0.4.5&query=%24.downloads&label=HF%20downloads%20%2830%20days%29&color=blue)](https://huggingface.co/vynly/CAEL-0.4.5)

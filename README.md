@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/cael-logo.png" alt="CAEL logo" width="720">
+</p>
+
 # CAEL
 
 A chat assistant with no neural network: cellular automata, rules and retrieval, on CPU.

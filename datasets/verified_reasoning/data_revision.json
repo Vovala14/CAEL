@@ -1,0 +1,135 @@
+{
+  "data_revision": "1.1.1",
+  "original_revision": "31780cd0fed31c04a50deafd3c27f75f33a84825",
+  "scope": "Targeted confirmed errata only. Every question, ID, split, category, task and reference other than the listed answer corrections is preserved. Smaller Parquet row groups bound read memory; this does not guarantee recovery of the external viewer service.",
+  "counts": {
+    "rows": 2001427,
+    "comparison_explanation_corrections": 30763,
+    "changed_rows": 30905,
+    "answer_corrections": 142
+  },
+  "by_file": {
+    "hard-00000-of-00001.parquet": {
+      "rows": 1427,
+      "comparison_explanation_corrections": 32,
+      "changed_rows": 32
+    },
+    "test-00000-of-00001.parquet": {
+      "rows": 20000,
+      "comparison_explanation_corrections": 332,
+      "changed_rows": 334,
+      "answer_corrections": 2
+    },
+    "train-00000-of-00008.parquet": {
+      "rows": 250000,
+      "comparison_explanation_corrections": 3483,
+      "changed_rows": 3501,
+      "answer_corrections": 18
+    },
+    "train-00001-of-00008.parquet": {
+      "rows": 250000,
+      "comparison_explanation_corrections": 3727,
+      "changed_rows": 3738,
+      "answer_corrections": 11
+    },
+    "train-00002-of-00008.parquet": {
+      "rows": 250000,
+      "comparison_explanation_corrections": 3724,
+      "changed_rows": 3741,
+      "answer_corrections": 17
+    },
+    "train-00003-of-00008.parquet": {
+      "rows": 250000,
+      "comparison_explanation_corrections": 3834,
+      "changed_rows": 3848,
+      "answer_corrections": 14
+    },
+    "train-00004-of-00008.parquet": {
+      "rows": 250000,
+      "comparison_explanation_corrections": 3941,
+      "changed_rows": 3964,
+      "answer_corrections": 23
+    },
+    "train-00005-of-00008.parquet": {
+      "rows": 250000,
+      "comparison_explanation_corrections": 3912,
+      "changed_rows": 3925,
+      "answer_corrections": 13
+    },
+    "train-00006-of-00008.parquet": {
+      "rows": 250000,
+      "comparison_explanation_corrections": 4048,
+      "changed_rows": 4080,
+      "answer_corrections": 32
+    },
+    "train-00007-of-00008.parquet": {
+      "rows": 230000,
+      "comparison_explanation_corrections": 3730,
+      "changed_rows": 3742,
+      "answer_corrections": 12
+    }
+  },
+  "files": {
+    "data/hard-00000-of-00001.parquet": {
+      "old_sha256": "a22c6108cc956ca93279d7c09291ba1252e85cc1f3a728fde1c722491609db94",
+      "new_sha256": "f5877f221d9fcdbfb39887bc3f4df1833f046169cf287a0a7b7cc6d9bb11ec18",
+      "rows": 1427,
+      "row_group_max": 1427
+    },
+    "data/test-00000-of-00001.parquet": {
+      "old_sha256": "78531db1cdc967026b55fb84748a79af879d74ed842382518be5ab3d8c8c2ab9",
+      "new_sha256": "18b10e2a991ac0468d0d9e921238e39682fe24fcd40cfa17b726185febe89641",
+      "rows": 20000,
+      "row_group_max": 8192
+    },
+    "data/train-00000-of-00008.parquet": {
+      "old_sha256": "f14981b9acea0aba77a43504ad7d6dd6795064a3764309a2f2532c6b450aadd5",
+      "new_sha256": "00a2c41a142a6a263b7843c53bf347e83658e40497c76d585e3cc651b42d2cac",
+      "rows": 250000,
+      "row_group_max": 8192
+    },
+    "data/train-00001-of-00008.parquet": {
+      "old_sha256": "b88e5566e3b2c216823429a9aabc913124253d596139581325f61e1ef4bf0572",
+      "new_sha256": "6231fcc4e5bb9a75d2cd4a897820f5e46b21e6860118ce7805353bac4910f334",
+      "rows": 250000,
+      "row_group_max": 8192
+    },
+    "data/train-00002-of-00008.parquet": {
+      "old_sha256": "9fd054c1791d43a3008295b95111e733ee36ce285b8d3f23324a54e01458e3ec",
+      "new_sha256": "fb0a6f4e65767728532a09c08909370b0a465bd7742ef5e95cd4688557543615",
+      "rows": 250000,
+      "row_group_max": 8192
+    },
+    "data/train-00003-of-00008.parquet": {
+      "old_sha256": "75c737d92e68a889209acf53c7e07b65644bddecc7e4a9aca93ed87261a15883",
+      "new_sha256": "50f3a2e91c7c9e9300ade15e76c74fb91e1e0fd2ec0156a46a3aadd56d04f93a",
+      "rows": 250000,
+      "row_group_max": 8192
+    },
+    "data/train-00004-of-00008.parquet": {
+      "old_sha256": "66f72f0cf4d70858d56474fd5e13f6690638f4fe84a79ba89ed2fac5830a14fe",
+      "new_sha256": "6332002027d7e56f2119a92d0eab17652febd0b69d629cacd1dfb1fa0ce16d9e",
+      "rows": 250000,
+      "row_group_max": 8192
+    },
+    "data/train-00005-of-00008.parquet": {
+      "old_sha256": "4badec1b070763034a6f63ee4e70d6d5089c539acd668b28e79d74d9cfb8aa64",
+      "new_sha256": "9ef17f36e5b207788accfc242b1fee84d179adde765c463421363e80fb4040de",
+      "rows": 250000,
+      "row_group_max": 8192
+    },
+    "data/train-00006-of-00008.parquet": {
+      "old_sha256": "fa23633d77740c8186ff46a6ff4bbc8a5d06ce8c4278dca24adccd6236ac7ac8",
+      "new_sha256": "038c0c328fd94a0400ac9aae3fb7b57a587c6b3f33e7e9f0690317b05c99ce56",
+      "rows": 250000,
+      "row_group_max": 8192
+    },
+    "data/train-00007-of-00008.parquet": {
+      "old_sha256": "6b6728a4cbbc95724edb5ad0f1a96e0bb872f34c1e904c7e54f90d764f9368d7",
+      "new_sha256": "cf83e8dbb28efb335d750327e0442d2b0baecfc8e8c8784c9a2fddaadba607cd",
+      "rows": 230000,
+      "row_group_max": 8192
+    }
+  },
+  "errata_sha256": "e04e78321b30c08d526362950a7d67aef21362daed8acf093b6a4b5393667055"
+}

@@ -21,7 +21,7 @@ from decimal import ROUND_HALF_UP, Decimal
 from fractions import Fraction
 from pathlib import Path
 
-VERSION = '1.1'
+VERSION = '1.1.1'
 
 # ------------------------------------------------------------------ vocabulary
 NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivan', 'Jade', 'Kai', 'Lina', 'Milo', 'Nora', 'Omar', 'Pia', 'Quinn',
@@ -61,9 +61,13 @@ def num(rng, n, p=0.3):
 
 def money(sym, cents):
     cents = int(cents)
+    # Floor division/modulo on a negative value corrupt fractional amounts:
+    # -250 cents used to render as -3.50. Format the magnitude, then the sign.
+    sign = '-' if cents < 0 else ''
+    cents = abs(cents)
     if cents % 100 == 0:
-        return f'{sym}{cents // 100:,}'
-    return f'{sym}{cents // 100:,}.{cents % 100:02d}'
+        return f'{sym}{sign}{cents // 100:,}'
+    return f'{sym}{sign}{cents // 100:,}.{cents % 100:02d}'
 
 
 def plural(pair, n):
@@ -465,7 +469,8 @@ def c_compare(rng):
     cands = sorted(x for x in named if x not in beaten)
     if len(cands) == 1:
         ans = cands[0]
-        why = f'Only {ans} is never on the losing side of a comparison, so {ans} is the {adj[2] if ask_most else adj[3]}.'
+        side = 'losing' if ask_most else 'winning'
+        why = f'Only {ans} is never on the {side} side of a comparison, so {ans} is the {adj[2] if ask_most else adj[3]}.'
     else:
         ans = 'Cannot be determined'
         why = f'The comparisons do not connect everyone: {" or ".join(cands)} could each be the {adj[2] if ask_most else adj[3]}.'
@@ -968,7 +973,7 @@ def write(rows, out, name, per=250000):
     for p in range(parts):
         chunk = rows[p * per:(p + 1) * per]
         table = pa.Table.from_pylist([{c: r[c] for c in COLUMNS} for r in chunk])
-        pq.write_table(table, out / f'{name}-{p:05d}-of-{parts:05d}.parquet', compression='zstd')
+        pq.write_table(table, out / f'{name}-{p:05d}-of-{parts:05d}.parquet', compression='zstd', row_group_size=8192)
 
 
 def main():

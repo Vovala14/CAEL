@@ -1,0 +1,1642 @@
+{
+  "targeted_cases": 136,
+  "passed_current": 136,
+  "legacy_disagreements": 60,
+  "sampling": "Failure-seeking semantic regressions and positive equivalents, not random real completions; no population error-rate estimate. This suite is not John6666\u2019s separate 29-case audit.",
+  "legacy_revision": "31780cd0fed31c04a50deafd3c27f75f33a84825",
+  "current_version": "1.2.0",
+  "cases": [
+    {
+      "id": "reported_remainder_opposite",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Remainder/budget/refund/amount-due direction differs.",
+        "answer": "6 full trays, 2 short",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "reported_negated_unknown",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "The claim negates the expected uncertainty/absence.",
+        "answer": "This is not unknown; the result is known",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "polarity_positive_0",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "7 full bags, 3 left over",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "polarity_negative_0",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Remainder/budget/refund/amount-due direction differs.",
+        "answer": "7 full bags, 3 short",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "polarity_positive_1",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "No, \u00a391 short",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "polarity_negative_1",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Remainder/budget/refund/amount-due direction differs.",
+        "answer": "No, \u00a391 to spare",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "polarity_positive_2",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "Yes, \u20ac18 to spare",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "polarity_negative_2",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Remainder/budget/refund/amount-due direction differs.",
+        "answer": "Yes, \u20ac18 short",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "polarity_positive_3",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "Nothing; $40 should be refunded",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "polarity_negative_3",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Remainder/budget/refund/amount-due direction differs.",
+        "answer": "$40 is due",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_equivalent_0",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Value, sign and stated qualifiers agree.",
+        "answer": "6.1",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_equivalent_1",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Value, sign and stated qualifiers agree.",
+        "answer": "$1,234.50",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_equivalent_2",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Value, sign and stated qualifiers agree.",
+        "answer": "-$2.50",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_equivalent_3",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Value, sign and stated qualifiers agree.",
+        "answer": "\u2212\u00a312.25",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_equivalent_4",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Value, sign and stated qualifiers agree.",
+        "answer": "1/2",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_equivalent_5",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Value, sign and stated qualifiers agree.",
+        "answer": "0.5 kg",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_equivalent_6",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Value, sign and stated qualifiers agree.",
+        "answer": "500g",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_equivalent_7",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Value, sign and stated qualifiers agree.",
+        "answer": "90 minutes",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_equivalent_8",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Value, sign and stated qualifiers agree.",
+        "answer": "2 hours",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_0",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Signed numerical values, order or count differ.",
+        "answer": "2.50",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_1",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Signed numerical values, order or count differ.",
+        "answer": "-2.50",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_2",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Explicit currency differs.",
+        "answer": "$8",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_3",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Explicit currency differs.",
+        "answer": "\u20ac8",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_4",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Signed numerical values, order or count differ.",
+        "answer": "8 kg",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_5",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Signed numerical values, order or count differ.",
+        "answer": "8 minutes",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_6",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Signed numerical values, order or count differ.",
+        "answer": "5 9 5",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_7",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous numerical final claim.",
+        "answer": "20A",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_8",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous numerical final claim.",
+        "answer": "5 or 6",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_9",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous numerical final claim.",
+        "answer": "not 5",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_10",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Signed numerical values, order or count differ.",
+        "answer": "5; actually 7",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_11",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Signed numerical values, order or count differ.",
+        "answer": "5 and 5",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "numeric_wrong_12",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Explicit container unit differs.",
+        "answer": "8 full boxes, 2 left over",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_equivalent_0",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "Cannot be determined",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_equivalent_1",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "Unknown",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_equivalent_2",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "We cannot tell from the information given",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_equivalent_3",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "We can't tell from the information given.",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_equivalent_4",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "There is insufficient information",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_equivalent_5",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "It is not known",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_equivalent_6",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "It depends",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_equivalent_7",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "It is impossible to know from the given information",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_negated_0",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "The claim negates the expected uncertainty/absence.",
+        "answer": "not unknown",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_negated_1",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous statement of the expected uncertainty/absence.",
+        "answer": "The result is known",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_negated_2",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "The claim negates the expected uncertainty/absence.",
+        "answer": "It can be determined",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_negated_3",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous statement of the expected uncertainty/absence.",
+        "answer": "It is not impossible to determine",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_negated_4",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous statement of the expected uncertainty/absence.",
+        "answer": "Unknown, but the answer is 5",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_negated_5",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous statement of the expected uncertainty/absence.",
+        "answer": "The unknown is 5",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_negated_6",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous statement of the expected uncertainty/absence.",
+        "answer": "I do not think it is unknown",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "uncertain_negated_7",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous statement of the expected uncertainty/absence.",
+        "answer": "Cannot be determined; definitely heads",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_equivalent_0",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "The premises are contradictory",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_equivalent_1",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "There is a contradiction",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_equivalent_2",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "Nothing left",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_equivalent_3",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "The box is empty",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_equivalent_4",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "You never mentioned the price",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_equivalent_5",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Supported affirmative abstention/absence statement.",
+        "answer": "The price was not given",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_opposite_0",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "The claim negates the expected uncertainty/absence.",
+        "answer": "The premises are not contradictory",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_opposite_1",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "The claim negates the expected uncertainty/absence.",
+        "answer": "It is not empty",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_opposite_2",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous statement of the expected uncertainty/absence.",
+        "answer": "There is none, except two",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_opposite_3",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous statement of the expected uncertainty/absence.",
+        "answer": "You did say the price",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "absence_opposite_4",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous statement of the expected uncertainty/absence.",
+        "answer": "You never mentioned the price, but it is \u00a35",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_equivalent_0",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same time and required weekday.",
+        "answer": "9:30 am",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_equivalent_1",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same time and required weekday.",
+        "answer": "09:30",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_equivalent_2",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same time and required weekday.",
+        "answer": "12:00 am",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_equivalent_3",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same time and required weekday.",
+        "answer": "12:00 pm",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_equivalent_4",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same time and required weekday.",
+        "answer": "Monday 5:29 pm",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_equivalent_5",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same calendar date.",
+        "answer": "April 1, 2024",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_equivalent_6",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same calendar date.",
+        "answer": "2024-04-01",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_equivalent_7",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same calendar date.",
+        "answer": "1st April 2024",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_wrong_0",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Clock time or weekday differs.",
+        "answer": "Monday 17:29",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_wrong_1",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Negated text is not the affirmative reference.",
+        "answer": "Not Monday",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_wrong_2",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Calendar date differs.",
+        "answer": "May 1, 2024",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_wrong_3",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Calendar date differs.",
+        "answer": "1 April 2025",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_wrong_4",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "Invalid/ambiguous clock time or extra final claims.",
+        "answer": "25:30",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_wrong_5",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "Invalid/ambiguous clock time or extra final claims.",
+        "answer": "13:30 pm",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_wrong_6",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "Invalid/ambiguous clock time or extra final claims.",
+        "answer": "09:77",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "calendar_wrong_7",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "Invalid/ambiguous clock time or extra final claims.",
+        "answer": "not 09:30",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_0",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "Omar",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_1",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "The answer is Omar.",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_2",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Negated text is not the affirmative reference.",
+        "answer": "not Omar",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_3",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Negated text is not the affirmative reference.",
+        "answer": "Omar is not the answer",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_4",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "ambiguous",
+        "reason": "Alternative or hedged final answer.",
+        "answer": "Omar or Nina",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_5",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No exact supported final label/name; no substring reward.",
+        "answer": "Omara",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_6",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "third",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_7",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same ordinal position.",
+        "answer": "3rd",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_8",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No exact supported final label/name; no substring reward.",
+        "answer": "fourth",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_9",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Opposite yes/no decision.",
+        "answer": "No",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_10",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "ambiguous",
+        "reason": "Conflicting yes/no decisions.",
+        "answer": "Yes, but no",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_11",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "ambiguous",
+        "reason": "Definite decision combined with uncertainty.",
+        "answer": "Yes, unknown",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_12",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "Yes, 08:21",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "label_13",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Clock time or weekday differs.",
+        "answer": "Yes, 08:12",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_0",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "BA 117",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_1",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Whole identifier matches.",
+        "answer": "BA117",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_2",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Identifier differs; no substring matching.",
+        "answer": "117",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_3",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Identifier differs; no substring matching.",
+        "answer": "XX117",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_4",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "22A",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_5",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Identifier differs; no substring matching.",
+        "answer": "22B",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_6",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Identifier differs; no substring matching.",
+        "answer": "122A",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_7",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "red_owl7",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_8",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Identifier differs; no substring matching.",
+        "answer": "red_owl7x",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_9",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Identifier differs; no substring matching.",
+        "answer": "Pack 2",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "code_10",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "Pack 1",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "list_equivalent",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same unordered list with multiplicities.",
+        "answer": "drum, guitar and flute",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "list_missing",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "List members or multiplicities differ.",
+        "answer": "drum and flute",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "list_duplicate",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "List members or multiplicities differ.",
+        "answer": "drum, guitar, flute, flute",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "source_0",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "Report Blue: the gate opened at 08:21",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "source_1",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Same time and required weekday.",
+        "answer": "Report Blue says the gate opened at 8:21 am",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "source_2",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "Report Blue: 08:21",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "source_3",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Wrong source attribution.",
+        "answer": "Report Red: the gate opened at 08:21",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "source_4",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Clock time or weekday differs.",
+        "answer": "Report Blue: the gate opened at 08:12",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "source_5",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "Invalid/ambiguous clock time or extra final claims.",
+        "answer": "Report Blue: the gate closed at 08:21",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "source_6",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Wrong source attribution.",
+        "answer": "Report Red says 08:21; Report Blue was withdrawn",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "source_7",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "ambiguous",
+        "reason": "Multiple competing source attributions.",
+        "answer": "Report Blue: 08:21; Report Red: 08:12",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "multiple_final_conflict",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "ambiguous",
+        "reason": "Conflicting explicit final answers; no gold-based selection.",
+        "answer": "7",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "multiple_final_conflict_other_gold",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "ambiguous",
+        "reason": "Conflicting explicit final answers; no gold-based selection.",
+        "answer": "7",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "multiple_final_equivalent",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Equivalent explicit final answers.",
+        "answer": "6.1",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "explicit_final_revision",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "7",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "explicit_correction",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "7",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "boxed",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Value, sign and stated qualifiers agree.",
+        "answer": "6.10",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "boxed_conflict",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "ambiguous",
+        "reason": "Conflicting explicit final answers; no gold-based selection.",
+        "answer": "7",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "grid_exact",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact normalized final answer.",
+        "answer": "1 0\n0 1",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "grid_json",
+      "expected_accept": true,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact grid shape and cells.",
+        "answer": "[[1,0],[0,1]]",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "grid_fenced",
+      "expected_accept": true,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "correct",
+        "reason": "Exact grid shape and cells.",
+        "answer": "```text\n1 0\n0 1\n```",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "grid_wrong_cell",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Grid shape or cells differ.",
+        "answer": "1 0\n1 1",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "grid_flattened",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Grid shape or cells differ.",
+        "answer": "1 0 0 1",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "grid_ragged",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "Expected a rectangular 2-D grid with integer colours 0-9.",
+        "answer": "1 0\n0",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "grid_bool",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "Expected a rectangular 2-D grid with integer colours 0-9.",
+        "answer": "[[true,0],[0,1]]",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "grid_two_digit",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "Expected a rectangular 2-D grid with integer colours 0-9.",
+        "answer": "10 0\n0 1",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "grid_earlier_correct",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "incorrect",
+        "reason": "Grid shape or cells differ.",
+        "answer": "0 0\n0 0",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "grid_conflicting_final",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "ambiguous",
+        "reason": "Conflicting explicit final answers; no gold-based selection.",
+        "answer": "0 0\n0 0",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "unsupported_numeric_claim_0",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous numerical final claim.",
+        "answer": "5 if the rules change",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "unsupported_numeric_claim_1",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous numerical final claim.",
+        "answer": "5, but that is wrong",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "unsupported_numeric_claim_2",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous numerical final claim.",
+        "answer": "5; the answer is unknown",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "unsupported_numeric_claim_3",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous numerical final claim.",
+        "answer": "approximately 5",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "unsupported_numeric_claim_4",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous numerical final claim.",
+        "answer": "1/0",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "unsupported_numeric_claim_5",
+      "expected_accept": false,
+      "legacy_accept": false,
+      "legacy_error": null,
+      "current": {
+        "status": "unparseable",
+        "reason": "No supported unambiguous numerical final claim.",
+        "answer": "99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "conditional_yes",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "ambiguous",
+        "reason": "Conditional or hedged yes/no decision.",
+        "answer": "Yes, if it is switched on",
+        "verifier_version": "1.2.0"
+      }
+    },
+    {
+      "id": "too_many_final_claims",
+      "expected_accept": false,
+      "legacy_accept": true,
+      "legacy_error": null,
+      "current": {
+        "status": "ambiguous",
+        "reason": "Too many explicit final claims.",
+        "answer": "",
+        "verifier_version": "1.2.0"
+      }
+    }
+  ]
+}

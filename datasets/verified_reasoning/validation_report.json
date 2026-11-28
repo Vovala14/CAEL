@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "rows": 2001427,
+  "counts": {
+    "rows": 2001427,
+    "gold_self_consistency": 2001427,
+    "grid_representation_consistency": 261645,
+    "independent_comparison_graphs": 76506,
+    "changed_rows": 30905,
+    "independent_pay_recomputations": 54541,
+    "signed_money_formatter_cases": 100001
+  },
+  "unique_ids": 2001427,
+  "unique_core_questions": 2001427,
+  "unchanged": [
+    "all question messages",
+    "IDs and split membership",
+    "schema, task, category, difficulty, verification and grid metadata",
+    "all answers except the 142 confirmed money corrections"
+  ],
+  "scope_note": "Full logical preservation and self-consistency audit; independent recomputation is limited to every pay-minus-spending row and every comparison graph. Grid metadata agreement and reference self-acceptance do not independently prove generated rules/gold correctness. No universal correctness claim.",
+  "elapsed_seconds": 33.44435479999811,
+  "verifier_sha256": "40d46deb2162016a706ab77c72aa98577e09312cb087b99f34679c826435a877",
+  "generator_sha256": "ad8dfe8b87e11dccf2c6ceda7b6d238c69665fd32a27621a84c31a7970ddb67f",
+  "files": {
+    "data/hard-00000-of-00001.parquet": "f5877f221d9fcdbfb39887bc3f4df1833f046169cf287a0a7b7cc6d9bb11ec18",
+    "data/test-00000-of-00001.parquet": "18b10e2a991ac0468d0d9e921238e39682fe24fcd40cfa17b726185febe89641",
+    "data/train-00000-of-00008.parquet": "00a2c41a142a6a263b7843c53bf347e83658e40497c76d585e3cc651b42d2cac",
+    "data/train-00001-of-00008.parquet": "6231fcc4e5bb9a75d2cd4a897820f5e46b21e6860118ce7805353bac4910f334",
+    "data/train-00002-of-00008.parquet": "fb0a6f4e65767728532a09c08909370b0a465bd7742ef5e95cd4688557543615",
+    "data/train-00003-of-00008.parquet": "50f3a2e91c7c9e9300ade15e76c74fb91e1e0fd2ec0156a46a3aadd56d04f93a",
+    "data/train-00004-of-00008.parquet": "6332002027d7e56f2119a92d0eab17652febd0b69d629cacd1dfb1fa0ce16d9e",
+    "data/train-00005-of-00008.parquet": "9ef17f36e5b207788accfc242b1fee84d179adde765c463421363e80fb4040de",
+    "data/train-00006-of-00008.parquet": "038c0c328fd94a0400ac9aae3fb7b57a587c6b3f33e7e9f0690317b05c99ce56",
+    "data/train-00007-of-00008.parquet": "cf83e8dbb28efb335d750327e0442d2b0baecfc8e8c8784c9a2fddaadba607cd"
+  }
+}
